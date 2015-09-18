@@ -6,6 +6,9 @@
 package service;
 
 import dao.CategoryDao;
+import entities.Category;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -23,6 +26,29 @@ import service.parent.PrimService;
 public class CategoryService extends PrimService {
     
     @Autowired
-    CategoryDao categoryDao;
+    CategoryDao catDao;
+    
+    public void create(Long parentId,String name){
+        if(name!=null&&!name.equals("")){
+            Category cat = new Category();
+            cat.setName(name);
+            cat.setParentId(parentId);
+            if(validate(cat)){
+                catDao.save(cat);
+            }
+        }else{
+            addError("Необходимо указать наименование категории");
+        }
+    }
+    
+    public List<Category> getUnderCats(Long parentId){
+        List<Category> cats = new ArrayList();
+        if(parentId!=null){
+            cats=catDao.getUnderCats(parentId);
+        }else{
+            addError("Ид родительской категории не указан");
+        }
+        return cats;
+    }
     
 }

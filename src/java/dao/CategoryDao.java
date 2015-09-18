@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Category;
+import java.util.List;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +21,13 @@ public class CategoryDao extends Dao<Category>  {
     @Override
     public Class getSupportedClass() {
         return Category.class;
+    }
+    
+    public List<Category> getUnderCats(Long parentId){
+        String hql = "from Category c where c.parentId=:parentId";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("parentId", parentId);
+        return query.list();
     }
     
 }
