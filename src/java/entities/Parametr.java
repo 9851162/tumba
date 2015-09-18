@@ -29,6 +29,9 @@ public class Parametr extends PrimEntity {
     public final static Integer SELECTING = 1;
     public final static Integer INSERTING = 2;
     
+    public final static Integer NOTREQUIRED = 0;
+    public final static Integer REQUIRED = 1;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "parametr_id")
@@ -40,9 +43,14 @@ public class Parametr extends PrimEntity {
     @Index(name="catIndex")
     private Category cat;
     
-    //enum lu4we?
-    @NotNull(message = "Необходимо указать тип параметра")
-    private Integer type;
+    //enum lu4we? SELECTING/INSERTING
+    @Column(name = "combo_type")
+    @NotNull(message = "Необходимо указать будет ли параметр вводиться или выбираться")
+    private Integer comboType;
+    
+    @Column(name = "req_type")
+    @NotNull(message = "Необходимо указать является ли параметр необходимым")
+    private Integer reqType;
     
     @Override
     public Long getId() {
@@ -57,14 +65,23 @@ public class Parametr extends PrimEntity {
         this.cat = cat;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getComboType() {
+        return comboType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setComboType(Integer comboType) {
+        this.comboType = comboType;
+    }
+
+    public Integer getReqType() {
+        return reqType;
+    }
+
+    public void setReqType(Integer reqType) {
+        this.reqType = reqType;
     }
     
     
+
     
 }

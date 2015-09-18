@@ -34,8 +34,8 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/dialog?useUnicode=true&amp;characterEncoding=UTF-8"
-          p:username="dialog"
+          p:url="jdbc:mysql://localhost:3306/seller?useUnicode=true&amp;characterEncoding=UTF-8"
+          p:username="seller"
           p:password="nbkbrjv" />
         
     <tx:annotation-driven transaction-manager="transactionManager" />     
@@ -51,7 +51,7 @@
         <property name="packagesToScan" value="entities" />
         <property name="hibernateProperties">
             <props>
-                <prop key="dialect">org.Hibernate.dialect.MySQLDialect</prop> 
+                <prop key="seller">org.Hibernate.dialect.MySQLDialect</prop> 
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>

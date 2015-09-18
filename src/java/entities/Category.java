@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "category")
 public class Category extends PrimEntity {
     
+    public final static Long BASEID = (long)0;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
@@ -30,6 +32,10 @@ public class Category extends PrimEntity {
     @Column(name = "name")
     @NotNull(message = "Необходимо указать Имя")
     private String name;
+    
+    @Column(name = "parent_id")
+    @NotNull(message = "Ид родительской категории не указано")
+    private Long parentId;
     
     @Override
     public Long getId() {
@@ -43,5 +49,15 @@ public class Category extends PrimEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+    
+    
     
 }
