@@ -24,7 +24,7 @@ public class CategoryDao extends Dao<Category>  {
     }
     
     public List<Category> getUnderCats(Long parentId){
-        String hql = "from Category c where c.parentId=:parentId";
+        String hql = "from Category c where c.parentId=:parentId order by c.name";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("parentId", parentId);
         return query.list();

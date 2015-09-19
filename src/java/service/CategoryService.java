@@ -51,4 +51,8 @@ public class CategoryService extends PrimService {
         return cats;
     }
     
+    public void delete(Long categoryId){
+        
+    }
+    
 }
