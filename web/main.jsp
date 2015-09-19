@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Cache-Control" content="no-cache">
-        <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >
+        <!--<link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >-->
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/animate.css">
     </head>
@@ -26,12 +26,13 @@
 				<img id="minilogo" src="./img/round.png">
 			</div>
 		</div>
-		<div id="search_add">
-                    <div class="tosearch">
+    
+    <div id="search_add">
+			<div class="tosearch">
 			    <div class="formsearch">
-					<form>
+                                <form style="margin-bottom: 0px;">
 						<input type="text" placeholder="Впишите ваше желание">
-						<button type="submit" class="">Поиск</button>
+						<button type="submit" class="btn btn-success">Поиск</button>
 					</form>
 			    </div>
 				<div class="controlsearch">
@@ -44,6 +45,25 @@
 				<a href="#modal1" class="open_modal">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
 			</div>
 		</div>
+    
+		<!--<div id="search_add">
+                    <div class="tosearch">
+			    <div class="formsearch">
+					<form method="post" action="Ad/list">
+						<input type="text" placeholder="Впишите ваше желание">
+						<button type="submit" class="">Поиск</button>
+					</form>
+                            </div>
+				<div class="controlsearch">
+					<a href="#">вся россия</a>
+					<a href="#">домашний регион</a>
+					<a href="#">выбор региона</a>
+				</div>
+			</div>
+			<div class="toobnov">
+				<a href="#modal1" class="open_modal">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
+			</div>
+		</div>-->
 
 		<div id="advanced_search">
 			<h1>Расширенный поиск</h1>
@@ -54,10 +74,8 @@
                                                 <div>категория</div>
                                  </div>
                         </div>
-			<div class="dob">добавить<a href="http://#"><img src="./img/plus.png"></a> </div>
-
-
-		</div>
+			<div class="dob">добавить<a href="#"><img src="./img/plus.png"></a> </div>
+                </div>
 
 
 		<div class="icons">
@@ -87,7 +105,7 @@
 
 				<div class="rollup invisible">
 					<img src="./img/greystrright.png">
-					<div>свернуть рзультат</div>
+					<div>свернуть результат</div>
 					<img src="./img/greystrdown.png">
 				</div>
 
@@ -104,15 +122,63 @@
 					<a>по цене</a>
 				</div>
 			</div>
-
-			
-
+                    
+                    <c:if test="${not empty adList}">
+                        <div id="adlist">
+                            <c:forEach var="ad" items="${adList}">
+                                <div class="item smal" item-position="0" item-next="1">
+					<div class="toramka divall">
+						<div class="toblockimg">
+							<div id="panel" class="prewimg">
+								<img id="largeImage1" class="largeImage" src="img/tov/tov16.jpg">
+							</div>
+							<div id="thumbs1" class="thumbs miniprew">
+								<img src="img/tov/tov11.jpg">
+								<img src="img/tov/tov12.jpg">
+								<img src="img/tov/tov13.jpg">
+								<img src="img/tov/tov14.jpg">
+								<img src="img/tov/tov15.jpg">
+								<img src="img/tov/tov16.jpg">
+							</div>
+						</div>
+					<div class="opisanie">
+						<div class="col1">
+							<h3>Продавец</h3>
+							<p>aaa</p>
+							<h3>Товар</h3>
+							<p>sыавыа</p>
+						</div>
+					    <div class="col3">
+							<h3>Описание</h3>
+							<p class="minitext"> short description </p>
+							<p class="maxtext"> ${ad.description} </p>
+						</div>
+					    <div class="col2">
+							<h3>Дата</h3>
+							<p>${ad.insertDate}</p>
+							<div class="price">${ad.price}</div>
+							<div class="minmenu">
+								<a href="#"><img src="img/dop5.png"><div>добавить в избранное</div></a>
+								<a href="#"><img src="img/dop4.png"><div>отправить сообщение</div></a>
+								<a href="#"><img src="img/dop3.png"><div>добавить к сравнению</div></a>
+								<a href="#"><img src="img/dop2.png"><div>открыть в новом окне</div></a>
+								<a href="#"><img src="img/dop1.png"><div>предложить свою цену</div></a>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="button_expand hidden"><div class="boxssilka"><img src="img/whiteniz.png"><div>развернуть</div><img src="img/whiteniz.png"></div></div>
+					<div class="button_rollUp hidden"><div class="boxssilka"><img src="img/whiteverh.png"><div>cвернуть</div><img src="img/whiteverh.png"></div></div>
+				</div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
 		</div>
 		<footer>
 			<div class="tofotmin"></div>
-			<div class="tofotmin"><a href="http://#">наш сервис</a></div>
-			<div class="tofotmin"><a href="http://#">информация</a></div>
-                        <div class="tofotmin"><a href="http://#">о компании</a></div>
+			<div class="tofotmin"><a href="#">наш сервис</a></div>
+			<div class="tofotmin"><a href="#">информация</a></div>
+                        <div class="tofotmin"><a href="#">о компании</a></div>
 			<div class="tofotmin"></div>
 		</footer>
 	</div>
@@ -132,16 +198,17 @@
                     <div class="toin">
                             <label>Описание</label>
                             <div class="minopright">до 500 символов</div>
-                            <input name="description" type="textarea" value="${description}">
+                            <textarea name="description" type="textarea" value="${description}"></textarea>
                     </div>
             </div>
             
             <div class="boxtoinput">
                     <div class="num">2</div>
                     <div class="toin">
-                                <label for="price">Цена</label>
-                                <input placeholder="Введите цену" class="form-control" name="price" id="price" type="text" value="${price}">
-                            </div>
+                        <label for="price">Цена</label>
+                        <input class="form-control" name="price" id="price" type="text" value="${price}">
+                    </div>
+            </div>
             <!--<div class="boxtoinput">
                     <div class="num">4</div>
                     <div class="toin">
@@ -164,8 +231,8 @@
                     </div>
             </div>-->
             <div class="form-group">
-                                <button type="submit" class="login-button">Добавить</button>
-                            </div>
+                <button type="submit" class="login-button">Добавить</button>
+            </div>
 	</form>
 </div>
 
