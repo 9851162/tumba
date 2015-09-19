@@ -19,36 +19,26 @@ import service.AdService;
  *
  * @author bezdatiuzer
  */
-@RequestMapping("/Ad")
+@RequestMapping("/Main")
 @Controller
-public class AdController extends WebController {
+public class mainController extends WebController {
     
     @Autowired
     private AdService adService;
     
-    @RequestMapping("/add")
-    public String add (Map<String, Object> model,
+    @RequestMapping("/")
+    public String getMain (Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "short_name") String shortName,
-            @RequestParam(value = "description") String desc,
-            @RequestParam(value = "price") Double price,
+            @RequestParam(value = "short_name", required = false) String shortName,
+            @RequestParam(value = "description", required = false) String desc,
+            @RequestParam(value = "price", required = false) Double price,
             RedirectAttributes ras) throws Exception {
-
-        adService.create(price,shortName,desc,(long)0);
-
-        ras.addAttribute("short_name", shortName);
-        ras.addAttribute("desc", desc);
-        ras.addAttribute("price", price);
-        return "redirect:/";
-    }
-    
-    @RequestMapping("/list")
-    public String getList (Map<String, Object> model,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
-            model.put("adList",adService.getAds());
-
-        return "ads";
+        
+        model.put("adList",adService.getAds());
+        model.put("short_name", shortName);
+        model.put("desc", desc);
+        model.put("price", price);
+        return "./main.jsp";
     }
     
 }
