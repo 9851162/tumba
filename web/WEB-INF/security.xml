@@ -14,41 +14,10 @@
     
     <http auto-config='true' use-expressions="true" >
         <intercept-url pattern="/login.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/prim" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Prim" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/PRIM" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Registration/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Registration/saveContacts" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Registration/closedregistration" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Registration/successRegistration" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/User/recoveryPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/User/recoverPassword" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS')" />
         
         <intercept-url pattern="/index" access="hasAnyRole('user', 'admin')" />  
-        <intercept-url pattern="/" access="hasAnyRole('user', 'admin')" />  
-        <intercept-url pattern="/User/successChangePassword" access="hasAnyRole('user', 'admin')" /> 
-        <intercept-url pattern="/User/changePassword" access="hasAnyRole('user', 'admin')" /> 
-        <intercept-url pattern="/Lk/lk" access="hasAnyRole('user', 'admin')" />  
-        <intercept-url pattern="/Lk/cabinets" access="hasAnyRole('user', 'admin')" /> 
-        <intercept-url pattern="/Lk/administrating" access="hasAnyRole('user', 'admin')" /> 
-        <intercept-url pattern="/Lk/selectLk" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Tarif/list" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Tarif/create" access="hasAnyRole('user', 'admin')" /> 
-        <intercept-url pattern="/Tarif/delete" access="hasAnyRole('user', 'admin')" />  
-        
-        <intercept-url pattern="/Event/event" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/badFinish" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/goodFinish" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/postponeEvent" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/postponedEvents" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/updateClientFromUser" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/writeModuleInHistory" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/campaign" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Event/eventProcessing" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Client/changeUserCampaignAssignation" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Client/updateclient" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Strategy/changegroupname" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Strategy/changemodulename" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/" access="hasAnyRole('user', 'admin')" />
         
         <intercept-url pattern="/**" access="hasRole('admin')" />
         

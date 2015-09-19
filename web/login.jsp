@@ -48,12 +48,12 @@
 		<div id="advanced_search">
 			<h1>Расширенный поиск</h1>
 			<div class="cat">категория<a href="" class="spoiler_links"><div class="tostrel"></div></a>
-			<div class="spoiler_body " style="display:none;">
-					<div>категория</div>
-					<div>категория</div>
-					<div>категория</div>
-			 </div>
-		</div>
+                                <div class="spoiler_body " style="display:none;">
+                                                <div>категория</div>
+                                                <div>категория</div>
+                                                <div>категория</div>
+                                 </div>
+                        </div>
 			<div class="dob">добавить<a href="http://#"><img src="./img/plus.png"></a> </div>
 
 
@@ -112,57 +112,60 @@
 			<div class="tofotmin"></div>
 			<div class="tofotmin"><a href="http://#">наш сервис</a></div>
 			<div class="tofotmin"><a href="http://#">информация</a></div>
-		    <div class="tofotmin"><a href="http://#">о компании</a></div>
+                        <div class="tofotmin"><a href="http://#">о компании</a></div>
 			<div class="tofotmin"></div>
 		</footer>
 	</div>
 <div id="modal1" class="modal_form modal_div">
 	<div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
-	<form>
-	<div class="boxtoinput">
-		<div class="num">1</div>
-		<div class="toin">
-			<label>Краткое название товара или услуги</label>
-			<div class="minopright">до 30 символов</div>
-            <input type="text">
-		</div>
-	</div>
-	<div class="boxtoinput">
-		<div class="num">2</div>
-		<div class="toin">
-			<label>Описание</label>
-			<div class="minopright">до 500 символов</div>
-           <textarea></textarea>
-		</div>
-	</div>
-	<div class="boxtoinput">
-		<div class="num">3</div>
-		<div class="toin">
-			<label>Добавление фото</label>
-             <img src="./img/plusimg.png">
-		</div>
-	</div>
-	<div class="boxtoinput">
-		<div class="num">4</div>
-		<div class="toin">
-			<label>Выбор категории для объявления</label>
-            <div class="dob">добавить<img src="./img/plus.png"> </div>
-		</div>
-	</div>
-	<div class="boxtoinput">
-		<div class="num">5</div>
-		<div class="toin">
-			<label>Выбор регионов</label>
-            <div class="dob">добавить<img src="./img/plus.png"> </div>
-		</div>
-	</div>
-	<div class="boxtoinput">
-		<div class="num">6</div>
-		<div class="toin todata">
-			<label>Выбор даты для размещения объявления</label>
-			<div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
-		</div>
-	</div>
+	<form  method="post" action="Ad/add">
+            <div class="boxtoinput">
+                    <div class="num">1</div>
+                    <div class="toin">
+                            <label>Краткое название товара или услуги</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="short_name" type="text" value="${short_name}">
+                    </div>
+            </div>
+            <div class="boxtoinput">
+                    <div class="num">2</div>
+                    <div class="toin">
+                            <label>Описание</label>
+                            <div class="minopright">до 500 символов</div>
+                            <input name="description" type="textarea" value="${description}">
+                    </div>
+            </div>
+            
+            <div class="boxtoinput">
+                    <div class="num">2</div>
+                    <div class="toin">
+                                <label for="price">Цена</label>
+                                <input placeholder="Введите цену" class="form-control" name="price" id="price" type="text" value="${price}">
+                            </div>
+            <!--<div class="boxtoinput">
+                    <div class="num">4</div>
+                    <div class="toin">
+                            <label>Выбор категории для объявления</label>
+                <div class="dob">добавить<img src="./img/plus.png"> </div>
+                    </div>
+            </div>-->
+            <!--<div class="boxtoinput">
+                    <div class="num">5</div>
+                    <div class="toin">
+                            <label>Выбор регионов</label>
+                <div class="dob">добавить<img src="./img/plus.png"> </div>
+                    </div>
+            </div>-->
+            <!--<div class="boxtoinput">
+                    <div class="num">6</div>
+                    <div class="toin todata">
+                            <label>Выбор даты для размещения объявления</label>
+                            <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
+                    </div>
+            </div>-->
+            <div class="form-group">
+                                <button type="submit" class="login-button">Добавить</button>
+                            </div>
 	</form>
 </div>
 
@@ -204,7 +207,7 @@
 		<div class="num">5</div>
 		<div class="toin">
 			<label for="region">Выбор домашнего региона</label>
-            <div class="dob">добавить<img src="./img/plus.png"> </div>
+                    <div class="dob">добавить<img src="./img/plus.png"> </div>
 		</div>
 	</div>
 	</form>
@@ -212,7 +215,7 @@
 
 <div id="overlay"></div>
         <script src="./js/jquery.min.js"></script>
-	<script src="./js/script.js"></script>-<!---->
+	<script src="./js/script.js"></script><!---->
 	<script type="text/javascript">
 $(function() { // вся мaгия пoсле зaгрузки стрaницы
 $(document).ready(function() { // зaпускaем скрипт пoсле зaгрузки всех элементoв

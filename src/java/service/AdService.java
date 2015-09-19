@@ -39,7 +39,7 @@ public class AdService extends PrimService {
     @Autowired
     ParametrValueDao valDao;
 
-    public void createAd(Double price, String desc, Long categoryId) {
+    public void create(Double price,String name, String desc, Long categoryId) {
         if (categoryId != null) {
             Category cat = catDao.find(categoryId);
             Ad ad = new Ad();
@@ -48,8 +48,9 @@ public class AdService extends PrimService {
 
             //to do not null
             ad.setAuthor(null);
-
-            ad.setCat(cat);
+            ad.setCat(null);
+            
+            ad.setName(name);
             ad.setDescription(desc);
             ad.setPrice(price);
             ad.setValues(new HashSet());

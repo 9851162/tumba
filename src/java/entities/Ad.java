@@ -49,6 +49,10 @@ public class Ad extends PrimEntity {
     @NotNull(message = "Количество показов не может быть пустым")
     private Long showCount;
     
+    @Column(name = "name")
+    @NotNull(message = "Необходимо указать наименование")
+    private String name;
+    
     @Column(name = "description", columnDefinition="TEXT")
     @NotNull(message = "Необходимо добавить описание")
     private String description;
@@ -61,8 +65,8 @@ public class Ad extends PrimEntity {
     
     @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Необходимо указать категорию")
-    @Index(name="catIndex")
+    /*@NotNull(message = "Необходимо указать категорию")
+    @Index(name="catIndex")*/
     private Category cat;
     
     @LazyCollection(LazyCollectionOption.TRUE)
@@ -131,6 +135,14 @@ public class Ad extends PrimEntity {
 
     public void setValues(Set<ParametrValue> values) {
         this.values = values;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     
