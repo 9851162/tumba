@@ -24,7 +24,7 @@
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
         <logout logout-url="/logout" logout-success-url="/" invalidate-session="true"/>
-        <form-login login-page="/main.jsp" default-target-url="/Lk/lk" always-use-default-target="false" authentication-failure-url="/main.jsp?error=true" />
+        <form-login login-page="/Main/" default-target-url="/Lk/lk" always-use-default-target="false" authentication-failure-url="/Main/?error=true" />
 
            
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />

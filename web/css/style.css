@@ -139,7 +139,7 @@ footer {background:#abaaab; height:20px; width:100%;    margin-top: 18px;       
 .tofotmin {float:left; width:20%;min-height: 20px;text-align: center;}
 .tofotmin a {font-family: HelveticaNeue, sans-serif;color:white;text-transform: uppercase;text-decoration: none;}
 .formsearch input {     font-family: HelveticaNeue, sans-serif; width: 366px;   margin-left: 48px;   border: none;   height: 41px;   margin-top: 3px;   font-size: 19px;   float: left;   padding: 0 20px;}
-.formsearch button{ float: left;color: white; text-transform: uppercase;text-decoration: none; font-size: 28px; border: none;  background: none;    margin-left: 66px;	font-weight: 900;}
+.formsearch button{ float: left;color: white; text-transform: uppercase;text-decoration: none; font-size: 28px; border: none;  background: none;    margin-left: 106px;	font-weight: 900;}
 .vis {display: inline-block;;}
 .invis {display:inline-block;}
 #thumbs img, #largeImage {  cursor: pointer;}
