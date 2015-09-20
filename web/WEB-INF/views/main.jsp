@@ -20,12 +20,7 @@
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
 <!--<script src="<c:url value='/js/bootstrap.js'/>"> </script>-->
 <div id="wrapper">
-		<div class="header">
-			<div class="tologo">
-				<img id="logo" src="../img/avatar.png">
-				<img id="minilogo" src="../img/round.png">
-			</div>
-		</div>
+    <%@include file="/WEB-INF/jsp/menu.jsp" %>
     
     <div id="search_add">
 			<div class="tosearch">

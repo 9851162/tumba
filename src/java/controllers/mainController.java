@@ -38,7 +38,7 @@ public class mainController extends WebController {
         model.put("short_name", shortName);
         model.put("desc", desc);
         model.put("price", "200");
-        return "mainPage";
+        return "main";
     }
     
 }

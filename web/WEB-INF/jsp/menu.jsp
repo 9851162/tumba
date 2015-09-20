@@ -7,6 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<c:if test="${empty role}">
+    <%@include file="/WEB-INF/jsp/menutopanon.jsp" %>
+    
+</c:if>
 
 <c:if test="${role=='user'}">
     <%@include file="/WEB-INF/jsp/menutopuser.jsp" %>
@@ -14,7 +18,7 @@
 </c:if>
 
 <c:if test="${role=='admin'}">
-    <%@include file="/WEB-INF/jsp/menutopadm.jsp" %>
+    <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
     
 </c:if>
 
