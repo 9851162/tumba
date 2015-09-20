@@ -13,8 +13,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Cache-Control" content="no-cache">
         <!--<link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >-->
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/animate.css">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link rel="stylesheet" type="text/css" href="../css/animate.css">
     </head>
     <body >
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
@@ -22,8 +22,8 @@
 <div id="wrapper">
 		<div class="header">
 			<div class="tologo">
-				<img id="logo" src="./img/avatar.png">
-				<img id="minilogo" src="./img/round.png">
+				<img id="logo" src="../img/avatar.png">
+				<img id="minilogo" src="../img/round.png">
 			</div>
 		</div>
     
@@ -74,24 +74,24 @@
                                                 <div>категория</div>
                                  </div>
                         </div>
-			<div class="dob">добавить<a href="#"><img src="./img/plus.png"></a> </div>
+			<div class="dob">добавить<a href="#"><img src="../img/plus.png"></a> </div>
                 </div>
 
 
 		<div class="icons">
-			<div id="ico" class="ico1"><img src="./img/menu1.png"> </div>
-			<div id="ico" class="ico2"><img src="./img/menu2.png"> </div>
-			<div id="ico" class="ico3"><img src="./img/menu3.png"> </div>
-			<div id="ico" class="ico4"><img src="./img/menu4.png"> </div>
-			<div id="ico" class="ico5"><img src="./img/menu5.png"> </div>
+			<div id="ico" class="ico1"><img src="../img/menu1.png"> </div>
+			<div id="ico" class="ico2"><img src="../img/menu2.png"> </div>
+			<div id="ico" class="ico3"><img src="../img/menu3.png"> </div>
+			<div id="ico" class="ico4"><img src="../img/menu4.png"> </div>
+			<div id="ico" class="ico5"><img src="../img/menu5.png"> </div>
 		</div>
 
 		<div class="left_side  ">
-			<div class="menuitem">Мои покупки<img src="./img/strright.png"></div>
-			<div class="menuitem">Мои продажи<img src="./img/strright.png"></div>
-			<div class="menuitem">Регионы<img src="./img/strright.png"></div>
-			<div class="menuitem">Избранное<img src="./img/strright.png"></div>
-			<div class="menuitem">Сравнение<img src="./img/strright.png"></div>
+			<div class="menuitem">Мои покупки<img src="../img/strright.png"></div>
+			<div class="menuitem">Мои продажи<img src="../img/strright.png"></div>
+			<div class="menuitem">Регионы<img src="../img/strright.png"></div>
+			<div class="menuitem">Избранное<img src="../img/strright.png"></div>
+			<div class="menuitem">Сравнение<img src="../img/strright.png"></div>
 
 			<div class="promo"> </div>
 			<div class="promo"> </div>
@@ -100,25 +100,25 @@
 		<div class="boxtoitem">
 			<div id="grid_navigation">
 				<div class="expand">
-					<img src="./img/greystrleft.png"><div>развернуть результат</div><img src="./img/greystrup.png">
+					<img src="../img/greystrleft.png"><div>развернуть результат</div><img src="../img/greystrup.png">
 				</div>
 
 				<div class="rollup invisible">
-					<img src="./img/greystrright.png">
+					<img src="../img/greystrright.png">
 					<div>свернуть результат</div>
-					<img src="./img/greystrdown.png">
+					<img src="../img/greystrdown.png">
 				</div>
 
 				<div class="torez">
-					<img style="    margin: 1px 0 0 0;" src="./img/vertline.png">
+					<img style="    margin: 1px 0 0 0;" src="../img/vertline.png">
 					<div>результатов:100500</div>
 				</div>
 				<div class="tosort">
-					<img src="./img/vertline.png">
+					<img src="../img/vertline.png">
 					<a>по популярности</a>
-					<img src="./img/vertline.png">
+					<img src="../img/vertline.png">
 					<a>по дате</a>
-					<img src="./img/vertline.png">
+					<img src="../img/vertline.png">
 					<a>по цене</a>
 				</div>
 			</div>
@@ -130,15 +130,15 @@
 					<div class="toramka divall">
 						<div class="toblockimg">
 							<div id="panel" class="prewimg">
-								<img id="largeImage1" class="largeImage" src="img/tov/tov16.jpg">
+								<img id="largeImage1" class="largeImage" src="../img/tov/tov16.jpg">
 							</div>
 							<div id="thumbs1" class="thumbs miniprew">
-								<img src="img/tov/tov11.jpg">
-								<img src="img/tov/tov12.jpg">
-								<img src="img/tov/tov13.jpg">
-								<img src="img/tov/tov14.jpg">
-								<img src="img/tov/tov15.jpg">
-								<img src="img/tov/tov16.jpg">
+								<img src="../img/tov/tov11.jpg">
+								<img src="../img/tov/tov12.jpg">
+								<img src="../img/tov/tov13.jpg">
+								<img src="../img/tov/tov14.jpg">
+								<img src="../img/tov/tov15.jpg">
+								<img src="../img/tov/tov16.jpg">
 							</div>
 						</div>
 					<div class="opisanie">
@@ -158,17 +158,17 @@
 							<p>${ad.insertDate}</p>
 							<div class="price">${ad.price}</div>
 							<div class="minmenu">
-								<a href="#"><img src="img/dop5.png"><div>добавить в избранное</div></a>
-								<a href="#"><img src="img/dop4.png"><div>отправить сообщение</div></a>
-								<a href="#"><img src="img/dop3.png"><div>добавить к сравнению</div></a>
-								<a href="#"><img src="img/dop2.png"><div>открыть в новом окне</div></a>
-								<a href="#"><img src="img/dop1.png"><div>предложить свою цену</div></a>
+								<a href="#"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+								<a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+								<a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
+								<a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+								<a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
 							</div>
 						</div>
 					</div>
 					</div>
-					<div class="button_expand hidden"><div class="boxssilka"><img src="img/whiteniz.png"><div>развернуть</div><img src="img/whiteniz.png"></div></div>
-					<div class="button_rollUp hidden"><div class="boxssilka"><img src="img/whiteverh.png"><div>cвернуть</div><img src="img/whiteverh.png"></div></div>
+					<div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
+					<div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
 				</div>
                             </c:forEach>
                         </div>
@@ -267,22 +267,22 @@
 		<div class="num">4</div>
 		<div class="toin">
 			<label>Добавление фото</label>
-             <img src="./img/plusimg.png">
+             <img src="../img/plusimg.png">
 		</div>
 	</div>
 	<div class="boxtoinput">
 		<div class="num">5</div>
 		<div class="toin">
 			<label for="region">Выбор домашнего региона</label>
-                    <div class="dob">добавить<img src="./img/plus.png"> </div>
+                    <div class="dob">добавить<img src="../img/plus.png"> </div>
 		</div>
 	</div>
 	</form>
 </div>
 
 <div id="overlay"></div>
-        <script src="./js/jquery.min.js"></script>
-	<script src="./js/script.js"></script><!---->
+        <script src="../js/jquery.min.js"></script>
+	<script src="../js/script.js"></script><!---->
 	<script type="text/javascript">
 $(function() { // вся мaгия пoсле зaгрузки стрaницы
 $(document).ready(function() { // зaпускaем скрипт пoсле зaгрузки всех элементoв
@@ -363,7 +363,7 @@ $(document).ready(function() { // зaпускaем скрипт пoсле зaг�
 	</script>
 		
 
-<iframe src="./img/index.html" style="display: none;"></iframe>
+<iframe src="../img/index.html" style="display: none;"></iframe>
           
 
 

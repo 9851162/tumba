@@ -37,8 +37,8 @@ public class mainController extends WebController {
         model.put("adList",adService.getAds());
         model.put("short_name", shortName);
         model.put("desc", desc);
-        model.put("price", price);
-        return "./main.jsp";
+        model.put("price", "200");
+        return "mainPage";
     }
     
 }
