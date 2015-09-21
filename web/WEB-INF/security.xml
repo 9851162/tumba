@@ -13,19 +13,19 @@
     <http pattern="/fonts/**" security="none" />
     
     <http auto-config='true' use-expressions="true" >
-        <intercept-url pattern="/login.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Ad/list" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/Main/authorize" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         
         <intercept-url pattern="/index" access="hasAnyRole('user', 'admin')" />  
         <intercept-url pattern="/" access="hasAnyRole('user', 'admin')" />
         
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
-        <logout logout-url="/logout" logout-success-url="/" invalidate-session="true"/>
-        <form-login login-page="/Main/" default-target-url="/Lk/lk" always-use-default-target="false" authentication-failure-url="/Main/?error=true" />
+        <logout logout-url="/logout" logout-success-url="/Main/" invalidate-session="true"/>
+        <form-login login-page="/Main/" default-target-url="/Main/authorize" authentication-failure-url="/Main/?error=true"
+        />
 
            
         <anonymous username="guest" granted-authority="ROLE_ANONYMOUS" />
@@ -37,8 +37,8 @@
         <authentication-provider >
             <password-encoder hash="md5"/>
             <jdbc-user-service data-source-ref="dataSource" 
-                               users-by-username-query="select email, password, true from users where email=?"
-                               authorities-by-username-query="select u.email, u.user_role from users u WHERE u.user_id=u.user_id and u.email=? limit 1"/> 
+                               users-by-username-query="select email, password, true from user where email = ?"
+                               authorities-by-username-query="select e.email, u.user_role from user e, user u WHERE e.user_id=u.user_id and e.email=? limit 1"/> 
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

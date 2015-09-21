@@ -22,7 +22,7 @@
 <div id="wrapper">
     
     <%@include file="/WEB-INF/jsp/menu.jsp" %>
-    
+    role=${role}
     <div id="search_add">
 			<div class="tosearch">
 			    <div class="formsearch">
@@ -297,7 +297,7 @@
                     
 <div id="modal3" class="modal_form modal_div">
 	<div class="nameform">АВТОРИЗАЦИЯ</div>
-	<form  method="post" action="j_spring_security_check" class="login">
+	<form  method="post" action="../j_spring_security_check" class="login">
 	<div class="boxtoinput">
 		<div class="toin">
 			<label>Логин</label>

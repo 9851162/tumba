@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
+import entities.User;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,8 @@ public class mainController extends WebController {
     @Autowired
     private UserService userService;
     
+    private final static String USER_ID_SESSION_NAME = "userId";
+    
     @RequestMapping("/")
     public String getMain (Map<String, Object> model,
             HttpServletRequest request,
@@ -49,17 +52,17 @@ public class mainController extends WebController {
         return "main";
     }
     
-    @RequestMapping("/registrationResult")
+    @RequestMapping("/authorize")
     public String showRegisterResult (Map<String, Object> model,
-            HttpServletRequest request,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "phone", required = false) String phone,
-            @RequestParam(value = "email", required = false) String email,
-            RedirectAttributes ras) throws Exception {
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        model.put("name", name);
-        model.put("phone", phone);
-        model.put("email", email);
+            User user = authManager.getCurrentUser();
+            
+            
+            request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
+            request.getSession().setAttribute("role", user.getUserRole());
+        //ras.addAttribute("role", "admin");
+           
         return "redirect:/Main/";
     }
     

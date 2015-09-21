@@ -50,12 +50,12 @@ public class AdController extends WebController {
         return "redirect:/Main/";
     }
     
-    @RequestMapping("/list")
+    /*@RequestMapping("/list")
     public String getList (Map<String, Object> model,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
             model.put("adList",adService.getAds());
         return "ads";
-    }
+    }*/
     
 }
