@@ -7,7 +7,6 @@ package controllers;
 
 import controllers.parent.WebController;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
+import service.UserService;
 
 /**
  *
@@ -27,6 +27,8 @@ public class mainController extends WebController {
     
     @Autowired
     private AdService adService;
+    @Autowired
+    private UserService userService;
     
     @RequestMapping("/")
     public String getMain (Map<String, Object> model,
@@ -45,30 +47,6 @@ public class mainController extends WebController {
             ers.add(er);
         }*/
         return "main";
-    }
-    
-    @RequestMapping("/addAd")
-    public String add (Map<String, Object> model,
-            HttpServletRequest request,
-            @RequestParam(value = "short_name") String shortName,
-            @RequestParam(value = "description") String desc,
-            @RequestParam(value = "price") Double price,
-            RedirectAttributes ras) throws Exception {
-        ArrayList<String> errors = new ArrayList();
-        
-        
-        adService.create(price,shortName,desc,(long)0);
-        for(String er:adService.getErrors()){
-            errors.add(er);
-        }
-        errors.add("error;");
-
-        ras.addAttribute("short_name", shortName);
-        ras.addAttribute("desc", desc);
-        ras.addAttribute("price", price);
-        ras.addFlashAttribute("errors", errors);
-        ras.addAttribute("errors", errors);
-        return "redirect:/Main/";
     }
     
     @RequestMapping("/registrationResult")
@@ -95,11 +73,15 @@ public class mainController extends WebController {
             @RequestParam(value = "email", required = false) String email,
             RedirectAttributes ras) throws Exception {
         
+        userService.createUser(phone, email, password, name, passconfirm);
         
-        
-        model.put("name", name);
+        /*model.put("name", name);
         model.put("phone", phone);
-        model.put("email", email);
+        model.put("email", email);*/
+        /*ras.addAttribute("name", name);
+        ras.addAttribute("phone", phone);
+        ras.addAttribute("email", email);*/
+        ras.addAttribute("errors", userService.getErrors());
         return "redirect:/Main/";
     }
     

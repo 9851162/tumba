@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.User;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +20,13 @@ public class UserDao extends Dao<User>  {
     @Override
     public Class getSupportedClass() {
         return User.class;
+    }
+    
+    public User getUserByLogin(String login) {
+        String queryString = "from User U where U.email = :email";
+        Query query = getCurrentSession().createQuery(queryString);
+        query.setParameter("email", login);
+        return (User) query.uniqueResult();
     }
 
 

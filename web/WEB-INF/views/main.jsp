@@ -20,10 +20,8 @@
 <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
 <!--<script src="<c:url value='/js/bootstrap.js'/>"> </script>-->
 <div id="wrapper">
+    
     <%@include file="/WEB-INF/jsp/menu.jsp" %>
-    errors=${errors.size()}
-    <%@include file="/WEB-INF/jsp/error.jsp" %> 
-    <%@include file="/WEB-INF/jsp/message.jsp" %> 
     
     <div id="search_add">
 			<div class="tosearch">
@@ -236,13 +234,13 @@
 
 <div id="modal2" class="modal_form modal_div">
 	<div class="nameform">РЕГИСТРАЦИЯ</div>
-	<form>
+	<form  method="post" action="../Main/registration">
 	<div class="boxtoinput">
 		<div class="num">1</div>
 		<div class="toin">
 			<label>Имя</label>
 			<div class="minopright">до 30 символов</div>
-            <input type="text">
+            <input name="name" type="text">
 		</div>
 	</div>
 	<div class="boxtoinput">
@@ -250,7 +248,7 @@
 		<div class="toin">
 			<label>Телефон</label>
 			<div class="minopright">до 30 символов</div>
-            <input type="text">
+            <input name="phone" type="text">
 		</div>
 	</div>
 	<div class="boxtoinput">
@@ -258,7 +256,23 @@
 		<div class="toin">
 			<label>E-mail</label>
 			<div class="minopright">до 30 символов</div>
-                        <input type="email">
+                        <input name="email" type="email">
+		</div>
+	</div>
+            <div class="boxtoinput">
+		<div class="num">4</div>
+		<div class="toin">
+			<label>Пароль</label>
+			<div class="minopright">до 30 символов</div>
+                        <input name="password" type="password">
+		</div>
+	</div>
+            <div class="boxtoinput">
+		<div class="num">5</div>
+		<div class="toin">
+			<label>Подтверждение пароля</label>
+			<div class="minopright">до 30 символов</div>
+                        <input name="passconfirm" type="password">
 		</div>
 	</div>
 	<!--<div class="boxtoinput">

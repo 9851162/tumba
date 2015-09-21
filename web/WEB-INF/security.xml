@@ -15,7 +15,7 @@
     <http auto-config='true' use-expressions="true" >
         <intercept-url pattern="/login.jsp" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Main/addAd" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Ad/list" access="hasAnyRole('ROLE_ANONYMOUS')" />
         

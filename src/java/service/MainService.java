@@ -5,11 +5,16 @@
  */
 package service;
 
+import dao.UserDao;
+import entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.AuthManager;
+import support.editors.PhoneEditor;
 
 /**
  *
@@ -20,8 +25,6 @@ import service.parent.PrimService;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MainService extends PrimService {
     
-    public void registerUser(String email,String password,String name,String passconfirm){
-        
-    }
+    
     
 }
