@@ -35,23 +35,18 @@ public class UserService extends PrimService {
                     phone = phe.getPhone(phone);
                     
             if(email!=null&&!email.equals("")&&password!=null&&password.length()>4&&name!=null&&!name.equals("")/*&&phone!=null&&!phone.equals("")*/){
-                addError("jobdone0");
                 if(passconfirm.equals(password)){
-                    addError("jobdone1");
                     User existingUser = userDao.getUserByLogin(email);
                     if(existingUser==null){
-                        addError("jobdone2");
                         User u = new User();
                         u.setEmail(email);
                         u.setName(name);
                         u.setPhone(phone);
                         u.setRegistrationDate(new Date());
                         u.setPassword(AuthManager.md5Custom(password));
-                        addError("jobdone3");
                         if(validate(u)){
                             userDao.save(u);
                         }
-                        addError("jobdone4");
                     }else{
                         addError("Пользователь с такой почтой уже зарегистрирован");
                     }
