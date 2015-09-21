@@ -41,6 +41,7 @@ public class UserService extends PrimService {
                         User u = new User();
                         u.setEmail(email);
                         u.setName(name);
+                        u.setUserRole(User.ROLEADMIN);
                         u.setPhone(phone);
                         u.setRegistrationDate(new Date());
                         u.setPassword(AuthManager.md5Custom(password));

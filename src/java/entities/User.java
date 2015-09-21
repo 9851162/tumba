@@ -26,6 +26,9 @@ import org.hibernate.validator.constraints.Email;
 @Table(name = "user")
 public class User extends PrimEntity {
     
+    public static final String ROLEADMIN = "admin";
+    public static final String ROLEUSER = "user";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -53,6 +56,10 @@ public class User extends PrimEntity {
     @Column(name = "registration_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date registrationDate;
+    
+    @Column(name = "user_role")
+    @NotNull(message = "Необходимо указать роль")
+    private String userRole;
     
     
     @Column(name = "phone")
@@ -109,6 +116,14 @@ public class User extends PrimEntity {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
     
     

@@ -38,7 +38,7 @@
             <password-encoder hash="md5"/>
             <jdbc-user-service data-source-ref="dataSource" 
                                users-by-username-query="select email, password, true from users where email=?"
-                               authorities-by-username-query="select e.email, u.user_role from users e, cabinet_user u WHERE e.user_id=u.user_id and e.email=? limit 1"/> 
+                               authorities-by-username-query="select u.email, u.user_role from users u WHERE u.user_id=u.user_id and u.email=? limit 1"/> 
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

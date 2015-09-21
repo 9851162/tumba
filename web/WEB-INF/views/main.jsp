@@ -294,6 +294,27 @@
             </div>
 	</form>
 </div>
+                    
+<div id="modal3" class="modal_form modal_div">
+	<div class="nameform">АВТОРИЗАЦИЯ</div>
+	<form  method="post" action="j_spring_security_check" class="login">
+	<div class="boxtoinput">
+		<div class="toin">
+			<label>Логин</label>
+            <input name="j_username" type="text">
+		</div>
+	</div>
+            <div class="boxtoinput">
+		<div class="toin">
+			<label>Пароль</label>
+                        <input name="j_password" type="password">
+		</div>
+	</div>
+        <div class="form-group">
+                <button type="submit" class="btn">Войти</button>
+            </div>
+	</form>
+</div>
 
 <div id="overlay"></div>
         <script src="../js/jquery.min.js"></script>
