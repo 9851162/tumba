@@ -14,8 +14,9 @@
                         <div class="toavatar">
 				<div id="user_head">
                                         <div id="user_role">Пользователь</div>
-					<div id="user_name">Васьков Андрей</div>
+					<div id="user_name">${userName}</div>
 					<div id="options"><a href="#modal2" class="open_modal">настройки</a></div>
+                                        <div id="logout"><a href="../logout">выйти</a></div>
 				</div>
 				<img id="avatar" src="img/avatar.png">
 				<img id="miniavatar" src="img/round.png">

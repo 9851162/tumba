@@ -32,6 +32,8 @@ public class mainController extends WebController {
     private UserService userService;
     
     private final static String USER_ID_SESSION_NAME = "userId";
+    private final static String USER_NAME_SESSION_NAME = "userName";
+    
     
     @RequestMapping("/")
     public String getMain (Map<String, Object> model,
@@ -58,7 +60,7 @@ public class mainController extends WebController {
         
             User user = authManager.getCurrentUser();
             
-            
+            request.getSession().setAttribute(USER_NAME_SESSION_NAME, user.getName());
             request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
             request.getSession().setAttribute("role", user.getUserRole());
         //ras.addAttribute("role", "admin");

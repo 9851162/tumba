@@ -22,7 +22,6 @@
 <div id="wrapper">
     
     <%@include file="/WEB-INF/jsp/menu.jsp" %>
-    role=${role}
     <div id="search_add">
 			<div class="tosearch">
 			    <div class="formsearch">
