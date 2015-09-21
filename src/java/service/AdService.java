@@ -41,13 +41,13 @@ public class AdService extends PrimService {
 
     public void create(Double price,String name, String desc, Long categoryId) {
         if (categoryId != null) {
-            Category cat = catDao.find(categoryId);
             Ad ad = new Ad();
             ad.setInsertDate(new Date());
             ad.setShowCount((long) 0);
 
             //to do not null
             ad.setAuthor(null);
+            //Category cat = catDao.find(categoryId);
             ad.setCat(null);
             
             ad.setName(name);

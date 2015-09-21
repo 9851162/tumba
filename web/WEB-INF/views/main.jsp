@@ -3,7 +3,7 @@
     Created on : 16.03.2015, 19:17:08
     Author     : Юрий
 --%>
-<%@ page session="true" import="java.util.*" %>
+<%@page session="true" import="java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
@@ -21,6 +21,9 @@
 <!--<script src="<c:url value='/js/bootstrap.js'/>"> </script>-->
 <div id="wrapper">
     <%@include file="/WEB-INF/jsp/menu.jsp" %>
+    errors=${errors.size()}
+    <%@include file="/WEB-INF/jsp/error.jsp" %> 
+    <%@include file="/WEB-INF/jsp/message.jsp" %> 
     
     <div id="search_add">
 			<div class="tosearch">
@@ -179,7 +182,7 @@
 	</div>
 <div id="modal1" class="modal_form modal_div">
 	<div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
-	<form  method="post" action="Ad/add">
+	<form  method="post" action="../Ad/add">
             <div class="boxtoinput">
                     <div class="num">1</div>
                     <div class="toin">
@@ -226,7 +229,7 @@
                     </div>
             </div>-->
             <div class="form-group">
-                <button type="submit" class="login-button">Добавить</button>
+                <button type="submit" class="btn btn-success">Добавить</button>
             </div>
 	</form>
 </div>
@@ -255,10 +258,10 @@
 		<div class="toin">
 			<label>E-mail</label>
 			<div class="minopright">до 30 символов</div>
-            <input type="text">
+                        <input type="email">
 		</div>
 	</div>
-	<div class="boxtoinput">
+	<!--<div class="boxtoinput">
 		<div class="num">4</div>
 		<div class="toin">
 			<label>Добавление фото</label>
@@ -271,7 +274,10 @@
 			<label for="region">Выбор домашнего региона</label>
                     <div class="dob">добавить<img src="../img/plus.png"> </div>
 		</div>
-	</div>
+	</div>-->
+        <div class="form-group">
+                <button type="submit" class="btn">Добавить</button>
+            </div>
 	</form>
 </div>
 

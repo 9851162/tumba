@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,20 @@ public class AdController extends WebController {
             @RequestParam(value = "description") String desc,
             @RequestParam(value = "price") Double price,
             RedirectAttributes ras) throws Exception {
-
+        ArrayList<String> errors = new ArrayList();
+        
+        
         adService.create(price,shortName,desc,(long)0);
+        for(String er:adService.getErrors()){
+            errors.add(er);
+        }
 
         ras.addAttribute("short_name", shortName);
         ras.addAttribute("desc", desc);
         ras.addAttribute("price", price);
-        return "redirect:/";
+        ras.addFlashAttribute("errors", errors);
+        //ras.addAttribute("errors", errors);
+        return "redirect:/Main/";
     }
     
     @RequestMapping("/list")
@@ -47,7 +55,6 @@ public class AdController extends WebController {
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
             model.put("adList",adService.getAds());
-
         return "ads";
     }
     

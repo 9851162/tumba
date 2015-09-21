@@ -32,7 +32,7 @@ public class WebController {
 
     
     protected final String ERRORS_LIST_NAME = "errors";
-
+    
     @Autowired
     private DateEditor dateEditor;
 
@@ -45,7 +45,6 @@ public class WebController {
     public void setDateFormatter(Map<String, Object> model) {
         model.put("dateFormatter", new DateFormatter());
     }
-  
 
     @InitBinder
     public void standartInitBinder(WebDataBinder binder) {
