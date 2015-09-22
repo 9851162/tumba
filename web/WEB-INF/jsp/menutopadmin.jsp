@@ -15,7 +15,7 @@
 				<div id="user_head">
                                         <div id="user_role">Администратор</div>
 					<div id="user_name">${userName}</div>
-					<div id="options"><a href="#modal2" class="open_modal">настройки</a></div>
+					<div id="options"><a href="../Admin/administrating">управление</a></div>
                                         <div id="logout"><a href="../logout">выйти</a></div>
 				</div>
 				<img id="avatar" src="img/avatar.png">
