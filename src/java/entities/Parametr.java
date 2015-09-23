@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -37,11 +40,8 @@ public class Parametr extends PrimEntity {
     @Column(name = "parametr_id")
     private Long id;
     
-    @JoinColumn(name = "category_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull(message = "Необходимо указать категорию")
-    @Index(name="catIndex")
-    private Category cat;
+    @ManyToMany(mappedBy = "params")
+    private Set<Category> cats;
     
     //enum lu4we? SELECTING/INSERTING
     @Column(name = "combo_type")
@@ -55,14 +55,6 @@ public class Parametr extends PrimEntity {
     @Override
     public Long getId() {
         return id;
-    }
-
-    public Category getCat() {
-        return cat;
-    }
-
-    public void setCat(Category cat) {
-        this.cat = cat;
     }
 
     public Integer getComboType() {

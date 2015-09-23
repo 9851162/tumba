@@ -6,11 +6,16 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +42,13 @@ public class Category extends PrimEntity {
     @NotNull(message = "Ид родительской категории не указано")
     private Long parentId;
     
+    //TO DO LAZY NEEDED
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "params_in_categories",
+            joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "parametr_id", referencedColumnName = "parametr_id"))
+    private Set<Parametr> params;
+    
     @Override
     public Long getId() {
         return id;
@@ -56,6 +68,14 @@ public class Category extends PrimEntity {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Set<Parametr> getParams() {
+        return params;
+    }
+
+    public void setParams(Set<Parametr> params) {
+        this.params = params;
     }
     
     
