@@ -35,7 +35,8 @@ public class CategoryService extends PrimService {
     CategoryDao catDao;
     
     public void create(Long parentId,String name){
-        if(name!=null&&!name.equals("")&&parentId!=null){
+        List<String>unavailableNames = catDao.getUnderCatNames(parentId);
+        if(name!=null&&!name.equals("")&&!unavailableNames.contains(name)&&parentId!=null){
             Category cat = new Category();
             String idPath="";
             cat.setName(name);
@@ -60,7 +61,7 @@ public class CategoryService extends PrimService {
             }
         }else{
             if(name==null||name.equals("")){
-                addError("Необходимо указать наименование категории");
+                addError("Необходимо указать наименование категории, отличное от уже существующих в данном каталоге");
             }
             if(parentId==null){
                 addError("Ид родительской категории не указан");

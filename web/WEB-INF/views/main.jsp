@@ -6,6 +6,7 @@
 <%@page session="true" import="java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
         <title>Сайт с объявлениями</title>
@@ -25,7 +26,7 @@
     <div id="search_add">
 			<div class="tosearch">
 			    <div class="formsearch">
-                                <form style="margin-bottom: 0px;">
+                                        <form style="margin-bottom: 0px;">
 						<input type="text" placeholder="Впишите ваше желание">
 						<button type="submit" class="btn btn-success">Поиск</button>
 					</form>
@@ -139,18 +140,18 @@
 					<div class="opisanie">
 						<div class="col1">
 							<h3>Продавец</h3>
-							<p>aaa</p>
+							<p>"Имя"</p>
 							<h3>Товар</h3>
-							<p>sыавыа</p>
+							<p>"Наименование"</p>
 						</div>
 					    <div class="col3">
 							<h3>Описание</h3>
-							<p class="minitext"> short description </p>
+							<p class="minitext"> "Описание" </p>
 							<p class="maxtext"> ${ad.description} </p>
 						</div>
 					    <div class="col2">
 							<h3>Дата</h3>
-							<p>${ad.insertDate}</p>
+							<p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
 							<div class="price">${ad.price}</div>
 							<div class="minmenu">
 								<a href="#"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
@@ -299,8 +300,8 @@
 	<form  method="post" action="../j_spring_security_check" class="login">
 	<div class="boxtoinput">
 		<div class="toin">
-			<label>Логин</label>
-            <input name="j_username" type="text">
+                    <label>Логин</label>
+                    <input name="j_username" type="text">
 		</div>
 	</div>
             <div class="boxtoinput">
@@ -308,8 +309,8 @@
 			<label>Пароль</label>
                         <input name="j_password" type="password">
 		</div>
-	</div>
-        <div class="form-group">
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn">Войти</button>
             </div>
 	</form>
@@ -318,83 +319,8 @@
 <div id="overlay"></div>
         <script src="../js/jquery.min.js"></script>
 	<script src="../js/script.js"></script><!---->
-	<script type="text/javascript">
-$(function() { // вся мaгия пoсле зaгрузки стрaницы
-$(document).ready(function() { // зaпускaем скрипт пoсле зaгрузки всех элементoв
-    /* зaсунем срaзу все элементы в переменные, чтoбы скрипту не прихoдилoсь их кaждый рaз искaть при кликaх */
-    var overlay = $('#overlay'); // пoдлoжкa, дoлжнa быть oднa нa стрaнице
-    var open_modal = $('.open_modal'); // все ссылки, кoтoрые будут oткрывaть oкнa
-    var close = $('.modal_close, #overlay'); // все, чтo зaкрывaет мoдaльнoе oкнo, т.е. крестик и oверлэй-пoдлoжкa
-    var modal = $('.modal_div'); // все скрытые мoдaльные oкнa
+	<script src="../js/magic.js">
 
-     open_modal.click( function(event){ // лoвим клик пo ссылке с клaссoм open_modal
-         event.preventDefault(); // вырубaем стaндaртнoе пoведение
-         var div = $(this).attr('href'); // вoзьмем стрoку с селектoрoм у кликнутoй ссылки
-         overlay.fadeIn(400, //пoкaзывaем oверлэй
-             function(){ // пoсле oкoнчaния пoкaзывaния oверлэя
-                 $(div) // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                     .css('display', 'block')
-                     .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-         });
-     });
-
-     close.click( function(){ // лoвим клик пo крестику или oверлэю
-            modal // все мoдaльные oкнa
-             .animate({opacity: 0, top: '45%'}, 200, // плaвнo прячем
-                 function(){ // пoсле этoгo
-                     $(this).css('display', 'none');
-                     overlay.fadeOut(400); // прячем пoдлoжку
-                 }
-             );
-     });
-});
-
-				$(".expand").click(function(){
-					$(this).parent().parent().parent().find(".header").animate({height:"-=75"}, 300);
-					$("#logo").animate({height:  "hide"}, 200);
-					$("#avatar").animate({height:  "hide"}, 200);
-					$("#options").animate({height:  "hide"}, 200);
-					$(".toavatar").addClass('todelpad');
-					$("#minilogo").animate({height:  "show"}, 300);
-					$("#miniavatar").animate({height:  "show"}, 300);
-					$(this).parent().parent().parent().find(".left_side").animate({height:  "hide"}, 300);
-					$(this).parent().parent().parent().find(".icons").animate({height:  "hide"}, 300);
-					$(this).parent().parent().parent().find(".icons").addClass("icons_expand");
-					$(this).parent().parent().parent().find(".icons").animate({height:  "show"}, 300);
-					$(this).parent().parent().parent().find(".boxtoitem").addClass("boxtoitembig");
-					$(this).parent().find(".rollup").removeClass("invisible");
-					$(this).addClass("invisible");
-
-				});
-				$(".rollup").click(function(){
-					$(this).parent().parent().parent().find(".header").animate({height:"+=75"}, 300);
-					$("#minilogo").animate({height:  "hide"}, 100);
-					$("#miniavatar").animate({height:  "hide"}, 100);
-					$(".toavatar").removeClass('todelpad');
-					$("#logo").animate({height:  "show"}, 100);
-					$("#avatar").animate({height:  "show"}, 100);
-					$("#options").animate({height:  "show"}, 100);
-					$(this).parent().parent().parent().find(".left_side").animate({height:  "show"}, 300);
-					$(this).parent().parent().parent().find(".icons").animate({height:  "hide"}, 300);
-					$(this).parent().parent().parent().find(".icons").removeClass("icons_expand");
-					$(this).parent().parent().parent().find(".icons").animate({height:  "show"}, 300);
-					$(this).parent().parent().parent().find(".boxtoitem").removeClass("boxtoitembig");
-					$(this).parent().find(".expand").removeClass("invisible");
-					$(this).addClass("invisible");
-				});
-
-
-				 $('.spoiler_links').click(function(){
-						$(this).parent().children('div.spoiler_body').toggle('fast');
-						$(this).toggleClass("active");
-						return false;
-				 });
-	
-	$('.thumbs img').on('click', function(){
-    var gallery = $(this).closest('.toblockimg');
-    gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large')); 
-}); 
-		});
 	</script>
 		
 

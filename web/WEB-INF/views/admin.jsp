@@ -13,13 +13,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Cache-Control" content="no-cache">
-        <!--<link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css" >-->
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
     </head>
     <body style="overflow: scroll;">
         <div id="wrapper">
             <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
+            <script src="../js/magic.js">
+
+	</script>
             <c:if test="${role=='admin'}">
                 <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
             </c:if>
@@ -27,9 +29,28 @@
             
             <div id="categoryPlace">
                 <c:forEach var="parentId" items="${catMap.keySet()}">
-                    ${parentId}
+                    <a href="#modal" class="open_modal">+</a>
                 </c:forEach>
             </div>
         </div>
+            
+            <div id="modal" class="modal_form modal_div">
+                <div class="nameform">Добавить категорию в каталог</div>
+                <form  method="post" action="/addCat" >
+                    <div class="boxtoinput">
+                            <div class="toin">
+                                <label>Наименование</label>
+                                <input name="name" type="text">
+                            </div>
+                    </div>
+                    <!--to do jquery podstanovku pid-->
+                    <input name="parentId" type="hidden" value="0">
+                    <div class="form-group">
+                        <button type="submit" class="btn">Создать</button>
+                    </div>
+                </form>
+            </div>
+            <div id="overlay"></div>
     </body>
+    
 </html>
