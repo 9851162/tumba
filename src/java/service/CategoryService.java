@@ -76,7 +76,24 @@ public class CategoryService extends PrimService {
     }*/
     
     public void delete(Long categoryId){
-        
+        if(categoryId!=null){
+            if(!categoryId.equals((long)0)){
+                Category cat = catDao.find(categoryId);
+                List<Category>underCats = catDao.getAllUnderCats(categoryId);
+                for(Category underCat:underCats){
+                    underCat.setParams(new HashSet());
+                    catDao.update(underCat);
+                    catDao.delete(underCat);
+                }
+                cat.setParams(new HashSet());
+                catDao.update(cat);
+                catDao.delete(cat);
+            }else{
+                addError("Базовая категория с ИД 0 не может быть удалена");
+            }
+        }else{
+            addError("ИД категории не указан");
+        }
     }
     
     /*public List<Category> getAllChildrenCatStack(Long catId,Set<Long>passedIds){
