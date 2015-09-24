@@ -19,12 +19,11 @@
     </head>
     <body style="overflow: scroll;">
         <div id="wrapper">
-        <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
-        <c:if test="${role=='admin'}">
-    <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
-    
-</c:if>
-        <h1>Управление</h1>
+            <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
+            <c:if test="${role=='admin'}">
+                <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
+            </c:if>
+            <h1>Управление</h1>
         </div>
     </body>
 </html>

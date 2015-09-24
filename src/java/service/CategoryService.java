@@ -34,18 +34,24 @@ public class CategoryService extends PrimService {
     public void create(Long parentId,String name){
         if(name!=null&&!name.equals("")&&parentId!=null){
             Category cat = new Category();
+            String idPath="";
             cat.setName(name);
             cat.setParentId(parentId);
-            //наследуем параметры
+            //наследуем параметры и путь
             Set<Parametr>params=new HashSet();
             if(!parentId.equals((long)0)){
                 Category parent=catDao.find(parentId);
                 if(parent.getParams()!=null){
                     params=parent.getParams();
                 }
+                idPath=parent.getIdPath();
             }
             cat.setParams(params);
             
+            idPath+="_"+parentId+"_";
+            Integer nestingLevel = idPath.split("_").length;
+            cat.setIdPath(idPath);
+            cat.setNestingLevel(nestingLevel);
             if(validate(cat)){
                 catDao.save(cat);
             }
@@ -59,7 +65,7 @@ public class CategoryService extends PrimService {
         }
     }
     
-    public List<Category> getUnderCats(Long parentId){
+    /*public List<Category> getUnderCats(Long parentId){
         List<Category> cats = new ArrayList();
         if(parentId!=null){
             cats=catDao.getUnderCats(parentId);
@@ -67,13 +73,13 @@ public class CategoryService extends PrimService {
             addError("Ид родительской категории не указан");
         }
         return cats;
-    }
+    }*/
     
     public void delete(Long categoryId){
         
     }
     
-    public List<Category> getAllChildrenCatStack(Long catId,Set<Long>passedIds){
+    /*public List<Category> getAllChildrenCatStack(Long catId,Set<Long>passedIds){
         if(passedIds==null){
             passedIds=new HashSet();
         }
@@ -87,7 +93,7 @@ public class CategoryService extends PrimService {
                 if(!passedIds.contains(chId)&&getErrors().isEmpty()){
                     cats.addAll(getAllChildrenCatStack(chId,passedIds));
                 }else{
-                    addError("Возникла ошибка построения списка категорий, категория с ИД "+chId+" присутствует на разных уровнях иерархии категорий.");
+                    addError("Возникла ошибка построения списка категорий, категория с ИД "+chId+" присутствует на разных уровнях иерархии.");
                     break;
                 }
             }
@@ -103,6 +109,6 @@ public class CategoryService extends PrimService {
             cats=supList;
         }
         return cats;
-    }
+    }*/
     
 }

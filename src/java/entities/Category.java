@@ -42,6 +42,14 @@ public class Category extends PrimEntity {
     @NotNull(message = "Ид родительской категории не указано")
     private Long parentId;
     
+    @Column(name = "id_path")
+    @NotNull(message = "Родительский путь к категории не указан")
+    private String idPath;
+    
+    @Column(name = "nesting_level")
+    @NotNull(message = "Необходимо указать уровень вложенности")
+    private Integer nestingLevel;
+    
     //TO DO LAZY NEEDED
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "params_in_categories",
@@ -76,6 +84,22 @@ public class Category extends PrimEntity {
 
     public void setParams(Set<Parametr> params) {
         this.params = params;
+    }
+
+    public String getIdPath() {
+        return idPath;
+    }
+
+    public void setIdPath(String idPath) {
+        this.idPath = idPath;
+    }
+
+    public Integer getNestingLevel() {
+        return nestingLevel;
+    }
+
+    public void setNestingLevel(Integer nestingLevel) {
+        this.nestingLevel = nestingLevel;
     }
     
     
