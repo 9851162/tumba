@@ -35,15 +35,15 @@ public class CategoryService extends PrimService {
     CategoryDao catDao;
     
     public void create(Long parentId,String name) throws Exception{
-        try{
-        /*List<String>unavailableNames = catDao.getUnderCatNames(parentId);
-        if(name!=null&&!name.equals("")&&!unavailableNames.contains(name)&&parentId!=null){*/
-            /*Category cat = new Category();
+        //try{
+        List<String>unavailableNames = catDao.getUnderCatNames(parentId);
+        if(name!=null&&!name.equals("")&&!unavailableNames.contains(name)&&parentId!=null){
+            Category cat = new Category();
             String idPath="";
             cat.setName(name);
-            cat.setParentId(parentId);*/
+            cat.setParentId(parentId);
             //наследуем параметры и путь
-            /*Set<Parametr>params=new HashSet();
+            Set<Parametr>params=new HashSet();
             if(!parentId.equals(Category.BASEID)){
                 Category parent=catDao.find(parentId);
                 if(parent.getParams()!=null){
@@ -54,23 +54,23 @@ public class CategoryService extends PrimService {
             cat.setParams(params);
             
             idPath+="_"+parentId+"_";
-            Integer nestingLevel = idPath.split("_").length;
+            Integer nestingLevel = idPath.split("_").length-1;
             cat.setIdPath(idPath);
-            cat.setNestingLevel(nestingLevel);*/
-            /*if(validate(cat)){
+            cat.setNestingLevel(nestingLevel);
+            if(validate(cat)){
                 catDao.save(cat);
-            }*/
-        /*}else{
+            }
+        }else{
             if(name==null||name.equals("")){
                 addError("Необходимо указать наименование категории, отличное от уже существующих в данном каталоге");
             }
             if(parentId==null){
                 addError("Ид родительской категории не указан");
             }
-        }*/
-        }catch(Exception e){
-            throw new Exception(e.toString());
         }
+        /*}catch(Exception e){
+            throw new Exception(e.toString());
+        }*/
     }
     
     /*public List<Category> getUnderCats(Long parentId){
