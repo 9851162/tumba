@@ -35,7 +35,6 @@ public class CategoryService extends PrimService {
     CategoryDao catDao;
     
     public void create(Long parentId,String name) throws Exception{
-        //try{
         List<String>unavailableNames = catDao.getUnderCatNames(parentId);
         if(name!=null&&!name.equals("")&&!unavailableNames.contains(name)&&parentId!=null){
             Category cat = new Category();
@@ -49,7 +48,7 @@ public class CategoryService extends PrimService {
                 if(parent.getParams()!=null){
                     params=parent.getParams();
                 }
-                idPath=parent.getIdPath();
+                idPath=parent.getIdPath().substring(0, parent.getIdPath().length()-1);
             }
             cat.setParams(params);
             
@@ -68,9 +67,6 @@ public class CategoryService extends PrimService {
                 addError("Ид родительской категории не указан");
             }
         }
-        /*}catch(Exception e){
-            throw new Exception(e.toString());
-        }*/
     }
     
     /*public List<Category> getUnderCats(Long parentId){
@@ -123,6 +119,28 @@ public class CategoryService extends PrimService {
             List<Category>supList=result.get(id);
             Collections.sort(supList,new nameComparator());
         }
+        return result;
+    }
+    
+    public HashMap<Long,List<Long>> getFullCatIdMap(){
+        HashMap<Long,List<Long>>result = new HashMap();
+        List<Category>allCats=catDao.getAll();
+        for(Category cat:allCats){
+            List<Long> supList = result.get(cat.getParentId());
+            if(supList==null){
+                supList = new ArrayList();
+            }
+            supList.add(cat.getId());
+            result.put(cat.getParentId(), supList);
+        }
+        if(allCats.isEmpty()){
+            result.put(Category.BASEID,new ArrayList());
+        }
+        //сортировка по именам
+        /*for(Long id:result.keySet()){
+            List<Long>supList=result.get(id);
+            Collections.sort(supList,new nameComparator());
+        }*/
         return result;
     }
             

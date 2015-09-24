@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,9 +29,7 @@
             <h1>Управление</h1>
             
             <div id="categoryPlace">
-                <c:forEach var="parentId" items="${catMap.keySet()}">
-                    <a href="#modal" class="open_modal">+</a>
-                </c:forEach>
+                <myTags:category id="0" map="${catMap}"/>
             </div>
         </div>
             

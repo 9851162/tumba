@@ -179,7 +179,7 @@
 		</footer>
 	</div>
 <div id="modal1" class="modal_form modal_div">
-	<div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
+	<div class="nameform"></div>
 	<form  method="post" action="../Ad/add">
             <div class="boxtoinput">
                     <div class="num">1</div>
@@ -199,7 +199,7 @@
             </div>
             
             <div class="boxtoinput">
-                    <div class="num">2</div>
+                    <div class="num">3</div>
                     <div class="toin">
                         <label for="price">Цена</label>
                         <input class="form-control" name="price" id="price" type="text" value="${price}">
