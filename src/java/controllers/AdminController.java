@@ -43,7 +43,7 @@ public class AdminController extends WebController {
         
         catService.create(parentId, name);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
-        return "redirect:/admin";
+        return "redirect:./administrating";
     }
     
 }

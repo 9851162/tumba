@@ -36,7 +36,7 @@
             
             <div id="modal" class="modal_form modal_div">
                 <div class="nameform">Добавить категорию в каталог</div>
-                <form  method="post" action="/addCat" >
+                <form  method="post" action="../Admin/addCat" >
                     <div class="boxtoinput">
                             <div class="toin">
                                 <label>Наименование</label>
