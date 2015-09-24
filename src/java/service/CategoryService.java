@@ -9,6 +9,9 @@ import dao.CategoryDao;
 import entities.Category;
 import entities.Parametr;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +42,7 @@ public class CategoryService extends PrimService {
             cat.setParentId(parentId);
             //наследуем параметры и путь
             Set<Parametr>params=new HashSet();
-            if(!parentId.equals((long)0)){
+            if(!parentId.equals(Category.BASEID)){
                 Category parent=catDao.find(parentId);
                 if(parent.getParams()!=null){
                     params=parent.getParams();
@@ -77,7 +80,7 @@ public class CategoryService extends PrimService {
     
     public void delete(Long categoryId){
         if(categoryId!=null){
-            if(!categoryId.equals((long)0)){
+            if(!categoryId.equals(Category.BASEID)){
                 Category cat = catDao.find(categoryId);
                 List<Category>underCats = catDao.getAllUnderCats(categoryId);
                 for(Category underCat:underCats){
@@ -93,6 +96,35 @@ public class CategoryService extends PrimService {
             }
         }else{
             addError("ИД категории не указан");
+        }
+    }
+    
+    public HashMap<Long,List<Category>> getFullCatMap(){
+        HashMap<Long,List<Category>>result = new HashMap();
+        List<Category>allCats=catDao.getAll();
+        for(Category cat:allCats){
+            List<Category> supList = result.get(cat.getParentId());
+            if(supList==null){
+                supList = new ArrayList();
+            }
+            supList.add(cat);
+            result.put(cat.getParentId(), supList);
+        }
+        if(allCats.isEmpty()){
+            result.put(Category.BASEID,new ArrayList());
+        }
+        //сортировка по именам
+        for(Long id:result.keySet()){
+            List<Category>supList=result.get(id);
+            Collections.sort(supList,new nameComparator());
+        }
+        return result;
+    }
+            
+    private class nameComparator implements Comparator<Category> {
+        @Override
+        public int compare(Category a, Category b) {
+                return a.getName().compareTo(b.getName());
         }
     }
     

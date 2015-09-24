@@ -24,6 +24,12 @@
                 <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
             </c:if>
             <h1>Управление</h1>
+            
+            <div id="categoryPlace">
+                <c:forEach var="parentId" items="${catMap.keySet()}">
+                    ${parentId}
+                </c:forEach>
+            </div>
         </div>
     </body>
 </html>
