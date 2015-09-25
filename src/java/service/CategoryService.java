@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,7 +170,7 @@ public class CategoryService extends PrimService {
         }
     }
     
-    public void addParam(Long catId,String name,Integer reqType,Integer paramType){
+    public void addParam(Long catId,String name,Integer reqType,Integer paramType) throws Exception{
         /*if(catId!=null&&name!=null&&!name.equals("")&&reqType!=null&&paramType!=null){
             
         }else{
@@ -189,8 +190,11 @@ public class CategoryService extends PrimService {
                     pset.add(p);
                     c.setParams(pset);
                     if(validate(c)){
+                        //throw new Exception("id="+c.getId()+"; p="+c.getIdPath()+"; size="+c.getParams().size()+"; name="+c.getName()+"; ");
                         catDao.update(c);
                     }
+                }else{
+                    addError("qwe");
                 }
             }else{
                 addError("Параметр с таким наименованием уже присутствует в данной категории, выберите другое");
@@ -198,12 +202,28 @@ public class CategoryService extends PrimService {
         }
     }
     
-    public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){
-        /*if(catId!=null&&name!=null&&!name.equals("")&&reqType!=null&&paramType!=null){
-            
-        }else{
-            if(catId)
-        }*/
+    public LinkedHashMap<Integer,String>getParamTypes(){
+        LinkedHashMap<Integer,String>res = new LinkedHashMap();
+        res.put(Parametr.TEXT,"текст");
+        res.put(Parametr.NUM,"число");
+        res.put(Parametr.DATE,"дата");
+        res.put(Parametr.YESNO,"да/нет");
+        res.put(Parametr.SELECTING,"выбор");
+        res.put(Parametr.MULTISELECTING,"множественный выбор");
+        return res;
+    }
+    
+    public LinkedHashMap<Integer,String>getReqTypes(){
+        LinkedHashMap<Integer,String>res = new LinkedHashMap();
+        res.put(Parametr.REQUIRED,"обязательный");
+        res.put(Parametr.NOTREQUIRED,"необязательный");
+        return res;
+    }
+    
+    
+    
+    /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){
+        
         if(catId!=null){
             Category c = catDao.find(catId);
             Parametr p = new Parametr();
@@ -220,6 +240,6 @@ public class CategoryService extends PrimService {
                 }
             }
         }
-    }
+    }*/
     
 }

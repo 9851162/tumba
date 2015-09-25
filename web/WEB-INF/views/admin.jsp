@@ -26,15 +26,52 @@
             <c:if test="${role=='admin'}">
                 <%@include file="/WEB-INF/jsp/menutopadmin.jsp" %>
             </c:if>
+        <%@include file="/WEB-INF/jsp/error.jsp" %>
             <h1>Управление</h1>
             
             <div id="categoryPlace" style="width: 45%;float: left;">
                 <b>Категории: </b>
                 <myTags:category id="0" map="${catMap}"/>
             </div>
-            <div id="categoryPlace" style="width: 45%;float: right;">
+            <div id="paramPlace" style="width: 45%;float: right;">
                 <b>Параметры:  </b>
+                <br>
                 Категория: ${catName};
+                
+                <c:if test="${!empty param.catId}">
+                <form method="post" action="../Admin/createParam">
+                    <label> Наименование <input type="text" name="name"></label>
+                            <label>Тип <select name="paramType">
+                                    <c:forEach var="id" items="${paramTypeMap.keySet()}">
+                                        <option value="${id}">
+                                            ${paramTypeMap.get(id)}
+                                        </option>
+                                    </c:forEach>
+                        </select></label>
+                            <label>Необходимость <select name="reqType">
+                        <c:forEach var="id" items="${reqTypeMap.keySet()}">
+                                        <option value="${id}">
+                                            ${reqTypeMap.get(id)}
+                                        </option>
+                                    </c:forEach>
+                        </select></label>
+                    <input type="hidden" name="catId" value="${param.catId}">
+                <div class="form-group">
+                        <button type="submit" class="btn">добавить</button>
+                    </div></form>
+            
+                    <c:if test="${!empty params}">
+                <table>
+                    <tr><th>Наименование</th><th>Тип</th>
+                    <th>Необходим</th><th>Удалить</th></tr>
+                <c:forEach var="parametr" items="${params}">
+                    <tr><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td>
+                    <td>${reqTypeMap.get(parametr.reqType)}</td><td>x</td></tr>
+                </c:forEach>
+                </table>
+                          </c:if>
+                </c:if>
+                
             </div>
         </div>
             
@@ -49,6 +86,7 @@
                     </div>
                     <!--to do jquery podstanovku pid-->
                     <input name="parentId" type="hidden" value="0">
+                    <input name="catId" type="hidden" value="${param.catId}">
                     <div class="form-group">
                         <button type="submit" class="btn">Создать</button>
                     </div>

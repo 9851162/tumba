@@ -6,20 +6,14 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.Set;
+import java.util.LinkedHashMap;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import org.hibernate.annotations.Index;
 
 /**
  *
@@ -32,8 +26,9 @@ public class Parametr extends PrimEntity {
     public final static Integer TEXT = 1;
     public final static Integer NUM = 2;
     public final static Integer SELECTING = 3;
-    public final static Integer YESNO = 4;
-    public final static Integer DATE = 5;
+    public final static Integer MULTISELECTING = 4;
+    public final static Integer YESNO = 5;
+    public final static Integer DATE = 6;
     
     public final static Integer NOTREQUIRED = 0;
     public final static Integer REQUIRED = 1;

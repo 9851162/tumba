@@ -28,12 +28,14 @@ public class AdminController extends WebController {
     
     @RequestMapping("/administrating")
     public String administrating (Map<String, Object> model,
-            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "catId", required = false) Long catId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         model.put("catMap", catService.getFullCatMap());
-        model.put("catName", catService.getCatName(categoryId));
-        
+        model.put("catName", catService.getCatName(catId));
+        model.put("paramTypeMap",catService.getParamTypes());
+        model.put("reqTypeMap",catService.getReqTypes());
+        model.put("params", catService.getParams(catId));
            
         return "admin";
     }
@@ -41,11 +43,13 @@ public class AdminController extends WebController {
     @RequestMapping("/addCat")
     public String addCat (Map<String, Object> model,
             @RequestParam(value = "parentId", required = false) Long parentId,
+            @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "name", required = false) String name,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         catService.create(parentId, name);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        ras.addAttribute("catId", catId);
         return "redirect:./administrating";
     }
     
@@ -56,6 +60,7 @@ public class AdminController extends WebController {
         
         catService.delete(catId);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        ras.addAttribute("catId", catId);
         return "redirect:./administrating";
     }
     
@@ -67,8 +72,9 @@ public class AdminController extends WebController {
             @RequestParam(value = "reqType", required = false) Integer reqType,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        catService.delete(catId);
+        catService.addParam(catId, name, reqType, paramType);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        ras.addAttribute("catId", catId);
         return "redirect:./administrating";
     }
     
