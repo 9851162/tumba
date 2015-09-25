@@ -6,6 +6,7 @@
 package service;
 
 import dao.CategoryDao;
+import dao.ParametrDao;
 import entities.Category;
 import entities.Parametr;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class CategoryService extends PrimService {
     
     @Autowired
     CategoryDao catDao;
+    @Autowired
+    ParametrDao paramDao;
     
     public void create(Long parentId,String name) throws Exception{
         List<String>unavailableNames = catDao.getUnderCatNames(parentId);
@@ -141,6 +144,14 @@ public class CategoryService extends PrimService {
         }
     }
     
+    public String getCatName(Long catId){
+        if(catId==null){
+            return "Не выбрана";
+        }else{
+            return catDao.find(catId).getName();
+        }
+    }
+    
     public List<Parametr>getParams(Long catId){
         List<Parametr>params=new ArrayList();
         if(catId!=null){
@@ -155,6 +166,59 @@ public class CategoryService extends PrimService {
         @Override
         public int compare(Parametr a, Parametr b) {
                 return a.getName().compareTo(b.getName());
+        }
+    }
+    
+    public void addParam(Long catId,String name,Integer reqType,Integer paramType){
+        /*if(catId!=null&&name!=null&&!name.equals("")&&reqType!=null&&paramType!=null){
+            
+        }else{
+            if(catId)
+        }*/
+        if(catId!=null){
+            Category c = catDao.find(catId);
+            List<String>unavailableNames=catDao.getUnavailableNames(catId);
+            if(!unavailableNames.contains(name)){
+                Parametr p = new Parametr();
+                p.setName(name);
+                p.setParamType(paramType);
+                p.setReqType(reqType);
+                if(validate(p)){
+                    paramDao.save(p);
+                    Set<Parametr> pset = c.getParams();
+                    pset.add(p);
+                    c.setParams(pset);
+                    if(validate(c)){
+                        catDao.update(c);
+                    }
+                }
+            }else{
+                addError("Параметр с таким наименованием уже присутствует в данной категории, выберите другое");
+            }
+        }
+    }
+    
+    public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){
+        /*if(catId!=null&&name!=null&&!name.equals("")&&reqType!=null&&paramType!=null){
+            
+        }else{
+            if(catId)
+        }*/
+        if(catId!=null){
+            Category c = catDao.find(catId);
+            Parametr p = new Parametr();
+            p.setName(name);
+            p.setParamType(paramType);
+            p.setReqType(reqType);
+            if(validate(p)){
+                paramDao.save(p);
+                Set<Parametr> pset = c.getParams();
+                pset.add(p);
+                c.setParams(pset);
+                if(validate(c)){
+                    catDao.update(c);
+                }
+            }
         }
     }
     

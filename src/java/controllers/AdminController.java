@@ -32,6 +32,7 @@ public class AdminController extends WebController {
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         model.put("catMap", catService.getFullCatMap());
+        model.put("catName", catService.getCatName(categoryId));
         
            
         return "admin";
@@ -51,6 +52,19 @@ public class AdminController extends WebController {
     @RequestMapping("/deleteCat")
     public String deleteCat (Map<String, Object> model,
             @RequestParam(value = "catId", required = false) Long catId,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+        catService.delete(catId);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        return "redirect:./administrating";
+    }
+    
+    @RequestMapping("/createParam")
+    public String createParam (Map<String, Object> model,
+            @RequestParam(value = "catId", required = false) Long catId,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "paramType", required = false) Integer paramType,
+            @RequestParam(value = "reqType", required = false) Integer reqType,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         catService.delete(catId);

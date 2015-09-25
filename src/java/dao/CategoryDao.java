@@ -44,4 +44,11 @@ public class CategoryDao extends Dao<Category>  {
         return query.list();
     }
     
+    public List<String> getUnavailableNames(Long catId){
+        String sql = "select p.name from params_in_categories pic left join parametr p on pic.parametr_id=p.parametr_id where pic.category_id=:catId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("catId", catId);
+        return query.list();
+    }
+    
 }

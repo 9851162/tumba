@@ -88,7 +88,7 @@ public class Parametr extends PrimEntity {
         this.paramType = paramType;
     }
     
-    
+    //to do описание и ед.изм. мб
 
     
 }

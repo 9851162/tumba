@@ -29,12 +29,12 @@
             <h1>Управление</h1>
             
             <div id="categoryPlace" style="width: 45%;float: left;">
-                Категории: 
+                <b>Категории: </b>
                 <myTags:category id="0" map="${catMap}"/>
             </div>
             <div id="categoryPlace" style="width: 45%;float: right;">
-                Параметры: 
-                
+                <b>Параметры:  </b>
+                Категория: ${catName};
             </div>
         </div>
             

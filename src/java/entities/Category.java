@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -79,6 +80,9 @@ public class Category extends PrimEntity {
     }
 
     public Set<Parametr> getParams() {
+        if(params==null){
+            return new HashSet();
+        }
         return params;
     }
 
