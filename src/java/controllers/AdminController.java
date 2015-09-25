@@ -78,4 +78,16 @@ public class AdminController extends WebController {
         return "redirect:./administrating";
     }
     
+    @RequestMapping("/deleteParam")
+    public String deleteParam (Map<String, Object> model,
+            @RequestParam(value = "catId", required = false) Long catId,
+            @RequestParam(value = "paramId", required = false) Long paramId,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+        catService.deleteParam(paramId, catId);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        ras.addAttribute("catId", catId);
+        return "redirect:./administrating";
+    }
+    
 }

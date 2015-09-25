@@ -6,12 +6,14 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.LinkedHashMap;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -42,7 +44,7 @@ public class Parametr extends PrimEntity {
     @NotNull(message = "Необходимо указать наименование")
     private String name;
     
-    /*@ManyToMany(mappedBy = "params")
+    /*@ManyToMany(mappedBy = "params", fetch = FetchType.LAZY)
     private Set<Category> cats;*/
     
     //enum lu4we? SELECTING/INSERTING
@@ -83,7 +85,17 @@ public class Parametr extends PrimEntity {
         this.paramType = paramType;
     }
     
+    
+    
     //to do описание и ед.изм. мб
+
+    /*public Set<Category> getCats() {
+        return cats;
+    }
+
+    public void setCats(Set<Category> cats) {
+        this.cats = cats;
+    }*/
 
     
 }

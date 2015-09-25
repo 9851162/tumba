@@ -34,9 +34,12 @@
                 <myTags:category id="0" map="${catMap}"/>
             </div>
             <div id="paramPlace" style="width: 45%;float: right;">
-                <b>Параметры:  </b>
+                
+                <b>Категория: ${catName};</b>
                 <br>
-                Категория: ${catName};
+                <br>
+                <b>Параметры: </b>
+                <br><br>
                 
                 <c:if test="${!empty param.catId}">
                 <form method="post" action="../Admin/createParam">
@@ -66,7 +69,7 @@
                     <th>Необходим</th><th>Удалить</th></tr>
                 <c:forEach var="parametr" items="${params}">
                     <tr><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td>
-                    <td>${reqTypeMap.get(parametr.reqType)}</td><td>x</td></tr>
+                        <td>${reqTypeMap.get(parametr.reqType)}</td><td><a href="../Admin/deleteParam?catId=${param.catId}&paramId=${parametr.id}">x</a></td></tr>
                 </c:forEach>
                 </table>
                           </c:if>

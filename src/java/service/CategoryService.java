@@ -220,6 +220,37 @@ public class CategoryService extends PrimService {
         return res;
     }
     
+    //to do delete from sql iz table??
+    public void deleteParam(Long paramId,Long catId)throws Exception{
+        if(catId!=null&&paramId!=null){
+            Category c = catDao.find(catId);
+            Set<Parametr> params = c.getParams();
+            Set<Parametr>supSet = new HashSet();
+            for(Parametr p:params){
+                if(!p.getId().equals(paramId)){
+                    supSet.add(p);
+                }
+            }
+            c.setParams(supSet);
+            catDao.update(c);
+            Parametr p = paramDao.find(paramId);
+            
+            //to do it doesn't work!
+            Boolean check = paramDao.hasCats(paramId);
+            if(!check){
+                paramDao.delete(p);
+            }
+            addError("res = "+check);
+        }else{
+            if(catId==null){
+                addError("Ид категории не передан");
+            }
+            if(paramId==null){
+                addError("Ид параметра не передан");
+            }
+        }
+    }
+    
     
     
     /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){

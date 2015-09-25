@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Parametr;
+import java.math.BigInteger;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +22,14 @@ public class ParametrDao  extends Dao<Parametr>  {
     public Class getSupportedClass() {
         return Parametr.class;
     }
+    
+    public boolean hasCats(Long paramId) throws Exception{
+        String sql = "select count(*) from params_in_categories where parametr_id=:paramId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("paramId", paramId);
+        BigInteger res = (BigInteger)query.uniqueResult();
+        //throw new Exception("res="+res);
+        return res.compareTo(BigInteger.valueOf(0))>0;
+    }
+    
 }
