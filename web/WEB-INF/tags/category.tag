@@ -10,9 +10,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         
             <ul type="disc">
-                <li><a href="#modal" data-id="${id}" class="open_modal add_cat">+</a></li>
+                <li><a href="#modal" data-id="${id}" class="open_modal add_cat" style="text-decoration: none;">+</a></li>
             <c:forEach var="cat" items="${map.get(id)}">
-            <li>${cat.name} <a href="../Admin/deleteCat?catId=${cat.id}">x</a></li>
+            <li>${cat.name} <a href="../Admin/deleteCat?catId=${cat.id}" style="text-decoration: none;">x</a></li>
                 <myTags:category id="${cat.id}" map="${map}"/>
             </c:forEach>
             </ul>

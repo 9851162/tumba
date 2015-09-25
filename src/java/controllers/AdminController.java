@@ -28,9 +28,11 @@ public class AdminController extends WebController {
     
     @RequestMapping("/administrating")
     public String administrating (Map<String, Object> model,
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         model.put("catMap", catService.getFullCatMap());
+        
            
         return "admin";
     }

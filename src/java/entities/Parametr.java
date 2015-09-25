@@ -29,8 +29,11 @@ import org.hibernate.annotations.Index;
 @Table(name = "parametr")
 public class Parametr extends PrimEntity {
     
-    public final static Integer SELECTING = 1;
-    public final static Integer INSERTING = 2;
+    public final static Integer TEXT = 1;
+    public final static Integer NUM = 2;
+    public final static Integer SELECTING = 3;
+    public final static Integer YESNO = 4;
+    public final static Integer DATE = 5;
     
     public final static Integer NOTREQUIRED = 0;
     public final static Integer REQUIRED = 1;
@@ -40,13 +43,17 @@ public class Parametr extends PrimEntity {
     @Column(name = "parametr_id")
     private Long id;
     
-    @ManyToMany(mappedBy = "params")
-    private Set<Category> cats;
+    @Column(name = "name")
+    @NotNull(message = "Необходимо указать наименование")
+    private String name;
+    
+    /*@ManyToMany(mappedBy = "params")
+    private Set<Category> cats;*/
     
     //enum lu4we? SELECTING/INSERTING
-    @Column(name = "combo_type")
+    @Column(name = "param_type")
     @NotNull(message = "Необходимо указать будет ли параметр вводиться или выбираться")
-    private Integer comboType;
+    private Integer paramType;
     
     @Column(name = "req_type")
     @NotNull(message = "Необходимо указать является ли параметр необходимым")
@@ -57,20 +64,28 @@ public class Parametr extends PrimEntity {
         return id;
     }
 
-    public Integer getComboType() {
-        return comboType;
-    }
-
-    public void setComboType(Integer comboType) {
-        this.comboType = comboType;
-    }
-
     public Integer getReqType() {
         return reqType;
     }
 
     public void setReqType(Integer reqType) {
         this.reqType = reqType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(Integer paramType) {
+        this.paramType = paramType;
     }
     
     

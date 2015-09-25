@@ -35,7 +35,7 @@ public class Category extends PrimEntity {
     private Long id;
     
     @Column(name = "name")
-    @NotNull(message = "Необходимо указать Имя")
+    @NotNull(message = "Необходимо указать наименование")
     private String name;
     
     @Column(name = "parent_id")

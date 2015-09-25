@@ -69,16 +69,6 @@ public class CategoryService extends PrimService {
         }
     }
     
-    /*public List<Category> getUnderCats(Long parentId){
-        List<Category> cats = new ArrayList();
-        if(parentId!=null){
-            cats=catDao.getUnderCats(parentId);
-        }else{
-            addError("Ид родительской категории не указан");
-        }
-        return cats;
-    }*/
-    
     public void delete(Long categoryId){
         if(categoryId!=null){
             if(!categoryId.equals(Category.BASEID)){
@@ -151,36 +141,21 @@ public class CategoryService extends PrimService {
         }
     }
     
-    /*public List<Category> getAllChildrenCatStack(Long catId,Set<Long>passedIds){
-        if(passedIds==null){
-            passedIds=new HashSet();
-        }
-        passedIds.add(catId);
-        List<Category> cats = new ArrayList();
+    public List<Parametr>getParams(Long catId){
+        List<Parametr>params=new ArrayList();
         if(catId!=null){
-            List<Category>children = catDao.getUnderCats(catId);
-            cats.addAll(children);
-            for(Category c:children){
-                Long chId = c.getId();
-                if(!passedIds.contains(chId)&&getErrors().isEmpty()){
-                    cats.addAll(getAllChildrenCatStack(chId,passedIds));
-                }else{
-                    addError("Возникла ошибка построения списка категорий, категория с ИД "+chId+" присутствует на разных уровнях иерархии.");
-                    break;
-                }
-            }
-        }else{
-            addError("Ид родительской категории не указан");
+            Category cat = catDao.find(catId);
+            params.addAll(cat.getParams());
+            Collections.sort(params,new paramComparator());
         }
-        if(!cats.isEmpty()){
-            int i = cats.size()-1;
-            List<Category>supList = new ArrayList();
-            while(i>=0){
-                supList.add(cats.get(i--));
-            }
-            cats=supList;
+        return params;
+    }
+    
+    private class paramComparator implements Comparator<Parametr> {
+        @Override
+        public int compare(Parametr a, Parametr b) {
+                return a.getName().compareTo(b.getName());
         }
-        return cats;
-    }*/
+    }
     
 }

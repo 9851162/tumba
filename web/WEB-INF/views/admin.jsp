@@ -28,9 +28,13 @@
             </c:if>
             <h1>Управление</h1>
             
-            <div id="categoryPlace">
+            <div id="categoryPlace" style="width: 45%;float: left;">
                 Категории: 
                 <myTags:category id="0" map="${catMap}"/>
+            </div>
+            <div id="categoryPlace" style="width: 45%;float: right;">
+                Параметры: 
+                
             </div>
         </div>
             
