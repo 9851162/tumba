@@ -51,7 +51,7 @@ public class Category extends PrimEntity {
     private Integer nestingLevel;
     
     //TO DO LAZY NEEDED
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "params_in_categories",
             joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "parametr_id", referencedColumnName = "parametr_id"))

@@ -46,7 +46,7 @@ public class CategoryService extends PrimService {
             if(!parentId.equals(Category.BASEID)){
                 Category parent=catDao.find(parentId);
                 if(parent.getParams()!=null){
-                    params=parent.getParams();
+                    params=new HashSet(parent.getParams());
                 }
                 idPath=parent.getIdPath().substring(0, parent.getIdPath().length()-1);
             }

@@ -50,6 +50,7 @@
                 </form>
             </div>
             <div id="overlay"></div>
+            <script>$('.add_cat').click(function(){var cid = $(this).attr('data-id');$('[name = parentId]').val(cid);});</script>
     </body>
     
 </html>
