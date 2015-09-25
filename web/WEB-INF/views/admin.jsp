@@ -29,6 +29,7 @@
             <h1>Управление</h1>
             
             <div id="categoryPlace">
+                Категории: 
                 <myTags:category id="0" map="${catMap}"/>
             </div>
         </div>

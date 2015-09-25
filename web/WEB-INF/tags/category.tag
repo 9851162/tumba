@@ -9,10 +9,10 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         
-            <ul>
+            <ul type="disc">
                 <li><a href="#modal" data-id="${id}" class="open_modal add_cat">+</a></li>
             <c:forEach var="cat" items="${map.get(id)}">
-                <li>${cat.name}</li>
+            <li>${cat.name} <a href="../Admin/deleteCat?catId=${cat.id}">x</a></li>
                 <myTags:category id="${cat.id}" map="${map}"/>
             </c:forEach>
             </ul>
