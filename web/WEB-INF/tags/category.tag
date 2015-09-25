@@ -11,9 +11,9 @@
         
             <ul>
                 <li><a href="#modal" data-id="${id}" class="open_modal add_cat">+</a></li>
-            <c:forEach var="catId" items="${map.get(id)}">
-                <li>${catId}</li>
-                <myTags:category id="${catId}" map="${map}"/>
+            <c:forEach var="cat" items="${map.get(id)}">
+                <li>${cat.name}</li>
+                <myTags:category id="${cat.id}" map="${map}"/>
             </c:forEach>
             </ul>
         

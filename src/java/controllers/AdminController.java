@@ -30,7 +30,7 @@ public class AdminController extends WebController {
     public String administrating (Map<String, Object> model,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        model.put("catMap", catService.getFullCatIdMap());
+        model.put("catMap", catService.getFullCatMap());
            
         return "admin";
     }
