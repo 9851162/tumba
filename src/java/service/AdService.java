@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 
 /**
@@ -39,7 +40,7 @@ public class AdService extends PrimService {
     @Autowired
     ParametrValueDao valDao;
 
-    public void create(Double price,String name, String desc, Long categoryId) {
+    public void create(Double price,MultipartFile previews,String name, String desc, Long categoryId) {
         if (categoryId != null) {
             Ad ad = new Ad();
             ad.setInsertDate(new Date());

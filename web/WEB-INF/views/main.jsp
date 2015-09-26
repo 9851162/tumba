@@ -23,7 +23,7 @@
 <div id="wrapper">
     
     <%@include file="/WEB-INF/jsp/menu.jsp" %>
-    <div id="search_add">
+                <div id="search_add">
 			<div class="tosearch">
 			    <div class="formsearch">
                                         <form style="margin-bottom: 0px;">
@@ -180,7 +180,7 @@
 	</div>
 <div id="modal1" class="modal_form modal_div">
 	<div class="nameform"></div>
-	<form  method="post" action="../Ad/add">
+	<form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
             <div class="boxtoinput">
                     <div class="num">1</div>
                     <div class="toin">
@@ -197,9 +197,28 @@
                             <textarea name="description" type="textarea" value="${description}"></textarea>
                     </div>
             </div>
+                    
+        <div class="boxtoinput">
+		<div class="num">3</div>
+		<div class="toin">
+			<label>Добавление фото</label>
+                        <div class="form-group">
+                            <div class="file_upload">
+                                <button type="button"></button>
+                                <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
+                            </div>
+                            
+                            
+                            <!--<button type="button" onchange='$("#upload-file-info").html($(this).val());' style="border-radius: 10px;width: 78px;height: 78px; background-image: url(../img/plusimg.png);background-repeat: no-repeat;cursor: pointer;border:0px;"></button>-->
+                    <!--<input type="file" multiple name="previews" size="40" src="../img/plusimg.png"  onchange='$("#upload-file-info").html($(this).val());'>-->
+                    <span class='label label-info' id="upload-file-info" ></span>
+                    </div>
+             <!--<img src="../img/plusimg.png">-->
+		</div>
+	</div>
             
             <div class="boxtoinput">
-                    <div class="num">3</div>
+                    <div class="num">4</div>
                     <div class="toin">
                         <label for="price">Цена</label>
                         <input class="form-control" name="price" id="price" type="text" value="${price}">

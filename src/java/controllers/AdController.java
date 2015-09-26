@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
 
@@ -33,19 +34,22 @@ public class AdController extends WebController {
             @RequestParam(value = "short_name") String shortName,
             @RequestParam(value = "description") String desc,
             @RequestParam(value = "price") Double price,
+            @RequestParam(value = "previews") MultipartFile previews,
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
         
         
-        adService.create(price,shortName,desc,(long)0);
+        adService.create(price,previews,shortName,desc,(long)0);
         for(String er:adService.getErrors()){
             errors.add(er);
         }
-
-        ras.addAttribute("short_name", shortName);
-        ras.addAttribute("desc", desc);
-        ras.addAttribute("price", price);
-        ras.addFlashAttribute("errors", errors);
+        
+        if(!errors.isEmpty()){
+            ras.addAttribute("short_name", shortName);
+            ras.addAttribute("description", desc);
+            ras.addAttribute("price", price);
+            ras.addFlashAttribute("errors", errors);
+        }
         //ras.addAttribute("errors", errors);
         return "redirect:/Main/";
     }
