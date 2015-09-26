@@ -9,8 +9,13 @@ import dao.AdDao;
 import dao.CategoryDao;
 import dao.ParametrValueDao;
 import entities.Ad;
-import entities.Category;
 import entities.ParametrValue;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +45,7 @@ public class AdService extends PrimService {
     @Autowired
     ParametrValueDao valDao;
 
-    public void create(Double price,MultipartFile previews,String name, String desc, Long categoryId) {
+    public void create(Double price,MultipartFile previews[],String name, String desc, Long categoryId) throws IOException {
         if (categoryId != null) {
             Ad ad = new Ad();
             ad.setInsertDate(new Date());
@@ -51,12 +56,27 @@ public class AdService extends PrimService {
             //Category cat = catDao.find(categoryId);
             ad.setCat(null);
             
+            
             ad.setName(name);
             ad.setDescription(desc);
             ad.setPrice(price);
             ad.setValues(new HashSet());
             if (validate(ad)) {
                 adDao.save(ad);
+                File file = new File("/usr/local/seller/preview/"+ad.getId()+"/");
+                file.mkdirs();
+                file=null;
+                int i=0;
+                //String types=""+previews.length+";types:";
+                for(MultipartFile prev:previews){
+                    prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
+                }
+                //addError(types);
+                
+                /*InputStream fis = preview.getInputStream();
+                
+                BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream("/usr/local/seller/preview/"+ad.getId()+"/"+preview.getName()));*/
+                
             }
         } else {
             addError("Необходимо указать категорию");

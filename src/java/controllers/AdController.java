@@ -34,7 +34,7 @@ public class AdController extends WebController {
             @RequestParam(value = "short_name") String shortName,
             @RequestParam(value = "description") String desc,
             @RequestParam(value = "price") Double price,
-            @RequestParam(value = "previews") MultipartFile previews,
+            @RequestParam(value = "previews") MultipartFile previews[],
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
         

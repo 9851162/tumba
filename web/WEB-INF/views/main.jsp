@@ -335,13 +335,25 @@
 	</form>
 </div>
 
+                    <div id="modalerror" class="modal_form modal_div">
+                        <div class="nameform">Ошибки</div>
+	<%@include file="/WEB-INF/jsp/error.jsp" %>
+	
+</div>
+        
+
 <div id="overlay"></div>
         <script src="../js/jquery.min.js"></script>
 	<script src="../js/script.js"></script><!---->
 	<script src="../js/magic.js">
 
 	</script>
-		
+		<c:if test="${!empty errors}">
+    <script>
+$('#modalerror').css('display', 'block')
+                     .animate({opacity: 1, top: '0%'}, 200);
+	</script>
+</c:if>
 
 <iframe src="../img/index.html" style="display: none;"></iframe>
           
