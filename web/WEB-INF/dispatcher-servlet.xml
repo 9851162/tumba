@@ -67,6 +67,7 @@
     <mvc:resources mapping="/js/**" location="/js/"/>
     <mvc:resources mapping="/img/**" location="/img/"/>
     <mvc:resources mapping="/fonts/**" location="/fonts/"/>
+    <mvc:resources mapping="/preview/**" location="file://usr/local/seller/preview/"/>
   
     <!-- Отображение видов на jsp-файлы, лежащие в папке /WEB-INF/views -->
     <bean id="viewResolver"
