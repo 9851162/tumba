@@ -123,6 +123,7 @@
 			</div>
                     
                     <c:if test="${not empty adList}">
+                        <c:set var="chosenAd" value="${adList.get(adList.size()-1)}"/>
                         <div id="adlist">
                             <!--<div class="item medium" item-position="0" item-next="1">
 					<div class="toramka divall">
@@ -169,6 +170,7 @@
 					<div class="button_rollUp hidden"><div class="boxssilka"><img src="img/whiteverh.png"><div>cвернуть</div><img src="img/whiteverh.png"></div></div>
 				</div>-->
                             <c:forEach var="ad" items="${adList}">
+                                <c:if test="${ad!=adList.get(adList.size()-1)}"> 
                                 <div class="item smal" item-position="0" item-next="1">
 					<div class="toramka divall">
 						<div class="toblockimg">
@@ -213,7 +215,53 @@
 					<div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
 					<div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
 				</div>
+                                </c:if>
                             </c:forEach>
+                            <div class="item medium" item-position="8" item-next="9">
+					<div class="toramka divall">
+						<div class="toblockimg">
+						<div id="panel" class="prewimg">
+							<img id="largeImage9" class="large largeImage" src="../Images/?id=${chosenAd.id}&name=0">
+						</div>
+						<div id="thumbs9" class="thumbs miniprew">
+							<img src="../Images/?id=${chosenAd.id}&name=0">
+							<img src="../Images/?id=${chosenAd.id}&name=1">
+							<img src="../Images/?id=${chosenAd.id}&name=2">
+							<img src="../Images/?id=${chosenAd.id}&name=3">
+							<img src="../Images/?id=${chosenAd.id}&name=4">
+							<img src="../Images/?id=${chosenAd.id}&name=5">
+							<img src="../Images/?id=${chosenAd.id}&name=6">
+						</div>
+						</div>
+					<div class="opisanie">
+						<div class="col1">
+						<h3>Продавец</h3>
+							<p>"Имя"</p>
+							<h3>Товар</h3>
+							<p>"Наименование"</p>
+						</div>
+					    <div class="col3">
+						<h3>Описание</h3>
+						<p class="minitext"> "Описание" </p>
+							<p class="maxtext"> ${chosenAd.description} </p>
+						</div>
+					    <div class="col2">
+						<h3>Дата</h3>
+						<p><fmt:formatDate type="date" value="${chosenAd.insertDate}"/></p>
+							<div class="price">${chosenAd.price}</div>
+						<div class="minmenu">
+ 							<a href="#"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+							<a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+							<a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
+							<a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+							<a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+						</div>
+						</div>
+					</div>
+					</div>
+					<div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
+					<div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
+				</div>
                         </div>
                     </c:if>
 		</div>

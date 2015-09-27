@@ -65,12 +65,18 @@ public class AdService extends PrimService {
                 adDao.save(ad);
                 File file = new File("/usr/local/seller/preview/"+ad.getId()+"/");
                 file.mkdirs();
-                file=null;
                 int i=0;
-                //String types=""+previews.length+";types:";
-                for(MultipartFile prev:previews){
-                    prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
+                while(i<7){
+                    MultipartFile prev = previews[i];
+                    if(prev.getSize()<=(long)1024*1024){
+                        prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
+                    }else{
+                        addError("Изображение "+prev.getName()+" не было добавлено, так как его размер больше ограничения в 1мб.");
+                    }
                 }
+                /*for(MultipartFile prev:previews){
+                    prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
+                }*/
                 //addError(types);
                 
                 /*InputStream fis = preview.getInputStream();
