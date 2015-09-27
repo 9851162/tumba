@@ -16,6 +16,7 @@ $(document).ready(function(){
     });
 
     $('#grid').on('click','.smal',function () {
+        //alert("qwe")
         $metro.html($items);
         $items.removeClass('medium');
 		$items.removeClass('big');
