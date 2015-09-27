@@ -20,7 +20,7 @@
     <body style="overflow: scroll;">
         <div id="wrapper">
             <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"> </script>
-            <script src="../js/magic.js">
+            <script src="../js/seller_scripts/magic.js">
 
 	</script>
             <c:if test="${role=='admin'}">
