@@ -339,6 +339,8 @@
                             </c:forEach>
                         </select>
                         
+                        <button type="button" class="addCat"/>
+                            
                     </div>
                        
                 </div>

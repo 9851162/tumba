@@ -186,8 +186,8 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 
 .file_upload > button{
     //float: right;
-    width: 8em;            /* example */
-    height: 100%;
+    /*width: 8em;            
+    height: 100%;*/
     border-radius: 10px;
     width: 78px;
     height: 78px; 
@@ -218,4 +218,16 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     -ms-transform: scale(20); /* IE 9 fix */
     opacity: 0;
     cursor: pointer
+}
+
+.addCat{
+    vertical-align: middle;
+    border-radius: 5px;
+    width: 17px;
+    height: 17px;
+    background-image: url(../img/plusimg.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border: 0px;
+    background-size: cover;
 }
