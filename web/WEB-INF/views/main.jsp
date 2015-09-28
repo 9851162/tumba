@@ -177,7 +177,7 @@
                                     <div class="toramka divall">
                                         <div class="toblockimg">
                                             <div id="panel" class="prewimg">
-                                                <img id="largeImage1" class="largeImage" src="../Images/?id=${ad.id}&name=0">
+                                                <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
                                             </div>
                                             <div id="thumbs1" class="thumbs miniprew">
                                                 <img src="../Images/?id=${ad.id}&name=0">
@@ -279,6 +279,7 @@
         <div id="modal1" class="modal_form modal_div">
             <div class="nameform"></div>
             <form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
+                
                 <div class="boxtoinput">
                     <div class="num">1</div>
                     <div class="toin">
@@ -295,6 +296,7 @@
                         <textarea name="description" type="textarea" value="${description}"></textarea>
                     </div>
                 </div>
+                    
 
                 <div class="boxtoinput">
                     <div class="num">3</div>
@@ -322,6 +324,15 @@
                         <input class="form-control" name="price" id="price" type="text" value="${price}">
                     </div>
                 </div>
+                        <c:if test="${empty userId}">
+                    <div class="boxtoinput">
+                    <div class="num">5</div>
+                    <div class="toin">
+                        <label>email</label>
+                        <input name="email" type="email" value="${email}">
+                    </div>
+                </div>
+                        </c:if>
                 <!--<div class="boxtoinput">
                         <div class="num">4</div>
                         <div class="toin">

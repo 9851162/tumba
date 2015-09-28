@@ -69,8 +69,17 @@ $(document).ready(function() { // зaпускaем скрипт пoсле зaг�
 						return false;
 				 });
 	
-	$('.thumbs img').on('click', function(){
+	/*$('.thumbs img').on('click', function(){
     var gallery = $(this).closest('.toblockimg');
-    gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large')); 
+    var srcimage = $(this).attr('src');
+    gallery.find('.largeImage').attr('src',srcimage); 
+    
+}); */
+
+$('.thumbs img').click( function(){
+    var gallery = $(this).closest('.toblockimg');
+    var srcimage = $(this).attr('src');
+    gallery.find('.largeImage').attr('src',srcimage/*$(this).attr('src').replace('thumb','large')*/); 
+    
 }); 
 		});

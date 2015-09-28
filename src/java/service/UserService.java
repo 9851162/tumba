@@ -25,50 +25,72 @@ import support.editors.PhoneEditor;
 @Transactional
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService extends PrimService {
-    
-    
+
     @Autowired
     private UserDao userDao;
-    
-    public void createUser(String phone,String email,String password,String name,String passconfirm){
-                    PhoneEditor phe = new PhoneEditor();
-                    phone = phe.getPhone(phone);
-                    
-            if(email!=null&&!email.equals("")&&password!=null&&password.length()>4&&name!=null&&!name.equals("")/*&&phone!=null&&!phone.equals("")*/){
-                if(passconfirm.equals(password)){
+
+    public void createUser(String phone, String email, String password, String name, String passconfirm, String role) {
+        PhoneEditor phe = new PhoneEditor();
+        phone = phe.getPhone(phone);
+
+        if (email != null && !email.equals("") && password != null && password.length() > 3 && name != null && !name.equals("")/*&&phone!=null&&!phone.equals("")*/) {
+            if (passconfirm.equals(password)) {
+                if (role.equals(User.ROLEADMIN) || role.equals(User.ROLEUSER)) {
                     User existingUser = userDao.getUserByLogin(email);
-                    if(existingUser==null){
+                    if (existingUser == null) {
                         User u = new User();
                         u.setEmail(email);
                         u.setName(name);
-                        u.setUserRole(User.ROLEADMIN);
+                        u.setUserRole(role);
                         u.setPhone(phone);
                         u.setRegistrationDate(new Date());
                         u.setPassword(AuthManager.md5Custom(password));
-                        if(validate(u)){
+                        if (validate(u)) {
                             userDao.save(u);
                         }
-                    }else{
+
+                    } else {
                         addError("Пользователь с такой почтой уже зарегистрирован");
                     }
-                }else{
-                    addError("Пароли не совпадают");
+                } else {
+                    addError("Роль пользователя указана не верно");
                 }
-                    
-            }else{
-                if(email==null||email.equals("")){
-                    addError("Необходимо указать электронный адрес");
-                }
-                if(password==null||password.length()<4){
-                    addError("Необходимо ввести пароль длиной более 4 символов");
-                }
-                if(name==null||name.equals("")){
-                    addError("Необходимо указать Ваше имя");
-                }
-                /*if(phone==null||phone.equals("")){
-                    addError("Необходимо указать телефон");
-                }*/
+            } else {
+                addError("Пароли не совпадают");
             }
+
+        } else {
+            if (email == null || email.equals("")) {
+                addError("Необходимо указать электронный адрес");
+            }
+            if (password == null || password.length() < 4) {
+                addError("Необходимо ввести пароль длиной более 3 символов");
+            }
+            if (name == null || name.equals("")) {
+                addError("Необходимо указать Ваше имя");
+            }
+            /*if(phone==null||phone.equals("")){
+             addError("Необходимо указать телефон");
+             }*/
+        }
     }
-    
+
+    public User registerAndNotifyUser(String email) {
+        createUser("", email, "0000", "Новый пользователь", "0000",User.ROLEUSER);
+        User user = null;
+        if (getErrors().isEmpty()) {
+            notifyAboutRegistration(email);
+            user = getUserByMail(email);
+        }
+        return user;
+    }
+
+    public User getUserByMail(String email) {
+        return userDao.getUserByLogin(email);
+    }
+
+    public void notifyAboutRegistration(String email) {
+        //TO DO
+    }
+
 }

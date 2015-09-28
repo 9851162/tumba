@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
+import entities.User;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +32,20 @@ public class AdController extends WebController {
     @RequestMapping("/add")
     public String add (Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "short_name") String shortName,
-            @RequestParam(value = "description") String desc,
-            @RequestParam(value = "price") Double price,
-            @RequestParam(value = "previews") MultipartFile previews[],
+            @RequestParam(value = "short_name", required = false) String shortName,
+            @RequestParam(value = "description", required = false) String desc,
+            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "previews", required = false) MultipartFile previews[],
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
         
+        User authedUser = authManager.getCurrentUser();
+        if(authManager.getCurrentUser()!=null){
+            email = authedUser.getEmail();
+        }
         
-        adService.create(price,previews,shortName,desc,(long)0);
+        adService.create(email,price,previews,shortName,desc,(long)0);
         for(String er:adService.getErrors()){
             errors.add(er);
         }
@@ -48,9 +54,11 @@ public class AdController extends WebController {
             ras.addAttribute("short_name", shortName);
             ras.addAttribute("description", desc);
             ras.addAttribute("price", price);
-            ras.addFlashAttribute("errors", errors);
+            //ras.addFlashAttribute("errors", errors);
         }
-        //ras.addAttribute("errors", errors);
+        //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());
+        ras.addFlashAttribute("errors", errors);
+        
         return "redirect:/Main/";
     }
     

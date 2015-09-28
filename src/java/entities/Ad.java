@@ -59,8 +59,8 @@ public class Ad extends PrimEntity {
     
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    //@NotNull(message = "Автор не указан")
-    //@Index(name="authorIndex")
+    @NotNull(message = "Автор не указан")
+    @Index(name="authorIndex")
     private User author;
     
     @JoinColumn(name = "category_id")
