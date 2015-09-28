@@ -34,31 +34,34 @@ public class UserService extends PrimService {
         phone = phe.getPhone(phone);
 
         if (email != null && !email.equals("") && password != null && password.length() > 3 && name != null && !name.equals("")/*&&phone!=null&&!phone.equals("")*/) {
-            if (passconfirm.equals(password)) {
-                if (role.equals(User.ROLEADMIN) || role.equals(User.ROLEUSER)) {
-                    User existingUser = userDao.getUserByLogin(email);
-                    if (existingUser == null) {
-                        User u = new User();
-                        u.setEmail(email);
-                        u.setName(name);
-                        u.setUserRole(role);
-                        u.setPhone(phone);
-                        u.setRegistrationDate(new Date());
-                        u.setPassword(AuthManager.md5Custom(password));
-                        if (validate(u)) {
-                            userDao.save(u);
-                        }
+            if (getUserByMail(email) == null) {
+                if (passconfirm.equals(password)) {
+                    if (role.equals(User.ROLEADMIN) || role.equals(User.ROLEUSER)) {
+                        User existingUser = userDao.getUserByLogin(email);
+                        if (existingUser == null) {
+                            User u = new User();
+                            u.setEmail(email);
+                            u.setName(name);
+                            u.setUserRole(role);
+                            u.setPhone(phone);
+                            u.setRegistrationDate(new Date());
+                            u.setPassword(AuthManager.md5Custom(password));
+                            if (validate(u)) {
+                                userDao.save(u);
+                            }
 
+                        } else {
+                            addError("Пользователь с такой почтой уже зарегистрирован");
+                        }
                     } else {
-                        addError("Пользователь с такой почтой уже зарегистрирован");
+                        addError("Роль пользователя указана не верно");
                     }
                 } else {
-                    addError("Роль пользователя указана не верно");
+                    addError("Пароли не совпадают");
                 }
             } else {
-                addError("Пароли не совпадают");
+                addError("Пользователь с таким email уже зарегистрирован");
             }
-
         } else {
             if (email == null || email.equals("")) {
                 addError("Необходимо указать электронный адрес");
@@ -76,7 +79,7 @@ public class UserService extends PrimService {
     }
 
     public User registerAndNotifyUser(String email) {
-        createUser("", email, "0000", "Новый пользователь", "0000",User.ROLEUSER);
+        createUser("", email, "0000", "Новый пользователь", "0000", User.ROLEUSER);
         User user = null;
         if (getErrors().isEmpty()) {
             notifyAboutRegistration(email);
