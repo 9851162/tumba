@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
+import service.CategoryService;
 import service.UserService;
 
 /**
@@ -30,6 +31,8 @@ public class mainController extends WebController {
     private AdService adService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CategoryService catService;
     
     private final static String USER_ID_SESSION_NAME = "userId";
     private final static String USER_NAME_SESSION_NAME = "userName";
@@ -38,15 +41,16 @@ public class mainController extends WebController {
     @RequestMapping("/")
     public String getMain (Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "short_name", required = false) String shortName,
+            @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             RedirectAttributes ras) throws Exception {
         
         model.put("adList",adService.getAds());
-        model.put("short_name", shortName);
+        model.put("shortName", shortName);
         model.put("desc", desc);
         model.put("price", price);
+        model.put("catList", catService.getCatList());
         ArrayList<String> ers = new ArrayList();
         /*for(String er:(List<String>)model.get("errors")){
             ers.add(er);

@@ -137,6 +137,27 @@ public class CategoryService extends PrimService {
         }*/
         return result;
     }
+    
+    public List<Category>getCatList(){
+        List<Category>res=new ArrayList();
+        HashMap<Long,List<Category>>catMap = getFullCatMap();
+        Long i = (long)0;
+        if(!catMap.isEmpty()&&catMap.get(i)!=null){
+            res.addAll(getCatsWithRecursion(i,catMap));
+        }
+        return res;
+    }
+    
+    private List<Category> getCatsWithRecursion(Long i,HashMap<Long,List<Category>>catMap){
+        List<Category>res = new ArrayList();
+        for(Category c:catMap.get(i)){
+            res.add(c);
+            if(catMap.get(c.getId())!=null){
+                res.addAll(getCatsWithRecursion(c.getId(),catMap));
+            }
+        }
+        return res;
+    }
             
     private class nameComparator implements Comparator<Category> {
         @Override

@@ -285,7 +285,7 @@
                     <div class="toin">
                         <label>Краткое название товара или услуги</label>
                         <div class="minopright">до 30 символов</div>
-                        <input name="short_name" type="text" value="${short_name}">
+                        <input name="shortName" type="text" value="${shortName}">
                     </div>
                 </div>
                 <div class="boxtoinput">
@@ -324,9 +324,29 @@
                         <input class="form-control" name="price" id="price" type="text" value="${price}">
                     </div>
                 </div>
-                        <c:if test="${empty userId}">
+                    
+                    <c:if test="${!empty catList}">
                     <div class="boxtoinput">
                     <div class="num">5</div>
+                    <div class="toin">
+                        <label for="price">Категории</label>
+                        <select name="catId">
+                            <c:forEach var="cat" items="${catList}">
+                                <c:set var="prefix" value="${cat.getPrefix()}"/>
+                                <option value="${cat.id}">
+                                    ${prefix}${cat.name}
+                                </option>
+                            </c:forEach>
+                        </select>
+                        
+                    </div>
+                       
+                </div>
+                     </c:if>
+                    
+                        <c:if test="${empty userId}">
+                    <div class="boxtoinput">
+                    <div class="num">6</div>
                     <div class="toin">
                         <label>email</label>
                         <input name="email" type="email" value="${email}">

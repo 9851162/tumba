@@ -51,7 +51,7 @@ public class Category extends PrimEntity {
     @NotNull(message = "Необходимо указать уровень вложенности")
     private Integer nestingLevel;
     
-    //TO DO LAZY NEEDED
+   
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "params_in_categories",
             joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"),
@@ -106,6 +106,14 @@ public class Category extends PrimEntity {
         this.nestingLevel = nestingLevel;
     }
     
-    
+    public String getPrefix(){
+        String prefix="";
+        int i=1;
+        while(i<nestingLevel){
+            prefix+="- ";
+            i++;
+        }
+        return prefix;
+    }
     
 }
