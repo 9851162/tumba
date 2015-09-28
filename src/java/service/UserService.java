@@ -34,7 +34,7 @@ public class UserService extends PrimService {
         phone = phe.getPhone(phone);
 
         if (email != null && !email.equals("") && password != null && password.length() > 3 && name != null && !name.equals("")/*&&phone!=null&&!phone.equals("")*/) {
-            if (getUserByMail(email) == null) {
+            
                 if (passconfirm.equals(password)) {
                     if (role.equals(User.ROLEADMIN) || role.equals(User.ROLEUSER)) {
                         User existingUser = userDao.getUserByLogin(email);
@@ -59,9 +59,6 @@ public class UserService extends PrimService {
                 } else {
                     addError("Пароли не совпадают");
                 }
-            } else {
-                addError("Пользователь с таким email уже зарегистрирован");
-            }
         } else {
             if (email == null || email.equals("")) {
                 addError("Необходимо указать электронный адрес");
