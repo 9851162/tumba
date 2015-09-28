@@ -180,13 +180,13 @@
                                                 <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
                                             </div>
                                             <div id="thumbs1" class="thumbs miniprew">
-                                                <img src="../Images/?id=${ad.id}&name=0">
-                                                <img src="../Images/?id=${ad.id}&name=1">
-                                                <img src="../Images/?id=${ad.id}&name=2">
-                                                <img src="../Images/?id=${ad.id}&name=3">
-                                                <img src="../Images/?id=${ad.id}&name=4">
-                                                <img src="../Images/?id=${ad.id}&name=5">
-                                                <img src="../Images/?id=${ad.id}&name=6">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=0">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=1">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=2">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=3">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=4">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=5">
+                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=6">
                                             </div>
                                         </div>
                                         <div class="opisanie">
@@ -227,13 +227,13 @@
                                         <img id="largeImage9" class="large largeImage" src="../Images/?id=${chosenAd.id}&name=0">
                                     </div>
                                     <div id="thumbs9" class="thumbs miniprew">
-                                        <img src="../Images/?id=${chosenAd.id}&name=0">
-                                        <img src="../Images/?id=${chosenAd.id}&name=1">
-                                        <img src="../Images/?id=${chosenAd.id}&name=2">
-                                        <img src="../Images/?id=${chosenAd.id}&name=3">
-                                        <img src="../Images/?id=${chosenAd.id}&name=4">
-                                        <img src="../Images/?id=${chosenAd.id}&name=5">
-                                        <img src="../Images/?id=${chosenAd.id}&name=6">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=0">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=1">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=2">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=3">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=4">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=5">
+                                        <img class="prev4change" src="../Images/?id=${chosenAd.id}&name=6">
                                     </div>
                                 </div>
                                 <div class="opisanie">
@@ -348,12 +348,12 @@
                     
                         <c:if test="${empty userId}">
                     <div class="boxtoinput">
-                    <div class="num">6</div>
-                    <div class="toin">
-                        <label>email</label>
-                        <input name="email" type="email" value="${email}">
+                        <div class="num">6</div>
+                        <div class="toin">
+                            <label>email</label>
+                            <input name="email" type="email" value="${email}">
+                        </div>
                     </div>
-                </div>
                         </c:if>
                 <!--<div class="boxtoinput">
                         <div class="num">4</div>

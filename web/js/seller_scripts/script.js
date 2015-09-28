@@ -55,6 +55,13 @@ $(document).ready(function(){
 			 $('.big').addClass("smal");
 			 $('.smal').removeClass("big");
 	 });
+         
+         $('#grid').on('click', '.prev4change', function(){
+    var gallery = $(this).closest('.toblockimg');
+    var srcimage = $(this).attr('src');
+    gallery.find('.largeImage').attr('src',srcimage/*$(this).attr('src').replace('thumb','large')*/); 
+    
+}); 
 
 
 

@@ -71,15 +71,9 @@ $(document).ready(function() { // зaпускaем скрипт пoсле зaг�
 	
 	/*$('.thumbs img').on('click', function(){
     var gallery = $(this).closest('.toblockimg');
-    var srcimage = $(this).attr('src');
-    gallery.find('.largeImage').attr('src',srcimage); 
+    gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large')); 
     
 }); */
 
-$('.thumbs img').click( function(){
-    var gallery = $(this).closest('.toblockimg');
-    var srcimage = $(this).attr('src');
-    gallery.find('.largeImage').attr('src',srcimage/*$(this).attr('src').replace('thumb','large')*/); 
-    
-}); 
+
 		});

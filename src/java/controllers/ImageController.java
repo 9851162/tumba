@@ -48,7 +48,11 @@ public class ImageController extends WebController {
     public ResponseEntity<byte[]> getImage(
             @RequestParam(value = "name",required = false) String name,
             @RequestParam(value = "id",required = false) String id) throws IOException {
-        InputStream in = new FileInputStream("/usr/local/seller/preview/"+id+"/"+name);
+        File file = new File("/usr/local/seller/preview/"+id+"/"+name);
+        if(!file.exists()){
+            return null;
+        }
+        InputStream in = new FileInputStream(file);
                 //new File("/usr/local/seller/preview/"+id+"/"+name).;
                 //servletContext.getResourceAsStream("/usr/local/seller/preview/"+id+"/"+name);
 
