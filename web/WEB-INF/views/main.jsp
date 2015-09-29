@@ -192,13 +192,13 @@
                                         <div class="opisanie">
                                             <div class="col1">
                                                 <h3>Продавец</h3>
-                                                <p>"Имя"</p>
+                                                <p>${ad.author.name}</p>
                                                 <h3>Товар</h3>
-                                                <p>"Наименование"</p>
+                                                <p>${ad.cat.name}</p>
                                             </div>
                                             <div class="col3">
                                                 <h3>Описание</h3>
-                                                <p class="minitext"> "Описание" </p>
+                                                <p class="minitext"> ${ad.name} </p>
                                                 <p class="maxtext"> ${ad.description} </p>
                                             </div>
                                             <div class="col2">
@@ -239,13 +239,13 @@
                                 <div class="opisanie">
                                     <div class="col1">
                                         <h3>Продавец</h3>
-                                        <p>"Имя"</p>
+                                        <p>${chosenAd.author.name}</p>
                                         <h3>Товар</h3>
-                                        <p>"Наименование"</p>
+                                        <p>${chosenAd.cat.name}</p>
                                     </div>
                                     <div class="col3">
                                         <h3>Описание</h3>
-                                        <p class="minitext"> "Описание" </p>
+                                        <p class="minitext"> ${chosenAd.name} </p>
                                         <p class="maxtext"> ${chosenAd.description} </p>
                                     </div>
                                     <div class="col2">
