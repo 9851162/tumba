@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
 import support.AuthManager;
+import support.SupMailSender;
 import support.editors.PhoneEditor;
 
 /**
@@ -28,6 +29,9 @@ public class UserService extends PrimService {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private SupMailSender mailSender;
 
     public void createUser(String phone, String email, String password, String name, String passconfirm, String role) {
         PhoneEditor phe = new PhoneEditor();
@@ -75,11 +79,12 @@ public class UserService extends PrimService {
         }
     }
 
-    public User registerAndNotifyUser(String email) {
-        createUser("", email, "0000", "Новый пользователь", "0000", User.ROLEUSER);
+    public User registerStandardUser(String email) {
+        String standardPass = "0000";
+        createUser("", email, standardPass, "Новый пользователь", standardPass, User.ROLEUSER);
         User user = null;
         if (getErrors().isEmpty()) {
-            notifyAboutRegistration(email);
+            //notifyAboutRegistration(email);
             user = getUserByMail(email);
         }
         return user;
@@ -90,6 +95,16 @@ public class UserService extends PrimService {
     }
 
     public void notifyAboutRegistration(String email) {
+        String url = "http://185.22.232.79/seller";
+        String text = "Здравствуйте! На нашем сайте "+url+", было подано объявление с указанием этого email."+
+                " Для Вашего удобства, нами была создана учетная запись для просомтра и управления Вашими объявлениями."+
+                "В качестве логина был использован Ваш email: "+email+", пароль: 0000 "+
+                " Пароль Вы можете изменить в любой момент зайдя на сайт и авторизировавшись в Вашем личном кабинете."+
+                "Приятной Вам работы";
+                //или пройдя по ссылке
+                ;
+        mailSender.sendMail(email, text);
+        
         //TO DO
     }
 

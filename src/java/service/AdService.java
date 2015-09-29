@@ -54,7 +54,7 @@ public class AdService extends PrimService {
             if(email!=null&&!email.equals("")){
                 User user = userService.getUserByMail(email);
                 if(user==null){
-                    user = userService.registerAndNotifyUser(email);
+                    user = userService.registerStandardUser(email);
                     List<String> userErrors = userService.getErrors();
                     if(!userErrors.isEmpty()){
                         for(String er:userErrors){
@@ -93,6 +93,7 @@ public class AdService extends PrimService {
                             i++;
                         }
                     }
+                    userService.notifyAboutRegistration(email);
                     /*for(MultipartFile prev:previews){
                         prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
                     }*/

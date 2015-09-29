@@ -32,7 +32,7 @@ public class AdController extends WebController {
     @RequestMapping("/add")
     public String add (Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "short_name", required = false) String shortName,
+            @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "email", required = false) String email,

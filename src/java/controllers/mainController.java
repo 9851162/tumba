@@ -59,7 +59,7 @@ public class mainController extends WebController {
     }
     
     @RequestMapping("/authorize")
-    public String showRegisterResult (Map<String, Object> model,
+    public String authorize (Map<String, Object> model,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
             User user = authManager.getCurrentUser();
@@ -93,5 +93,47 @@ public class mainController extends WebController {
         ras.addAttribute("errors", userService.getErrors());
         return "redirect:/Main/";
     }
+    
+    
+    
+    /*@RequestMapping("/recoveryPassword")
+    public String recoveryPassword(Map<String, Object> model, HttpServletRequest request,
+            @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
+
+        if (submit != null) {
+            String recoverHash = userService.recoveryPassword(email);
+            if (userService.getErrors().isEmpty()) {
+                String link = "http://dialogpl.com/User/recoverPassword";
+                String text = "Вы восcтнавливаете пароль от Seller. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
+                sendMail.sendMail(email, text);
+                model.put("message", "Ссылка с востановлением отправлена на почту");
+            }
+            model.put("email", email);
+            model.put("errors", userService.getErrors());
+        }
+        return "recoveryPassword";
+    }
+
+    @RequestMapping("/recoverPassword")
+    public String recoverPassword(Map<String, Object> model, HttpServletRequest request,
+            @RequestParam(value = "hash", required = false) String hash,
+            @RequestParam(value = "newPassword", required = false) String password,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            String submit) throws Exception {
+
+        model.put("hash", hash);
+        
+        if (submit != null) {
+            userService.recoverPassword(hash, password, confirmPassword);
+            if (userService.getErrors().isEmpty()) {
+                return "redirect:/login";
+            }
+            model.put("errors", userService.getErrors());
+
+        }
+
+        return "recoverPassword";
+
+    }*/
     
 }
