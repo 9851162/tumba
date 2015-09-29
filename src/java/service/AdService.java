@@ -8,8 +8,8 @@ package service;
 import dao.AdDao;
 import dao.CategoryDao;
 import dao.ParametrValueDao;
-import dao.UserDao;
 import entities.Ad;
+import entities.Category;
 import entities.ParametrValue;
 import entities.User;
 import java.io.File;
@@ -42,68 +42,74 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao valDao;
-    
+
     /*@Autowired
-    UserDao userDao;*/
-    
+     UserDao userDao;*/
     @Autowired
     UserService userService;
 
-    public void create(String email,Double price,MultipartFile previews[],String name, String desc, Long categoryId) throws IOException {
-        if (categoryId != null) {
-            if(email!=null&&!email.equals("")){
-                User user = userService.getUserByMail(email);
-                if(user==null){
-                    user = userService.registerStandardUser(email);
-                    List<String> userErrors = userService.getErrors();
-                    if(!userErrors.isEmpty()){
-                        for(String er:userErrors){
-                            addError("user_service: "+er+"; ");
-                        }
-                    }
-                }
-                Ad ad = new Ad();
-                ad.setInsertDate(new Date());
-                ad.setShowCount((long) 0);
-
-                ad.setAuthor(user);
-                
-                //Category cat = catDao.find(categoryId);
-                ad.setCat(null);
-                
-
-                ad.setName(name);
-                ad.setDescription(desc);
-                ad.setPrice(price);
-                ad.setValues(new HashSet());
-                if (validate(ad)) {
-                    adDao.save(ad);
-                    File file = new File("/usr/local/seller/preview/"+ad.getId()+"/");
-                    file.mkdirs();
-                    if(previews!=null&&previews.length>0){
-                        int i=0;
-                        while(i<7&&i<previews.length){
-                            MultipartFile prev = previews[i];
-                            if(prev.getSize()<=(long)1024*1024){
-                                prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+i));
-                            }else{
-                                addError("Изображение "+prev.getName()+" не было добавлено, так как его размер больше ограничения в 1мб.");
-
+    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc) throws IOException {
+        Boolean newUser = false;
+        if (catId != null) {
+            Category cat = catDao.find(catId);
+            if (cat != null) {
+                if (email != null && !email.equals("")) {
+                    User user = userService.getUserByMail(email);
+                    if (user == null) {
+                        user = userService.registerStandardUser(email);
+                        newUser = true;
+                        List<String> userErrors = userService.getErrors();
+                        if (!userErrors.isEmpty()) {
+                            for (String er : userErrors) {
+                                addError("user_service: " + er + "; ");
                             }
-                            i++;
                         }
                     }
-                    userService.notifyAboutRegistration(email);
-                    /*for(MultipartFile prev:previews){
-                        prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
-                    }*/
-                    //addError(types);
+                    Ad ad = new Ad();
+                    ad.setInsertDate(new Date());
+                    ad.setShowCount((long) 0);
 
-                    /*InputStream fis = preview.getInputStream();
+                    ad.setAuthor(user);
 
-                    BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream("/usr/local/seller/preview/"+ad.getId()+"/"+preview.getName()));*/
+                    //Category cat = catDao.find(catId);
+                    ad.setCat(cat);
 
+                    ad.setName(name);
+                    ad.setDescription(desc);
+                    ad.setPrice(price);
+                    ad.setValues(new HashSet());
+                    if (validate(ad)) {
+                        adDao.save(ad);
+                        File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
+                        file.mkdirs();
+                        if (previews != null && previews.length > 0) {
+                            int i = 0;
+                            while (i < 7 && i < previews.length) {
+                                MultipartFile prev = previews[i];
+                                if (prev.getSize() <= (long) 1024 * 1024) {
+                                    prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
+                                } else {
+                                    addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 1мб.");
+
+                                }
+                                i++;
+                            }
+                        }
+                        if (newUser) {
+                            userService.notifyAboutRegistration(email);
+                        }
+                        /*for(MultipartFile prev:previews){
+                         prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
+                         }*/
+                        //addError(types);
+
+                        /*InputStream fis = preview.getInputStream();
+
+                         BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream("/usr/local/seller/preview/"+ad.getId()+"/"+preview.getName()));*/
+                    }
                 }
+            } else {
+                addError("Категория с ид " + catId + " не была найдена.");
             }
         } else {
             addError("Необходимо указать категорию");

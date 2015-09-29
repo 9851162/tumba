@@ -329,7 +329,7 @@
                     <div class="boxtoinput">
                     <div class="num">5</div>
                     <div class="toin">
-                        <label for="price">Категории</label>
+                        <label for="catId">Выбор категории для объявления</label>
                         <select name="catId">
                             <c:forEach var="cat" items="${catList}">
                                 <c:set var="prefix" value="${cat.getPrefix()}"/>
@@ -339,7 +339,7 @@
                             </c:forEach>
                         </select>
                         
-                        <button type="button" class="addCat"/>
+                        <!--<button type="button" class="addCat"/>-->
                             
                     </div>
                        

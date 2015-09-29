@@ -36,6 +36,7 @@ public class AdController extends WebController {
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
@@ -45,15 +46,17 @@ public class AdController extends WebController {
             email = authedUser.getEmail();
         }
         
-        adService.create(email,price,previews,shortName,desc,(long)0);
+        adService.create(catId,email,price,previews,shortName,desc);
         for(String er:adService.getErrors()){
             errors.add(er);
         }
         
         if(!errors.isEmpty()){
-            ras.addAttribute("short_name", shortName);
+            ras.addAttribute("shortName", shortName);
             ras.addAttribute("description", desc);
             ras.addAttribute("price", price);
+            ras.addAttribute("previews", previews);
+            ras.addAttribute("catId", catId);
             //ras.addFlashAttribute("errors", errors);
         }
         //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());
