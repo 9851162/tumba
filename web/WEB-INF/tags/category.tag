@@ -12,7 +12,7 @@
             <ul type="disc">
                 <li><a href="#modal" data-id="${id}" class="open_modal add_cat" style="text-decoration: none;">+</a></li>
             <c:forEach var="cat" items="${map.get(id)}">
-            <li><a href="../Admin/administrating?catId=${cat.id}" >${cat.name}</a> <a href="../Admin/deleteCat?catId=${cat.id}" style="text-decoration: none;">x</a></li>
+            <li><a href="../Admin/cats?catId=${cat.id}" >${cat.name}</a> <a href="../Admin/deleteCat?catId=${cat.id}" style="text-decoration: none;">x</a></li>
                 <myTags:category id="${cat.id}" map="${map}"/>
             </c:forEach>
             </ul>

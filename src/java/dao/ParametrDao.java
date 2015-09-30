@@ -8,6 +8,7 @@ package dao;
 import dao.parent.Dao;
 import entities.Parametr;
 import java.math.BigInteger;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,12 @@ public class ParametrDao  extends Dao<Parametr>  {
         BigInteger res = (BigInteger)query.uniqueResult();
         //throw new Exception("res="+res);
         return res.compareTo(BigInteger.valueOf(0))>0;
+    }
+    
+    public List<Parametr> getAllParams(){
+        String hql = "from Parametr order by name";
+        Query query = getCurrentSession().createQuery(hql);
+        return query.list();
     }
     
 }
