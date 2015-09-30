@@ -273,6 +273,15 @@ public class CategoryService extends PrimService {
         return paramDao.getAllParams();
     }
     
+    public HashMap<Long,Parametr>getParamsMap(){
+        HashMap<Long,Parametr>res=new HashMap();
+        List<Parametr>params=paramDao.getAllParams();
+        for(Parametr p:params){
+            res.put(p.getId(),p);
+        }
+        return res;
+    }
+    
     public void deleteParam(Long paramId){
         if(paramId!=null){
             Parametr p = paramDao.find(paramId);

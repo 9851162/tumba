@@ -231,3 +231,7 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     border: 0px;
     background-size: cover;
 }
+
+td {
+    text-align: center;
+}

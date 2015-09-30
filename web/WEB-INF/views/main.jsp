@@ -486,7 +486,7 @@
             </script>
         </c:if>
 
-        <iframe src="../img/index.html" style="display: none;"></iframe>
+        
 
 
 

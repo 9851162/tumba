@@ -51,6 +51,7 @@ public class mainController extends WebController {
         model.put("desc", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
+        model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = new ArrayList();
         /*for(String er:(List<String>)model.get("errors")){
             ers.add(er);
