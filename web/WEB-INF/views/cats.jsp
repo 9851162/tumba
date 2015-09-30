@@ -79,7 +79,7 @@
                             <th>Необходим</th><th>Удалить</th></tr>
                                 <c:forEach var="parametr" items="${catParams}">
                             <tr><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td>
-                                <td>${reqTypeMap.get(parametr.reqType)}</td><td><a href="../Admin/deleteParam?catId=${param.catId}&paramId=${parametr.id}">x</a></td></tr>
+                                <td>${reqTypeMap.get(parametr.reqType)}</td><td><a href="../Admin/deleteParamFromCat?catId=${param.catId}&paramId=${parametr.id}">x</a></td></tr>
                             </c:forEach>
                     </table>
                 </c:if>

@@ -239,7 +239,7 @@ public class CategoryService extends PrimService {
     }
 
     //to do delete from sql iz table??
-    public void deleteParam(Long paramId, Long catId) throws Exception {
+    public void deleteParamFromCat(Long paramId, Long catId) throws Exception {
         if (catId != null && paramId != null) {
             Category c = catDao.find(catId);
             Set<Parametr> params = c.getParams();
@@ -251,13 +251,13 @@ public class CategoryService extends PrimService {
             }
             c.setParams(supSet);
             catDao.update(c);
-            Parametr p = paramDao.find(paramId);
+            //Parametr p = paramDao.find(paramId);
 
             //to do it doesn't work!
-            Boolean check = paramDao.hasCats(paramId);
+            /*Boolean check = paramDao.hasCats(paramId);
             if (!check) {
                 paramDao.delete(p);
-            }
+            }*/
             //addError("res = " + check);
         } else {
             if (catId == null) {
@@ -271,6 +271,16 @@ public class CategoryService extends PrimService {
 
     public List<Parametr> getAllParams() {
         return paramDao.getAllParams();
+    }
+    
+    public void deleteParam(Long paramId){
+        if(paramId!=null){
+            Parametr p = paramDao.find(paramId);
+            addMessage("Параметр удален, также были удалены связи параметра с категориями в количестве: "+paramDao.deleteFromCats(paramId)+";");
+            paramDao.delete(p);
+        }else{
+            addError("Параметр не указан");
+        }
     }
 
     /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){

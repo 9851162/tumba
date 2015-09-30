@@ -39,4 +39,11 @@ public class ParametrDao  extends Dao<Parametr>  {
         return query.list();
     }
     
+    public Integer deleteFromCats(Long paramId){
+        String sql = "delete from params_in_categories where parametr_id=:paramId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("paramId", paramId);
+        return query.executeUpdate();
+    }
+    
 }

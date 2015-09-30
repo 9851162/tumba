@@ -31,8 +31,11 @@
             <div style="width: 45%;float: right;">
                 <c:if test="${!empty params}">
                     <table><tr><th>№</th><th>Наименование</th><th>Тип</th><th>Обяз.</th><th>Удалить</th></tr>
-                                <c:forEach var="parametr" items="${params}" varStatus="myIndex">
-                            <tr><td>${myIndex.count}</td><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td><td>${reqTypeMap.get(parametr.reqType)}</td><td>x</td></tr>
+                        <c:forEach var="parametr" items="${params}" varStatus="myIndex">
+                            <tr><td>${myIndex.count}</td><td>${parametr.name}</td>
+                                <td>${paramTypeMap.get(parametr.paramType)}</td>
+                                <td>${reqTypeMap.get(parametr.reqType)}</td>
+                                <td><a href="../Admin/deleteParam?paramId=${parametr.id}">x</a></td></tr>
                         </c:forEach>
                     </table>
                 </c:if>
@@ -42,10 +45,7 @@
             </div>
             <div style="width: 45%;float: left;">
 
-                <b>Категория: ${catName}</b>
-                <br>
-                <br>
-                <b>Параметры: </b>
+               
                 <br><br>
 
                 <form method="post" action="../Admin/createParam">
@@ -57,26 +57,12 @@
                                 </option>
                             </c:forEach>
                         </select></label>
-                    <label>Обязательный <input type="checkbox" name="reqType"></label>
+                    <label>Обяз. <input type="checkbox" name="reqType"></label>
                     <input type="hidden" name="catId" value="${param.catId}">
 
-                    <button type="submit" class="btn">добавить</button>
+                    <button type="submit" class="btn">Добавить</button>
                 </form>
 
-                <c:if test="${!empty params}">
-                    <table>
-                        <tr><th>Наименование</th><th>Тип</th>
-                            <th>Необходим</th><th>Удалить</th></tr>
-                                <c:forEach var="parametr" items="${params}">
-                            <tr><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td>
-                                <td>${reqTypeMap.get(parametr.reqType)}</td><td><!--<a href="../Admin/deleteParam?catId=${param.catId}&paramId=${parametr.id}">x</a>-->x</td></tr>
-                            </c:forEach>
-                    </table>
-                </c:if>
-                <c:if test="${empty params}">
-                    <br><br>
-                    В категории нет добавленных параметров
-                </c:if>
 
             </div>
         </div>
