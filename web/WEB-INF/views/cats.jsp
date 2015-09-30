@@ -52,15 +52,15 @@
             <b>Категория: ${catName}</b>
             <br>
             <br>
-            <b>Параметры: </b>
-            <br><br>
+            
 
             <c:if test="${!empty param.catId}">
+                
                 <form method="post" action="../Admin/addParam" >
                     <select name="paramId">
                         <c:if test="${!empty params}">
                         <c:forEach var="parametr" items="${params}">
-                            <option value="${parametr.id}">${parametr.name}</option>
+                            <option value="${parametr.id}">${parametr.name} - ${reqTypeMap.get(parametr.reqType)} - ${paramTypeMap.get(parametr.paramType)}</option>
                         </c:forEach>
                         </c:if>
                         <c:if test="${empty params}">
@@ -68,8 +68,11 @@
                         </c:if>
                     </select>
                     <input type="hidden" name="catId" value="${param.catId}">
+                    <button type="submit" class="btn">Добавить параметр</button>
                 </form>
-
+                    <br><br>
+            <b>Параметры: </b>
+            
                 <c:if test="${!empty catParams}">
                     <table>
                         <tr><th>Наименование</th><th>Тип</th>

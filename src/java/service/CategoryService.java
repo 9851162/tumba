@@ -227,14 +227,14 @@ public class CategoryService extends PrimService {
         res.put(Parametr.DATE, "дата");
         res.put(Parametr.YESNO, "да/нет");
         res.put(Parametr.SELECTING, "выбор");
-        res.put(Parametr.MULTISELECTING, "множественный выбор");
+        res.put(Parametr.MULTISELECTING, "множ. выбор");
         return res;
     }
 
     public LinkedHashMap<Integer, String> getReqTypes() {
         LinkedHashMap<Integer, String> res = new LinkedHashMap();
-        res.put(Parametr.REQUIRED, "обязательный");
-        res.put(Parametr.NOTREQUIRED, "необязательный");
+        res.put(Parametr.REQUIRED, "об.");
+        res.put(Parametr.NOTREQUIRED, "необ.");
         return res;
     }
 
@@ -258,7 +258,7 @@ public class CategoryService extends PrimService {
             if (!check) {
                 paramDao.delete(p);
             }
-            addError("res = " + check);
+            //addError("res = " + check);
         } else {
             if (catId == null) {
                 addError("Ид категории не передан");

@@ -48,7 +48,8 @@ public class AdminController extends WebController {
         
         model.put("catMap", catService.getFullCatMap());
         model.put("catName", catService.getCatName(catId));
-        //model.put("paramTypeMap",catService.getParamTypes());
+        model.put("paramTypeMap",catService.getParamTypes());
+        model.put("reqTypeMap",catService.getReqTypes());
         model.put("catParams", catService.getParams(catId));
         model.put("params", catService.getAllParams());
            

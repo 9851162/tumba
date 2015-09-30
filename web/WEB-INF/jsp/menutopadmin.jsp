@@ -18,7 +18,7 @@
 					<div id="options"><a href="../Admin/administrating">управление</a></div>
                                         <div id="logout"><a href="../logout">выйти</a></div>
 				</div>
-				<img id="avatar" src="img/avatar.png">
-				<img id="miniavatar" src="img/round.png">
+				<img id="avatar" src="../img/avatar.png">
+				<img id="miniavatar" src="../img/round.png">
 			</div>
 		</div>
