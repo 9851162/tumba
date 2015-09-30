@@ -23,6 +23,8 @@
             <script src="../js/seller_scripts/magic.js"></script>
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <%@include file="/WEB-INF/jsp/error.jsp" %>
+            <a href="<c:url value='/Admin/cats'/>">Категории</a>
+                <a href="<c:url value='/Admin/params'/>">Параметры</a>
             <h3>Категории</h3>
             <div id="categoryField" style="float: left;">
                 <myTags:category id="0" map="${catMap}"/>
