@@ -52,4 +52,11 @@ public class ParametrDao  extends Dao<Parametr>  {
         return query.list();
     }
     
+    public List<String> getUnavailableOptionNames(Long paramId){
+        String sql = "select name from parametr_sel_option where parametr_id=:paramId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("paramId", paramId);
+        return query.list();
+    }
+    
 }

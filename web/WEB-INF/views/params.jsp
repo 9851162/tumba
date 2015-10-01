@@ -29,13 +29,27 @@
                 <a href="<c:url value='/Admin/params'/>">Параметры</a>
                 <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Параметры</h3>
-            <div style="width: 45%;float: right;">
+            <div style="width: 55%;float: right;">
                 <c:if test="${!empty params}">
-                    <table><tr><th>№</th><th>Наименование</th><th>Тип</th><th>Обяз.</th><th>Удалить</th></tr>
+                    <table><tr><th>№</th><th>Наименование</th><th>Тип</th><th>Обяз.</th><th>Опции</th><th>Добавить опцию</th><th>Удалить</th></tr>
                         <c:forEach var="parametr" items="${params}" varStatus="myIndex">
                             <tr><td>${myIndex.count}</td><td>${parametr.name}</td>
                                 <td>${paramTypeMap.get(parametr.paramType)}</td>
                                 <td>${reqTypeMap.get(parametr.reqType)}</td>
+                                <td>
+                                    <c:forEach var="opt" items="${parametr.options}">
+                                        ${opt.name} x<br>
+                                    </c:forEach>
+                                </td>
+                                <td>
+                                    <c:if test="${parametr.paramType==3||parametr.paramType==4}">
+                                        <form method="post" action="../Admin/addParamOption">
+                                            <input type="text" name="name" placeholder="опция" style="width: 110px;">
+                                            <input type="hidden" name="paramId" value="${parametr.id}">
+                                            <button type="submit" class="addCat"></button>
+                                        </form>
+                                    </c:if>
+                                </td>
                                 <td><a href="../Admin/deleteParam?paramId=${parametr.id}">x</a></td></tr>
                         </c:forEach>
                     </table>

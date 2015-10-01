@@ -7,8 +7,10 @@ package service;
 
 import dao.CategoryDao;
 import dao.ParametrDao;
+import dao.ParametrSelOptionDao;
 import entities.Category;
 import entities.Parametr;
+import entities.ParametrSelOption;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +40,8 @@ public class CategoryService extends PrimService {
     CategoryDao catDao;
     @Autowired
     ParametrDao paramDao;
+    @Autowired
+    ParametrSelOptionDao optionDao;
 
     public void create(Long parentId, String name) throws Exception {
         List<String> unavailableNames = catDao.getUnderCatNames(parentId);
@@ -295,6 +299,7 @@ public class CategoryService extends PrimService {
         if(paramId!=null){
             Parametr p = paramDao.find(paramId);
             addMessage("Параметр удален, также были удалены связи параметра с категориями в количестве: "+paramDao.deleteFromCats(paramId)+";");
+            //to do mb удаление опций? test
             paramDao.delete(p);
         }else{
             addError("Параметр не указан");
@@ -319,6 +324,26 @@ public class CategoryService extends PrimService {
             res.put(catId, params);
         }
         return res;
+    }
+    
+    public void addParamOption(Long paramId,String optName){
+        Parametr p = paramDao.find(paramId);
+        if(p.getParamType().equals(Parametr.SELECTING)||p.getParamType().equals(Parametr.MULTISELECTING)){
+            if(!paramDao.getUnavailableOptionNames(paramId).contains(optName)){
+                ParametrSelOption opt = new ParametrSelOption();
+                opt.setName(optName);
+                opt.setParametr(p);
+                if(validate(opt)){
+                    optionDao.save(opt);
+                }
+            }else{
+                addError("Опция с таким наименованием уже есть у данного параметра");
+            }
+        }
+    }
+    
+    public void deleteParamOption(Long paramOptionId){
+        optionDao.delete(optionDao.find(paramOptionId));
     }
 
     /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){

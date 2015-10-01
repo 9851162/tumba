@@ -6,16 +6,18 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -43,6 +45,11 @@ public class Parametr extends PrimEntity {
     @Column(name = "name")
     @NotNull(message = "Необходимо указать наименование")
     private String name;
+    
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "parametr", orphanRemoval = true)
+    @OrderBy("name")
+    private List<ParametrSelOption>options;
     
     /*@ManyToMany(mappedBy = "params", fetch = FetchType.LAZY)
     private Set<Category> cats;*/
@@ -96,6 +103,14 @@ public class Parametr extends PrimEntity {
     public void setCats(Set<Category> cats) {
         this.cats = cats;
     }*/
+
+    public List<ParametrSelOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<ParametrSelOption> options) {
+        this.options = options;
+    }
 
     
 }

@@ -142,4 +142,25 @@ public class AdminController extends WebController {
         return "redirect:./cats";
     }
     
+    @RequestMapping("/addParamOption")
+    public String addParamOption (Map<String, Object> model,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "paramId", required = false) Long paramId,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+        catService.addParamOption(paramId, name);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        return "redirect:./params";
+    }
+    
+    @RequestMapping("/deleteParamOption")
+    public String deleteParamOption (Map<String, Object> model,
+            @RequestParam(value = "paramOptionId", required = false) Long paramOptionId,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+        catService.deleteParamOption(paramOptionId);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        return "redirect:./params";
+    }
+    
 }
