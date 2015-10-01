@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -43,7 +44,8 @@ public class Parametr extends PrimEntity {
     private Long id;
     
     @Column(name = "name")
-    @NotNull(message = "Необходимо указать наименование")
+    @NotNull(message = "Наиенование не передано")
+    @NotBlank(message = "Необходимо указать наименование")
     private String name;
     
     @LazyCollection(LazyCollectionOption.TRUE)

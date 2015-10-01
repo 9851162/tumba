@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -38,7 +39,8 @@ public class ParametrSelOption extends PrimEntity {
     private Parametr parametr;
     
     @Column(name = "name")
-    @NotNull(message = "Необходимо указать Имя")
+    @NotNull(message = "Наименование не передано")
+    @NotBlank(message = "Необходимо указать наименование")
     private String name;
     
     @Override

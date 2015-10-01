@@ -38,7 +38,7 @@
                                 <td>${reqTypeMap.get(parametr.reqType)}</td>
                                 <td>
                                     <c:forEach var="opt" items="${parametr.options}">
-                                        ${opt.name} x<br>
+                                        ${opt.name} <a href="../Admin/deleteParamOption?paramOptionId=${opt.id}">x</a><br>
                                     </c:forEach>
                                 </td>
                                 <td>
