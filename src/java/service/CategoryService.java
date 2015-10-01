@@ -9,6 +9,7 @@ import dao.CategoryDao;
 import dao.ParametrDao;
 import entities.Category;
 import entities.Parametr;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,7 +95,8 @@ public class CategoryService extends PrimService {
         }
     }
 
-    public HashMap<Long, List<Category>> getFullCatMap() {
+    //map отражающая вложенности категорий <parentId,children>
+    public HashMap<Long, List<Category>> getNestingMapOfCats() {
         HashMap<Long, List<Category>> result = new HashMap();
         List<Category> allCats = catDao.getAll();
         for (Category cat : allCats) {
@@ -116,7 +118,7 @@ public class CategoryService extends PrimService {
         return result;
     }
 
-    public HashMap<Long, List<Long>> getFullCatIdMap() {
+    /*public HashMap<Long, List<Long>> getFullCatIdMap() {
         HashMap<Long, List<Long>> result = new HashMap();
         List<Category> allCats = catDao.getAll();
         for (Category cat : allCats) {
@@ -130,17 +132,13 @@ public class CategoryService extends PrimService {
         if (allCats.isEmpty()) {
             result.put(Category.BASEID, new ArrayList());
         }
-        //сортировка по именам
-        /*for(Long id:result.keySet()){
-         List<Long>supList=result.get(id);
-         Collections.sort(supList,new nameComparator());
-         }*/
         return result;
-    }
+    }*/
 
+    //????
     public List<Category> getCatList() {
         List<Category> res = new ArrayList();
-        HashMap<Long, List<Category>> catMap = getFullCatMap();
+        HashMap<Long, List<Category>> catMap = getNestingMapOfCats();
         Long i = (long) 0;
         if (!catMap.isEmpty() && catMap.get(i) != null) {
             res.addAll(getCatsWithRecursion(i, catMap));
@@ -148,6 +146,7 @@ public class CategoryService extends PrimService {
         return res;
     }
 
+    //sup метод для выстраивания листа категорий рекурсией
     private List<Category> getCatsWithRecursion(Long i, HashMap<Long, List<Category>> catMap) {
         List<Category> res = new ArrayList();
         for (Category c : catMap.get(i)) {
@@ -166,7 +165,17 @@ public class CategoryService extends PrimService {
             return a.getName().compareTo(b.getName());
         }
     }
+    
+    //Мап со всеми категориями <id,cat>
+    public HashMap<Long,Category>getCatMap(){
+        HashMap<Long,Category>res=new HashMap();
+        for(Category c:catDao.getAll()){
+            res.put(c.getId(), c);
+        }
+        return res;
+    }
 
+    //??? не нужен?
     public String getCatName(Long catId) {
         if (catId == null) {
             return "Не выбрана";
@@ -290,6 +299,26 @@ public class CategoryService extends PrimService {
         }else{
             addError("Параметр не указан");
         }
+    }
+    
+    public HashMap<Long,List<Parametr>>getCatIdParamsMap(){
+        HashMap<Long,List<Parametr>>res = new HashMap();
+        HashMap<Long,Parametr>paramMap=getParamsMap();
+        for(Category c:getCatList()){
+            res.put(c.getId(), new ArrayList());
+        }
+        for(Object[] o:paramDao.getCatsParamsAsObjects()){
+            Long catId = ((BigInteger)o[0]).longValue();
+            Long paramId = ((BigInteger)o[1]).longValue();
+            Parametr p = paramMap.get(paramId);
+            List<Parametr> params = res.get(catId);
+            if(params==null){
+                params=new ArrayList();
+            }
+            params.add(p);
+            res.put(catId, params);
+        }
+        return res;
     }
 
     /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){

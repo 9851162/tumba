@@ -46,4 +46,10 @@ public class ParametrDao  extends Dao<Parametr>  {
         return query.executeUpdate();
     }
     
+    public List<Object[]> getCatsParamsAsObjects(){
+        String sql = "select pic.category_id,pic.parametr_id from params_in_categories pic left join parametr p on pic.parametr_id=p.parametr_id order by p.req_type,p.name,pic.category_id";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        return query.list();
+    }
+    
 }

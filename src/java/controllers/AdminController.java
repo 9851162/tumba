@@ -46,7 +46,7 @@ public class AdminController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        model.put("catMap", catService.getFullCatMap());
+        model.put("nestingCatsMap", catService.getNestingMapOfCats());
         model.put("catName", catService.getCatName(catId));
         model.put("paramTypeMap",catService.getParamTypes());
         model.put("reqTypeMap",catService.getReqTypes());

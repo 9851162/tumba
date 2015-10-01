@@ -6,8 +6,10 @@
 package controllers;
 
 import controllers.parent.WebController;
+import entities.Category;
 import entities.User;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +48,18 @@ public class mainController extends WebController {
             @RequestParam(value = "price", required = false) Double price,
             RedirectAttributes ras) throws Exception {
         
+        
         model.put("adList",adService.getAds());
         model.put("shortName", shortName);
         model.put("desc", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
-        model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = new ArrayList();
-        /*for(String er:(List<String>)model.get("errors")){
+        model.put("catMap", catService.getCatMap());
+        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("reqTypeMap",catService.getReqTypes());
+        //model.put("paramMap",catService.getParamsMap());
+        /*ArrayList<String> ers = new ArrayList();
+        for(String er:(List<String>)model.get("errors")){
             ers.add(er);
         }*/
         return "main";

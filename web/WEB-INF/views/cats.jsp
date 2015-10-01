@@ -28,7 +28,7 @@
                 <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Категории</h3>
             <div id="categoryField" style="float: left;">
-                <myTags:category id="0" map="${catMap}"/>
+                <myTags:category id="0" map="${nestingCatsMap}"/>
             </div>
         </div>
         <div id="modal" class="modal_form modal_div">

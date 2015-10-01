@@ -486,7 +486,26 @@
             </script>
         </c:if>
 
-        
+            <div class="hidden">
+                Категории и параметры:
+                <c:forEach var="catId" items="${catParamsMap.keySet()}">
+                    <div>
+                        Кат: ${catMap.get(catId).name}
+                        <c:if test="${!empty catParamsMap.get(catId)}">
+                        <br>
+                        <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
+                            ${parametr.name} <input type="text" placeholder="${reqTypeMap.get(parametr.reqType)}">
+                        </c:forEach>
+                            <br>
+                    </c:if>
+                        <c:if test="${empty catParamsMap.get(catId)}">
+                            <br>
+                            Нет параметров
+                            <br>
+                        </c:if>
+                    </div>
+                </c:forEach>
+            </div>
 
 
 
