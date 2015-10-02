@@ -490,7 +490,7 @@
             </script>
         </c:if>
 
-        <div class="">
+            <div style="float:left;" class="hidden">
             <c:forEach var="catId" items="${catParamsMap.keySet()}">
                 <div data-cat-id="${catId}" class="catParamsDiv">
                     Кат: ${catMap.get(catId).name}
