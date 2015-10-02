@@ -279,7 +279,7 @@
         <div id="modal1" class="modal_form modal_div">
             <div class="nameform"></div>
             <form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
-                
+
                 <div class="boxtoinput">
                     <div class="num">1</div>
                     <div class="toin">
@@ -296,7 +296,7 @@
                         <textarea name="description" type="textarea" value="${description}"></textarea>
                     </div>
                 </div>
-                    
+
 
                 <div class="boxtoinput">
                     <div class="num">3</div>
@@ -324,29 +324,29 @@
                         <input class="form-control" name="price" id="price" type="text" value="${price}">
                     </div>
                 </div>
-                    
-                    <c:if test="${!empty catList}">
+
+                <c:if test="${!empty catList}">
                     <div class="boxtoinput">
-                    <div class="num">5</div>
-                    <div class="toin">
-                        <label for="catId">Выбор категории для объявления</label>
-                        <select name="catId">
-                            <c:forEach var="cat" items="${catList}">
-                                <c:set var="prefix" value="${cat.getPrefix()}"/>
-                                <option value="${cat.id}">
-                                    ${prefix}${cat.name}
-                                </option>
-                            </c:forEach>
-                        </select>
-                        
-                        <!--<button type="button" class="addCat"/>-->
-                            
+                        <div class="num">5</div>
+                        <div class="toin">
+                            <label for="catId">Выбор категории для объявления</label>
+                            <select name="catId">
+                                <c:forEach var="cat" items="${catList}">
+                                    <c:set var="prefix" value="${cat.getPrefix()}"/>
+                                    <option value="${cat.id}">
+                                        ${prefix}${cat.name}
+                                    </option>
+                                </c:forEach>
+                            </select>
+
+                            <!--<button type="button" class="addCat"/>-->
+
+                        </div>
+
                     </div>
-                       
-                </div>
-                     </c:if>
-                    
-                        <c:if test="${empty userId}">
+                </c:if>
+
+                <c:if test="${empty userId}">
                     <div class="boxtoinput">
                         <div class="num">6</div>
                         <div class="toin">
@@ -354,7 +354,7 @@
                             <input name="email" type="email" value="${email}">
                         </div>
                     </div>
-                        </c:if>
+                </c:if>
                 <!--<div class="boxtoinput">
                         <div class="num">4</div>
                         <div class="toin">
@@ -481,31 +481,34 @@
         </script>
         <c:if test="${!empty errors}">
             <script>
-                $('#modalerror').css('display', 'block')
-                        .animate({opacity: 1, top: '0%'}, 200);
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
             </script>
         </c:if>
 
-            <div class="hidden">
-                Категории и параметры:
-                <c:forEach var="catId" items="${catParamsMap.keySet()}">
-                    <div>
-                        Кат: ${catMap.get(catId).name}
-                        <c:if test="${!empty catParamsMap.get(catId)}">
+        <div class="">
+            <c:forEach var="catId" items="${catParamsMap.keySet()}">
+                <div data-cat-id="${catId}" class="catParamsDiv">
+                    Кат: ${catMap.get(catId).name}
+                    <c:if test="${!empty catParamsMap.get(catId)}">
                         <br>
                         <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
                             ${parametr.name} <input type="text" placeholder="${reqTypeMap.get(parametr.reqType)}">
                         </c:forEach>
-                            <br>
+                        <br>
                     </c:if>
-                        <c:if test="${empty catParamsMap.get(catId)}">
-                            <br>
-                            Нет параметров
-                            <br>
-                        </c:if>
-                    </div>
-                </c:forEach>
-            </div>
+                    <c:if test="${empty catParamsMap.get(catId)}">
+                        <br>
+                        Нет параметров
+                        <br>
+                    </c:if>
+                </div>
+            </c:forEach>
+        </div>
 
 
 

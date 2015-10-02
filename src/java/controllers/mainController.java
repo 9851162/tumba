@@ -6,10 +6,9 @@
 package controllers;
 
 import controllers.parent.WebController;
-import entities.Category;
 import entities.User;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +57,14 @@ public class mainController extends WebController {
         model.put("catParamsMap",catService.getCatIdParamsMap());
         model.put("reqTypeMap",catService.getReqTypes());
         //model.put("paramMap",catService.getParamsMap());
-        /*ArrayList<String> ers = new ArrayList();
-        for(String er:(List<String>)model.get("errors")){
-            ers.add(er);
-        }*/
+        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
+        if(ers==null){
+            ers = new ArrayList();
+        }
+        ers.addAll(adService.getErrors());
+        ers.addAll(catService.getErrors());
+        //ers.add("err");
+        model.put(ERRORS_LIST_NAME,ers);
         return "main";
     }
     
