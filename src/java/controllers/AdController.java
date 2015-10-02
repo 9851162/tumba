@@ -39,7 +39,7 @@ public class AdController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
             
-            @RequestParam(value = "paramIds", required = false) Object paramIds[],
+            @RequestParam(value = "paramIds", required = false) Long paramIds[],
             @RequestParam(value = "paramVals", required = false) Object paramVals[],
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();

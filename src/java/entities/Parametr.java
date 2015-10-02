@@ -28,6 +28,9 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name = "parametr")
 public class Parametr extends PrimEntity {
     
+    public final static Integer YES = 1;
+    public final static Integer NO = 0;
+    
     public final static Integer TEXT = 1;
     public final static Integer NUM = 2;
     public final static Integer SELECTING = 3;

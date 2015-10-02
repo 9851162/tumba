@@ -490,20 +490,47 @@
             </script>
         </c:if>
 
-            <div style="float:left;" class="hidden">
+        <div style="float:left;" class="hidden">
             <c:forEach var="catId" items="${catParamsMap.keySet()}">
                 <div data-cat-id="${catId}" class="catParamsDiv">
                     Кат: ${catMap.get(catId).name}
                     <c:if test="${!empty catParamsMap.get(catId)}">
                         <br>
                         <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
-                            ${parametr.name} <input type="text" placeholder="${reqTypeMap.get(parametr.reqType)}">
+                            <c:choose>
+                                <c:when test="${parametr.paramType==1}">
+                                    <br><label>${parametr.name} <input type="text" name="paramVals" placeholder="${parametr.name}"></label>
+                                </c:when>
+                                <c:when test="${parametr.paramType==2}">
+                                    <br><label>${parametr.name} <input type="text" name="paramVals" placeholder="${parametr.name}"></label>
+                                </c:when>
+                                <c:when test="${parametr.paramType==3&&!empty parametr.options}">
+                                    <br><label>${parametr.name} <select name="paramVals">
+                                            <c:forEach var="opt" items="${parametr.options}">
+                                                <option value="${opt.id}">${opt.name}</option>
+                                            </c:forEach>
+                                        </select></label>
+                                </c:when>
+                                <c:when test="${parametr.paramType==4&&!empty parametr.options}">
+                                    <br><label>${parametr.name} <select multiple="true" name="paramVals">
+                                            <c:forEach var="opt" items="${parametr.options}">
+                                                <option value="${opt.id}">${opt.name}</option>
+                                            </c:forEach>
+                                        </select></label>
+                                </c:when>
+                                <c:when test="${parametr.paramType==5}">
+                                    <br><label>${parametr.name} <select name="paramVals">
+                                        <option value="1">ДА</option>
+                                        <option value="0">НЕТ</option>
+                                        </select></label>
+                                </c:when>
+                                <c:when test="${parametr.paramType==6}">
+                                    <br><label>${parametr.name} <input type="date" name="paramVals" placeholder="${parametr.name}"></label>
+                                </c:when>
+
+                            </c:choose>
+                            <input type="hidden" name="paramIds" value="${parametr.id}">
                         </c:forEach>
-                        <br>
-                    </c:if>
-                    <c:if test="${empty catParamsMap.get(catId)}">
-                        <br>
-                        Нет параметров
                         <br>
                     </c:if>
                 </div>
