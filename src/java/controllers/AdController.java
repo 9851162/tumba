@@ -58,7 +58,7 @@ public class AdController extends WebController {
             ras.addAttribute("shortName", shortName);
             ras.addAttribute("description", desc);
             ras.addAttribute("price", price);
-            ras.addAttribute("previews", previews);
+            //ras.addAttribute("previews", previews);
             ras.addAttribute("catId", catId);
             //ras.addFlashAttribute("errors", errors);
         }
