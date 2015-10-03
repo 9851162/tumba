@@ -156,7 +156,7 @@ input:focus,button:focus{outline:none;}
 .boxtoinput {}
 .num{    float: left;color: white;    font-size: 30px;    background: #00b3ff;    display: block;   padding-top: 2px;    height: 38px;   width: 40px;    text-align: center;    border-radius: 50px;}
 
-form .boxtoinput label {    padding-bottom: 3px; font-family: HelveticaNeueThin;    font-size: 30px;display: block;    width: 100%;}
+form .boxtoinput label,#boxforparamslabel {    padding-bottom: 3px; font-family: HelveticaNeueThin;    font-size: 30px;display: block;    width: 100%;}
 form .boxtoinput input {    width: 100%;font-family: HelveticaNeueThin;    font-size: 24px; border:1px solid #e1e1e1;}
 form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: HelveticaNeueThin;    font-size: 24px; border:1px solid #e1e1e1;}
 .toin{     margin-top: 5px; float: left;    width: 970px;    display: inline-block;    padding-right: 55px;    padding-left: 15px;}

@@ -346,8 +346,10 @@
 
                     </div>
                 </c:if>
-
+                    
+                    <c:set var="nextNum" value="6"/>
                 <c:if test="${empty userId}">
+                    <c:set var="nextNum" value="7"/>
                     <div class="boxtoinput">
                         <div class="num">6</div>
                         <div class="toin">
@@ -356,7 +358,7 @@
                         </div>
                     </div>
                 </c:if>
-                    <div id="boxforparams" class="boxtoinput">
+                    <div id="boxforparams" >
                     
                 </div>
                 <!--<div class="boxtoinput">
@@ -500,7 +502,8 @@
                         });
             </script>
         </c:if>
-
+        
+        
         <div style="float:left;" class="hidden">
             <div data-cat-id="" class="catParamsDiv"></div>
             <c:forEach var="catId" items="${catParamsMap.keySet()}">
@@ -508,10 +511,10 @@
 
                     <c:if test="${!empty catParamsMap.get(catId)}">
 
-                        <div class="boxtoinput">
-                            <div class="num">7</div>
+                        <div class="">
+                            <div class="num">${nextNum}</div>
                             <div class="toin">
-                                <label for="price">Параметры</label>
+                                <label id="boxforparamslabel">Параметры</label>
 
 
                                 <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
@@ -530,7 +533,7 @@
                                                 </select></label>
                                             </c:when>
                                             <c:when test="${parametr.paramType==4&&!empty parametr.options}">
-                                    <br><label>${parametr.name} <select multiple="true" name="paramVals">
+                                                <br><label style="text-align: center;">${parametr.name} <select multiple="true" style="vertical-align: middle;" name="paramVals">
                                             <c:forEach var="opt" items="${parametr.options}">
                                                 <option value="${opt.id}">${opt.name}</option>
                                             </c:forEach>
