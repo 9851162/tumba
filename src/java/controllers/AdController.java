@@ -8,6 +8,7 @@ package controllers;
 import controllers.parent.WebController;
 import entities.User;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,20 @@ public class AdController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
             
-            @RequestParam(value = "paramIds", required = false) Long paramIds[],
-            @RequestParam(value = "paramVals", required = false) Object paramVals[],
+            @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
+            @RequestParam(value = "booleanVals", required = false) String booleanVals[],
+            @RequestParam(value = "stringIds", required = false) Long stringIds[],
+            @RequestParam(value = "stringVals", required = false) String stringVals[],
+            @RequestParam(value = "numIds", required = false) Long numIds[],
+            @RequestParam(value = "numVals", required = false) Long numVals[],
+            @RequestParam(value = "dateIds", required = false) Long dateIds[],
+            @RequestParam(value = "dateVals", required = false) Date dateVals[],
+            @RequestParam(value = "selIds", required = false) Long selIds[],
+            @RequestParam(value = "selVals", required = false) Long selVals[],
+            
+            @RequestParam(value = "multyIds", required = false) Long multyIds[],
+            @RequestParam(value = "multyVals", required = false) String multyVals[],
+            
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
         
@@ -49,7 +62,8 @@ public class AdController extends WebController {
             email = authedUser.getEmail();
         }
         
-        adService.create(catId,email,price,previews,shortName,desc,paramIds,paramVals);
+        adService.create(catId,email,price,previews,shortName,desc,booleanIds,booleanVals,
+                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals);
         for(String er:adService.getErrors()){
             errors.add(er);
         }

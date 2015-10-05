@@ -54,8 +54,10 @@ public class AdService extends PrimService {
      UserDao userDao;*/
     @Autowired
     UserService userService;
-
-    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,Long paramIds[],Object paramVals[]) throws IOException {
+    
+    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
+            Long booleanIds[],String booleanVals[],Long stringIds[],String stringVals[],Long numIds[],Long numVals[],
+            Long dateIds[],Date dateVals[],Long selIds[],Long selVals[],Long multyIds[],Object multyVals[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
@@ -110,8 +112,8 @@ public class AdService extends PrimService {
                             }
                         }*/
                         
-                        addError(reqParamsErs);
-                        addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
+                        //addError(reqParamsErs);
+                        //addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
                         
                         File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
                         file.mkdirs();
