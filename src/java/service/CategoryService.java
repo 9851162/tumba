@@ -345,24 +345,9 @@ public class CategoryService extends PrimService {
     public void deleteParamOption(Long paramOptionId){
         optionDao.delete(optionDao.find(paramOptionId));
     }
-
-    /*public void addParamOption(Long catId,String name,Integer reqType,Integer paramType){
+    
+    /*public ParametrValue setValue(Parametr p,Object val){
         
-     if(catId!=null){
-     Category c = catDao.find(catId);
-     Parametr p = new Parametr();
-     p.setName(name);
-     p.setParamType(paramType);
-     p.setReqType(reqType);
-     if(validate(p)){
-     paramDao.save(p);
-     Set<Parametr> pset = c.getParams();
-     pset.add(p);
-     c.setParams(pset);
-     if(validate(c)){
-     catDao.update(c);
-     }
-     }
-     }
-     }*/
+    }*/
+    
 }

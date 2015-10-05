@@ -116,6 +116,10 @@ public class Parametr extends PrimEntity {
     public void setOptions(List<ParametrSelOption> options) {
         this.options = options;
     }
+    
+    public Boolean isReq(){
+        return REQUIRED==this.reqType;
+    }
 
     
 }

@@ -49,7 +49,7 @@ public class AdController extends WebController {
             email = authedUser.getEmail();
         }
         
-        adService.create(catId,email,price,previews,shortName,desc);
+        adService.create(catId,email,price,previews,shortName,desc,paramIds,paramVals);
         for(String er:adService.getErrors()){
             errors.add(er);
         }

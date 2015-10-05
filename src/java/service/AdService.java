@@ -7,16 +7,20 @@ package service;
 
 import dao.AdDao;
 import dao.CategoryDao;
+import dao.ParametrDao;
 import dao.ParametrValueDao;
 import entities.Ad;
 import entities.Category;
+import entities.Parametr;
 import entities.ParametrValue;
 import entities.User;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -42,18 +46,24 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao valDao;
+    
+    @Autowired
+    ParametrDao paramDao;
 
     /*@Autowired
      UserDao userDao;*/
     @Autowired
     UserService userService;
 
-    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc) throws IOException {
+    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,Long paramIds[],Object paramVals[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
                 if (email != null && !email.equals("")) {
+                    
+                    //валидация параметров - check
+                    
                     User user = userService.getUserByMail(email);
                     if (user == null) {
                         user = userService.registerStandardUser(email);
@@ -71,15 +81,38 @@ public class AdService extends PrimService {
 
                     ad.setAuthor(user);
 
-                    //Category cat = catDao.find(catId);
                     ad.setCat(cat);
-
+                    
                     ad.setName(name);
                     ad.setDescription(desc);
                     ad.setPrice(price);
                     ad.setValues(new HashSet());
                     if (validate(ad)) {
                         adDao.save(ad);
+                        
+                        Set<Parametr>catParams=cat.getParams();
+                        int ind = 0;
+                        ArrayList<String> reqParamsErs = new ArrayList();
+                        /*while(ind<paramIds.length){
+                            Parametr p = paramDao.find(paramIds[ind]);
+                            if(catParams.contains(p)){
+                                if(p.isReq()&&paramVals[ind]==null){
+                                    reqParamsErs.add("необходимо ввести значение параметра "+p.getName()+"; ");
+                                }else{
+                                    //смотрим что за параметр и в зависимости от него устанавливаем значение
+                                    //не парясь на валидацию, ибо она выше была.
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setValue(paramVals[ind].toString());
+                                }
+                                    reqParamsErs.add("id:"+p.getId()+" - "+paramVals[ind].toString()+";");
+                            }
+                        }*/
+                        
+                        addError(reqParamsErs);
+                        addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
+                        
                         File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
                         file.mkdirs();
                         if (previews != null && previews.length > 0) {

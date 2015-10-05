@@ -293,7 +293,7 @@
                     <div class="toin">
                         <label>Описание</label>
                         <div class="minopright">до 500 символов</div>
-                        <textarea name="description" type="textarea" value="${description}"></textarea>
+                        <textarea name="description" type="textarea" value="">${description}</textarea>
                     </div>
                 </div>
 
