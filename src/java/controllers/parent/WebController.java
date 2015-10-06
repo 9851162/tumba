@@ -8,6 +8,7 @@ package controllers.parent;
 
 import java.util.Date;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.DateFormatter;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import support.AuthManager;
 import support.editors.DateEditor;
@@ -59,5 +61,21 @@ public class WebController {
     protected void addErrors(Map<String, Object> model, ServiceResult res) {
         model.put(ERRORS_LIST_NAME, res.getErrors());
     }
+    
+    /*@RequestMapping("/")
+    public String getMain (Map<String, Object> model,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+            
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/index")
+    public String getIndex (Map<String, Object> model,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+            
+        return "redirect:/Main/";
+    }*/
     
 }

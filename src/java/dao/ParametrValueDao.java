@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.ParametrValue;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +21,12 @@ public class ParametrValueDao extends Dao<ParametrValue>  {
     public Class getSupportedClass() {
         return ParametrValue.class;
     }
+    
+    public Integer deleteParamValues(Long paramId){
+        String sql = "delete from parametr_value where parametr_id=:paramId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("paramId", paramId);
+        return query.executeUpdate();
+    }
+    
 }

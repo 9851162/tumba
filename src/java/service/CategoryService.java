@@ -8,6 +8,7 @@ package service;
 import dao.CategoryDao;
 import dao.ParametrDao;
 import dao.ParametrSelOptionDao;
+import dao.ParametrValueDao;
 import entities.Category;
 import entities.Parametr;
 import entities.ParametrSelOption;
@@ -40,6 +41,8 @@ public class CategoryService extends PrimService {
     CategoryDao catDao;
     @Autowired
     ParametrDao paramDao;
+    @Autowired
+    ParametrValueDao paramValueDao;
     @Autowired
     ParametrSelOptionDao optionDao;
 
@@ -299,7 +302,7 @@ public class CategoryService extends PrimService {
         if(paramId!=null){
             Parametr p = paramDao.find(paramId);
             addMessage("Параметр удален, также были удалены связи параметра с категориями в количестве: "+paramDao.deleteFromCats(paramId)+";");
-            //to do mb удаление опций? test
+            paramValueDao.deleteParamValues(paramId);
             paramDao.delete(p);
         }else{
             addError("Параметр не указан");
