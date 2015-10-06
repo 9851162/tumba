@@ -28,6 +28,9 @@ import org.hibernate.annotations.Index;
 @Table(name = "parametr_value")
 public class ParametrValue extends PrimEntity {
     
+    public final static Long YES = (long)1;
+    public final static Long NO = (long)0;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "parametr_value_id")

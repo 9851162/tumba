@@ -46,26 +46,27 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao valDao;
-    
+
     @Autowired
     ParametrDao paramDao;
 
-    /*@Autowired
-     UserDao userDao;*/
+    @Autowired
+    ParametrValueDao paramValueDao;
+    
     @Autowired
     UserService userService;
-    
+
     public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
-            Long booleanIds[],String booleanVals[],Long stringIds[],String stringVals[],Long numIds[],Long numVals[],
-            Long dateIds[],Date dateVals[],Long selIds[],Long selVals[],Long multyIds[],Object multyVals[]) throws IOException {
+            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Long numVals[],
+            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
                 if (email != null && !email.equals("")) {
-                    
-                    //валидация параметров - check
-                    
+
+                    List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
+
                     User user = userService.getUserByMail(email);
                     if (user == null) {
                         user = userService.registerStandardUser(email);
@@ -84,54 +85,188 @@ public class AdService extends PrimService {
                     ad.setAuthor(user);
 
                     ad.setCat(cat);
-                    
+
                     ad.setName(name);
                     ad.setDescription(desc);
                     ad.setPrice(price);
                     ad.setValues(new HashSet());
                     if (validate(ad)) {
                         adDao.save(ad);
-                        
-                        Set<Parametr>catParams=cat.getParams();
-                        int ind = 0;
-                        ArrayList<String> reqParamsErs = new ArrayList();
-                        /*while(ind<paramIds.length){
-                            Parametr p = paramDao.find(paramIds[ind]);
-                            if(catParams.contains(p)){
-                                if(p.isReq()&&paramVals[ind]==null){
-                                    reqParamsErs.add("необходимо ввести значение параметра "+p.getName()+"; ");
-                                }else{
-                                    //смотрим что за параметр и в зависимости от него устанавливаем значение
-                                    //не парясь на валидацию, ибо она выше была.
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setValue(paramVals[ind].toString());
-                                }
-                                    reqParamsErs.add("id:"+p.getId()+" - "+paramVals[ind].toString()+";");
-                            }
-                        }*/
-                        
-                        //addError(reqParamsErs);
-                        //addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
-                        
-                        File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
-                        file.mkdirs();
-                        if (previews != null && previews.length > 0) {
-                            int i = 0;
-                            while (i < 7 && i < previews.length) {
-                                MultipartFile prev = previews[i];
-                                if (prev.getSize() <= (long) 1024 * 1024) {
-                                    prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
-                                } else {
-                                    addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 1мб.");
 
+                        Set<Parametr> catParams = cat.getParams();
+                        int i = 0;
+                        ArrayList<String> paramValsErrs = new ArrayList();
+                        //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
+                        //удаляем ad и юзера, если newUser
+
+                        ArrayList<ParametrValue> list4Save = new ArrayList();
+
+                        //не трогаем в плане рек не рек
+                        while (i < booleanIds.length) {
+                            Parametr p = paramDao.find(booleanIds[i]);
+                            if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
+                                Long val = ParametrValue.NO;
+                                if (booleanVals[i] != null) {
+                                    val = ParametrValue.YES;
+                                }
+                                ParametrValue pv = new ParametrValue();
+                                pv.setAd(ad);
+                                pv.setParametr(p);
+                                pv.setSelectVal(val);
+                                if (validate(pv)) {
+                                    list4Save.add(pv);
+                                }
+                                i++;/*else{
+                                 paramValsErrs
+                                 }*/
+
+                            }
+                        }
+
+                        i = 0;
+
+                        while (i < stringIds.length) {
+                            Long paramId = stringIds[i];
+                            Parametr p = paramDao.find(paramId);
+                            if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
+                                String val = stringVals[i];
+                                if (reqParamIds.contains(paramId) && val != null) {
+                                    reqParamIds.remove(paramId);
+                                }
+
+                                ParametrValue pv = new ParametrValue();
+                                pv.setAd(ad);
+                                pv.setParametr(p);
+                                pv.setStringVal(val);
+                                if (validate(pv)) {
+                                    list4Save.add(pv);
                                 }
                                 i++;
                             }
                         }
-                        if (newUser) {
-                            userService.notifyAboutRegistration(email);
+
+                        i = 0;
+
+                        while (i < numIds.length) {
+                            Long paramId = numIds[i];
+                            Parametr p = paramDao.find(paramId);
+                            if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                Long val = numVals[i];
+                                if (reqParamIds.contains(paramId) && val != null) {
+                                    reqParamIds.remove(paramId);
+                                }
+                                ParametrValue pv = new ParametrValue();
+                                pv.setAd(ad);
+                                pv.setParametr(p);
+                                pv.setNumVal(val);
+                                if (validate(pv)) {
+                                    list4Save.add(pv);
+                                }
+                                i++;
+                            }
+                        }
+
+                        i = 0;
+
+                        while (i < dateIds.length) {
+                            Long paramId = dateIds[i];
+                            Parametr p = paramDao.find(paramId);
+                            if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
+                                Date val = dateVals[i];
+                                if (reqParamIds.contains(paramId) && val != null) {
+                                    reqParamIds.remove(paramId);
+                                }
+                                ParametrValue pv = new ParametrValue();
+                                pv.setAd(ad);
+                                pv.setParametr(p);
+                                pv.setDateVal(val);
+                                if (validate(pv)) {
+                                    list4Save.add(pv);
+                                }
+                                i++;
+                            }
+                        }
+
+                        i = 0;
+
+                        while (i < selIds.length) {
+                            Long paramId = selIds[i];
+                            Parametr p = paramDao.find(paramId);
+                            if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                Long val = selVals[i];
+                                if (reqParamIds.contains(paramId) && val != null) {
+                                    reqParamIds.remove(paramId);
+                                }
+                                ParametrValue pv = new ParametrValue();
+                                pv.setAd(ad);
+                                pv.setParametr(p);
+                                pv.setSelectVal(val);
+                                if (validate(pv)) {
+                                    list4Save.add(pv);
+                                }
+                                i++;
+                            }
+                        }
+
+                        //вытягивание значений мультиселекта
+                        //TO DO более тщательную валидацию и обработку ошибок мб(??)
+                        for (String rawVal : multyVals) {
+                            String idValArr[] = rawVal.split("_");
+                            if (idValArr.length == 2) {
+                                String strId = idValArr[0];
+                                String strVal = idValArr[1];
+                                Long paramId = Long.valueOf(strId);
+                                Long val = Long.valueOf(strVal);
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                    if (reqParamIds.contains(paramId) && val != null) {
+                                        reqParamIds.remove(paramId);
+                                    }
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setSelectVal(val);
+                                    if (validate(pv)) {
+                                        list4Save.add(pv);
+                                    }
+                                }
+                            }
+                        }
+
+                        //проверяем наконец есть ли ошибки и все ли требуемые параметры занесли
+                        if (!reqParamIds.isEmpty()) {
+                            for (Long id : reqParamIds) {
+                                addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
+                            }
+                            //?
+                            adDao.delete(ad);
+                        } else {
+                            
+                            for(ParametrValue pv:list4Save){
+                                paramValueDao.save(pv);
+                            }
+                            ///////
+                            //addError(reqParamsErs);
+                            //addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
+                            File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
+                            file.mkdirs();
+                            if (previews != null && previews.length > 0) {
+                                i = 0;
+                                while (i < 7 && i < previews.length) {
+                                    MultipartFile prev = previews[i];
+                                    if (prev.getSize() <= (long) 1024 * 1024) {
+                                        prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
+                                    } else {
+                                        addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 1мб.");
+
+                                    }
+                                    i++;
+                                }
+                            }
+
+                            if (newUser) {
+                                userService.notifyAboutRegistration(email);
+                            }
                         }
                         /*for(MultipartFile prev:previews){
                          prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));

@@ -238,7 +238,7 @@ public class CategoryService extends PrimService {
         res.put(Parametr.TEXT, "текст");
         res.put(Parametr.NUM, "число");
         res.put(Parametr.DATE, "дата");
-        res.put(Parametr.YESNO, "да/нет");
+        res.put(Parametr.BOOL, "да/нет");
         res.put(Parametr.SELECTING, "выбор");
         res.put(Parametr.MULTISELECTING, "множ. выбор");
         return res;
