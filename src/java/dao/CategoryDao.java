@@ -8,6 +8,8 @@ package dao;
 import dao.parent.Dao;
 import entities.Category;
 import entities.Parametr;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -58,7 +60,12 @@ public class CategoryDao extends Dao<Category>  {
         query.setParameter("catId", catId);
         query.setParameter("req", Parametr.REQUIRED);
         query.setParameter("bool", Parametr.BOOL);
-        return query.list();
+        List<BigInteger>rawRes=query.list();
+        ArrayList<Long>res=new ArrayList();
+        for(BigInteger id:rawRes){
+            res.add(id.longValue());
+        }
+        return res;
     }
     
 }
