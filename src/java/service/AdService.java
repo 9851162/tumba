@@ -97,7 +97,7 @@ public class AdService extends PrimService {
                         int i = 0;
                         ArrayList<String> paramValsErrs = new ArrayList();
                         //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
-                        //удаляем ad и юзера, если newUser
+                        //удаляем ad
 
                         ArrayList<ParametrValue> list4Save = new ArrayList();
 
@@ -116,9 +116,7 @@ public class AdService extends PrimService {
                                 if (validate(pv)) {
                                     list4Save.add(pv);
                                 }
-                                i++;/*else{
-                                 paramValsErrs
-                                 }*/
+                                i++;
 
                             }
                         }
@@ -192,7 +190,7 @@ public class AdService extends PrimService {
                         while (i < selIds.length) {
                             Long paramId = selIds[i];
                             Parametr p = paramDao.find(paramId);
-                            if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                            if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
                                 Long val = selVals[i];
                                 if (reqParamIds.contains(paramId) && val != null) {
                                     reqParamIds.remove(paramId);
@@ -218,7 +216,7 @@ public class AdService extends PrimService {
                                 Long paramId = Long.valueOf(strId);
                                 Long val = Long.valueOf(strVal);
                                 Parametr p = paramDao.find(paramId);
-                                if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                if (catParams.contains(p) && Parametr.MULTISELECTING == p.getParamType()) {
                                     if (reqParamIds.contains(paramId) && val != null) {
                                         reqParamIds.remove(paramId);
                                     }

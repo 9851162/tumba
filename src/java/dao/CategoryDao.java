@@ -53,10 +53,11 @@ public class CategoryDao extends Dao<Category>  {
     }
     
     public List<Long>getRequiredParamsIds(Long catId){
-        String sql = "select p.id from params_in_categories pic left join parametr p on pic.parametr_id=p.parametr_id where pic.category_id=:catId and p.req_type=:req";
+        String sql = "select p.parametr_id from params_in_categories pic left join parametr p on pic.parametr_id=p.parametr_id where pic.category_id=:catId and p.req_type=:req and p.param_type!=:bool";
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("catId", catId);
         query.setParameter("req", Parametr.REQUIRED);
+        query.setParameter("bool", Parametr.BOOL);
         return query.list();
     }
     
