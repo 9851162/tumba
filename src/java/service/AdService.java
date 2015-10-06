@@ -52,7 +52,7 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao paramValueDao;
-    
+
     @Autowired
     UserService userService;
 
@@ -102,121 +102,102 @@ public class AdService extends PrimService {
                         ArrayList<ParametrValue> list4Save = new ArrayList();
 
                         //не трогаем в плане рек не рек
-                        while (i < booleanIds.length) {
-                            Parametr p = paramDao.find(booleanIds[i]);
-                            if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
-                                Long val = ParametrValue.NO;
-                                if (booleanVals[i] != null) {
-                                    val = ParametrValue.YES;
-                                }
-                                ParametrValue pv = new ParametrValue();
-                                pv.setAd(ad);
-                                pv.setParametr(p);
-                                pv.setSelectVal(val);
-                                if (validate(pv)) {
-                                    list4Save.add(pv);
-                                }
-                                i++;
+                        if (booleanVals != null&&booleanVals.length>0) {
+                            while (i < booleanIds.length) {
+                                Parametr p = paramDao.find(booleanIds[i]);
+                                if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
+                                    Long val = ParametrValue.NO;
+                                    if (booleanVals[i] != null) {
+                                        val = ParametrValue.YES;
+                                    }
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setSelectVal(val);
+                                    if (validate(pv)) {
+                                        list4Save.add(pv);
+                                    }
+                                    i++;
 
+                                }
                             }
                         }
 
-                        i = 0;
-
-                        while (i < stringIds.length) {
-                            Long paramId = stringIds[i];
-                            Parametr p = paramDao.find(paramId);
-                            if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
-                                String val = stringVals[i];
-                                if (reqParamIds.contains(paramId) && val != null) {
-                                    reqParamIds.remove(paramId);
-                                }
-
-                                ParametrValue pv = new ParametrValue();
-                                pv.setAd(ad);
-                                pv.setParametr(p);
-                                pv.setStringVal(val);
-                                if (validate(pv)) {
-                                    list4Save.add(pv);
-                                }
-                                i++;
-                            }
-                        }
-
-                        i = 0;
-
-                        while (i < numIds.length) {
-                            Long paramId = numIds[i];
-                            Parametr p = paramDao.find(paramId);
-                            if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
-                                Long val = numVals[i];
-                                if (reqParamIds.contains(paramId) && val != null) {
-                                    reqParamIds.remove(paramId);
-                                }
-                                ParametrValue pv = new ParametrValue();
-                                pv.setAd(ad);
-                                pv.setParametr(p);
-                                pv.setNumVal(val);
-                                if (validate(pv)) {
-                                    list4Save.add(pv);
-                                }
-                                i++;
-                            }
-                        }
-
-                        i = 0;
-
-                        while (i < dateIds.length) {
-                            Long paramId = dateIds[i];
-                            Parametr p = paramDao.find(paramId);
-                            if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
-                                Date val = dateVals[i];
-                                if (reqParamIds.contains(paramId) && val != null) {
-                                    reqParamIds.remove(paramId);
-                                }
-                                ParametrValue pv = new ParametrValue();
-                                pv.setAd(ad);
-                                pv.setParametr(p);
-                                pv.setDateVal(val);
-                                if (validate(pv)) {
-                                    list4Save.add(pv);
-                                }
-                                i++;
-                            }
-                        }
-
-                        i = 0;
-
-                        while (i < selIds.length) {
-                            Long paramId = selIds[i];
-                            Parametr p = paramDao.find(paramId);
-                            if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
-                                Long val = selVals[i];
-                                if (reqParamIds.contains(paramId) && val != null) {
-                                    reqParamIds.remove(paramId);
-                                }
-                                ParametrValue pv = new ParametrValue();
-                                pv.setAd(ad);
-                                pv.setParametr(p);
-                                pv.setSelectVal(val);
-                                if (validate(pv)) {
-                                    list4Save.add(pv);
-                                }
-                                i++;
-                            }
-                        }
-
-                        //вытягивание значений мультиселекта
-                        //TO DO более тщательную валидацию и обработку ошибок мб(??)
-                        for (String rawVal : multyVals) {
-                            String idValArr[] = rawVal.split("_");
-                            if (idValArr.length == 2) {
-                                String strId = idValArr[0];
-                                String strVal = idValArr[1];
-                                Long paramId = Long.valueOf(strId);
-                                Long val = Long.valueOf(strVal);
+                        if (stringVals != null&&stringVals.length>0) {
+                            i = 0;
+                            while (i < stringIds.length) {
+                                Long paramId = stringIds[i];
                                 Parametr p = paramDao.find(paramId);
-                                if (catParams.contains(p) && Parametr.MULTISELECTING == p.getParamType()) {
+                                if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
+                                    String val = stringVals[i];
+                                    if (reqParamIds.contains(paramId) && val != null) {
+                                        reqParamIds.remove(paramId);
+                                    }
+
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setStringVal(val);
+                                    if (validate(pv)) {
+                                        list4Save.add(pv);
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+
+                        if (numVals != null&&numVals.length>0) {
+                            i = 0;
+                            while (i < numIds.length) {
+                                Long paramId = numIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                    Long val = numVals[i];
+                                    if (reqParamIds.contains(paramId) && val != null) {
+                                        reqParamIds.remove(paramId);
+                                    }
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setNumVal(val);
+                                    if (validate(pv)) {
+                                        list4Save.add(pv);
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+
+                        if (dateVals != null&&dateVals.length>0) {
+                            i = 0;
+                            while (i < dateIds.length) {
+                                Long paramId = dateIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
+                                    Date val = dateVals[i];
+                                    if (reqParamIds.contains(paramId) && val != null) {
+                                        reqParamIds.remove(paramId);
+                                    }
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setDateVal(val);
+                                    if (validate(pv)) {
+                                        list4Save.add(pv);
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+
+                        if (selVals != null&&selVals.length>0) {
+                            i = 0;
+
+                            while (i < selIds.length) {
+                                Long paramId = selIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
+                                    Long val = selVals[i];
                                     if (reqParamIds.contains(paramId) && val != null) {
                                         reqParamIds.remove(paramId);
                                     }
@@ -226,6 +207,34 @@ public class AdService extends PrimService {
                                     pv.setSelectVal(val);
                                     if (validate(pv)) {
                                         list4Save.add(pv);
+                                    }
+                                    i++;
+                                }
+                            }
+                        }
+
+                        //вытягивание значений мультиселекта
+                        //TO DO более тщательную валидацию и обработку ошибок мб(??)
+                        if (multyVals != null&&multyVals.length>0) {
+                            for (String rawVal : multyVals) {
+                                String idValArr[] = rawVal.split("_");
+                                if (idValArr.length == 2) {
+                                    String strId = idValArr[0];
+                                    String strVal = idValArr[1];
+                                    Long paramId = Long.valueOf(strId);
+                                    Long val = Long.valueOf(strVal);
+                                    Parametr p = paramDao.find(paramId);
+                                    if (catParams.contains(p) && Parametr.MULTISELECTING == p.getParamType()) {
+                                        if (reqParamIds.contains(paramId) && val != null) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setSelectVal(val);
+                                        if (validate(pv)) {
+                                            list4Save.add(pv);
+                                        }
                                     }
                                 }
                             }
@@ -239,8 +248,8 @@ public class AdService extends PrimService {
                             //?
                             adDao.delete(ad);
                         } else {
-                            
-                            for(ParametrValue pv:list4Save){
+
+                            for (ParametrValue pv : list4Save) {
                                 paramValueDao.save(pv);
                             }
                             ///////
