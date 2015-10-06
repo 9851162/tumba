@@ -542,7 +542,7 @@
                                         <c:when test="${parametr.paramType==4&&!empty parametr.options}">
                                             <br><label style="text-align: center;">${parametr.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
                                                     <c:forEach var="opt" items="${parametr.options}">
-                                                        <option value="${opt.id}">${opt.name}</option>
+                                                        <option value="${parametr.id}_${opt.id}">${opt.name}</option>
                                                     </c:forEach>
                                                 </select></label>
                                             <input type="hidden" name="multyIds" value="${parametr.id}">
