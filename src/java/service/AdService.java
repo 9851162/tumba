@@ -252,9 +252,7 @@ public class AdService extends PrimService {
                             for (ParametrValue pv : list4Save) {
                                 paramValueDao.save(pv);
                             }
-                            ///////
-                            //addError(reqParamsErs);
-                            //addError("ids:"+paramIds.length+"; pms:"+paramVals.length+";");
+                            
                             File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
                             file.mkdirs();
                             if (previews != null && previews.length > 0) {
@@ -275,14 +273,7 @@ public class AdService extends PrimService {
                                 userService.notifyAboutRegistration(email);
                             }
                         }
-                        /*for(MultipartFile prev:previews){
-                         prev.transferTo(new File("/usr/local/seller/preview/"+ad.getId()+"/"+(i++)));
-                         }*/
-                        //addError(types);
-
-                        /*InputStream fis = preview.getInputStream();
-
-                         BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream("/usr/local/seller/preview/"+ad.getId()+"/"+preview.getName()));*/
+                        
                     }
                 }
             } else {
