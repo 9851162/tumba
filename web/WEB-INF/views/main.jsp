@@ -73,7 +73,7 @@
                 <div class="dob">добавить<a href="#"><img src="../img/plus.png"></a> </div>
             </div>
 
-
+<c:if test="${role=='user'||role=='admin'}">
             <div class="icons">
                 <div id="ico" class="ico1"><img src="../img/menu1.png"> </div>
                 <div id="ico" class="ico2"><img src="../img/menu2.png"> </div>
@@ -92,6 +92,7 @@
                 <div class="promo"> </div>
                 <div class="promo"> </div>
             </div>
+</c:if>
 
 
 

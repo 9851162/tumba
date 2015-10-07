@@ -13,8 +13,10 @@
 			</div>
                         <div class="toavatar">
 				<div id="user_head">
-					<div id="options"><a href="#modal2" class="open_modal">регистрация</a></div>
-                                        <div id="options"><a href="#modal3" class="open_modal">авторизация</a></div>
+                                        <div id="options">
+                                            <a href="#modal2" class="open_modal">регистрация</a>
+                                            <a href="#modal3" class="open_modal">авторизация</a>
+                                        </div>
 				</div>
 			</div>
 		</div>
