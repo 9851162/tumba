@@ -45,10 +45,11 @@ public class mainController extends WebController {
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "wishes", required = false) String wishes,
             RedirectAttributes ras) throws Exception {
         
         
-        model.put("adList",adService.getAds());
+        model.put("adList",adService.getAds(wishes));
         model.put("shortName", shortName);
         model.put("desc", desc);
         model.put("price", price);
@@ -56,6 +57,7 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap",catService.getCatIdParamsMap());
         model.put("reqTypeMap",catService.getReqTypes());
+        model.put("wishes",wishes);
         //model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = (ArrayList<String>)model.get("errors");
         if(ers==null){
