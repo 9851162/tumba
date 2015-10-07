@@ -26,7 +26,7 @@ import service.UserService;
  */
 @RequestMapping("/Main")
 @Controller
-public class MainController extends WebController {
+public class MainController1 extends WebController {
     
     @Autowired
     private AdService adService;
