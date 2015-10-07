@@ -41,6 +41,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 
 .left_side {width: 370px;	height: 897px;	margin-top: 7px; float: left;}
 .menuitem{	text-align: center;	font-family: HelveticaNeue, sans-serif;	background-color: #fff;	width: 369px;	height: 53px;	line-height: 53px;	margin-bottom: 3px;	display: inline-block;	-moz-border-radius: 5px 0px 0px 5px;	-webkit-border-radius: 5px 0px 0px 5px;	border: 0px solid #000000;   font-size: 23px;	color:#00547e;}
+.menuitem:hover{	background-color: #c8f0ff}
 .menuitem img{    float: right;    margin-top: 12px;	margin-right: 20px;}
 .icons{	position: absolute;	top: 289px;}
 .icons_expand {	top: 214px;	margin-left: -49px;}
