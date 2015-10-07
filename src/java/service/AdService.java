@@ -284,7 +284,7 @@ public class AdService extends PrimService {
         }
     }
 
-    public List<Ad> getAds(String wishes) {
+    public List<Ad> getAds(String wish) {
         //if(wishes==null||wishes.equals("")){
             return adDao.getAll();
         /*}else{

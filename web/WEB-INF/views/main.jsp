@@ -26,8 +26,8 @@
             <div id="search_add">
                 <div class="tosearch">
                     <div class="formsearch">
-                        <form style="margin-bottom: 0px;">
-                            <input type="text" placeholder="Впишите ваше желание" value="${wishes}">
+                        <form style="margin-bottom: 0px;" action=""<c:url value="../Main/" />"">
+                            <input type="text" name="wish" placeholder="Впишите ваше желание" value="${wish}">
                             <button type="submit" class="btn btn-success">Поиск</button>
                         </form>
                     </div>
