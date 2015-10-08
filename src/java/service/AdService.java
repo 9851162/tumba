@@ -9,6 +9,7 @@ import dao.AdDao;
 import dao.CategoryDao;
 import dao.ParametrDao;
 import dao.ParametrValueDao;
+import dao.UserDao;
 import entities.Ad;
 import entities.Category;
 import entities.Parametr;
@@ -52,6 +53,9 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao paramValueDao;
+    
+    @Autowired
+    UserDao userDao;
 
     @Autowired
     UserService userService;
@@ -305,6 +309,27 @@ public class AdService extends PrimService {
             }
         } else {
             addError("Ид объявления не передан");
+        }
+    }
+    
+    public void setUnsetChosen(Long userId,Long adId){
+        if(userId!=null&&adId!=null){
+            User u = userDao.find(userId);
+            Ad ad = adDao.find(adId);
+            //есть - удалить, нет - добавить
+            
+            if(adDao.isChosenAd(userId, adId)){
+                adDao.setChosen(userId,adId);
+            }else{
+                adDao.unsetChosen(userId,adId);
+            }
+        }else{
+            if(userId==null){
+                addError("Пользователь не передан");
+            }
+            if(adId==null){
+                addError("Объявление не передано");
+            }
         }
     }
 

@@ -7,11 +7,16 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -61,6 +66,13 @@ public class User extends PrimEntity {
     @NotNull(message = "Необходимо указать роль")
     private String userRole;
     
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "chosen_ads",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "ad_id")
+    )
+    private List<Ad>chosenAds;
     
     @Column(name = "phone")
     private String phone;
@@ -124,6 +136,14 @@ public class User extends PrimEntity {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public List<Ad> getChosenAds() {
+        return chosenAds;
+    }
+
+    public void setChosenAds(List<Ad> chosenAds) {
+        this.chosenAds = chosenAds;
     }
     
     
