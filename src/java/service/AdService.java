@@ -319,9 +319,9 @@ public class AdService extends PrimService {
             //есть - удалить, нет - добавить
             
             if(adDao.isChosenAd(userId, adId)){
-                adDao.setChosen(userId,adId);
-            }else{
                 adDao.unsetChosen(userId,adId);
+            }else{
+                adDao.setChosen(userId,adId);
             }
         }else{
             if(userId==null){

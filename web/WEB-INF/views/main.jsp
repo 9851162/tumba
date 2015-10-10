@@ -26,7 +26,7 @@
             <div id="search_add">
                 <div class="tosearch">
                     <div class="formsearch">
-                        <form style="margin-bottom: 0px;" action=""<c:url value="../Main/" />"">
+                        <form style="margin-bottom: 0px;" action="<c:url value="../Main/" />">
                             <input type="text" name="wish" placeholder="Впишите ваше желание" value="${wish}">
                             <button type="submit" class="btn btn-success">Поиск</button>
                         </form>
@@ -206,7 +206,7 @@
                                                 <p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
                                                 <div class="price">${ad.price}</div>
                                                 <div class="minmenu">
-                                                    <a href="#"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+                                                    <a href="<c:url value="../Ad/setChosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
                                                     <a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                     <a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                     <a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>

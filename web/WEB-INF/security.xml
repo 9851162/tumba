@@ -18,6 +18,7 @@
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Main/authorize" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
+        <intercept-url pattern="/Ad/setChosen" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Admin/administrating" access="hasAnyRole( 'admin')" />
         <intercept-url pattern="/Admin/addCat" access="hasAnyRole( 'admin')" />
         

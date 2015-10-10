@@ -82,6 +82,20 @@ public class AdController extends WebController {
         return "redirect:/Main/";
     }
     
+    @RequestMapping("/setChosen")
+    public String setChosen (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            
+            adService.setUnsetChosen(u.getId(), adId);
+            
+            model.put("errors",adService.getErrors());
+        return "redirect:/Main/";
+    }
+    
     /*@RequestMapping("/list")
     public String getList (Map<String, Object> model,
             HttpServletRequest request,

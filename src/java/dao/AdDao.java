@@ -7,6 +7,8 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Ad;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -46,6 +48,18 @@ public class AdDao extends Dao<Ad>  {
         query.setParameter("userId", userId);
         query.setParameter("adId", adId);
         return query.executeUpdate();
+    }
+    
+    public List<Long>getChosenIds(Long userId){
+        String sql = "select ad_id from chosen_ads where user_id=:userId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("userId", userId);
+        List<BigInteger>preres=query.list();
+        List<Long>res=new ArrayList();
+        for(BigInteger id:preres){
+            res.add(id.longValue());
+        }
+        return res;
     }
     
 }
