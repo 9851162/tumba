@@ -82,7 +82,7 @@ public class AdController extends WebController {
         return "redirect:/Main/";
     }
     
-    @RequestMapping("/setChosen")
+    @RequestMapping("/setChosenUnchosen")
     public String setChosen (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
@@ -94,6 +94,20 @@ public class AdController extends WebController {
             
             model.put("errors",adService.getErrors());
         return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/setUnchosen")
+    public String setUnchosen (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            
+            adService.setUnsetChosen(u.getId(), adId);
+            
+            model.put("errors",adService.getErrors());
+        return "redirect:/Main/chosen";
     }
     
     /*@RequestMapping("/list")

@@ -81,7 +81,8 @@ public class mainController extends WebController {
         
         User u = authManager.getCurrentUser();
         
-        model.put("adList",adService.getChosenAds(u.getId()));
+        //model.put("adList",adService.getChosenAds(u.getId()));
+        model.put("chosenList",adService.getChosenAds(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);

@@ -73,26 +73,26 @@
                 <div class="dob">добавить<a href="#"><img src="../img/plus.png"></a> </div>
             </div>
 
-<c:if test="${role=='user'||role=='admin'}">
-            <div class="icons">
-                <div id="ico" class="ico1"><img src="../img/menu1.png"> </div>
-                <div id="ico" class="ico2"><img src="../img/menu2.png"> </div>
-                <div id="ico" class="ico3"><img src="../img/menu3.png"> </div>
-                <div id="ico" class="ico4"><img src="../img/menu4.png"> </div>
-                <div id="ico" class="ico5"><img src="../img/menu5.png"> </div>
-            </div>
+            <c:if test="${role=='user'||role=='admin'}">
+                <div class="icons">
+                    <div id="ico" class="ico1"><img src="../img/menu1.png"> </div>
+                    <div id="ico" class="ico2"><img src="../img/menu2.png"> </div>
+                    <div id="ico" class="ico3"><img src="../img/menu3.png"> </div>
+                    <div id="ico" class="ico4"><img src="../img/menu4.png"> </div>
+                    <div id="ico" class="ico5"><img src="../img/menu5.png"> </div>
+                </div>
 
-            <div class="left_side  ">
-                <div class="menuitem">Мои покупки<img src="../img/strright.png"></div>
-                <div class="menuitem">Мои продажи<img src="../img/strright.png"></div>
-                <div class="menuitem">Регионы<img src="../img/strright.png"></div>
-                <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
-                <div class="menuitem">Сравнение<img src="../img/strright.png"></div>
+                <div class="left_side  ">
+                    <div class="menuitem">Мои покупки<img src="../img/strright.png"></div>
+                    <div class="menuitem">Мои продажи<img src="../img/strright.png"></div>
+                    <div class="menuitem">Регионы<img src="../img/strright.png"></div>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
+                    <div class="menuitem">Сравнение<img src="../img/strright.png"></div>
 
-                <div class="promo"> </div>
-                <div class="promo"> </div>
-            </div>
-</c:if>
+                    <div class="promo"> </div>
+                    <div class="promo"> </div>
+                </div>
+            </c:if>
 
 
 
@@ -124,105 +124,113 @@
                 </div>
 
                 <c:if test="${not empty adList}">
-
-                    
                     <div id="grid">
-                        <!--<div class="item medium" item-position="0" item-next="1">
-                                    <div class="toramka divall">
-                                            <div class="toblockimg">
-                                                    <div id="panel" class="prewimg">
-                                                            <img id="largeImage1" class="largeImage" src="img/tov/tov16.jpg">
-                                                    </div>
-                                                    <div id="thumbs1" class="thumbs miniprew">
-                                                            <img src="img/tov/tov11.jpg">
-                                                            <img src="img/tov/tov12.jpg">
-                                                            <img src="img/tov/tov13.jpg">
-                                                            <img src="img/tov/tov14.jpg">
-                                                            <img src="img/tov/tov15.jpg">
-                                                            <img src="img/tov/tov16.jpg">
-                                                    </div>
-                                            </div>
-                                    <div class="opisanie">
-                                            <div class="col1">
-                                                    <h3>Продавец</h3>
-                                                    <p>"Имя"</p>
-                                                    <h3>Товар</h3>
-                                                    <p>"Наименование"</p>
-                                            </div>
-                                        <div class="col3">
-                                                    <h3>Описание</h3>
-                                                    <p class="minitext"> "Описание" </p>
-                                                    <p class="maxtext"> ${ad.description} </p>
-                                            </div>
-                                        <div class="col2">
-                                                    <h3>Дата</h3>
-                                                    <p>23 мая 23:23</p>
-                                                    <div class="price">38,67 ₽</div>
-                                                    <div class="minmenu">
-                                                            <a href="#"><img src="img/dop5.png"><div>добавить в избранное</div></a>
-                                                            <a href="#"><img src="img/dop4.png"><div>отправить сообщение</div></a>
-                                                            <a href="#"><img src="img/dop3.png"><div>добавить к сравнению</div></a>
-                                                            <a href="#"><img src="img/dop2.png"><div>открыть в новом окне</div></a>
-                                                            <a href="#"><img src="img/dop1.png"><div>предложить свою цену</div></a>
-                                                    </div>
-                                            </div>
-                                    </div>
-                                    </div>
-                                    <div class="button_expand hidden"><div class="boxssilka"><img src="img/whiteniz.png"><div>развернуть</div><img src="img/whiteniz.png"></div></div>
-                                    <div class="button_rollUp hidden"><div class="boxssilka"><img src="img/whiteverh.png"><div>cвернуть</div><img src="img/whiteverh.png"></div></div>
-                        </div>--><c:set var="itempos" value="0"/>
+                        <c:set var="itempos" value="0"/>
                         <c:forEach var="ad" items="${adList}">
-                                <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
-                                    <c:set var="itempos" value="${itempos+1}"/>
-                                    <div class="toramka divall">
-                                        <div class="toblockimg">
-                                            <div id="panel" class="prewimg">
-                                                <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
-                                            </div>
-                                            <div id="thumbs1" class="thumbs miniprew">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=0">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=1">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=2">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=3">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=4">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=5">
-                                                <img class="prev4change" src="../Images/?id=${ad.id}&name=6">
-                                            </div>
+                            <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
+                                <c:set var="itempos" value="${itempos+1}"/>
+                                <div class="toramka divall">
+                                    <div class="toblockimg">
+                                        <div id="panel" class="prewimg">
+                                            <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
                                         </div>
-                                        <div class="opisanie">
-                                            <div class="col1">
-                                                <h3>Продавец</h3>
-                                                <p>${ad.author.name}</p>
-                                                <h3>Товар</h3>
-                                                <p>${ad.cat.name}</p>
-                                            </div>
-                                            <div class="col3">
-                                                <h3>Описание</h3>
-                                                <p class="minitext"> ${ad.name} </p>
-                                                <p class="maxtext"> ${ad.description} </p>
-                                            </div>
-                                            <div class="col2">
-                                                <h3>Дата</h3>
-                                                <p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
-                                                <div class="price">${ad.price}</div>
-                                                <div class="minmenu">
-                                                    <a href="<c:url value="../Ad/setChosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
-                                                    <a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
-                                                    <a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
-                                                    <a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                    <a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-                                                </div>
+                                        <div id="thumbs1" class="thumbs miniprew">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=0">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=1">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=2">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=3">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=4">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=5">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=6">
+                                        </div>
+                                    </div>
+                                    <div class="opisanie">
+                                        <div class="col1">
+                                            <h3>Продавец</h3>
+                                            <p>${ad.author.name}</p>
+                                            <h3>Товар</h3>
+                                            <p>${ad.cat.name}</p>
+                                        </div>
+                                        <div class="col3">
+                                            <h3>Описание</h3>
+                                            <p class="minitext"> ${ad.name} </p>
+                                            <p class="maxtext"> ${ad.description} </p>
+                                        </div>
+                                        <div class="col2">
+                                            <h3>Дата</h3>
+                                            <p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
+                                            <div class="price">${ad.price}</div>
+                                            <div class="minmenu">
+                                                <a href="<c:url value="../Ad/setChosenUnchosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+                                                <a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                <a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                <a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                <a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
-                                    <div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
                                 </div>
-                         
+                                <div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
+                                <div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
+                            </div>
                         </c:forEach>
-                        
                     </div>
                 </c:if>
+                
+                <c:if test="${not empty chosenList}">
+                    <div id="grid">
+                        <c:set var="itempos" value="0"/>
+                        <c:forEach var="ad" items="${chosenList}">
+                            <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
+                                <c:set var="itempos" value="${itempos+1}"/>
+                                <div class="toramka divall">
+                                    <div class="toblockimg">
+                                        <div id="panel" class="prewimg">
+                                            <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
+                                        </div>
+                                        <div id="thumbs1" class="thumbs miniprew">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=0">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=1">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=2">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=3">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=4">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=5">
+                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=6">
+                                        </div>
+                                    </div>
+                                    <div class="opisanie">
+                                        <div class="col1">
+                                            <h3>Продавец</h3>
+                                            <p>${ad.author.name}</p>
+                                            <h3>Товар</h3>
+                                            <p>${ad.cat.name}</p>
+                                        </div>
+                                        <div class="col3">
+                                            <h3>Описание</h3>
+                                            <p class="minitext"> ${ad.name} </p>
+                                            <p class="maxtext"> ${ad.description} </p>
+                                        </div>
+                                        <div class="col2">
+                                            <h3>Дата</h3>
+                                            <p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
+                                            <div class="price">${ad.price}</div>
+                                            <div class="minmenu">
+                                                <a href="<c:url value="../Ad/setUnchosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+                                                <a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                <a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                <a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                <a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
+                                <div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </c:if>
+                
             </div>
             <footer>
                 <div class="tofotmin"></div>
@@ -512,7 +520,7 @@
                                             <c:when test="${parametr.paramType==6}">
                                                 <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
                                                 <input type="hidden" name="dateIds" value="${parametr.id}">
-                                                </c:when>
+                                            </c:when>
 
                                         </c:choose>
 
