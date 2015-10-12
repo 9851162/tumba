@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -60,6 +61,14 @@ public class AdDao extends Dao<Ad>  {
             res.add(id.longValue());
         }
         return res;
+    }
+    
+    public List<Ad>getChosenAds(Long userId){
+        String sql = "select a.* from chosen_ads ca left join ad a on ca.ad_id=a.ad_id where ca.user_id=:userId";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("userId", userId);
+        query.addEntity(Ad.class);
+        return query.list();
     }
     
 }

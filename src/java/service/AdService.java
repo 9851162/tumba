@@ -53,7 +53,7 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao paramValueDao;
-    
+
     @Autowired
     UserDao userDao;
 
@@ -106,7 +106,7 @@ public class AdService extends PrimService {
                         ArrayList<ParametrValue> list4Save = new ArrayList();
 
                         //не трогаем в плане рек не рек
-                        if (booleanVals != null&&booleanVals.length>0) {
+                        if (booleanVals != null && booleanVals.length > 0) {
                             while (i < booleanIds.length) {
                                 Parametr p = paramDao.find(booleanIds[i]);
                                 if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
@@ -127,7 +127,7 @@ public class AdService extends PrimService {
                             }
                         }
 
-                        if (stringVals != null&&stringVals.length>0) {
+                        if (stringVals != null && stringVals.length > 0) {
                             i = 0;
                             while (i < stringIds.length) {
                                 Long paramId = stringIds[i];
@@ -150,7 +150,7 @@ public class AdService extends PrimService {
                             }
                         }
 
-                        if (numVals != null&&numVals.length>0) {
+                        if (numVals != null && numVals.length > 0) {
                             i = 0;
                             while (i < numIds.length) {
                                 Long paramId = numIds[i];
@@ -172,7 +172,7 @@ public class AdService extends PrimService {
                             }
                         }
 
-                        if (dateVals != null&&dateVals.length>0) {
+                        if (dateVals != null && dateVals.length > 0) {
                             i = 0;
                             while (i < dateIds.length) {
                                 Long paramId = dateIds[i];
@@ -194,7 +194,7 @@ public class AdService extends PrimService {
                             }
                         }
 
-                        if (selVals != null&&selVals.length>0) {
+                        if (selVals != null && selVals.length > 0) {
                             i = 0;
 
                             while (i < selIds.length) {
@@ -219,7 +219,7 @@ public class AdService extends PrimService {
 
                         //вытягивание значений мультиселекта
                         //TO DO более тщательную валидацию и обработку ошибок мб(??)
-                        if (multyVals != null&&multyVals.length>0) {
+                        if (multyVals != null && multyVals.length > 0) {
                             for (String rawVal : multyVals) {
                                 String idValArr[] = rawVal.split("_");
                                 if (idValArr.length == 2) {
@@ -256,7 +256,7 @@ public class AdService extends PrimService {
                             for (ParametrValue pv : list4Save) {
                                 paramValueDao.save(pv);
                             }
-                            
+
                             File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
                             file.mkdirs();
                             if (previews != null && previews.length > 0) {
@@ -277,7 +277,7 @@ public class AdService extends PrimService {
                                 userService.notifyAboutRegistration(email);
                             }
                         }
-                        
+
                     }
                 }
             } else {
@@ -290,10 +290,10 @@ public class AdService extends PrimService {
 
     public List<Ad> getAds(String wish) {
         //if(wishes==null||wishes.equals("")){
-            return adDao.getAll();
+        return adDao.getAll();
         /*}else{
-            return adDao.getAds
-        }*/
+         return adDao.getAds
+         }*/
     }
 
     public void delete(Long adId) {
@@ -311,25 +311,34 @@ public class AdService extends PrimService {
             addError("Ид объявления не передан");
         }
     }
-    
-    public void setUnsetChosen(Long userId,Long adId){
-        if(userId!=null&&adId!=null){
+
+    public void setUnsetChosen(Long userId, Long adId) {
+        if (userId != null && adId != null) {
             User u = userDao.find(userId);
             Ad ad = adDao.find(adId);
             //есть - удалить, нет - добавить
-            
-            if(adDao.isChosenAd(userId, adId)){
-                adDao.unsetChosen(userId,adId);
-            }else{
-                adDao.setChosen(userId,adId);
+
+            if (adDao.isChosenAd(userId, adId)) {
+                adDao.unsetChosen(userId, adId);
+            } else {
+                adDao.setChosen(userId, adId);
             }
-        }else{
-            if(userId==null){
+        } else {
+            if (userId == null) {
                 addError("Пользователь не передан");
             }
-            if(adId==null){
+            if (adId == null) {
                 addError("Объявление не передано");
             }
+        }
+    }
+
+    public List<Ad> getChosenAds(Long userId) {
+        if (userId != null) {
+            return adDao.getChosenAds(userId);
+        } else {
+            addError("Пользователь не указан");
+            return new ArrayList();
         }
     }
 

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,7 +67,7 @@ public class User extends PrimEntity {
     @NotNull(message = "Необходимо указать роль")
     private String userRole;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "chosen_ads",
             joinColumns = @JoinColumn(name = "user_id"),
