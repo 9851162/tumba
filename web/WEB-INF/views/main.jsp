@@ -86,7 +86,7 @@
                 <div class="menuitem">Мои покупки<img src="../img/strright.png"></div>
                 <div class="menuitem">Мои продажи<img src="../img/strright.png"></div>
                 <div class="menuitem">Регионы<img src="../img/strright.png"></div>
-                <div class="menuitem"><a style="text-decoration: none;" href="<c:url value="../Main/chosen" />">Избранное<img src="../img/strright.png"></a></div>
+                <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
                 <div class="menuitem">Сравнение<img src="../img/strright.png"></div>
 
                 <div class="promo"> </div>

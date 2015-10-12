@@ -315,7 +315,7 @@ public class AdService extends PrimService {
     public void setUnsetChosen(Long userId, Long adId) {
         if (userId != null && adId != null) {
             User u = userDao.find(userId);
-            Ad ad = adDao.find(adId);
+            //Ad ad = adDao.find(adId);
             //есть - удалить, нет - добавить
 
             if (adDao.isChosenAd(userId, adId)) {
