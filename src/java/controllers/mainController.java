@@ -48,8 +48,14 @@ public class mainController extends WebController {
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
         
+        User u = authManager.getCurrentUser();
+        Long userId = null;
+        if(u!=null){
+            userId=u.getId();
+        }
         
         model.put("adList",adService.getAds(wish));
+        model.put("chosenAdsMap",adService.getChosenAdMap(userId));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
@@ -81,8 +87,9 @@ public class mainController extends WebController {
         
         User u = authManager.getCurrentUser();
         
-        //model.put("adList",adService.getChosenAds(u.getId()));
-        model.put("chosenList",adService.getChosenAds(u.getId()));
+        model.put("adList",adService.getChosenAds(u.getId()));
+        model.put("chosenAdsMap",adService.getChosenAdMap(u.getId()));
+        //model.put("chosenList",adService.getChosenAds(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
@@ -114,7 +121,9 @@ public class mainController extends WebController {
         
         User u = authManager.getCurrentUser();
         
-        model.put("salesList",adService.getSales(u.getId()));
+        model.put("adList",adService.getSales(u.getId()));
+        model.put("chosenAdsMap",adService.getChosenAdMap(u.getId()));
+        //model.put("salesList",adService.getSales(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
@@ -146,7 +155,8 @@ public class mainController extends WebController {
         
         User u = authManager.getCurrentUser();
         
-        model.put("purchasesList",adService.getPurchases(u.getId()));
+        model.put("adList",adService.getPurchases(u.getId()));
+        //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);

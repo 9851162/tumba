@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -314,7 +315,7 @@ public class AdService extends PrimService {
 
     public void setUnsetChosen(Long userId, Long adId) {
         if (userId != null && adId != null) {
-            User u = userDao.find(userId);
+            //User u = userDao.find(userId);
             //Ad ad = adDao.find(adId);
             //есть - удалить, нет - добавить
 
@@ -324,9 +325,6 @@ public class AdService extends PrimService {
                 adDao.setChosen(userId, adId);
             }
         } else {
-            if (userId == null) {
-                addError("Пользователь не передан");
-            }
             if (adId == null) {
                 addError("Объявление не передано");
             }
@@ -340,6 +338,16 @@ public class AdService extends PrimService {
             addError("Пользователь не указан");
             return new ArrayList();
         }
+    }
+    
+    public HashMap<Long,Ad> getChosenAdMap(Long userId){
+        HashMap<Long,Ad>res = new HashMap();
+        if(userId!=null){
+            for(Ad ad:getChosenAds(userId)){
+                res.put(ad.getId(), ad);
+            }
+        }
+        return res;
     }
     
     public List<Ad> getPurchases(Long userId) {

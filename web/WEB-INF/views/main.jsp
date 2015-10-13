@@ -19,7 +19,6 @@
     </head>
     <body >
         <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
-        <!--<script src="<c:url value='/js/bootstrap.js'/>"> </script>-->
         <div id="wrapper">
 
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -161,11 +160,28 @@
                                             <p><fmt:formatDate type="date" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
                                             <div class="minmenu">
-                                                <a href="<c:url value="../Ad/setChosenUnchosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
+                                                <c:set var="chosenImg" value="../img/dop5.png"/>
+                                                <c:set var="imgClass" value=""/>
+                                                <c:if test="${!empty chosenAdsMap.get(ad.id)}">
+                                                    <c:set var="chosenImg" value="../img/dop5v2.png"/>
+                                                    <c:set var="imgClass" value="chosen"/>
+                                                </c:if>
+                                                <!--<a href="<c:url value="../Ad/setChosenUnchosen?adId=${ad.id}"/>"><img src="../img/dop5.png"><div>добавить в избранное</div></a>
                                                 <a href="#"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                 <a href="#"><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                 <a href="#"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                <a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                <a href="#"><img src="../img/dop1.png"><div>предложить свою цену</div></a>-->
+                                                <!--<span style="cursor:pointer;" class="choose" data-ad-id="${ad.id}"><img class="" src="../img/dop5.png"><div>добавить в избранное</div></span>
+                                                <span style="cursor:pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></span>
+                                                <span style="cursor:pointer;"><img src="../img/dop3.png"><div>добавить к сравнению</div></span>
+                                                <span style="cursor:pointer;"><img src="../img/dop2.png"><div>открыть в новом окне</div></span>
+                                                <span style="cursor:pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></span>-->
+                                                <a class="choose" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
+                                                <a><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                <a><img src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +193,7 @@
                     </div>
                 </c:if>
                 
-                <c:if test="${not empty chosenList}">
+                <!--<c:if test="${not empty chosenList}">
                     <div id="grid">
                         <c:set var="itempos" value="0"/>
                         <c:forEach var="ad" items="${chosenList}">
@@ -337,7 +353,7 @@
                             </div>
                         </c:forEach>
                     </div>
-                </c:if>
+                </c:if>-->
                 
             </div>
             <footer>
@@ -554,7 +570,8 @@
 
         <div id="overlay"></div>
         <script src="../js/jquery.min.js"></script>
-        <script src="../js/seller_scripts/script.js"></script><!---->
+        <script src="../js/seller_scripts/script.js"></script>
+        <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js">
 
         </script>
