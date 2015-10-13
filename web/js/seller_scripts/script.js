@@ -16,7 +16,6 @@ $(document).ready(function(){
     });
 
     $('#grid').on('click','.smal',function () {
-        //alert("qwe")
         $metro.html($items);
         $items.removeClass('medium');
 		$items.removeClass('big');
@@ -28,7 +27,12 @@ $(document).ready(function(){
 
         var itemPos = parseInt($(this).attr('item-position'));
 
-
+		$('.thumbs img').on('click', function(){
+			var gallery = $(this).closest('.toblockimg');
+			gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large'));
+		});
+		
+		
         if (itemPos % metroInLine == 0) {
 
             $(this).addClass('medium');
@@ -55,13 +59,6 @@ $(document).ready(function(){
 			 $('.big').addClass("smal");
 			 $('.smal').removeClass("big");
 	 });
-         
-         $('#grid').on('click', '.prev4change', function(){
-    var gallery = $(this).closest('.toblockimg');
-    var srcimage = $(this).attr('src');
-    gallery.find('.largeImage').attr('src',srcimage); 
-    
-}); 
 
 
 
