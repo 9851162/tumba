@@ -16,6 +16,8 @@
         <intercept-url pattern="/Images/" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         <intercept-url pattern="/Main/chosen" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Main/sales" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Main/purchases" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Main/authorize" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
