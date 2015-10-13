@@ -57,11 +57,21 @@ public class Ad extends PrimEntity {
     @NotNull(message = "Необходимо добавить описание")
     private String description;
     
+    //to do rework ito author_id
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Автор не указан")
     @Index(name="authorIndex")
     private User author;
+    
+    @JoinColumn(name = "buyer_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User buyer;
+    
+    
+    @Column(name = "sale_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date saleDate;
     
     @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -72,6 +82,8 @@ public class Ad extends PrimEntity {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "ad")
     private Set<ParametrValue> values;
+    
+    
     
     @Override
     public Long getId() {
@@ -143,6 +155,22 @@ public class Ad extends PrimEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
+    public Date getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(Date saleDate) {
+        this.saleDate = saleDate;
     }
     
     

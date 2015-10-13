@@ -341,5 +341,23 @@ public class AdService extends PrimService {
             return new ArrayList();
         }
     }
+    
+    public List<Ad> getPurchases(Long userId) {
+        if (userId != null) {
+            return adDao.getPurchases(userId);
+        } else {
+            addError("Пользователь не указан");
+            return new ArrayList();
+        }
+    }
+    
+    public List<Ad> getSales(Long userId) {
+        if (userId != null) {
+            return adDao.getSales(userId);
+        } else {
+            addError("Пользователь не указан");
+            return new ArrayList();
+        }
+    }
 
 }
