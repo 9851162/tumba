@@ -296,6 +296,14 @@ public class AdService extends PrimService {
          return adDao.getAds
          }*/
     }
+    
+    public Ad getAd(Long adId) {
+        //if(wishes==null||wishes.equals("")){
+        return adDao.find(adId);
+        /*}else{
+         return adDao.getAds
+         }*/
+    }
 
     public void delete(Long adId) {
         if (adId != null) {

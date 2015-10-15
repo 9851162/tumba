@@ -6,9 +6,11 @@
 package controllers;
 
 import controllers.parent.WebController;
+import entities.Ad;
 import entities.User;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +97,36 @@ public class AdController extends WebController {
             if(u!=null){
                 adService.setUnsetChosen(u.getId(), adId);
             }
-            //model.put("errors",adService.getErrors());
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!adService.getErrors().isEmpty()){
+            res.setMessage(adService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
+    @RequestMapping("/addToBasket")
+    @ResponseBody
+    public JsonResponse addToBasket (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                List ads = (List)request.getSession().getAttribute(BASKET);
+                if(ads==null){
+                    ads = new ArrayList();
+                }
+                Ad ad = adService.getAd(adId);
+                if(!ads.contains(ad)){
+                    if(ads.size()<20){
+                        ads.add(ad);
+                    }
+                }
+                request.getSession().setAttribute(BASKET, ads);
+            }
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
         if(!adService.getErrors().isEmpty()){
