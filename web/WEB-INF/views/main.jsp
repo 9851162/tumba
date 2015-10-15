@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Сайт с объявлениями</title>
@@ -17,7 +18,7 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
     </head>
-    <body >
+    <body>
         <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
         <div id="wrapper">
 
@@ -394,13 +395,8 @@
                                 <button type="button"></button>
                                 <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
                             </div>
-
-
-                            <!--<button type="button" onchange='$("#upload-file-info").html($(this).val());' style="border-radius: 10px;width: 78px;height: 78px; background-image: url(../img/plusimg.png);background-repeat: no-repeat;cursor: pointer;border:0px;"></button>-->
-                            <!--<input type="file" multiple name="previews" size="40" src="../img/plusimg.png"  onchange='$("#upload-file-info").html($(this).val());'>-->
                             <span class='label label-info' id="upload-file-info" ></span>
                         </div>
-                        <!--<img src="../img/plusimg.png">-->
                     </div>
                 </div>
 
@@ -426,8 +422,6 @@
                                     </option>
                                 </c:forEach>
                             </select>
-
-                            <!--<button type="button" class="addCat"/>-->
 
                         </div>
 
@@ -571,9 +565,7 @@
         <script src="../js/jquery.min.js"></script>
         <script src="../js/seller_scripts/script.js"></script>
         <script src="../js/seller_scripts/ajaxscript.js"></script>
-        <script src="../js/seller_scripts/magic.js">
-
-        </script>
+        <script src="../js/seller_scripts/magic.js"></script>
         <script>
             $('.categoryChanger').change(function () {
                 var catId = $(this).val();

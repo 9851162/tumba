@@ -153,7 +153,7 @@ input:focus,button:focus{outline:none;}
 .boxssilka  div{    float: left;}
 
 
-.modal_form {	width: 1080px;	 background: #fff;    position: absolute; left: 50%; margin-left: -560px; display: none; opacity: 0; z-index: 5; padding: 20px;    margin-top: 113px;}
+.modal_form {	width: 1080px;	 background: #fff;    position: absolute;/* left: 50%; margin-left: -560px; */display: none; opacity: 0; z-index: 5; padding: 20px;    margin-top: 113px;}
 #modal_close {	width: 21px;	height: 21px;	position: absolute; top: 10px;	right: 10px; cursor: pointer; display: block;}
 #overlay {	z-index: 3; 	position: fixed; 	background-color: #000;	opacity: 0.5;	width: 100%; height: 100%; 	top: 0; 	left: 0; 	cursor: pointer;	display: none; }
 .nameform{text-align:right; font-family: HelveticaNeue;font-size: 35px; }
@@ -194,6 +194,41 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 	.modal_form {	width: 1000px;	 left: 50%; margin-left: -500px; }
 	.toin{    width: 880px;}
 }
+
+.file_upload{
+    
+    position: relative;
+    overflow: hidden;
+    width: 78px;
+    font-size: 1em;        /* example */
+    //height: 2em;           /* example */
+    //line-height: 2em       /* the same as height */
+}
+
+.file_upload > button{
+    //float: right;
+    /*width: 8em;            
+    height: 100%;*/
+    border-radius: 10px;
+    width: 78px;
+    height: 78px; 
+    background-image: url(../img/plusimg.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border:0px;
+}
+.file_upload > div{
+    padding-left: 1em      /* example */
+}
+@media only screen and ( max-width: 500px ){  /* example */
+    .file_upload > div{
+        display: none
+    }
+    .file_upload > button{
+        width: 100%
+    }
+}
+
 .file_upload input[type=file]{
     position: absolute;
     left: 0;
