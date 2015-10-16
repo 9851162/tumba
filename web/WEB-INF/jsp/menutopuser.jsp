@@ -15,7 +15,7 @@
 				<div id="user_head">
                                         <div id="user_role">Пользователь</div>
 					<div id="user_name">${userName}</div>
-					<div id="options"><a href="#" class="open_modal">настройки</a></div>
+					<!--<div id="options"><a href="#" class="open_modal">настройки</a></div>-->
                                         <div id="logout"><a href="../logout">выйти</a></div>
 				</div>
 				<img id="avatar" src="../img/avatar.png">

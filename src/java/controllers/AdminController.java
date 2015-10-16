@@ -50,7 +50,7 @@ public class AdminController extends WebController {
         model.put("catName", catService.getCatName(catId));
         model.put("paramTypeMap",catService.getParamTypes());
         model.put("reqTypeMap",catService.getReqTypes());
-        model.put("catParams", catService.getParams(catId));
+        model.put("catParamLinks", catService.getParamLinks(catId));
         model.put("params", catService.getAllParams());
            
         return "cats";
@@ -61,7 +61,7 @@ public class AdminController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
             
-        model.put("reqTypeMap",catService.getReqTypes());
+        //model.put("reqTypeMap",catService.getReqTypes());
         model.put("paramTypeMap",catService.getParamTypes());
         model.put("params", catService.getAllParams());
             
@@ -96,14 +96,14 @@ public class AdminController extends WebController {
     public String createParam (Map<String, Object> model,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "paramType", required = false) Integer paramType,
-            @RequestParam(value = "reqType", required = false) String reqType,
+            /*@RequestParam(value = "reqType", required = false) String reqType,*/
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
-        int req = Parametr.NOTREQUIRED;
+        /*int req = Parametr.NOTREQUIRED;
         if(reqType!=null){
             req=Parametr.REQUIRED;
-        }
+        }*/
         
-        catService.createParam(name, req, paramType);
+        catService.createParam(name, paramType);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
         return "redirect:./params";
     }
@@ -133,10 +133,11 @@ public class AdminController extends WebController {
     @RequestMapping("/addParam")
     public String addParam (Map<String, Object> model,
             @RequestParam(value = "catId", required = false) Long catId,
+            @RequestParam(value = "req", required = false) String req,
             @RequestParam(value = "paramId", required = false) Long paramId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        catService.addParam(catId, paramId);
+        catService.addParam(catId,req,paramId);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
         ras.addAttribute("catId", catId);
         return "redirect:./cats";

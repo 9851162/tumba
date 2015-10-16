@@ -36,7 +36,7 @@ public class WebController {
     
     protected final String ERRORS_LIST_NAME = "errors";
     
-    protected final String BASKET = "comparisonBasket";
+    protected final String COMPARISON = "comparisonBasket";
     
     @Autowired
     private DateEditor dateEditor;

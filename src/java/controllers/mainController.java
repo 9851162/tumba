@@ -62,7 +62,7 @@ public class mainController extends WebController {
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap",catService.getCatIdParamsMap());
-        model.put("reqTypeMap",catService.getReqTypes());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish",wish);
         //model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = (ArrayList<String>)model.get("errors");
@@ -96,7 +96,7 @@ public class mainController extends WebController {
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap",catService.getCatIdParamsMap());
-        model.put("reqTypeMap",catService.getReqTypes());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
         //model.put("wish",wish);
         //model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = (ArrayList<String>)model.get("errors");
@@ -130,7 +130,7 @@ public class mainController extends WebController {
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap",catService.getCatIdParamsMap());
-        model.put("reqTypeMap",catService.getReqTypes());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish",wish);
         //model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = (ArrayList<String>)model.get("errors");
@@ -163,7 +163,7 @@ public class mainController extends WebController {
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap",catService.getCatIdParamsMap());
-        model.put("reqTypeMap",catService.getReqTypes());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish",wish);
         //model.put("paramMap",catService.getParamsMap());
         ArrayList<String> ers = (ArrayList<String>)model.get("errors");
@@ -175,6 +175,52 @@ public class mainController extends WebController {
         //ers.add("err");
         model.put(ERRORS_LIST_NAME,ers);
         return "main";
+    }
+    
+    @RequestMapping("/comparison")
+    public String getComparison (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "shortName", required = false) String shortName,
+            @RequestParam(value = "description", required = false) String desc,
+            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        
+        User u = authManager.getCurrentUser();
+        List ads = (List)request.getSession().getAttribute(COMPARISON);
+        
+        model.put("compList",ads);
+        model.put("attrList",ads);
+        //model.put("purchasesList",adService.getPurchases(u.getId()));
+        model.put("shortName", shortName);
+        model.put("description", desc);
+        model.put("price", price);
+        model.put("catList", catService.getCatList());
+        model.put("catMap", catService.getCatMap());
+        model.put("catParamsMap",catService.getCatIdParamsMap());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
+        model.put("wish",wish);
+        //model.put("paramMap",catService.getParamsMap());
+        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
+        if(ers==null){
+            ers = new ArrayList();
+            
+        }
+        
+            /*List<String>supList = new ArrayList();
+            for(int i=0;i<5;i++){
+                supList.add(null);
+            }
+            for(String s:supList){
+                ers.add(s);
+            }
+            ers.add("qwe");
+            
+            ers.add("list:"+supList.size()+";");*/
+        ers.addAll(catService.getErrors());
+        //ers.add("err");
+        model.put(ERRORS_LIST_NAME,ers);
+        return "comparison";
     }
     
     @RequestMapping("/authorize")

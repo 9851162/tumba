@@ -6,10 +6,12 @@
 package service;
 
 import dao.CategoryDao;
+import dao.ParamCategoryLinkDao;
 import dao.ParametrDao;
 import dao.ParametrSelOptionDao;
 import dao.ParametrValueDao;
 import entities.Category;
+import entities.ParamCategoryLink;
 import entities.Parametr;
 import entities.ParametrSelOption;
 import java.math.BigInteger;
@@ -45,6 +47,8 @@ public class CategoryService extends PrimService {
     ParametrValueDao paramValueDao;
     @Autowired
     ParametrSelOptionDao optionDao;
+    @Autowired
+    ParamCategoryLinkDao linkDao;
 
     public void create(Long parentId, String name) throws Exception {
         List<String> unavailableNames = catDao.getUnderCatNames(parentId);
@@ -54,15 +58,15 @@ public class CategoryService extends PrimService {
             cat.setName(name);
             cat.setParentId(parentId);
             //наследуем параметры и путь
-            Set<Parametr> params = new HashSet();
+            Set<ParamCategoryLink> params = new HashSet();
             if (!parentId.equals(Category.BASEID)) {
                 Category parent = catDao.find(parentId);
-                if (parent.getParams() != null) {
-                    params = new HashSet(parent.getParams());
+                if (parent.getParamLinks()!= null) {
+                    params = new HashSet(parent.getParamLinks());
                 }
                 idPath = parent.getIdPath().substring(0, parent.getIdPath().length() - 1);
             }
-            cat.setParams(params);
+            cat.setParamLinks(params);
 
             idPath += "_" + parentId + "_";
             Integer nestingLevel = idPath.split("_").length - 1;
@@ -87,11 +91,11 @@ public class CategoryService extends PrimService {
                 Category cat = catDao.find(categoryId);
                 List<Category> underCats = catDao.getAllUnderCats(categoryId);
                 for (Category underCat : underCats) {
-                    underCat.setParams(new HashSet());
+                    underCat.setParamLinks(new HashSet());
                     catDao.update(underCat);
                     catDao.delete(underCat);
                 }
-                cat.setParams(new HashSet());
+                cat.setParamLinks(new HashSet());
                 catDao.update(cat);
                 catDao.delete(cat);
             } else {
@@ -182,7 +186,7 @@ public class CategoryService extends PrimService {
         return res;
     }
 
-    //??? не нужен?
+    //??? не нужен может?
     public String getCatName(Long catId) {
         if (catId == null) {
             return "Не выбрана";
@@ -191,48 +195,80 @@ public class CategoryService extends PrimService {
         }
     }
 
-    public List<Parametr> getParams(Long catId) {
+    /*public List<Parametr> getParams(Long catId) {
         List<Parametr> params = new ArrayList();
         if (catId != null) {
             Category cat = catDao.find(catId);
-            params.addAll(cat.getParams());
+            for(ParamCategoryLink link:cat.getParamLinks()){
+                params.add(link.getParam());
+            }
+            //params.addAll(cat.getParams());
             Collections.sort(params, new paramComparator());
         }
         return params;
     }
-
+    
     private class paramComparator implements Comparator<Parametr> {
 
         @Override
         public int compare(Parametr a, Parametr b) {
             return a.getName().compareTo(b.getName());
         }
+    }*/
+    
+    public List<ParamCategoryLink> getParamLinks(Long catId) {
+        List<ParamCategoryLink> res = new ArrayList();
+        if (catId != null) {
+            Category cat = catDao.find(catId);
+            for(ParamCategoryLink link:cat.getParamLinks()){
+                res.add(link);
+            }
+            //params.addAll(cat.getParams());
+            Collections.sort(res, new linkComparator());
+        }
+        return res;
     }
 
-    public void createParam(String name, Integer reqType, Integer paramType) throws Exception {
+    private class linkComparator implements Comparator<ParamCategoryLink> {
+
+        @Override
+        public int compare(ParamCategoryLink a, ParamCategoryLink b) {
+            return a.getParam().getName().compareTo(b.getParam().getName());
+        }
+    }
+
+    public void createParam(String name, Integer paramType) throws Exception {
         Parametr p = new Parametr();
         p.setName(name);
         p.setParamType(paramType);
-        p.setReqType(reqType);
         if (validate(p)) {
             paramDao.save(p);
         }
     }
 
-    public void addParam(Long catId, Long paramId) throws Exception {
+    public void addParam(Long catId, String req, Long paramId) throws Exception {
         if (paramId != null) {
             if (catId != null) {
                 Category c = catDao.find(catId);
-                Parametr p = paramDao.find(paramId);
-                Set<Parametr> supSet = c.getParams();
-                supSet.add(p);
-                c.setParams(supSet);
-                if (validate(c)) {
-                    catDao.update(c);
+                if(catDao.isAddebleParam(paramId,catId)){
+                    Parametr p = paramDao.find(paramId);
+                    ParamCategoryLink link = new ParamCategoryLink();
+                    link.setParam(p);
+                    link.setCat(c);
+                    if(req!=null){
+                        link.setReq();
+                    }else{
+                        link.setNotReq();
+                    }
+                    if(validate(link)){
+                        linkDao.save(link);
+                    }
                 }
             } else {
                 addError("Категория не указана");
             }
+        }else{
+            addError("Параметр не указан");
         }
     }
 
@@ -249,32 +285,15 @@ public class CategoryService extends PrimService {
 
     public LinkedHashMap<Integer, String> getReqTypes() {
         LinkedHashMap<Integer, String> res = new LinkedHashMap();
-        res.put(Parametr.REQUIRED, "об.");
-        res.put(Parametr.NOTREQUIRED, "необ.");
+        res.put(ParamCategoryLink.REQUIRED, "об.");
+        res.put(ParamCategoryLink.NOTREQUIRED, "необ.");
         return res;
     }
 
-    //to do delete from sql iz table??
+    
     public void deleteParamFromCat(Long paramId, Long catId) throws Exception {
         if (catId != null && paramId != null) {
-            Category c = catDao.find(catId);
-            Set<Parametr> params = c.getParams();
-            Set<Parametr> supSet = new HashSet();
-            for (Parametr p : params) {
-                if (!p.getId().equals(paramId)) {
-                    supSet.add(p);
-                }
-            }
-            c.setParams(supSet);
-            catDao.update(c);
-            //Parametr p = paramDao.find(paramId);
-
-            //to do it doesn't work!
-            /*Boolean check = paramDao.hasCats(paramId);
-            if (!check) {
-                paramDao.delete(p);
-            }*/
-            //addError("res = " + check);
+            linkDao.delete(paramId,catId);
         } else {
             if (catId == null) {
                 addError("Ид категории не передан");
@@ -348,6 +367,41 @@ public class CategoryService extends PrimService {
     public void deleteParamOption(Long paramOptionId){
         optionDao.delete(optionDao.find(paramOptionId));
     }
+    
+    /*public List<Parametr>getSortedParamsForComparison(List<Ad>ads){
+        List<Object[]>res = new ArrayList();
+        HashMap<Long,Integer>countMap = new HashMap();
+        HashMap<Long,String[]>map = new HashMap();
+        if(ads!=null&&!ads.isEmpty()){
+            int i = 0;
+            for(Ad ad:ads){
+                for(ParametrValue pv:ad.getValues()){
+                    Parametr p = pv.getParametr();
+                    
+                    Integer count = countMap.get(p.getId());
+                    if(count==null){
+                        count=0;
+                    }
+                    countMap.put(p.getId(), count+1);
+                            
+                    String[] o = map.get(p.getId());
+                    if(o==null){
+                        o=new String[ads.size()];
+                    }
+                    switch(p.getParamType()){
+                        case Parametr.BOOL
+                    }
+                    o[i]=pv.
+                    
+                }
+                
+                Object[] paramRow = new Object[3];
+                ad.getCat().getParams();
+                
+            }
+        }
+        return res;
+    }*/
     
     /*public ParametrValue setValue(Parametr p,Object val){
         

@@ -7,6 +7,7 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +38,8 @@ public class Parametr extends PrimEntity {
     public final static Integer BOOL = 5;
     public final static Integer DATE = 6;
     
-    public final static Integer NOTREQUIRED = 0;
-    public final static Integer REQUIRED = 1;
+    /*public final static Integer NOTREQUIRED = 0;
+    public final static Integer REQUIRED = 1;*/
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +56,10 @@ public class Parametr extends PrimEntity {
     @OrderBy("name")
     private List<ParametrSelOption>options;
     
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "param")
+    private Set<ParamCategoryLink> catLinks;
+    
     /*@ManyToMany(mappedBy = "params", fetch = FetchType.LAZY)
     private Set<Category> cats;*/
     
@@ -63,22 +68,22 @@ public class Parametr extends PrimEntity {
     @NotNull(message = "Необходимо указать будет ли параметр вводиться или выбираться")
     private Integer paramType;
     
-    @Column(name = "req_type")
+    /*@Column(name = "req_type")
     @NotNull(message = "Необходимо указать является ли параметр необходимым")
-    private Integer reqType;
+    private Integer reqType;*/
     
     @Override
     public Long getId() {
         return id;
     }
 
-    public Integer getReqType() {
+    /*public Integer getReqType() {
         return reqType;
     }
 
     public void setReqType(Integer reqType) {
         this.reqType = reqType;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -116,9 +121,18 @@ public class Parametr extends PrimEntity {
         this.options = options;
     }
     
-    public Boolean isReq(){
+    /*public Boolean isReq(){
         return REQUIRED==this.reqType;
+    }*/
+
+    public Set<ParamCategoryLink> getCatLinks() {
+        return catLinks;
     }
 
+    public void setCatLinks(Set<ParamCategoryLink> catLinks) {
+        this.catLinks = catLinks;
+    }
+
+    
     
 }

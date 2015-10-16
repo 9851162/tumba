@@ -98,7 +98,7 @@ public class AdService extends PrimService {
                     if (validate(ad)) {
                         adDao.save(ad);
 
-                        Set<Parametr> catParams = cat.getParams();
+                        List<Parametr> catParams = paramDao.getParamsFromCat(catId);
                         int i = 0;
                         ArrayList<String> paramValsErrs = new ArrayList();
                         //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
@@ -123,7 +123,6 @@ public class AdService extends PrimService {
                                         list4Save.add(pv);
                                     }
                                     i++;
-
                                 }
                             }
                         }

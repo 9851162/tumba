@@ -42,25 +42,6 @@
                 </div>
             </div>
 
-            <!--<div id="search_add">
-                <div class="tosearch">
-                        <div class="formsearch">
-                                    <form method="post" action="Ad/list">
-                                            <input type="text" placeholder="Впишите ваше желание">
-                                            <button type="submit" class="">Поиск</button>
-                                    </form>
-                        </div>
-                            <div class="controlsearch">
-                                    <a href="#">вся россия</a>
-                                    <a href="#">домашний регион</a>
-                                    <a href="#">выбор региона</a>
-                            </div>
-                    </div>
-                    <div class="toobnov">
-                            <a href="#modal1" class="open_modal">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
-                    </div>
-            </div>-->
-
             <div id="advanced_search">
                 <h1>Расширенный поиск</h1>
                 <div class="cat">категория<a href="" class="spoiler_links"><div class="tostrel"></div></a>
@@ -76,11 +57,11 @@
             <c:if test="${role=='user'||role=='admin'}">
                 <c:set var="choosePossible" value="choose"/>
                 <div class="icons">
-                    <div id="ico" class="ico1"><img src="../img/menu1.png"> </div>
-                    <div id="ico" class="ico2"><img src="../img/menu2.png"> </div>
-                    <div id="ico" class="ico3"><img src="../img/menu3.png"> </div>
-                    <div id="ico" class="ico4"><img src="../img/menu4.png"> </div>
-                    <div id="ico" class="ico5"><img src="../img/menu5.png"> </div>
+                    <a href="<c:url value="../Main/purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
+                    <a href="<c:url value="../Main/sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
+                    <a href="<c:url value="../Main/" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
+                    <a href="<c:url value="../Main/chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
+                    <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
             </c:if>
 
@@ -88,9 +69,9 @@
                 <c:if test="${role=='user'||role=='admin'}">    
                     <a style="text-decoration: none;" href="<c:url value="../Main/purchases" />"><div class="menuitem">Мои покупки<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/sales" />"><div class="menuitem">Мои продажи<img src="../img/strright.png"></div></a>
-                    <div class="menuitem">Регионы<img src="../img/strright.png"></div>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
-                    <div class="menuitem">Сравнение<img src="../img/strright.png"></div>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение<img src="../img/strright.png"></div></a>
                 </c:if>
                 <div class="promo"> </div>
                 <div class="promo"> </div>

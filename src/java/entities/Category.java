@@ -6,19 +6,17 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -51,12 +49,15 @@ public class Category extends PrimEntity {
     @NotNull(message = "Необходимо указать уровень вложенности")
     private Integer nestingLevel;
     
-   
-    @ManyToMany(fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.TRUE)
+    @OneToMany(mappedBy = "cat")
+    private Set<ParamCategoryLink> paramLinks;
+    
+    /*@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "params_in_categories",
             joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "parametr_id", referencedColumnName = "parametr_id"))
-    private Set<Parametr> params;
+    private Set<Parametr> params;*/
     
     @Override
     public Long getId() {
@@ -79,7 +80,7 @@ public class Category extends PrimEntity {
         this.parentId = parentId;
     }
 
-    public Set<Parametr> getParams() {
+    /*public Set<Parametr> getParams() {
         if(params==null){
             return new HashSet();
         }
@@ -88,7 +89,7 @@ public class Category extends PrimEntity {
 
     public void setParams(Set<Parametr> params) {
         this.params = params;
-    }
+    }*/
 
     public String getIdPath() {
         return idPath;
@@ -115,5 +116,15 @@ public class Category extends PrimEntity {
         }
         return prefix;
     }
+
+    public Set<ParamCategoryLink> getParamLinks() {
+        return paramLinks;
+    }
+
+    public void setParamLinks(Set<ParamCategoryLink> paramLinks) {
+        this.paramLinks = paramLinks;
+    }
+    
+    
     
 }

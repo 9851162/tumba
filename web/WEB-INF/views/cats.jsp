@@ -61,30 +61,31 @@
                     <select name="paramId">
                         <c:if test="${!empty params}">
                         <c:forEach var="parametr" items="${params}">
-                            <option value="${parametr.id}">${parametr.name} - ${reqTypeMap.get(parametr.reqType)} - ${paramTypeMap.get(parametr.paramType)}</option>
+                            <option value="${parametr.id}">${parametr.name} - ${paramTypeMap.get(parametr.paramType)}</option>
                         </c:forEach>
                         </c:if>
                         <c:if test="${empty params}">
                             <option value="">Нет доступных параметров</option>
                         </c:if>
                     </select>
+                    <label>Обяз. <input type="checkbox" name="req"></label>
                     <input type="hidden" name="catId" value="${param.catId}">
                     <button type="submit" class="btn">Добавить параметр</button>
                 </form>
                     <br><br>
             <b>Параметры: </b>
             
-                <c:if test="${!empty catParams}">
+                <c:if test="${!empty catParamLinks}">
                     <table>
                         <tr><th>Наименование</th><th>Тип</th>
                             <th>Необходим</th><th>Удалить</th></tr>
-                                <c:forEach var="parametr" items="${catParams}">
-                            <tr><td>${parametr.name}</td><td>${paramTypeMap.get(parametr.paramType)}</td>
-                                <td>${reqTypeMap.get(parametr.reqType)}</td><td><a href="../Admin/deleteParamFromCat?catId=${param.catId}&paramId=${parametr.id}">x</a></td></tr>
+                                <c:forEach var="link" items="${catParamLinks}">
+                            <tr><td>${link.param.name}</td><td>${paramTypeMap.get(link.param.paramType)}</td>
+                                <td>${reqTypeMap.get(link.reqType)}</td><td><a href="../Admin/deleteParamFromCat?catId=${link.cat.id}&paramId=${link.param.id}">x</a></td></tr>
                             </c:forEach>
                     </table>
                 </c:if>
-                <c:if test="${empty catParams}">
+                <c:if test="${empty catParamLinks}">
                     <br><br>
                     В категории нет добавленных параметров
                 </c:if>

@@ -31,11 +31,11 @@
             <h3>Параметры</h3>
             <div style="width: 55%;float: right;">
                 <c:if test="${!empty params}">
-                    <table><tr><th>№</th><th>Наименование</th><th>Тип</th><th>Обяз.</th><th>Опции</th><th>Добавить опцию</th><th>Удалить</th></tr>
+                    <table><tr><th>№</th><th>Наименование</th><th>Тип</th><th>Опции</th><th>Добавить опцию</th><th>Удалить</th></tr>
                         <c:forEach var="parametr" items="${params}" varStatus="myIndex">
                             <tr><td>${myIndex.count}</td><td>${parametr.name}</td>
                                 <td>${paramTypeMap.get(parametr.paramType)}</td>
-                                <td>${reqTypeMap.get(parametr.reqType)}</td>
+                                <!--<td>${reqTypeMap.get(parametr.reqType)}</td>-->
                                 <td>
                                     <c:forEach var="opt" items="${parametr.options}">
                                         ${opt.name} <a href="../Admin/deleteParamOption?paramOptionId=${opt.id}">x</a><br>
@@ -72,7 +72,7 @@
                                 </option>
                             </c:forEach>
                         </select></label>
-                    <label>Обяз. <input type="checkbox" name="reqType"></label>
+                    <!--<label>Обяз. <input type="checkbox" name="reqType"></label>-->
                     <input type="hidden" name="catId" value="${param.catId}">
 
                     <button type="submit" class="btn">Добавить</button>

@@ -61,6 +61,10 @@ public class ParametrValue extends PrimEntity {
     @Index(name="adIndex")
     private Ad ad;
     
+    /*public String getValAsString(){
+        switch(parametr.getParamType())
+    }*/
+    
     @Override
     public Long getId() {
         return id;

@@ -106,16 +106,16 @@ public class AdController extends WebController {
         return res;
     }
     
-    @RequestMapping("/addToBasket")
+    @RequestMapping("/addToComparison")
     @ResponseBody
-    public JsonResponse addToBasket (Map<String, Object> model,
+    public JsonResponse addToComparison (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
             RedirectAttributes ras) throws Exception {
         
             User u = authManager.getCurrentUser();
             if(u!=null){
-                List ads = (List)request.getSession().getAttribute(BASKET);
+                List ads = (List)request.getSession().getAttribute(COMPARISON);
                 if(ads==null){
                     ads = new ArrayList();
                 }
@@ -125,7 +125,35 @@ public class AdController extends WebController {
                         ads.add(ad);
                     }
                 }
-                request.getSession().setAttribute(BASKET, ads);
+                request.getSession().setAttribute(COMPARISON, ads);
+            }
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!adService.getErrors().isEmpty()){
+            res.setMessage(adService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
+    @RequestMapping("/removeFromComparison")
+    @ResponseBody
+    public JsonResponse removeFromComparison (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                List ads = (List)request.getSession().getAttribute(COMPARISON);
+                if(ads==null){
+                    ads = new ArrayList();
+                }
+                Ad ad = adService.getAd(adId);
+                if(ads.contains(ad)){
+                    ads.remove(ad);
+                }
+                request.getSession().setAttribute(COMPARISON, ads);
             }
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
