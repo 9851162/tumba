@@ -27,218 +27,224 @@ import service.UserService;
 @RequestMapping("/Main")
 @Controller
 public class mainController extends WebController {
-    
+
     @Autowired
     private AdService adService;
     @Autowired
     private UserService userService;
     @Autowired
     private CategoryService catService;
-    
+
     private final static String USER_ID_SESSION_NAME = "userId";
     private final static String USER_NAME_SESSION_NAME = "userName";
-    
-    
+
     @RequestMapping("/")
-    public String getMain (Map<String, Object> model,
+    public String getMain(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         User u = authManager.getCurrentUser();
         Long userId = null;
-        if(u!=null){
-            userId=u.getId();
+        if (u != null) {
+            userId = u.getId();
         }
-        
-        model.put("adList",adService.getAds(wish));
-        model.put("chosenAdsMap",adService.getChosenAdMap(userId));
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
+
+        model.put("adList", adService.getAds(wish));
+        model.put("chosenAdsMap", adService.getChosenAdMap(userId));
+        if (shortName != null) {
+            model.put("shortName", shortName);
+        }
+        if (desc != null) {
+            model.put("description", desc);
+        }
+        if (price != null) {
+            model.put("price", price);
+        }
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
         /*model.put("reqTypeMap",catService.getReqTypes());*/
-        model.put("wish",wish);
+        model.put("wish", wish);
         //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
-        if(ers==null){
+        Map<String, Object> map = ras.asMap();
+        Map<String, ?> map1 = ras.getFlashAttributes();
+        List<String> ers = (List) model.get(ERRORS_LIST_NAME);
+        if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
-        //ers.add("err");
-        model.put(ERRORS_LIST_NAME,ers);
+        model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-    
+
     @RequestMapping("/chosen")
-    public String getChosen (Map<String, Object> model,
+    public String getChosen(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             //@RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         User u = authManager.getCurrentUser();
-        
-        model.put("adList",adService.getChosenAds(u.getId()));
-        model.put("chosenAdsMap",adService.getChosenAdMap(u.getId()));
+
+        model.put("adList", adService.getChosenAds(u.getId()));
+        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
         //model.put("chosenList",adService.getChosenAds(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
         /*model.put("reqTypeMap",catService.getReqTypes());*/
         //model.put("wish",wish);
         //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
-        if(ers==null){
+        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
+        if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         //ers.add("err");
-        model.put(ERRORS_LIST_NAME,ers);
+        model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-    
+
     @RequestMapping("/sales")
-    public String getSales (Map<String, Object> model,
+    public String getSales(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         User u = authManager.getCurrentUser();
-        
-        model.put("adList",adService.getSales(u.getId()));
-        model.put("chosenAdsMap",adService.getChosenAdMap(u.getId()));
+
+        model.put("adList", adService.getSales(u.getId()));
+        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
         //model.put("salesList",adService.getSales(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
         /*model.put("reqTypeMap",catService.getReqTypes());*/
-        model.put("wish",wish);
+        model.put("wish", wish);
         //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
-        if(ers==null){
+        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
+        if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         //ers.add("err");
-        model.put(ERRORS_LIST_NAME,ers);
+        model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-    
+
     @RequestMapping("/purchases")
-    public String getPurchases (Map<String, Object> model,
+    public String getPurchases(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         User u = authManager.getCurrentUser();
-        
-        model.put("adList",adService.getPurchases(u.getId()));
+
+        model.put("adList", adService.getPurchases(u.getId()));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
         /*model.put("reqTypeMap",catService.getReqTypes());*/
-        model.put("wish",wish);
+        model.put("wish", wish);
         //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
-        if(ers==null){
+        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
+        if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         //ers.add("err");
-        model.put(ERRORS_LIST_NAME,ers);
+        model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-    
+
     @RequestMapping("/comparison")
-    public String getComparison (Map<String, Object> model,
+    public String getComparison(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         User u = authManager.getCurrentUser();
-        List ads = (List)request.getSession().getAttribute(COMPARISON);
-        
-        model.put("compList",ads);
-        model.put("attrList",ads);
+        List ads = (List) request.getSession().getAttribute(COMPARISON);
+
+        model.put("compList", ads);
+        model.put("attrList", ads);
         //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap",catService.getCatIdParamsMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
         /*model.put("reqTypeMap",catService.getReqTypes());*/
-        model.put("wish",wish);
+        model.put("wish", wish);
         //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>)model.get("errors");
-        if(ers==null){
+        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
+        if (ers == null) {
             ers = new ArrayList();
-            
+
         }
-        
-            /*List<String>supList = new ArrayList();
-            for(int i=0;i<5;i++){
-                supList.add(null);
-            }
-            for(String s:supList){
-                ers.add(s);
-            }
-            ers.add("qwe");
+
+        /*List<String>supList = new ArrayList();
+         for(int i=0;i<5;i++){
+         supList.add(null);
+         }
+         for(String s:supList){
+         ers.add(s);
+         }
+         ers.add("qwe");
             
-            ers.add("list:"+supList.size()+";");*/
+         ers.add("list:"+supList.size()+";");*/
         ers.addAll(catService.getErrors());
         //ers.add("err");
-        model.put(ERRORS_LIST_NAME,ers);
+        model.put(ERRORS_LIST_NAME, ers);
         return "comparison";
     }
-    
+
     @RequestMapping("/authorize")
-    public String authorize (Map<String, Object> model,
-            HttpServletRequest request,RedirectAttributes ras) throws Exception {
-        
-            User user = authManager.getCurrentUser();
-            
-            request.getSession().setAttribute(USER_NAME_SESSION_NAME, user.getName());
-            request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
-            request.getSession().setAttribute("role", user.getUserRole());
+    public String authorize(Map<String, Object> model,
+            HttpServletRequest request, RedirectAttributes ras) throws Exception {
+
+        User user = authManager.getCurrentUser();
+
+        request.getSession().setAttribute(USER_NAME_SESSION_NAME, user.getName());
+        request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
+        request.getSession().setAttribute("role", user.getUserRole());
         //ras.addAttribute("role", "admin");
-           
+
         return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/registration")
-    public String register (Map<String, Object> model,
+    public String register(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "password", required = false) String password,
@@ -246,59 +252,56 @@ public class mainController extends WebController {
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "email", required = false) String email,
             RedirectAttributes ras) throws Exception {
-        
-        userService.createUser(phone, email, password, name, passconfirm,User.ROLEADMIN);
-        
+
+        userService.createUser(phone, email, password, name, passconfirm, User.ROLEADMIN);
+
         /*model.put("name", name);
-        model.put("phone", phone);
-        model.put("email", email);*/
+         model.put("phone", phone);
+         model.put("email", email);*/
         /*ras.addAttribute("name", name);
-        ras.addAttribute("phone", phone);
-        ras.addAttribute("email", email);*/
+         ras.addAttribute("phone", phone);
+         ras.addAttribute("email", email);*/
         ras.addAttribute("errors", userService.getErrors());
         return "redirect:/Main/";
     }
-    
-    
-    
+
     /*@RequestMapping("/recoveryPassword")
-    public String recoveryPassword(Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
+     public String recoveryPassword(Map<String, Object> model, HttpServletRequest request,
+     @RequestParam(value = "email", required = false) String email, String submit) throws Exception {
 
-        if (submit != null) {
-            String recoverHash = userService.recoveryPassword(email);
-            if (userService.getErrors().isEmpty()) {
-                String link = "http://dialogpl.com/User/recoverPassword";
-                String text = "Вы восcтнавливаете пароль от Seller. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
-                sendMail.sendMail(email, text);
-                model.put("message", "Ссылка с востановлением отправлена на почту");
-            }
-            model.put("email", email);
-            model.put("errors", userService.getErrors());
-        }
-        return "recoveryPassword";
-    }
+     if (submit != null) {
+     String recoverHash = userService.recoveryPassword(email);
+     if (userService.getErrors().isEmpty()) {
+     String link = "http://dialogpl.com/User/recoverPassword";
+     String text = "Вы восcтнавливаете пароль от Seller. Пройдите по ссылке для восстановления: " + link + "?hash=" + recoverHash;
+     sendMail.sendMail(email, text);
+     model.put("message", "Ссылка с востановлением отправлена на почту");
+     }
+     model.put("email", email);
+     model.put("errors", userService.getErrors());
+     }
+     return "recoveryPassword";
+     }
 
-    @RequestMapping("/recoverPassword")
-    public String recoverPassword(Map<String, Object> model, HttpServletRequest request,
-            @RequestParam(value = "hash", required = false) String hash,
-            @RequestParam(value = "newPassword", required = false) String password,
-            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            String submit) throws Exception {
+     @RequestMapping("/recoverPassword")
+     public String recoverPassword(Map<String, Object> model, HttpServletRequest request,
+     @RequestParam(value = "hash", required = false) String hash,
+     @RequestParam(value = "newPassword", required = false) String password,
+     @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+     String submit) throws Exception {
 
-        model.put("hash", hash);
+     model.put("hash", hash);
         
-        if (submit != null) {
-            userService.recoverPassword(hash, password, confirmPassword);
-            if (userService.getErrors().isEmpty()) {
-                return "redirect:/login";
-            }
-            model.put("errors", userService.getErrors());
+     if (submit != null) {
+     userService.recoverPassword(hash, password, confirmPassword);
+     if (userService.getErrors().isEmpty()) {
+     return "redirect:/login";
+     }
+     model.put("errors", userService.getErrors());
 
-        }
+     }
 
-        return "recoverPassword";
+     return "recoverPassword";
 
-    }*/
-    
+     }*/
 }

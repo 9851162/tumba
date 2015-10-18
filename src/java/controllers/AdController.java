@@ -68,20 +68,22 @@ public class AdController extends WebController {
         
         adService.create(catId,email,price,previews,shortName,desc,booleanIds,booleanVals,
                 stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals);
-        for(String er:adService.getErrors()){
+        /*for(String er:adService.getErrors()){
             errors.add(er);
-        }
+        }*/
+        errors.addAll(adService.getErrors());
         
         if(!errors.isEmpty()){
-            ras.addAttribute("shortName", shortName);
-            ras.addAttribute("description", desc);
-            ras.addAttribute("price", price);
+            ras.addFlashAttribute("errors", errors);
+            ras.addFlashAttribute("shortName", shortName);
+            ras.addFlashAttribute("description", desc);
+            ras.addFlashAttribute("price", price);
+            ras.addFlashAttribute("catId", catId);
             //ras.addAttribute("previews", previews);
-            ras.addAttribute("catId", catId);
-            //ras.addFlashAttribute("errors", errors);
         }
         //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());
-        ras.addFlashAttribute("errors", errors);
+        //errors.add("s:"+errors.size());
+        //ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         
         return "redirect:/Main/";
     }
