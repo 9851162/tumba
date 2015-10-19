@@ -112,7 +112,11 @@ public class AdService extends PrimService {
                         ArrayList<ParametrValue> list4Save = new ArrayList();
 
                         //не трогаем в плане рек не рек
-                        if (booleanVals != null && booleanVals.length > 0) {
+                        //if (booleanVals != null && booleanVals.length > 0) {
+                        if(booleanIds!=null){
+                            if(booleanVals==null){
+                                booleanVals=new String[booleanIds.length];
+                            }
                             while (i < booleanIds.length) {
                                 Parametr p = paramDao.find(booleanIds[i]);
                                 if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
@@ -130,10 +134,12 @@ public class AdService extends PrimService {
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
-                                    i++;
+                                    
                                 }
+                                i++;
                             }
                         }
+                        //}
 
                         if (stringVals != null && stringVals.length > 0) {
                             i = 0;
@@ -142,19 +148,22 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
                                     String val = stringVals[i];
-                                    if (reqParamIds.contains(paramId) && val != null) {
-                                        reqParamIds.remove(paramId);
-                                    }
+                                    if(val!=null&&!val.equals("")){
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
 
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setStringVal(val);
-                                    if (validate(pv)) {
-                                        list4Save.add(pv);
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setStringVal(val);
+                                        if (validate(pv)) {
+                                            list4Save.add(pv);
+                                        }
+                                        
                                     }
-                                    i++;
                                 }
+                                i++;
                             }
                         }
 
@@ -165,19 +174,22 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
                                     Long val = numVals[i];
-                                    if (reqParamIds.contains(paramId) && val != null) {
-                                        reqParamIds.remove(paramId);
+                                    if(val!=null){
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setNumVal(val);
+                                        pv.setStringVal(StringAdapter.getString(val));
+                                        if (validate(pv)) {
+                                            list4Save.add(pv);
+                                        }
+                                        
                                     }
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setNumVal(val);
-                                    pv.setStringVal(StringAdapter.getString(val));
-                                    if (validate(pv)) {
-                                        list4Save.add(pv);
-                                    }
-                                    i++;
                                 }
+                                i++;
                             }
                         }
 
@@ -188,19 +200,22 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
                                     Date val = dateVals[i];
-                                    if (reqParamIds.contains(paramId) && val != null) {
-                                        reqParamIds.remove(paramId);
+                                    if(val!=null){
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setDateVal(val);
+                                        pv.setStringVal(DateAdapter.formatByDate(val, DateAdapter.SMALL_FORMAT));
+                                        if (validate(pv)) {
+                                            list4Save.add(pv);
+                                        }
+                                        
                                     }
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setDateVal(val);
-                                    pv.setStringVal(DateAdapter.formatByDate(val, DateAdapter.SMALL_FORMAT));
-                                    if (validate(pv)) {
-                                        list4Save.add(pv);
-                                    }
-                                    i++;
                                 }
+                                i++;
                             }
                         }
 
@@ -212,19 +227,22 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
                                     Long val = selVals[i];
-                                    if (reqParamIds.contains(paramId) && val != null) {
-                                        reqParamIds.remove(paramId);
+                                    if(val!=null&&!val.equals(0L)){
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setSelectVal(val);
+                                        pv.setStringVal(paramSelDao.find(val).getName());
+                                        if (validate(pv)) {
+                                            list4Save.add(pv);
+                                        }
+                                        
                                     }
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setSelectVal(val);
-                                    pv.setStringVal(paramSelDao.find(val).getName());
-                                    if (validate(pv)) {
-                                        list4Save.add(pv);
-                                    }
-                                    i++;
                                 }
+                                i++;
                             }
                         }
 
