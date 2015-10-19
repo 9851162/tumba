@@ -28,7 +28,7 @@ $(document).ready(function () {
                     if (json['message'] != undefined) {
                         alert("error: " + json['message']);
                     } else {
-                        alert("При обновлении параметра возникла ошибка, ответ сервера не удалось разобрать. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+                        alert("При выполнении операции возникла ошибка, ответ сервера не удалось разобрать. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
                     }
 
                     /*$('#modalerror').html(json)
@@ -38,6 +38,35 @@ $(document).ready(function () {
                      .css('display', 'block')
                      .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
                      });*/
+                }
+
+            },
+            error: function (json) {
+                alert("Что-то пошло не так: " + json['message']);
+            }
+        });
+    }
+    
+    $("#grid").on('click','.compareAdder', function () {
+        var itemId = $(this).attr("data-ad-id");
+        addToCompare(itemId);
+    });
+    
+    function addToCompare(adId) {
+        $.ajax({
+            url: "../Ad/addToComparison?adId=" + adId,
+            dataType: "json",
+            cache: false,
+            //???
+            success: function (json) {
+                if (json['status'] == true) {
+                  
+                } else {
+                    if (json['message'] != undefined) {
+                        alert("error: " + json['message']);
+                    } else {
+                        alert("При выполнении операции возникла ошибка, ответ сервера не удалось разобрать. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+                    }
                 }
 
             },

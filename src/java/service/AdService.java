@@ -300,6 +300,7 @@ public class AdService extends PrimService {
         }
     }
 
+    //TO DO search by wishword
     public List<Ad> getAds(String wish) {
         //if(wishes==null||wishes.equals("")){
         return adDao.getAll();
@@ -309,11 +310,7 @@ public class AdService extends PrimService {
     }
     
     public Ad getAd(Long adId) {
-        //if(wishes==null||wishes.equals("")){
         return adDao.find(adId);
-        /*}else{
-         return adDao.getAds
-         }*/
     }
 
     public void delete(Long adId) {

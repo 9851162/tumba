@@ -399,7 +399,7 @@ public class CategoryService extends PrimService {
                     if (o == null) {
                         int m = ads.size();
                         o = new String[m];
-                        for (int n = 0; n <= m; n++) {
+                        for (int n = 0; n < m; n++) {
                             o[n] = "";
                         }
                     }
