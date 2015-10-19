@@ -79,7 +79,7 @@
     <!-- You can have some pre-configured messagess also which are ready to send -->
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
         <!--   <property name="to" value="lokeshgupta1981@gmail.com"></property> -->
-        <property name="from" value="CallAssistance59@gmail.com"></property>
+        <property name="from" value="SupSellermail@gmail.com"></property>
         <property name="subject" value="FATAL - Application crash. Save your job !!"/>
     </bean>
 

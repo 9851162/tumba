@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -60,15 +61,17 @@ public class CategoryService extends PrimService {
             cat.setName(name);
             cat.setParentId(parentId);
             //наследуем параметры и путь
-            Set<ParamCategoryLink> params = new HashSet();
+            //List<Parametr> params = new ArrayList();
+            Set<ParamCategoryLink>paramLinks=new HashSet();
             if (!parentId.equals(Category.BASEID)) {
                 Category parent = catDao.find(parentId);
-                if (parent.getParamLinks()!= null) {
-                    params = new HashSet(parent.getParamLinks());
+                if (parent.getParamLinks() != null) {
+                    paramLinks = new HashSet(parent.getParamLinks());
+                    //params=paramDao.getParamsFromCat(parentId);
                 }
                 idPath = parent.getIdPath().substring(0, parent.getIdPath().length() - 1);
             }
-            cat.setParamLinks(params);
+            //cat.setParamLinks(params);
 
             idPath += "_" + parentId + "_";
             Integer nestingLevel = idPath.split("_").length - 1;
@@ -76,6 +79,19 @@ public class CategoryService extends PrimService {
             cat.setNestingLevel(nestingLevel);
             if (validate(cat)) {
                 catDao.save(cat);
+                for(ParamCategoryLink l:paramLinks){
+                    ParamCategoryLink link = new ParamCategoryLink();
+                    link.setCat(cat);
+                    link.setParam(l.getParam());
+                    if(l.isReq()){
+                        link.setReq();
+                    }else{
+                        link.setNotReq();
+                    }
+                    if(validate(link)){
+                        linkDao.save(link);
+                    }
+                }
             }
         } else {
             if (name == null || name.equals("")) {
@@ -132,22 +148,21 @@ public class CategoryService extends PrimService {
     }
 
     /*public HashMap<Long, List<Long>> getFullCatIdMap() {
-        HashMap<Long, List<Long>> result = new HashMap();
-        List<Category> allCats = catDao.getAll();
-        for (Category cat : allCats) {
-            List<Long> supList = result.get(cat.getParentId());
-            if (supList == null) {
-                supList = new ArrayList();
-            }
-            supList.add(cat.getId());
-            result.put(cat.getParentId(), supList);
-        }
-        if (allCats.isEmpty()) {
-            result.put(Category.BASEID, new ArrayList());
-        }
-        return result;
-    }*/
-
+     HashMap<Long, List<Long>> result = new HashMap();
+     List<Category> allCats = catDao.getAll();
+     for (Category cat : allCats) {
+     List<Long> supList = result.get(cat.getParentId());
+     if (supList == null) {
+     supList = new ArrayList();
+     }
+     supList.add(cat.getId());
+     result.put(cat.getParentId(), supList);
+     }
+     if (allCats.isEmpty()) {
+     result.put(Category.BASEID, new ArrayList());
+     }
+     return result;
+     }*/
     //????
     public List<Category> getCatList() {
         List<Category> res = new ArrayList();
@@ -178,11 +193,11 @@ public class CategoryService extends PrimService {
             return a.getName().compareTo(b.getName());
         }
     }
-    
+
     //Мап со всеми категориями <id,cat>
-    public HashMap<Long,Category>getCatMap(){
-        HashMap<Long,Category>res=new HashMap();
-        for(Category c:catDao.getAll()){
+    public HashMap<Long, Category> getCatMap() {
+        HashMap<Long, Category> res = new HashMap();
+        for (Category c : catDao.getAll()) {
             res.put(c.getId(), c);
         }
         return res;
@@ -198,31 +213,30 @@ public class CategoryService extends PrimService {
     }
 
     /*public List<Parametr> getParams(Long catId) {
-        List<Parametr> params = new ArrayList();
-        if (catId != null) {
-            Category cat = catDao.find(catId);
-            for(ParamCategoryLink link:cat.getParamLinks()){
-                params.add(link.getParam());
-            }
-            //params.addAll(cat.getParams());
-            Collections.sort(params, new paramComparator());
-        }
-        return params;
-    }
+     List<Parametr> params = new ArrayList();
+     if (catId != null) {
+     Category cat = catDao.find(catId);
+     for(ParamCategoryLink link:cat.getParamLinks()){
+     params.add(link.getParam());
+     }
+     //params.addAll(cat.getParams());
+     Collections.sort(params, new paramComparator());
+     }
+     return params;
+     }
     
-    private class paramComparator implements Comparator<Parametr> {
+     private class paramComparator implements Comparator<Parametr> {
 
-        @Override
-        public int compare(Parametr a, Parametr b) {
-            return a.getName().compareTo(b.getName());
-        }
-    }*/
-    
+     @Override
+     public int compare(Parametr a, Parametr b) {
+     return a.getName().compareTo(b.getName());
+     }
+     }*/
     public List<ParamCategoryLink> getParamLinks(Long catId) {
         List<ParamCategoryLink> res = new ArrayList();
         if (catId != null) {
             Category cat = catDao.find(catId);
-            for(ParamCategoryLink link:cat.getParamLinks()){
+            for (ParamCategoryLink link : cat.getParamLinks()) {
                 res.add(link);
             }
             //params.addAll(cat.getParams());
@@ -252,24 +266,24 @@ public class CategoryService extends PrimService {
         if (paramId != null) {
             if (catId != null) {
                 Category c = catDao.find(catId);
-                if(catDao.isAddebleParam(paramId,catId)){
+                if (catDao.isAddebleParam(paramId, catId)) {
                     Parametr p = paramDao.find(paramId);
                     ParamCategoryLink link = new ParamCategoryLink();
                     link.setParam(p);
                     link.setCat(c);
-                    if(req!=null){
+                    if (req != null) {
                         link.setReq();
-                    }else{
+                    } else {
                         link.setNotReq();
                     }
-                    if(validate(link)){
+                    if (validate(link)) {
                         linkDao.save(link);
                     }
                 }
             } else {
                 addError("Категория не указана");
             }
-        }else{
+        } else {
             addError("Параметр не указан");
         }
     }
@@ -292,10 +306,9 @@ public class CategoryService extends PrimService {
         return res;
     }
 
-    
     public void deleteParamFromCat(Long paramId, Long catId) throws Exception {
         if (catId != null && paramId != null) {
-            linkDao.delete(paramId,catId);
+            linkDao.delete(paramId, catId);
         } else {
             if (catId == null) {
                 addError("Ид категории не передан");
@@ -309,112 +322,135 @@ public class CategoryService extends PrimService {
     public List<Parametr> getAllParams() {
         return paramDao.getAllParams();
     }
-    
-    public HashMap<Long,Parametr>getParamsMap(){
-        HashMap<Long,Parametr>res=new HashMap();
-        List<Parametr>params=paramDao.getAllParams();
-        for(Parametr p:params){
-            res.put(p.getId(),p);
+
+    public HashMap<Long, Parametr> getParamsMap() {
+        HashMap<Long, Parametr> res = new HashMap();
+        List<Parametr> params = paramDao.getAllParams();
+        for (Parametr p : params) {
+            res.put(p.getId(), p);
         }
         return res;
     }
-    
-    public void deleteParam(Long paramId){
-        if(paramId!=null){
+
+    public void deleteParam(Long paramId) {
+        if (paramId != null) {
             Parametr p = paramDao.find(paramId);
-            addMessage("Параметр удален, также были удалены связи параметра с категориями в количестве: "+paramDao.deleteFromCats(paramId)+";");
+            addMessage("Параметр удален, также были удалены связи параметра с категориями в количестве: " + paramDao.deleteFromCats(paramId) + ";");
             paramValueDao.deleteParamValues(paramId);
             paramDao.delete(p);
-        }else{
+        } else {
             addError("Параметр не указан");
         }
     }
-    
-    public HashMap<Long,List<Parametr>>getCatIdParamsMap(){
-        HashMap<Long,List<Parametr>>res = new HashMap();
-        HashMap<Long,Parametr>paramMap=getParamsMap();
-        for(Category c:getCatList()){
+
+    public HashMap<Long, List<Parametr>> getCatIdParamsMap() {
+        HashMap<Long, List<Parametr>> res = new HashMap();
+        HashMap<Long, Parametr> paramMap = getParamsMap();
+        for (Category c : getCatList()) {
             res.put(c.getId(), new ArrayList());
         }
-        for(Object[] o:paramDao.getCatsParamsAsObjects()){
-            Long catId = ((BigInteger)o[0]).longValue();
-            Long paramId = ((BigInteger)o[1]).longValue();
+        for (Object[] o : paramDao.getCatsParamsAsObjects()) {
+            Long catId = ((BigInteger) o[0]).longValue();
+            Long paramId = ((BigInteger) o[1]).longValue();
             Parametr p = paramMap.get(paramId);
             List<Parametr> params = res.get(catId);
-            if(params==null){
-                params=new ArrayList();
+            if (params == null) {
+                params = new ArrayList();
             }
             params.add(p);
             res.put(catId, params);
         }
         return res;
     }
-    
-    public void addParamOption(Long paramId,String optName){
+
+    public void addParamOption(Long paramId, String optName) {
         Parametr p = paramDao.find(paramId);
-        if(p.getParamType().equals(Parametr.SELECTING)||p.getParamType().equals(Parametr.MULTISELECTING)){
-            if(!paramDao.getUnavailableOptionNames(paramId).contains(optName)){
+        if (p.getParamType().equals(Parametr.SELECTING) || p.getParamType().equals(Parametr.MULTISELECTING)) {
+            if (!paramDao.getUnavailableOptionNames(paramId).contains(optName)) {
                 ParametrSelOption opt = new ParametrSelOption();
                 opt.setName(optName);
                 opt.setParametr(p);
-                if(validate(opt)){
+                if (validate(opt)) {
                     optionDao.save(opt);
                 }
-            }else{
+            } else {
                 addError("Опция с таким наименованием уже есть у данного параметра");
             }
         }
     }
-    
-    public void deleteParamOption(Long paramOptionId){
+
+    public void deleteParamOption(Long paramOptionId) {
         optionDao.delete(optionDao.find(paramOptionId));
     }
-    
-    /*public List<Parametr>getSortedParamsForComparison(List<Ad>ads){
-        List<Object[]>res = new ArrayList();
-        HashMap<Long,Integer>countMap = new HashMap();
-        HashMap<Long,String[]>valMap = new HashMap();
-        if(ads!=null&&!ads.isEmpty()){
+
+    public LinkedHashMap<Parametr, String[]> getSortedParamsAndValsForComparison(List<Ad> ads) {
+        LinkedHashMap<Parametr, String[]> res = new LinkedHashMap();
+        HashMap<Parametr, Integer> countMap = new HashMap();
+        HashMap<Parametr, String[]> valMap = new HashMap();
+        if (ads != null && !ads.isEmpty()) {
             int i = 0;
-            for(Ad ad:ads){
-                for(ParametrValue pv:ad.getValues()){
+            for (Ad ad : ads) {
+                Set<Parametr> params = new HashSet();
+                for (ParametrValue pv : ad.getValues()) {
                     Parametr p = pv.getParametr();
-                    
-                    Integer count = countMap.get(p.getId());
-                    if(count==null){
-                        count=0;
-                    }
-                    countMap.put(p.getId(), count+1);
-                            
-                    String[] o = valMap.get(p.getId());
-                    if(o==null){
+                    Integer pt = p.getParamType();
+
+                    String[] o = valMap.get(p);
+                    if (o == null) {
                         int m = ads.size();
-                        o=new String[m];
-                        for(int n=0;n<=m;n++){
-                            o[n]="-";
+                        o = new String[m];
+                        for (int n = 0; n <= m; n++) {
+                            o[n] = "";
                         }
                     }
-                    Integer pt = p.getParamType();
-                    switch(pt){
-                        case Parametr.BOOL: 
-                            o[i]="";
-                            break;
-                        
+
+                    if (Objects.equals(Parametr.MULTISELECTING, pt)) {
+                        o[i] += pv.getStringVal()+"; ";
+                    } else {
+
+                        o[i] = pv.getStringVal();
+                        valMap.put(p, o);
+
                     }
-                    
-                    
+                    params.add(p);
                 }
-                
-                Object[] paramRow = new Object[3];
-                ad.getCat().getParams();
-                
+                for (Parametr p : params) {
+                    Integer count = countMap.get(p);
+                    if (count == null) {
+                        count = 0;
+                    }
+                    countMap.put(p, count + 1);
+                }
+                i++;
             }
+            
+            List<Object[]>supList4Sort=new ArrayList();
+            for(Parametr p:countMap.keySet()){
+                Object[] idCount = new Object[2];
+                idCount[0]=p;
+                idCount[1]=countMap.get(p);
+                supList4Sort.add(idCount);
+            }
+            Collections.sort(supList4Sort,new countComparator());
+            
+            for(Object[]o:supList4Sort){
+                Parametr p = (Parametr)o[0];
+                res.put(p,valMap.get(p));
+            }
+            
         }
         return res;
-    }*/
+    }
     
+    private class countComparator implements Comparator<Object[]> {
+
+        @Override
+        public int compare(Object[] a, Object[] b) {
+            return (Integer)a[1]-(Integer)b[1];
+        }
+    }
+
     /*public ParametrValue setValue(Parametr p,Object val){
         
-    }*/
-    
+     }*/
 }

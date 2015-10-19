@@ -64,11 +64,11 @@
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
             </c:if>
-                            <c:if test="${empty compList}">
+                            <c:if test="${empty compMap}">
                                 <div class="boxtoitem boxtoitembig whitepod" style="padding-left: 20px;">Ooops... Нечего сравнивать, добавьте объявления для сравнения.</div>
                             </c:if>   
                             
-                            <c:if test="${!empty compList}">
+                            <c:if test="${!empty compMap}">
         <div class="boxtoitem boxtoitembig whitepod">
 			<div style="    width: 168px;;    float: left;">
 				<div class="oneatr firstatr">

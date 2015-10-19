@@ -8,6 +8,7 @@ package service;
 import dao.AdDao;
 import dao.CategoryDao;
 import dao.ParametrDao;
+import dao.ParametrSelOptionDao;
 import dao.ParametrValueDao;
 import dao.UserDao;
 import entities.Ad;
@@ -22,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -30,6 +30,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
+import support.DateAdapter;
+import support.StringAdapter;
 
 /**
  *
@@ -54,6 +56,9 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao paramValueDao;
+    
+    @Autowired
+    ParametrSelOptionDao paramSelDao;
 
     @Autowired
     UserDao userDao;
@@ -112,13 +117,16 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(booleanIds[i]);
                                 if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
                                     Long val = ParametrValue.NO;
+                                    String sval = "нет";
                                     if (booleanVals[i] != null) {
                                         val = ParametrValue.YES;
+                                        sval = "да";
                                     }
                                     ParametrValue pv = new ParametrValue();
                                     pv.setAd(ad);
                                     pv.setParametr(p);
                                     pv.setSelectVal(val);
+                                    pv.setStringVal(sval);
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
@@ -164,6 +172,7 @@ public class AdService extends PrimService {
                                     pv.setAd(ad);
                                     pv.setParametr(p);
                                     pv.setNumVal(val);
+                                    pv.setStringVal(StringAdapter.getString(val));
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
@@ -186,6 +195,7 @@ public class AdService extends PrimService {
                                     pv.setAd(ad);
                                     pv.setParametr(p);
                                     pv.setDateVal(val);
+                                    pv.setStringVal(DateAdapter.formatByDate(val, DateAdapter.SMALL_FORMAT));
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
@@ -209,6 +219,7 @@ public class AdService extends PrimService {
                                     pv.setAd(ad);
                                     pv.setParametr(p);
                                     pv.setSelectVal(val);
+                                    pv.setStringVal(paramSelDao.find(val).getName());
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
@@ -236,6 +247,7 @@ public class AdService extends PrimService {
                                         pv.setAd(ad);
                                         pv.setParametr(p);
                                         pv.setSelectVal(val);
+                                        pv.setStringVal(paramSelDao.find(val).getName());
                                         if (validate(pv)) {
                                             list4Save.add(pv);
                                         }

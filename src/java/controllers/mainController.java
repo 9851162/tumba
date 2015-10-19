@@ -195,8 +195,7 @@ public class mainController extends WebController {
         User u = authManager.getCurrentUser();
         List ads = (List) request.getSession().getAttribute(COMPARISON);
 
-        model.put("compList", ads);
-        model.put("attrList", ads);
+        model.put("compMap", catService.getSortedParamsAndValsForComparison(ads));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("shortName", shortName);
         model.put("description", desc);

@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.ParametrSelOption;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,5 +21,7 @@ public class ParametrSelOptionDao extends Dao<ParametrSelOption>  {
     public Class getSupportedClass() {
         return ParametrSelOption.class;
     }
+    
+    
     
 }

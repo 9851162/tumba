@@ -88,8 +88,8 @@ public class AdminController extends WebController {
         
         catService.delete(catId);
         ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
-        ras.addAttribute("catId", catId);
-        return "redirect:./administrating";
+        //ras.addAttribute("catId", catId);
+        return "redirect:./cats";
     }
     
     @RequestMapping("/createParam")

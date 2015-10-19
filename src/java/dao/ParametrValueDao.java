@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.ParametrValue;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,14 @@ public class ParametrValueDao extends Dao<ParametrValue>  {
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("paramId", paramId);
         return query.executeUpdate();
+    }
+    
+    public List<String> getMultiSelOptionNames(Long paramId,Long adId){
+        String sql="select name from parametr_sel_option where parametr_id=:paramId and ad_id=:adId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("paramId", paramId);
+        query.setParameter("adId", adId);
+        return query.list();
     }
     
 }

@@ -42,6 +42,10 @@ public class ParametrValue extends PrimEntity {
     @Index(name="paramIndex")
     private Parametr parametr;
     
+    @Column(name = "parametr_type")
+    @NotNull(message = "Необходимо указать тип параметра")
+    private Integer paramType;
+    
     @Column(name = "string_value")
     private String stringVal;
     
@@ -76,6 +80,7 @@ public class ParametrValue extends PrimEntity {
 
     public void setParametr(Parametr parametr) {
         this.parametr = parametr;
+        this.paramType = parametr.getParamType();
     }
 
     public Ad getAd() {
@@ -116,6 +121,14 @@ public class ParametrValue extends PrimEntity {
 
     public void setDateVal(Date dateVal) {
         this.dateVal = dateVal;
+    }
+
+    public Integer getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(Integer paramType) {
+        this.paramType = paramType;
     }
     
     
