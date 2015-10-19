@@ -31,12 +31,12 @@ public class Parametr extends PrimEntity {
     
     
     
-    public final static Integer TEXT = 1;
-    public final static Integer NUM = 2;
-    public final static Integer SELECTING = 3;
-    public final static Integer MULTISELECTING = 4;
-    public final static Integer BOOL = 5;
-    public final static Integer DATE = 6;
+    public static final Integer TEXT = 1;
+    public static final Integer NUM = 2;
+    public static final Integer SELECTING = 3;
+    public static final Integer MULTISELECTING = 4;
+    public static final Integer BOOL = 5;
+    public static final Integer DATE = 6;
     
     /*public final static Integer NOTREQUIRED = 0;
     public final static Integer REQUIRED = 1;*/

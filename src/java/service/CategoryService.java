@@ -10,10 +10,12 @@ import dao.ParamCategoryLinkDao;
 import dao.ParametrDao;
 import dao.ParametrSelOptionDao;
 import dao.ParametrValueDao;
+import entities.Ad;
 import entities.Category;
 import entities.ParamCategoryLink;
 import entities.Parametr;
 import entities.ParametrSelOption;
+import entities.ParametrValue;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -371,7 +373,7 @@ public class CategoryService extends PrimService {
     /*public List<Parametr>getSortedParamsForComparison(List<Ad>ads){
         List<Object[]>res = new ArrayList();
         HashMap<Long,Integer>countMap = new HashMap();
-        HashMap<Long,String[]>map = new HashMap();
+        HashMap<Long,String[]>valMap = new HashMap();
         if(ads!=null&&!ads.isEmpty()){
             int i = 0;
             for(Ad ad:ads){
@@ -384,14 +386,22 @@ public class CategoryService extends PrimService {
                     }
                     countMap.put(p.getId(), count+1);
                             
-                    String[] o = map.get(p.getId());
+                    String[] o = valMap.get(p.getId());
                     if(o==null){
-                        o=new String[ads.size()];
+                        int m = ads.size();
+                        o=new String[m];
+                        for(int n=0;n<=m;n++){
+                            o[n]="-";
+                        }
                     }
-                    switch(p.getParamType()){
-                        case Parametr.BOOL
+                    Integer pt = p.getParamType();
+                    switch(pt){
+                        case Parametr.BOOL: 
+                            o[i]="";
+                            break;
+                        
                     }
-                    o[i]=pv.
+                    
                     
                 }
                 
