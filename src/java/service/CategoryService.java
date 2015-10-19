@@ -385,17 +385,18 @@ public class CategoryService extends PrimService {
 
     public LinkedHashMap<Parametr, String[]> getSortedParamsAndValsForComparison(List<Ad> ads) {
         LinkedHashMap<Parametr, String[]> res = new LinkedHashMap();
-        HashMap<Parametr, Integer> countMap = new HashMap();
-        HashMap<Parametr, String[]> valMap = new HashMap();
+        HashMap<Long, Integer> countMap = new HashMap();
+        HashMap<Long, String[]> valMap = new HashMap();
         if (ads != null && !ads.isEmpty()) {
             int i = 0;
             for (Ad ad : ads) {
-                Set<Parametr> params = new HashSet();
+                Set<Long> paramIds = new HashSet();
                 for (ParametrValue pv : ad.getValues()) {
                     Parametr p = pv.getParametr();
                     Integer pt = p.getParamType();
+                    Long pid = p.getId();
 
-                    String[] o = valMap.get(p);
+                    String[] o = valMap.get(pid);
                     if (o == null) {
                         int m = ads.size();
                         o = new String[m];
@@ -407,35 +408,33 @@ public class CategoryService extends PrimService {
                     if (Objects.equals(Parametr.MULTISELECTING, pt)) {
                         o[i] += pv.getStringVal()+"; ";
                     } else {
-
                         o[i] = pv.getStringVal();
-                        valMap.put(p, o);
-
                     }
-                    params.add(p);
+                    valMap.put(pid, o);
+                    paramIds.add(pid);
                 }
-                for (Parametr p : params) {
-                    Integer count = countMap.get(p);
+                for (Long pid : paramIds) {
+                    Integer count = countMap.get(pid);
                     if (count == null) {
                         count = 0;
                     }
-                    countMap.put(p, count + 1);
+                    countMap.put(pid, count + 1);
                 }
                 i++;
             }
             
             List<Object[]>supList4Sort=new ArrayList();
-            for(Parametr p:countMap.keySet()){
+            for(Long pid:countMap.keySet()){
                 Object[] idCount = new Object[2];
-                idCount[0]=p;
-                idCount[1]=countMap.get(p);
+                idCount[0]=pid;
+                idCount[1]=countMap.get(pid);
                 supList4Sort.add(idCount);
             }
             Collections.sort(supList4Sort,new countComparator());
             
             for(Object[]o:supList4Sort){
-                Parametr p = (Parametr)o[0];
-                res.put(p,valMap.get(p));
+                Long pid = (Long)o[0];
+                res.put(paramDao.find(pid),valMap.get(pid));
             }
             
         }
@@ -446,7 +445,7 @@ public class CategoryService extends PrimService {
 
         @Override
         public int compare(Object[] a, Object[] b) {
-            return (Integer)a[1]-(Integer)b[1];
+            return (Integer)b[1]-(Integer)a[1];
         }
     }
 

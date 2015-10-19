@@ -197,6 +197,7 @@ public class mainController extends WebController {
 
         model.put("compMap", catService.getSortedParamsAndValsForComparison(ads));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
+        model.put("compAds",ads);
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
