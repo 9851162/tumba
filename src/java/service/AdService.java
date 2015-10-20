@@ -318,13 +318,40 @@ public class AdService extends PrimService {
         }
     }
 
-    //TO DO search by wishword
+    //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish) {
-        //if(wishes==null||wishes.equals("")){
-        return adDao.getAll();
-        /*}else{
-         return adDao.getAds
-         }*/
+        if(wish==null||wish.equals("")){
+            return adDao.getAll();
+        }else{
+            List<Ad>res = new ArrayList();
+            res.addAll(adDao.getStrictlyNameByWish(wish));
+            for(Ad ad:adDao.getStrictlyDescByWish(wish)){
+                if(!res.contains(ad)){
+                    res.add(ad);
+                }
+            }
+            for(Ad ad:adDao.getStrictlyCatByWish(wish)){
+                if(!res.contains(ad)){
+                    res.add(ad);
+                }
+            }
+            for(Ad ad:adDao.getNonStrictlyNameByWish(wish)){
+                if(!res.contains(ad)){
+                    res.add(ad);
+                }
+            }
+            for(Ad ad:adDao.getNonStrictlyDescByWish(wish)){
+                if(!res.contains(ad)){
+                    res.add(ad);
+                }
+            }
+            for(Ad ad:adDao.getNonStrictlyCatByWish(wish)){
+                if(!res.contains(ad)){
+                    res.add(ad);
+                }
+            }
+            return res;
+        }
     }
     
     public Ad getAd(Long adId) {

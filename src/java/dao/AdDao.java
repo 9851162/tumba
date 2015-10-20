@@ -87,4 +87,52 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }
     
+    public List<Ad>getStrictlyNameByWish(String wish){
+        String sql = "select * from ad where name=:wish order by sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", wish);
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    public List<Ad>getStrictlyDescByWish(String wish){
+        String sql = "select * from ad where description=:wish order by sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", wish);
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    public List<Ad>getStrictlyCatByWish(String wish){
+        String sql = "select a.* from ad a left join category c on a.category_id=c.category_id where c.name=:wish order by a.sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", wish);
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    public List<Ad>getNonStrictlyNameByWish(String wish){
+        String sql = "select * from ad where name like :wish order by sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", "%"+wish+"%");
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    public List<Ad>getNonStrictlyDescByWish(String wish){
+        String sql = "select * from ad where description like :wish order by sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", "%"+wish+"%");
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    public List<Ad>getNonStrictlyCatByWish(String wish){
+        String sql = "select a.* from ad a left join category c on a.category_id=c.category_id where c.name like :wish order by a.sale_date";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("wish", "%"+wish+"%");
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
 }
