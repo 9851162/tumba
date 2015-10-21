@@ -73,7 +73,7 @@
                     <a style="text-decoration: none;" href="<c:url value="../Main/" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение<img src="../img/strright.png"></div></a>
-                </c:if>
+                        </c:if>
                 <div class="promo"> </div>
                 <div class="promo"> </div>
             </div>
@@ -335,202 +335,204 @@
                 <div class="tofotmin"><a href="#">о компании</a></div>
                 <div class="tofotmin"></div>
             </footer>
-        </div>
-        <div id="modal1" class="modal_form modal_div">
-            <div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
-            <form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
+            <div id="modal1" class="modal_form modal_div">
+                <div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
+                <form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
 
-                <div class="boxtoinput">
-                    <div class="num">1</div>
-                    <div class="toin">
-                        <label>Краткое название товара или услуги</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="shortName" type="text" value="${shortName}">
+                    <div class="boxtoinput">
+                        <div class="num">1</div>
+                        <div class="toin">
+                            <label>Краткое название товара или услуги</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="shortName" type="text" value="${shortName}">
+                        </div>
                     </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="num">2</div>
-                    <div class="toin">
-                        <label>Описание</label>
-                        <div class="minopright">до 500 символов</div>
-                        <textarea name="description" type="textarea" value="">${description}</textarea>
+                    <div class="boxtoinput">
+                        <div class="num">2</div>
+                        <div class="toin">
+                            <label>Описание</label>
+                            <div class="minopright">до 500 символов</div>
+                            <textarea name="description" type="textarea" value="">${description}</textarea>
+                        </div>
                     </div>
-                </div>
 
 
-                <div class="boxtoinput">
-                    <div class="num">3</div>
-                    <div class="toin">
-                        <label>Добавление фото</label>
-                        <div class="form-group">
-                            <div class="file_upload">
-                                <button type="button"></button>
-                                <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
+                    <div class="boxtoinput">
+                        <div class="num">3</div>
+                        <div class="toin">
+                            <label>Добавление фото</label>
+                            <div class="form-group">
+                                <div class="file_upload">
+                                    <button type="button"></button>
+                                    <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
+                                </div>
+                                <span class='label label-info' id="upload-file-info" ></span>
                             </div>
-                            <span class='label label-info' id="upload-file-info" ></span>
                         </div>
                     </div>
-                </div>
 
-                <div class="boxtoinput">
-                    <div class="num">4</div>
-                    <div class="toin">
-                        <label for="price">Цена</label>
-                        <input class="form-control" name="price" id="price" type="text" value="${price}">
+                    <div class="boxtoinput">
+                        <div class="num">4</div>
+                        <div class="toin">
+                            <label for="price">Цена</label>
+                            <input class="form-control" name="price" id="price" type="text" value="${price}">
+                        </div>
                     </div>
-                </div>
 
-                <c:if test="${!empty catList}">
+                    <c:if test="${!empty catList}">
+                        <div class="boxtoinput">
+                            <div class="num">5</div>
+                            <div class="toin">
+                                <label for="catId">Выбор категории для объявления</label>
+                                <select class="categoryChanger" name="catId">
+                                    <option value="">Не выбрана</option>
+                                    <c:forEach var="cat" items="${catList}">
+                                        <c:set var="prefix" value="${cat.getPrefix()}"/>
+                                        <option value="${cat.id}">
+                                            ${prefix}${cat.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+
+                            </div>
+
+                        </div>
+                    </c:if>
+
+                    <c:set var="nextNum" value="6"/>
+                    <c:if test="${empty userId}">
+                        <c:set var="nextNum" value="7"/>
+                        <div class="boxtoinput">
+                            <div class="num">6</div>
+                            <div class="toin">
+                                <label>email</label>
+                                <input name="email" type="email" value="${email}">
+                            </div>
+                        </div>
+                    </c:if>
+                    <div id="boxforparams" >
+
+                    </div>
+                    <!--<div class="boxtoinput">
+                            <div class="num">4</div>
+                            <div class="toin">
+                                    <label>Выбор категории для объявления</label>
+                        <div class="dob">добавить<img src="./img/plus.png"> </div>
+                            </div>
+                    </div>-->
+                    <!--<div class="boxtoinput">
+                            <div class="num">5</div>
+                            <div class="toin">
+                                    <label>Выбор регионов</label>
+                        <div class="dob">добавить<img src="./img/plus.png"> </div>
+                            </div>
+                    </div>-->
+                    <!--<div class="boxtoinput">
+                            <div class="num">6</div>
+                            <div class="toin todata">
+                                    <label>Выбор даты для размещения объявления</label>
+                                    <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
+                            </div>
+                    </div>-->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Добавить</button>
+                    </div>
+                </form>
+            </div>
+            <div id="modal2" class="modal_form modal_div">
+                <div class="nameform">РЕГИСТРАЦИЯ</div>
+                <form  method="post" action="../Main/registration">
+                    <div class="boxtoinput">
+                        <div class="num">1</div>
+                        <div class="toin">
+                            <label>Имя</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="name" type="text">
+                        </div>
+                    </div>
+                    <div class="boxtoinput">
+                        <div class="num">2</div>
+                        <div class="toin">
+                            <label>Телефон</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="phone" type="text">
+                        </div>
+                    </div>
+                    <div class="boxtoinput">
+                        <div class="num">3</div>
+                        <div class="toin">
+                            <label>E-mail</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="email" type="email">
+                        </div>
+                    </div>
+                    <div class="boxtoinput">
+                        <div class="num">4</div>
+                        <div class="toin">
+                            <label>Пароль</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="password" type="password">
+                        </div>
+                    </div>
                     <div class="boxtoinput">
                         <div class="num">5</div>
                         <div class="toin">
-                            <label for="catId">Выбор категории для объявления</label>
-                            <select class="categoryChanger" name="catId">
-                                <option value="">Не выбрана</option>
-                                <c:forEach var="cat" items="${catList}">
-                                    <c:set var="prefix" value="${cat.getPrefix()}"/>
-                                    <option value="${cat.id}">
-                                        ${prefix}${cat.name}
-                                    </option>
-                                </c:forEach>
-                            </select>
-
+                            <label>Подтверждение пароля</label>
+                            <div class="minopright">до 30 символов</div>
+                            <input name="passconfirm" type="password">
                         </div>
-
                     </div>
-                </c:if>
 
-                <c:set var="nextNum" value="6"/>
-                <c:if test="${empty userId}">
-                    <c:set var="nextNum" value="7"/>
+                    <!--<div class="boxtoinput">
+                            <div class="num">4</div>
+                            <div class="toin">
+                                    <label>Добавление фото</label>
+                         <img src="../img/plusimg.png">
+                            </div>
+                    </div>
                     <div class="boxtoinput">
-                        <div class="num">6</div>
+                            <div class="num">5</div>
+                            <div class="toin">
+                                    <label for="region">Выбор домашнего региона</label>
+                                <div class="dob">добавить<img src="../img/plus.png"> </div>
+                            </div>
+                    </div>-->
+                    <div class="form-group">
+                        <button type="submit" class="btn">Добавить</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="modal3" class="modal_form modal_div">
+                <div class="nameform">АВТОРИЗАЦИЯ</div>
+                <form  method="post" action="../j_spring_security_check" class="login">
+                    <div class="boxtoinput">
                         <div class="toin">
-                            <label>email</label>
-                            <input name="email" type="email" value="${email}">
+                            <label>Логин</label>
+                            <input name="j_username" type="text">
                         </div>
                     </div>
-                </c:if>
-                <div id="boxforparams" >
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <label>Пароль</label>
+                            <input name="j_password" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Войти</button>
+                    </div>
+                </form>
+            </div>
 
-                </div>
-                <!--<div class="boxtoinput">
-                        <div class="num">4</div>
-                        <div class="toin">
-                                <label>Выбор категории для объявления</label>
-                    <div class="dob">добавить<img src="./img/plus.png"> </div>
-                        </div>
-                </div>-->
-                <!--<div class="boxtoinput">
-                        <div class="num">5</div>
-                        <div class="toin">
-                                <label>Выбор регионов</label>
-                    <div class="dob">добавить<img src="./img/plus.png"> </div>
-                        </div>
-                </div>-->
-                <!--<div class="boxtoinput">
-                        <div class="num">6</div>
-                        <div class="toin todata">
-                                <label>Выбор даты для размещения объявления</label>
-                                <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
-                        </div>
-                </div>-->
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Добавить</button>
-                </div>
-            </form>
+            <div id="modalerror" class="modal_form modal_div">
+                <div class="nameform">Ошибки</div>
+                <%@include file="/WEB-INF/jsp/error.jsp" %>
+
+            </div>
         </div>
 
-        <div id="modal2" class="modal_form modal_div">
-            <div class="nameform">РЕГИСТРАЦИЯ</div>
-            <form  method="post" action="../Main/registration">
-                <div class="boxtoinput">
-                    <div class="num">1</div>
-                    <div class="toin">
-                        <label>Имя</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="name" type="text">
-                    </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="num">2</div>
-                    <div class="toin">
-                        <label>Телефон</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="phone" type="text">
-                    </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="num">3</div>
-                    <div class="toin">
-                        <label>E-mail</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="email" type="email">
-                    </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="num">4</div>
-                    <div class="toin">
-                        <label>Пароль</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="password" type="password">
-                    </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="num">5</div>
-                    <div class="toin">
-                        <label>Подтверждение пароля</label>
-                        <div class="minopright">до 30 символов</div>
-                        <input name="passconfirm" type="password">
-                    </div>
-                </div>
 
-                <!--<div class="boxtoinput">
-                        <div class="num">4</div>
-                        <div class="toin">
-                                <label>Добавление фото</label>
-                     <img src="../img/plusimg.png">
-                        </div>
-                </div>
-                <div class="boxtoinput">
-                        <div class="num">5</div>
-                        <div class="toin">
-                                <label for="region">Выбор домашнего региона</label>
-                            <div class="dob">добавить<img src="../img/plus.png"> </div>
-                        </div>
-                </div>-->
-                <div class="form-group">
-                    <button type="submit" class="btn">Добавить</button>
-                </div>
-            </form>
-        </div>
 
-        <div id="modal3" class="modal_form modal_div">
-            <div class="nameform">АВТОРИЗАЦИЯ</div>
-            <form  method="post" action="../j_spring_security_check" class="login">
-                <div class="boxtoinput">
-                    <div class="toin">
-                        <label>Логин</label>
-                        <input name="j_username" type="text">
-                    </div>
-                </div>
-                <div class="boxtoinput">
-                    <div class="toin">
-                        <label>Пароль</label>
-                        <input name="j_password" type="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn">Войти</button>
-                </div>
-            </form>
-        </div>
-
-        <div id="modalerror" class="modal_form modal_div">
-            <div class="nameform">Ошибки</div>
-            <%@include file="/WEB-INF/jsp/error.jsp" %>
-
-        </div>
 
 
         <div id="overlay"></div>
@@ -539,19 +541,18 @@
         <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js"></script>
         <script>
-            $('.categoryChanger').change(function () {
-                var catId = $(this).val();
-                $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
-            });
+                                        $('.categoryChanger').change(function () {
+                                        var catId = $(this).val();
+                                    $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())     });
         </script>
         <c:if test="${!empty errors}">
             <script>
-                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                        $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                            function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                                    $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
                                     .css('display', 'block')
-                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                        });
+                        .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+            });
             </script>
         </c:if>
 
