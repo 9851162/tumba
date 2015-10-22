@@ -138,6 +138,18 @@ public class AdDao extends Dao<Ad>  {
             
         }
         
+        if(!catIds.isEmpty()){
+            if(splitted.isEmpty()){
+                sql+=" where 1=1";
+            }
+            sql+=" and (1!=1";
+            for(Long id:catIds){
+                sql+=" or category_id=:catId"+catIds.indexOf(id);
+            }
+            sql+=")";
+            //sql+=" and category_id in (:catIds)";
+        }
+        
         sql+=" order by sale_date desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         
@@ -146,6 +158,12 @@ public class AdDao extends Dao<Ad>  {
                 query.setParameter("wish"+splitted.indexOf(st),st);
             }
             
+        }
+        
+        if(!catIds.isEmpty()){
+            for(Long id:catIds){
+                query.setParameter("catId"+catIds.indexOf(id), id);
+            }
         }
         
         query.addEntity(Ad.class);
@@ -155,6 +173,7 @@ public class AdDao extends Dao<Ad>  {
     public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
+        
         if(!splitted.isEmpty()){
             sql+=" where 1!=1";
             for(String st:splitted){
@@ -162,14 +181,39 @@ public class AdDao extends Dao<Ad>  {
             }
             
         }
+        
+        if(!catIds.isEmpty()){
+            if(splitted.isEmpty()){
+                sql+=" where 1=1";
+            }
+            sql+=" and (1!=1";
+            for(Long id:catIds){
+                sql+=" or category_id=:catId"+catIds.indexOf(id);
+            }
+            sql+=")";
+            //sql+=" and category_id in (:catIds)";
+        }
+        
         sql+=" order by sale_date desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        
         if(!splitted.isEmpty()){
             for(String st:splitted){
                 query.setParameter("wish"+splitted.indexOf(st),st);
             }
             
         }
+        
+        if(!catIds.isEmpty()){
+            for(Long id:catIds){
+                query.setParameter("catId"+catIds.indexOf(id), id);
+            }
+        }
+        
+        /*if(!catIds.isEmpty()){
+            query.setParameterList("catIds", catIds);
+        }*/
+        
         query.addEntity(Ad.class);
         return query.list();
     }

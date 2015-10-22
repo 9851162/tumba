@@ -320,9 +320,9 @@ public class AdService extends PrimService {
 
     //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish,List<Long>catIds) {
-        if(wish==null||wish.equals("")){
+        /*if(wish==null||wish.equals("")){
             return adDao.getAll();
-        }else{
+        }else{*/
             List<Ad>res = new ArrayList();
             res.addAll(adDao.getAdsByWishInName(wish,catIds));
             for(Ad ad:adDao.getAdsByWishInDesc(wish,catIds)){
@@ -336,7 +336,7 @@ public class AdService extends PrimService {
             }*/
             
             return res;
-        }
+        //}
     }
     
     /*private List<String> splitted(String request){

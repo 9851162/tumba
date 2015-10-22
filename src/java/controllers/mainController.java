@@ -90,40 +90,6 @@ public class mainController extends WebController {
         model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-
-    @RequestMapping("/chosen")
-    public String getChosen(Map<String, Object> model,
-            HttpServletRequest request,
-            @RequestParam(value = "shortName", required = false) String shortName,
-            @RequestParam(value = "description", required = false) String desc,
-            @RequestParam(value = "price", required = false) Double price,
-            //@RequestParam(value = "wish", required = false) String wish,
-            RedirectAttributes ras) throws Exception {
-
-        User u = authManager.getCurrentUser();
-
-        model.put("adList", adService.getChosenAds(u.getId()));
-        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
-        //model.put("chosenList",adService.getChosenAds(u.getId()));
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
-        model.put("catList", catService.getCatList());
-        model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
-        //model.put("wish",wish);
-        //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
-        if (ers == null) {
-            ers = new ArrayList();
-        }
-        ers.addAll(adService.getErrors());
-        ers.addAll(catService.getErrors());
-        //ers.add("err");
-        model.put(ERRORS_LIST_NAME, ers);
-        return "main";
-    }
     
     @RequestMapping("/addCat4Search")
     public String addCat4Search(Map<String, Object> model,
@@ -159,6 +125,40 @@ public class mainController extends WebController {
         request.getSession().setAttribute(CATEGORY_SEARCH_LIST_NAME, catList);
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
+    }
+
+    @RequestMapping("/chosen")
+    public String getChosen(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "shortName", required = false) String shortName,
+            @RequestParam(value = "description", required = false) String desc,
+            @RequestParam(value = "price", required = false) Double price,
+            //@RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+
+        User u = authManager.getCurrentUser();
+
+        model.put("adList", adService.getChosenAds(u.getId()));
+        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
+        //model.put("chosenList",adService.getChosenAds(u.getId()));
+        model.put("shortName", shortName);
+        model.put("description", desc);
+        model.put("price", price);
+        model.put("catList", catService.getCatList());
+        model.put("catMap", catService.getCatMap());
+        model.put("catParamsMap", catService.getCatIdParamsMap());
+        /*model.put("reqTypeMap",catService.getReqTypes());*/
+        //model.put("wish",wish);
+        //model.put("paramMap",catService.getParamsMap());
+        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
+        if (ers == null) {
+            ers = new ArrayList();
+        }
+        ers.addAll(adService.getErrors());
+        ers.addAll(catService.getErrors());
+        //ers.add("err");
+        model.put(ERRORS_LIST_NAME, ers);
+        return "main";
     }
 
     @RequestMapping("/sales")
