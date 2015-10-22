@@ -61,8 +61,8 @@ public class mainController extends WebController {
             catIds=new ArrayList();
         }
         List<Ad>ads=adService.getAds(wish,catIds);
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        //model.put("selectedCats",catService.getSelectedCats(catIds));
+        //model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         //лист кат добавленных
         //лист кат недобавленных
         model.put("adList", ads);
