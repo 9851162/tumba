@@ -61,8 +61,8 @@ public class mainController extends WebController {
             catIds=new ArrayList();
         }
         List<Ad>ads=adService.getAds(wish,catIds);
-        //model.put("selectedCats",catService.getSelectedCats(catIds));
-        //model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         //лист кат добавленных
         //лист кат недобавленных
         model.put("adList", ads);
@@ -139,6 +139,24 @@ public class mainController extends WebController {
         if(!catList.contains(catId)&&catList.size()<20){
             catList.add(catId);
         }
+        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_NAME, catList);
+        ras.addAttribute("wish", wish);
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/removeCat4Search")
+    public String removeCat4Search(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "catId", required = false) Long catId,
+            RedirectAttributes ras) throws Exception {
+        
+        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catList==null){
+            catList=new ArrayList();
+        }
+        catList.remove(catId);
+        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_NAME, catList);
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }

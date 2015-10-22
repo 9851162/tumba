@@ -127,7 +127,7 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }*/
     
-    public List<Ad>getAdsByWishInName(String wish){
+    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
         if(!splitted.isEmpty()){
@@ -137,19 +137,22 @@ public class AdDao extends Dao<Ad>  {
             }
             
         }
+        
         sql+=" order by sale_date desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        
         if(!splitted.isEmpty()){
             for(String st:splitted){
                 query.setParameter("wish"+splitted.indexOf(st),st);
             }
             
         }
+        
         query.addEntity(Ad.class);
         return query.list();
     }
     
-    public List<Ad>getAdsByWishInDesc(String wish){
+    public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
         if(!splitted.isEmpty()){

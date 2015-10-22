@@ -324,8 +324,8 @@ public class AdService extends PrimService {
             return adDao.getAll();
         }else{
             List<Ad>res = new ArrayList();
-            res.addAll(adDao.getAdsByWishInName(wish));
-            for(Ad ad:adDao.getAdsByWishInDesc(wish)){
+            res.addAll(adDao.getAdsByWishInName(wish,catIds));
+            for(Ad ad:adDao.getAdsByWishInDesc(wish,catIds)){
                 if(!res.contains(ad)){
                     res.add(ad);
                 }

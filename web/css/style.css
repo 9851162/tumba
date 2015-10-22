@@ -30,7 +30,8 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .tosearch{  float:left; height: 73px; margin-right: -125px;    width: 811px;}
 .formsearch {background:url(../img/toformpoisk.png) no-repeat;  height: 46px; }
 .cat {    z-index: 1; position: absolute; background-color: #fff; font-family: HelveticaNeue, sans-serif; float:left;     padding: 7px 10px 9px 20px; border: #dfdfdf solid 1px; border-left: #00b3ff solid 8px; border-radius: 7px 0 0 7px; color: #00547e; font-size: 17px;    margin: 4px 10px;display: block;}
-#advanced_search .dob {position: absolute; left: 200px;}
+//#advanced_search .dob {position: absolute; left: 200px;}
+#dobContainer {position: absolute; left: 200px;}
 .dobdop {left: 0px !important;}
 .dob { font-family: HelveticaNeue, sans-serif;float:left;     padding: 7px 10px 9px 20px; border: #dfdfdf solid 1px; border-left: #dfdfdf solid 8px; border-radius: 7px 0 0 7px; color: #b5b5b5; font-size: 17px;    margin: 4px 10px;display: block;}
 .cat img{    margin-left: 15px;}
