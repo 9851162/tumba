@@ -87,7 +87,7 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }
     
-    public List<Ad>getStrictlyNameByWish(String wish){
+    /*public List<Ad>getStrictlyNameByWish(String wish){
         String sql = "select * from ad where name=:wish order by sale_date";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("wish", wish);
@@ -125,14 +125,88 @@ public class AdDao extends Dao<Ad>  {
         query.setParameter("wish", "%"+wish+"%");
         query.addEntity(Ad.class);
         return query.list();
-    }
+    }*/
     
-    public List<Ad>getNonStrictlyCatByWish(String wish){
-        String sql = "select a.* from ad a left join category c on a.category_id=c.category_id where c.name like :wish order by a.sale_date";
+    public List<Ad>getAdsByWishInName(String wish){
+        String sql = "select * from ad";
+        List<String> splitted=splitted(wish);
+        if(!splitted.isEmpty()){
+            sql+=" where 1!=1";
+            for(String st:splitted){
+                sql+=" or (name like :wish"+splitted.indexOf(st)+")";
+            }
+            
+        }
+        sql+=" order by sale_date desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
-        query.setParameter("wish", "%"+wish+"%");
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+            
+        }
         query.addEntity(Ad.class);
         return query.list();
     }
     
+    public List<Ad>getAdsByWishInDesc(String wish){
+        String sql = "select * from ad";
+        List<String> splitted=splitted(wish);
+        if(!splitted.isEmpty()){
+            sql+=" where 1!=1";
+            for(String st:splitted){
+                sql+=" or (description like :wish"+splitted.indexOf(st)+")";
+            }
+            
+        }
+        sql+=" order by sale_date desc";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+            
+        }
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    /*public List<Ad>getNonStrictlyCatByWish(String wish){
+        String sql = "select a.* from ad a left join category c on a.category_id=c.category_id where 1=1";
+        List<String> splitted=splitted(wish);
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                sql+=" or (c.name like :wish"+splitted.indexOf(st)+")";
+            }
+            
+        }
+        sql+=" order by a.sale_date desc";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+            
+        }
+        query.addEntity(Ad.class);
+        return query.list();
+    }*/
+    
+    
+    private List<String> splitted(String request){
+        List<String> split=new ArrayList();
+        if(request!=null){
+            String[] splittedTest=request.split("\\s+");
+            int cnt=0;
+            for(String st:splittedTest){      
+                String res="";
+                for(int i=0;i<=cnt;i++){
+                    res+="%"+splittedTest[i]+"%";
+                }
+                split.add(res);
+                cnt++;
+            }
+        }
+        return split;
+    }
 }

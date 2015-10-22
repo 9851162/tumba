@@ -324,35 +324,37 @@ public class AdService extends PrimService {
             return adDao.getAll();
         }else{
             List<Ad>res = new ArrayList();
-            res.addAll(adDao.getStrictlyNameByWish(wish));
-            for(Ad ad:adDao.getStrictlyDescByWish(wish)){
+            res.addAll(adDao.getAdsByWishInName(wish));
+            for(Ad ad:adDao.getAdsByWishInDesc(wish)){
                 if(!res.contains(ad)){
                     res.add(ad);
                 }
             }
-            for(Ad ad:adDao.getStrictlyCatByWish(wish)){
-                if(!res.contains(ad)){
-                    res.add(ad);
-                }
-            }
-            for(Ad ad:adDao.getNonStrictlyNameByWish(wish)){
-                if(!res.contains(ad)){
-                    res.add(ad);
-                }
-            }
-            for(Ad ad:adDao.getNonStrictlyDescByWish(wish)){
-                if(!res.contains(ad)){
-                    res.add(ad);
-                }
-            }
-            for(Ad ad:adDao.getNonStrictlyCatByWish(wish)){
-                if(!res.contains(ad)){
-                    res.add(ad);
-                }
-            }
+            
+            /*for(String s:splitted(wish)){
+                addError(s);
+            }*/
+            
             return res;
         }
     }
+    
+    /*private List<String> splitted(String request){
+        List<String> split=new ArrayList();
+        if(request!=null){
+            String[] splittedTest=request.split("\\s+");
+            int cnt=0;
+            for(String st:splittedTest){      
+                String res="";
+                for(int i=0;i<=cnt;i++){
+                    res+="%"+splittedTest[i]+"%";
+                }
+                split.add(res);
+                cnt++;
+            }
+        }
+        return split;
+    }*/
     
     public Ad getAd(Long adId) {
         return adDao.find(adId);
