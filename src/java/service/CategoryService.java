@@ -448,6 +448,14 @@ public class CategoryService extends PrimService {
             return (Integer)b[1]-(Integer)a[1];
         }
     }
+    
+    public List<Category>getSelectedCats(List<Long>catIds){
+        return catDao.getSelectedCats(catIds);
+    }
+    
+    public List<Category>getNotSelectedCats(List<Long>catIds){
+        return catDao.getNotSelectedCats(catIds);
+    }
 
     /*public ParametrValue setValue(Parametr p,Object val){
         

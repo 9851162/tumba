@@ -319,7 +319,7 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish) {
+    public List<Ad> getAds(String wish,List<Long>catIds) {
         if(wish==null||wish.equals("")){
             return adDao.getAll();
         }else{

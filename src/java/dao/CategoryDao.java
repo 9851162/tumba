@@ -96,4 +96,18 @@ public class CategoryDao extends Dao<Category>  {
         return res;
     }
     
+    public List<Category>getSelectedCats(List<Long>catIds){
+        String hql = "select Category from Category where id in (:catIds)";
+        Query query = getCurrentSession().createSQLQuery(hql);
+        query.setParameterList("catIds", catIds);
+        return query.list();
+    }
+    
+    public List<Category>getNotSelectedCats(List<Long>catIds){
+        String hql = "select Category from Category where id not in (:catIds)";
+        Query query = getCurrentSession().createSQLQuery(hql);
+        query.setParameterList("catIds", catIds);
+        return query.list();
+    }
+    
 }

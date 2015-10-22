@@ -46,9 +46,9 @@
         <h1>Расширенный поиск</h1>
         <div class="cat">категория<a href="" class="spoiler_links"><div class="tostrel"></div></a>
           <div class="spoiler_body " style="display:none;">
-            <c:forEach var="cat" items="${catList}">
-                <div style="cursor: pointer;" value="${cat.id}">
-                  ${cat.name}
+            <c:forEach var="cat" items="${notSelectedCats}">
+                <div style="cursor: pointer;" value="${cat.id}"><a href="<c:url value="../Main/addCat4Search?catId=${cat.id}" />">
+                    ${cat.name}</a>
                 </div>
             </c:forEach>
             <!--<div>категория</div>

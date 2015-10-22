@@ -21,6 +21,7 @@
         <intercept-url pattern="/Main/comparison" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
         <intercept-url pattern="/Main/authorize" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Main/addCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
         <intercept-url pattern="/Ad/setChosenUnchosen" access="hasAnyRole('user', 'admin')" />
         <intercept-url pattern="/Ad/setUnchosen" access="hasAnyRole('user', 'admin')" />

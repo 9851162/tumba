@@ -55,8 +55,16 @@ public class mainController extends WebController {
             userId = u.getId();
         }
 
-        List<Ad>ads=adService.getAds(wish);
         
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catIds==null){
+            catIds=new ArrayList();
+        }
+        List<Ad>ads=adService.getAds(wish,catIds);
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        //лист кат добавленных
+        //лист кат недобавленных
         model.put("adList", ads);
         model.put("resCount", ads.size());
         model.put("chosenAdsMap", adService.getChosenAdMap(userId));
@@ -69,13 +77,10 @@ public class mainController extends WebController {
         if (price != null) {
             model.put("price", price);
         }
-        //model.put("nestingCatsMap", catService.getNestingMapOfCats());
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish", wish);
-        //model.put("paramMap",catService.getParamsMap());
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
         if (ers == null) {
             ers = new ArrayList();
@@ -123,34 +128,18 @@ public class mainController extends WebController {
     @RequestMapping("/addCat4Search")
     public String addCat4Search(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "shortName", required = false) String shortName,
-            @RequestParam(value = "description", required = false) String desc,
-            @RequestParam(value = "price", required = false) Double price,
-            //@RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "catId", required = false) Long catId,
             RedirectAttributes ras) throws Exception {
-
-        User u = authManager.getCurrentUser();
-
-        model.put("adList", adService.getChosenAds(u.getId()));
-        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
-        //model.put("chosenList",adService.getChosenAds(u.getId()));
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
-        model.put("catList", catService.getCatList());
-        model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
-        //model.put("wish",wish);
-        //model.put("paramMap",catService.getParamsMap());
-        ArrayList<String> ers = (ArrayList<String>) model.get("errors");
-        if (ers == null) {
-            ers = new ArrayList();
+        
+        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catList==null){
+            catList=new ArrayList();
         }
-        ers.addAll(adService.getErrors());
-        ers.addAll(catService.getErrors());
-        //ers.add("err");
-        model.put(ERRORS_LIST_NAME, ers);
+        if(!catList.contains(catId)&&catList.size()<20){
+            catList.add(catId);
+        }
+        ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
 
