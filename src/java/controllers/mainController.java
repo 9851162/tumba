@@ -9,6 +9,7 @@ import controllers.parent.WebController;
 import entities.Ad;
 import entities.User;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -55,17 +56,33 @@ public class mainController extends WebController {
             userId = u.getId();
         }
 
-        
+        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
         List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
+        if(compAds==null){
+            compAds=new ArrayList();
+        }
+        
+        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
         List<Ad>ads=adService.getAds(wish,catIds);
+        List<Ad> mySales = adService.getSales(userId);
+        List<Ad> myPurchases = adService.getPurchases(userId);
+        
+        
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
+        model.put("chosenAdsMap", chosenMap);
         model.put("resCount", ads.size());
-        model.put("chosenAdsMap", adService.getChosenAdMap(userId));
+        model.put("chosenCount", chosenMap.size());
+        model.put("compareCount", compAds.size());
+        
+        //to do srazu polu4enie 4isla iz bazi
+        model.put("mySellCount", mySales.size());
+        model.put("myBuyCount", myPurchases.size());
+        
         if (shortName != null) {
             model.put("shortName", shortName);
         }
@@ -135,19 +152,42 @@ public class mainController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         User u = authManager.getCurrentUser();
+        Long userId = null;
+        if (u != null) {
+            userId = u.getId();
+        }
 
-        model.put("adList", adService.getChosenAds(u.getId()));
-        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
-        //model.put("chosenList",adService.getChosenAds(u.getId()));
+        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catIds==null){
+            catIds=new ArrayList();
+        }
+        if(compAds==null){
+            compAds=new ArrayList();
+        }
+        
+        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
+        List<Ad> mySales = adService.getSales(userId);
+        List<Ad> myPurchases = adService.getPurchases(userId);
+        
+        model.put("adList", adService.getChosenAds(userId));
+        model.put("chosenAdsMap", chosenMap);
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
-        //model.put("wish",wish);
-        //model.put("paramMap",catService.getParamsMap());
+        
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        model.put("resCount", chosenMap.size());
+        model.put("chosenCount", chosenMap.size());
+        model.put("compareCount", compAds.size());
+        
+        model.put("mySellCount", mySales.size());
+        model.put("myBuyCount", myPurchases.size());
+        
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -169,26 +209,50 @@ public class mainController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         User u = authManager.getCurrentUser();
+        Long userId = null;
+        if (u != null) {
+            userId = u.getId();
+        }
 
-        model.put("adList", adService.getSales(u.getId()));
-        model.put("chosenAdsMap", adService.getChosenAdMap(u.getId()));
-        //model.put("salesList",adService.getSales(u.getId()));
+        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catIds==null){
+            catIds=new ArrayList();
+        }
+        if(compAds==null){
+            compAds=new ArrayList();
+        }
+        
+        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
+        
+        List<Ad> mySales = adService.getSales(userId);
+        List<Ad> myPurchases = adService.getPurchases(userId);
+
+        model.put("adList", mySales);
+        model.put("chosenAdsMap", adService.getChosenAdMap(userId));
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish", wish);
-        //model.put("paramMap",catService.getParamsMap());
+        
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        model.put("resCount", mySales.size());
+        model.put("chosenCount", chosenMap.size());
+        model.put("compareCount", compAds.size());
+        
+        model.put("mySellCount", mySales.size());
+        model.put("myBuyCount", myPurchases.size());
+        
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
-        //ers.add("err");
         model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
@@ -203,25 +267,50 @@ public class mainController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         User u = authManager.getCurrentUser();
+        
+        Long userId = null;
+        if (u != null) {
+            userId = u.getId();
+        }
 
-        model.put("adList", adService.getPurchases(u.getId()));
-        //model.put("purchasesList",adService.getPurchases(u.getId()));
+        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catIds==null){
+            catIds=new ArrayList();
+        }
+        if(compAds==null){
+            compAds=new ArrayList();
+        }
+        
+        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
+        
+        List<Ad> mySales = adService.getSales(userId);
+        List<Ad> myPurchases = adService.getPurchases(userId);
+
+        model.put("adList", myPurchases);
         model.put("shortName", shortName);
         model.put("description", desc);
         model.put("price", price);
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
-        /*model.put("reqTypeMap",catService.getReqTypes());*/
         model.put("wish", wish);
-        //model.put("paramMap",catService.getParamsMap());
+        
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        model.put("resCount", myPurchases.size());
+        model.put("chosenCount", chosenMap.size());
+        model.put("compareCount", compAds.size());
+        
+        model.put("mySellCount", mySales.size());
+        model.put("myBuyCount", myPurchases.size());
+        
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
         }
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
-        //ers.add("err");
         model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }

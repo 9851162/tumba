@@ -117,7 +117,7 @@ public class AdController extends WebController {
         
             User u = authManager.getCurrentUser();
             if(u!=null){
-                List ads = (List)request.getSession().getAttribute(COMPARISON);
+                List<Ad> ads = (List)request.getSession().getAttribute(COMPARISON);
                 if(ads==null){
                     ads = new ArrayList();
                 }

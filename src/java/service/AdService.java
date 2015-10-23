@@ -417,7 +417,6 @@ public class AdService extends PrimService {
         if (userId != null) {
             return adDao.getPurchases(userId);
         } else {
-            addError("Пользователь не указан");
             return new ArrayList();
         }
     }
@@ -426,7 +425,6 @@ public class AdService extends PrimService {
         if (userId != null) {
             return adDao.getSales(userId);
         } else {
-            addError("Пользователь не указан");
             return new ArrayList();
         }
     }

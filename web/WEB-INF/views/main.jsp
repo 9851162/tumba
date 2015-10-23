@@ -75,11 +75,11 @@
 
             <div class="left_side  ">
                 <c:if test="${role=='user'||role=='admin'}">    
-                    <a style="text-decoration: none;" href="<c:url value="../Main/purchases" />"><div class="menuitem">Мои покупки<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/sales" />"><div class="menuitem">Мои продажи<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное ${chosenCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение ${compareCount}<img src="../img/strright.png"></div></a>
                         </c:if>
                 <div class="promo"> </div>
                 <div class="promo"> </div>
