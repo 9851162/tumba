@@ -46,12 +46,19 @@
                 <h1>Расширенный поиск</h1>
                 <div class="cat">категория<a href="" class="spoiler_links"><div class="tostrel"></div></a>
                     <div class="spoiler_body " style="display:none;">
-                        <div>категория</div>
-                        <div>категория</div>
-                        <div>категория</div>
+                        <c:forEach var="cat" items="${notSelectedCats}">
+                            <div style="cursor: pointer;" value="${cat.id}"><a style="text-decoration: none;color: #00547e;" href="<c:url value="../Main/addCat4Search?catId=${cat.id}&wish=${param.wish}" />">
+                                    ${cat.name}</a>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
-                <div class="dob">добавить<a href="#"><img src="../img/plus.png"></a> </div>
+                <div id="dobContainer">
+                <c:forEach var="cat" items="${selectedCats}">
+                    <div class="dob">${cat.name}<a href="<c:url value="../Main/removeCat4Search?catId=${cat.id}&wish=${param.wish}" />"><img src="../img/plus.png"></a>
+                    </div>
+                </c:forEach>
+                </div>
             </div>
 
             <c:if test="${role=='user'||role=='admin'}">

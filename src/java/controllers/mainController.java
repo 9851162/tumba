@@ -63,8 +63,6 @@ public class mainController extends WebController {
         List<Ad>ads=adService.getAds(wish,catIds);
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
-        //лист кат добавленных
-        //лист кат недобавленных
         model.put("adList", ads);
         model.put("resCount", ads.size());
         model.put("chosenAdsMap", adService.getChosenAdMap(userId));
@@ -237,10 +235,16 @@ public class mainController extends WebController {
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
 
-        User u = authManager.getCurrentUser();
-        List ads = (List) request.getSession().getAttribute(COMPARISON);
+        List<Ad> ads = (List) request.getSession().getAttribute(COMPARISON);
+        
+        List<Long>catIds = (List)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        if(catIds==null){
+            catIds=new ArrayList();
+        }
 
         model.put("compMap", catService.getSortedParamsAndValsForComparison(ads));
+        model.put("selectedCats",catService.getSelectedCats(catIds));
+        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("compAds",ads);
         model.put("shortName", shortName);

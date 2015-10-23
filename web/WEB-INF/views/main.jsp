@@ -51,9 +51,6 @@
                                     ${cat.name}</a>
                             </div>
                         </c:forEach>
-                        <!--<div>категория</div>
-                        <div>категория</div>
-                        <div>категория</div>-->
                     </div>
                 </div>
                 <div id="dobContainer">
@@ -62,7 +59,6 @@
                     </div>
                 </c:forEach>
                 </div>
-
             </div>
 
             <c:if test="${role=='user'||role=='admin'}">
