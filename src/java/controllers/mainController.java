@@ -229,9 +229,9 @@ public class mainController extends WebController {
     @RequestMapping("/comparison")
     public String getComparison(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "shortName", required = false) String shortName,
+            /*@RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
-            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "price", required = false) Double price,*/
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
 
@@ -247,9 +247,9 @@ public class mainController extends WebController {
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
         model.put("compAds",ads);
-        model.put("shortName", shortName);
+        /*model.put("shortName", shortName);
         model.put("description", desc);
-        model.put("price", price);
+        model.put("price", price);*/
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());

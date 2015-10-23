@@ -258,3 +258,52 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 td {
     text-align: center;
 }
+
+.ad_bubble_delete_wrap {
+  position: absolute;
+  z-index: 10;
+  right: 0px;
+  top: 0px;
+  background: #222;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  /* -webkit-transition: opacity 100ms linear; */
+  /* -moz-transition: opacity 100ms linear; */
+  /* -o-transition: opacity 100ms linear; */
+  /* transition: opacity 100ms linear; */
+}
+.ad_bubble_delete {
+  background: url(../img/closing_cross.gif) no-repeat;
+  width: 7px;
+  height: 7px;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  -webkit-transition: opacity 100ms linear;
+  -moz-transition: opacity 100ms linear;
+  -o-transition: opacity 100ms linear;
+  transition: opacity 100ms linear;
+}
+.ad_bubble_delete_wrap:hover {
+  opacity: 1;
+  filter: none;
+}
+.ad_top_bubble {
+  //display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #FFF;
+  //opacity: 0;
+  filter: alpha(opacity=0);
+  background: rgba(0, 0, 0, 0.7);
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+  z-index: 450;
+  padding: 4px 0;
+}

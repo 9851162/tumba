@@ -97,6 +97,11 @@
                         <div class="onestr">
                             <c:forEach var="ad" items="${compAds}">
                                 <div class="prewtov">
+                                  <a href="<c:url value="../Ad/removeFromComparison?adId=${ad.id}&wish=${param.wish}" />"><div class="ad_top_bubble" title="убрать из сравнения">
+                                      <div class="ad_bubble_delete_wrap">
+                                      <div class="ad_bubble_delete"></div>
+                                      </div>
+                                    </div></a>
                                     <img class="sravimg" src="../Images/?id=${ad.id}&name=0">
                                     <div class="sravopisanie">
                                         <div class="sravmin">

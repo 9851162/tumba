@@ -139,10 +139,10 @@ public class AdController extends WebController {
     }
     
     @RequestMapping("/removeFromComparison")
-    @ResponseBody
-    public JsonResponse removeFromComparison (Map<String, Object> model,
+    public String removeFromComparison (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "wish", required = false) Long wish,
             RedirectAttributes ras) throws Exception {
         
             User u = authManager.getCurrentUser();
@@ -157,13 +157,8 @@ public class AdController extends WebController {
                 }
                 request.getSession().setAttribute(COMPARISON, ads);
             }
-        JsonResponse res = new JsonResponse();
-        res.setStatus(Boolean.TRUE);
-        if(!adService.getErrors().isEmpty()){
-            res.setMessage(adService.getErrorsAsString());
-            res.setStatus(Boolean.FALSE);
-        }
-        return res;
+            ras.addAttribute("wish", wish);
+        return "redirect:/Main/comparison";
     }
     
     /*@RequestMapping("/setUnchosen")
