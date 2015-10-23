@@ -78,8 +78,8 @@
                     <a style="text-decoration: none;" href="<c:url value="../Main/purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное ${chosenCount}<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение ${compareCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
                         </c:if>
                 <div class="promo"> </div>
                 <div class="promo"> </div>
