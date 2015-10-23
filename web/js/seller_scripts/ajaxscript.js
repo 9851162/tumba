@@ -62,7 +62,7 @@ $(document).ready(function () {
             var sumComp = $('#compareCount').text();
             if ($.isNumeric(sumComp)) {
                 sumComp = Number(sumComp);
-                $('#chosenCount').html(sumComp + Number(1));
+                $('#compareCount').html(sumComp + Number(1));
                 $(this).children('img').attr('class','comparing');
             }
         }
