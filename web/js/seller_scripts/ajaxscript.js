@@ -1,17 +1,25 @@
 $(document).ready(function () {
 
-    $("#grid").on('click','.choose', function () {
+    $("#grid").on('click', '.choose', function () {
+        var difChosen = +"0";
         var itemId = $(this).attr("data-ad-id");
         var imgclass = $(this).children('img').attr('class');
         var img = $(this).children('img').attr('src');
         if (imgclass == 'chosen') {
+            difChosen = +"-1";
             img = '../img/dop5.png';
             $(this).children('img').attr('src', img);
         } else {
+            difChosen = +"1";
             img = '../img/dop5v2.png';
             $(this).children('img').attr('src', img);
         }
         $(this).children('img').toggleClass('chosen');
+        var sumChosen = $('#chosenCount').text();
+        if ($.isNumeric(sumChosen)) {
+            sumChosen = Number(sumChosen);
+            $('#chosenCount').html(sumChosen + difChosen);
+        }
         setChosenUnchosen(itemId);
     });
 
@@ -46,12 +54,21 @@ $(document).ready(function () {
             }
         });
     }
-    
-    $("#grid").on('click','.compareAdder', function () {
+
+    $("#grid").on('click', '.compareAdder', function () {
         var itemId = $(this).attr("data-ad-id");
+        var imgclass = $(this).children('img').attr('class');
+        if (imgclass != 'comparing') {
+            var sumComp = $('#compareCount').text();
+            if ($.isNumeric(sumComp)) {
+                sumComp = Number(sumComp);
+                $('#chosenCount').html(sumComp + Number(1));
+                $(this).children('img').attr('class','comparing');
+            }
+        }
         addToCompare(itemId);
     });
-    
+
     function addToCompare(adId) {
         $.ajax({
             url: "../Ad/addToComparison?adId=" + adId,
@@ -60,7 +77,7 @@ $(document).ready(function () {
             //???
             success: function (json) {
                 if (json['status'] == true) {
-                  
+                    
                 } else {
                     if (json['message'] != undefined) {
                         alert("error: " + json['message']);

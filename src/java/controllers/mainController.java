@@ -66,6 +66,10 @@ public class mainController extends WebController {
         }
         
         HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
+        HashMap<Long,Ad> comparingMap = new HashMap();
+        for(Ad ad:compAds){
+            comparingMap.put(ad.getId(),ad);
+        }
         List<Ad>ads=adService.getAds(wish,catIds);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
@@ -75,6 +79,7 @@ public class mainController extends WebController {
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
         model.put("chosenAdsMap", chosenMap);
+        model.put("comparingAdsMap", comparingMap);
         model.put("resCount", ads.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
