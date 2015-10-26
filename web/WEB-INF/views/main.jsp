@@ -155,6 +155,7 @@
                                                     <c:set var="chosenImg" value="../img/dop5v2.png"/>
                                                     <c:set var="imgClass" value="chosen"/>
                                                 </c:if>
+                                                <c:set var="compClass" value=""/>
                                                 <c:if test="${!empty comparingAdsMap.get(ad.id)}">
                                                     <c:set var="compClass" value="comparing"/>
                                                 </c:if>

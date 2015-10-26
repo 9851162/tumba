@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
 
@@ -30,6 +32,10 @@ public class Message extends PrimEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
     private Long id;
+    
+    @Column(name = "insert_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date insertDate;
     
     @JoinColumn(name = "sender_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,7 +55,7 @@ public class Message extends PrimEntity {
     
     @Column(name = "text", columnDefinition="TEXT")
     @NotNull(message = "Необходимо добавить текст")
-    private String msg;
+    private String text;
     
     @Override
     public Long getId() {
@@ -80,12 +86,20 @@ public class Message extends PrimEntity {
         this.ad = ad;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getText() {
+        return text;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Date insertDate) {
+        this.insertDate = insertDate;
     }
     
     
