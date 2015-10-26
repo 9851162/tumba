@@ -57,7 +57,7 @@ public class Ad extends PrimEntity {
     @NotNull(message = "Необходимо добавить описание")
     private String description;
     
-    //to do rework ito author_id
+    //to do rework into author_id v bd mb
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Автор не указан")
