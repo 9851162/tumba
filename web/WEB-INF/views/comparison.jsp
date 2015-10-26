@@ -102,7 +102,7 @@
                                       <div class="ad_bubble_delete"></div>
                                       </div>
                                     </div></a>
-                                    <img class="sravimg" src="../Images/?id=${ad.id}&name=0">
+                                    <img class="sravimg" src="../imgs/${ad.id}/0">
                                     <div class="sravopisanie">
                                         <div class="sravmin">
                                             <h3>Продавец</h3>

@@ -120,16 +120,16 @@
                                 <div class="toramka divall">
                                     <div class="toblockimg">
                                         <div id="panel" class="prewimg">
-                                            <img id="largeImage1" class="large largeImage" src="../Images/?id=${ad.id}&name=0">
+                                            <img id="largeImage1" class="large largeImage" src="../imgs/${ad.id}/0">
                                         </div>
                                         <div id="thumbs1" class="thumbs miniprew">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=0">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=1">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=2">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=3">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=4">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=5">
-                                            <img class="prev4change" src="../Images/?id=${ad.id}&name=6">
+                                            <img class="prev4change" src="../imgs/${ad.id}/0">
+                                            <img class="prev4change" src="../imgs/${ad.id}/1">
+                                            <img class="prev4change" src="../imgs/${ad.id}/2">
+                                            <img class="prev4change" src="../imgs/${ad.id}/3">
+                                            <img class="prev4change" src="../imgs/${ad.id}/4">
+                                            <img class="prev4change" src="../imgs/${ad.id}/5">
+                                            <img class="prev4change" src="../imgs/${ad.id}/6">
                                         </div>
                                     </div>
                                     <div class="opisanie">
