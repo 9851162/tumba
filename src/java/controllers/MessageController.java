@@ -44,7 +44,7 @@ public class MessageController extends WebController {
                 ras.addFlashAttribute(ERRORS_LIST_NAME, msgService.getErrors());
             }
             ras.addFlashAttribute("wish", wish);
-        return "/Main/";
+        return "redirect:/Main/";
     }
     
 }
