@@ -68,6 +68,15 @@ public class AdminController extends WebController {
         return "params";
     }
     
+    @RequestMapping("/regions")
+    public String showRegions (Map<String, Object> model,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+        
+           
+        return "regions";
+    }
+    
     @RequestMapping("/addCat")
     public String addCat (Map<String, Object> model,
             @RequestParam(value = "parentId", required = false) Long parentId,

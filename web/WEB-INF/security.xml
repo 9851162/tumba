@@ -13,27 +13,25 @@
     <http pattern="/fonts/**" security="none" />
     
     <http auto-config='true' use-expressions="true" >
-        <intercept-url pattern="/Images/" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
-        <intercept-url pattern="/Message/send" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
-        <intercept-url pattern="/Main/chosen" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Main/sales" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Main/purchases" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Main/comparison" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/Images/" access="hasAnyRole('ROLE_ANONYMOUS','user')" />
+        <intercept-url pattern="/Message/send" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Main/" access="hasAnyRole('ROLE_ANONYMOUS','user')" />
+        <intercept-url pattern="/Main/chosen" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Main/sales" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Main/purchases" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Main/comparison" access="hasAnyRole('user')" />
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS')" />
-        <intercept-url pattern="/Main/authorize" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Main/addCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
-        <intercept-url pattern="/Main/removeCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
-        <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user', 'admin')" />
-        <intercept-url pattern="/Ad/setChosenUnchosen" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Ad/setUnchosen" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Ad/addToComparison" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Ad/removeFromComparison" access="hasAnyRole('user', 'admin')" />
-        <intercept-url pattern="/Admin/administrating" access="hasAnyRole( 'admin')" />
-        <intercept-url pattern="/Admin/addCat" access="hasAnyRole( 'admin')" />
+        <intercept-url pattern="/Main/authorize" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Main/addCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user')" />
+        <intercept-url pattern="/Main/removeCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user')" />
+        <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user')" />
+        <intercept-url pattern="/Ad/setChosenUnchosen" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Ad/setUnchosen" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Ad/addToComparison" access="hasAnyRole('user')" />
+        <intercept-url pattern="/Ad/removeFromComparison" access="hasAnyRole('user')" />
         
-        <intercept-url pattern="/index" access="hasAnyRole('user', 'admin')" />  
-        <intercept-url pattern="/" access="hasAnyRole('user', 'admin')" />
+        <intercept-url pattern="/index" access="hasAnyRole('user')" />  
+        <intercept-url pattern="/" access="hasAnyRole('user')" />
         
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
