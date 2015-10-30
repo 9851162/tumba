@@ -6,7 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
-import entities.Parametr;
+import entities.User;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CategoryService;
+import service.RegionService;
 
 /**
  *
@@ -26,6 +27,9 @@ public class AdminController extends WebController {
     
     @Autowired
     CategoryService catService;
+    
+    @Autowired
+    RegionService regService;
     
     @RequestMapping("/administrating")
     public String administrating (Map<String, Object> model,
@@ -75,6 +79,24 @@ public class AdminController extends WebController {
         
            
         return "regions";
+    }
+    
+    
+    
+    @RequestMapping("/cre8Country")
+    public String cre8Country (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.createCountry(name);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+        return "redirect:/Admin/regions";
     }
     
     @RequestMapping("/addCat")

@@ -161,26 +161,4 @@ public class AdController extends WebController {
         return "redirect:/Main/comparison";
     }
     
-    /*@RequestMapping("/setUnchosen")
-    public String setUnchosen (Map<String, Object> model,
-            HttpServletRequest request,
-            @RequestParam(value = "adId", required = false) Long adId,
-            RedirectAttributes ras) throws Exception {
-        
-            User u = authManager.getCurrentUser();
-            
-            adService.setUnsetChosen(u.getId(), adId);
-            
-            model.put("errors",adService.getErrors());
-        return "redirect:/Main/chosen";
-    }*/
-    
-    /*@RequestMapping("/list")
-    public String getList (Map<String, Object> model,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
-            model.put("adList",adService.getAds());
-        return "ads";
-    }*/
-    
 }
