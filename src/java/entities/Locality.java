@@ -36,11 +36,11 @@ public class Locality extends PrimEntity {
     @NotNull(message = "Необходимо указать название")
     private String name;
     
-    @JoinColumn(name = "region_id")
+    @JoinColumn(name = "state_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Необходимо указать регион")
-    @Index(name="regionIndex")
-    private Region region;
+    @Index(name="stateIndex")
+    private State state;
     
     @Override
     public Long getId() {
@@ -55,12 +55,12 @@ public class Locality extends PrimEntity {
         this.name = name;
     }
 
-    public Region getRegion() {
-        return region;
+    public State getState() {
+        return state;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setState(State state) {
+        this.state = state;
     }
     
     

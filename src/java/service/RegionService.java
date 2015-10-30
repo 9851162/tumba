@@ -7,10 +7,10 @@ package service;
 
 import dao.CountryDao;
 import dao.LocalityDao;
-import dao.RegionDao;
+import dao.StateDao;
 import entities.Country;
 import entities.Locality;
-import entities.Region;
+import entities.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -31,7 +31,7 @@ public class RegionService extends PrimService {
     private CountryDao cDao;
     
     @Autowired
-    private RegionDao regDao;
+    private StateDao stateDao;
     
     @Autowired
     private LocalityDao locDao;
@@ -48,25 +48,26 @@ public class RegionService extends PrimService {
         }
     }
     
-    public void createRegion(String name,Long countryId) {
+    public void createState(String name,Long countryId) {
         if (name != null && !name.equals("")) {
             Country c = cDao.find(countryId);
-            Region r = new Region();
-            r.setName(name);
-            r.setCountry(c);
-            if (validate(r)) {
-                regDao.save(r);
+            State s = new State();
+            s.setName(name);
+            s.setCountry(c);
+            if (validate(s)) {
+                stateDao.save(s);
             }
         }else{
-            addError("Введите название региона");
+            addError("Введите название административного округа");
         }
     }
     
     public void createLocality(String name,Long regionId) {
         if (name != null && !name.equals("")) {
-            Region r =  regDao.find(regionId);
+            State s =  stateDao.find(regionId);
             Locality l = new Locality();
             l.setName(name);
+            l.setState(s);
             if (validate(l)) {
                 locDao.save(l);
             }
@@ -77,21 +78,21 @@ public class RegionService extends PrimService {
     
     public void deleteCountry(Long countryId){
         Country c = cDao.find(countryId);
-        for(Region r:c.getRegions()){
-            for(Locality l:r.getLocalities()){
+        for(State s:c.getStates()){
+            for(Locality l:s.getLocalities()){
                 locDao.delete(l);
             }
-            regDao.delete(r);
+            stateDao.delete(s);
         }
         cDao.delete(c);
     }
     
-    public void deleteRegion(Long regionId){
-        Region r = regDao.find(regionId);
-        for(Locality l:r.getLocalities()){
+    public void deleteState(Long sateId){
+        State s = stateDao.find(sateId);
+        for(Locality l:s.getLocalities()){
             locDao.delete(l);
         }
-        regDao.delete(r);
+        stateDao.delete(s);
     }
     
     public void deleteLocality(Long localityId){
@@ -109,12 +110,12 @@ public class RegionService extends PrimService {
         }
     }
     
-    public void changeRegionName(Long regionId,String newName){
+    public void changeStateName(Long stateId,String newName){
         if (newName != null && !newName.equals("")) {
-            Region r = regDao.find(regionId);
-            r.setName(newName);
-            if(validate(r)){
-                regDao.save(r);
+            State s = stateDao.find(stateId);
+            s.setName(newName);
+            if(validate(s)){
+                stateDao.update(s);
             }
         }
     }

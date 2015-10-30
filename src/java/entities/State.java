@@ -28,12 +28,12 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @author bezdatiuzer
  */
 @Entity
-@Table(name = "region")
-public class Region extends PrimEntity {
+@Table(name = "state")
+public class State extends PrimEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "region_id")
+    @Column(name = "state_id")
     private Long id;
     
     @Column(name = "name",unique = true, length = 100)
@@ -47,7 +47,7 @@ public class Region extends PrimEntity {
     private Country country;
     
     @LazyCollection(LazyCollectionOption.TRUE)
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "state")
     @OrderBy("name")
     private List<Locality> localities;
     

@@ -6,7 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
-import entities.Region;
+import entities.State;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author bezdatiuzer
  */
 @Repository
-public class RegionDao extends Dao<Region>  {
+public class StateDao extends Dao<State>  {
     
     @Override
     public Class getSupportedClass() {
-        return Region.class;
+        return State.class;
     }
     
 }

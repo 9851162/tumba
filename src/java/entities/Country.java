@@ -40,7 +40,7 @@ public class Country extends PrimEntity {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "country")
     @OrderBy("name")
-    private List<Region> regions;
+    private List<State> states;
     
     @Override
     public Long getId() {
@@ -55,12 +55,12 @@ public class Country extends PrimEntity {
         this.name = name;
     }
 
-    public List<Region> getRegions() {
-        return regions;
+    public List<State> getStates() {
+        return states;
     }
 
-    public void setRegions(List<Region> regions) {
-        this.regions = regions;
+    public void setStates(List<State> states) {
+        this.states = states;
     }
     
     
