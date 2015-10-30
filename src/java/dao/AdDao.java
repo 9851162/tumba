@@ -72,7 +72,7 @@ public class AdDao extends Dao<Ad>  {
     }
     
     public List<Ad>getSales(Long userId){
-        String sql = "select * from ad where user_id=:userId and buyer_id is not null";
+        String sql = "select * from ad where author_id=:userId and buyer_id is not null";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("userId", userId);
         query.addEntity(Ad.class);
