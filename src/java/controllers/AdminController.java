@@ -76,7 +76,7 @@ public class AdminController extends WebController {
     public String showRegions (Map<String, Object> model,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
-        
+        model.put("countries",regService.getCountries());
            
         return "regions";
     }

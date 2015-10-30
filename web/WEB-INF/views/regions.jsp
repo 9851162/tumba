@@ -24,13 +24,45 @@
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <%@include file="/WEB-INF/jsp/error.jsp" %>
             <a href="<c:url value='/Admin/cats'/>">Категории</a>
-                <a href="<c:url value='/Admin/params'/>">Параметры</a>
-                <a href="<c:url value='/Admin/regions'/>">Регионы</a>
-                <a href="<c:url value='/Main/'/>">Главная</a>
+            <a href="<c:url value='/Admin/params'/>">Параметры</a>
+            <a href="<c:url value='/Admin/regions'/>">Регионы</a>
+            <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Регионы</h3>
+            <div style="width: 33%; float: left;">
+                <form  method="post" action="../Admin/cre8Country" >
+                    <div class="boxtoinput">
+                        <div class="">
+                            <label>Страна</label>
+                            <input name="name" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Добавить</button>
+                    </div>
+                </form>
+                <c:if test="${!empty countries}">
+                    <div>
+                        <ul>
+                            <c:forEach var="country" items="${countries}">
+                                <li>${country.name}</li>
+                                </c:forEach>
+                        </ul>
+                    </div>
+                </c:if>
+
+            </div>
+            <div style="width: 33%; float: left;">
+
+            </div>
+            <div style="width: 33%; float: left;">
+
+            </div>
+
+
+
         </div>
-            
-            
+
+
         <div id="modal" class="modal_form modal_div">
             <div class="nameform">Добавить</div>
             <form  method="post" action="../Admin/addCountry" >
@@ -46,12 +78,12 @@
             </form>
         </div>
 
-        
+
 
         <div id="overlay"></div>
         <script>$('.add_cat').click(function () {
-    var cid = $(this).attr('data-id');
-    $('[name = parentId]').val(cid);
-});</script>
+                var cid = $(this).attr('data-id');
+                $('[name = parentId]').val(cid);
+            });</script>
     </body>
 </html>

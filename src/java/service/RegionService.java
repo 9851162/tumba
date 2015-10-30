@@ -11,6 +11,7 @@ import dao.StateDao;
 import entities.Country;
 import entities.Locality;
 import entities.State;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -129,6 +130,10 @@ public class RegionService extends PrimService {
                 locDao.save(l);
             }
         }
+    }
+    
+    public List<Country>getCountries(){
+        return cDao.getAll();
     }
     
 }
