@@ -62,12 +62,13 @@ public class RegionService extends PrimService {
         }
     }
     
-    public void createLocality(String name,Long regionId) {
+    public void createLocality(String name,Long sateId) {
         if (name != null && !name.equals("")) {
-            State s =  stateDao.find(regionId);
+            State s =  stateDao.find(sateId);
             Locality l = new Locality();
             l.setName(name);
             l.setState(s);
+            l.setCountry(s.getCountry());
             if (validate(l)) {
                 locDao.save(l);
             }

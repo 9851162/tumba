@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
 
@@ -42,6 +41,12 @@ public class Locality extends PrimEntity {
     @Index(name="stateIndex")
     private State state;
     
+    @JoinColumn(name = "country_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Необходимо указать страну")
+    @Index(name="countryIndex")
+    private Country country;
+    
     @Override
     public Long getId() {
         return id;
@@ -61,6 +66,14 @@ public class Locality extends PrimEntity {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
     
     
