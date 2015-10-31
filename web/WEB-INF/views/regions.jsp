@@ -29,13 +29,15 @@
             <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Регионы</h3>
             <div style="width: 33%; float: left;">
-                <form  method="post" action="../Admin/cre8Country" >
+                <form  method="post" action="../Admin/addCountry" >
                     <div class="boxtoinput">
                         <div class="">
                             <label>Страна</label>
                             <input name="name" type="text">
                         </div>
                     </div>
+                    <input name="countryId" type="hidden" value="${countryId}">
+                    <input name="stateId" type="hidden" value="${stateId}">
                     <div class="form-group">
                         <button type="submit" class="btn">Добавить</button>
                     </div>
@@ -44,7 +46,7 @@
                     <div>
                         <ul>
                             <c:forEach var="country" items="${countries}">
-                                <li>${country.name}</li>
+                                <li><a href="<c:url value='../Admin/regions?countryId=${countryId}'/>">${country.name}</a></li>
                                 </c:forEach>
                         </ul>
                     </div>
@@ -52,10 +54,56 @@
 
             </div>
             <div style="width: 33%; float: left;">
-
+                <c:if test="${!empty countryId}">
+                    <form  method="post" action="../Admin/addState" >
+                        <div class="boxtoinput">
+                            <div class="">
+                                <label>Адм. округ</label>
+                                <input name="name" type="text">
+                            </div>
+                        </div>
+                        <input name="countryId" type="hidden" value="${countryId}">
+                        <input name="stateId" type="hidden" value="${stateId}">
+                        <div class="form-group">
+                            <button type="submit" class="btn">Добавить</button>
+                        </div>
+                    </form>
+                    <c:if test="${!empty states}">
+                        <div>
+                            <ul>
+                                <c:forEach var="state" items="${states}">
+                                    <li><a href="<c:url value='../Admin/regions?countryId=${countryId}&stateId=${state.id}'/>">${state.name}</a></li>
+                                    </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
+                </c:if>
             </div>
             <div style="width: 33%; float: left;">
-
+                <c:if test="${!empty countryId && !empty stateId}">
+                    <form  method="post" action="../Admin/addLocality" >
+                        <div class="boxtoinput">
+                            <div class="">
+                                <label>Нас. пункт</label>
+                                <input name="name" type="text">
+                            </div>
+                        </div>
+                        <input name="countryId" type="hidden" value="${countryId}">
+                        <input name="stateId" type="hidden" value="${stateId}">
+                        <div class="form-group">
+                            <button type="submit" class="btn">Добавить</button>
+                        </div>
+                    </form>
+                    <c:if test="${!empty localities}">
+                        <div>
+                            <ul>
+                                <c:forEach var="state" items="${states}">
+                                    <li>${state.name}</li>
+                                    </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
+                </c:if>
             </div>
 
 

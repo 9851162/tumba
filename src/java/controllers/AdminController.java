@@ -81,12 +81,12 @@ public class AdminController extends WebController {
         return "regions";
     }
     
-    
-    
-    @RequestMapping("/cre8Country")
-    public String cre8Country (Map<String, Object> model,
+    @RequestMapping("/addCountry")
+    public String addCountry (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
             RedirectAttributes ras) throws Exception {
         
             User u = authManager.getCurrentUser();
@@ -96,6 +96,48 @@ public class AdminController extends WebController {
                     ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
                 }
             }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
+        return "redirect:/Admin/regions";
+    }
+    
+    @RequestMapping("/addState")
+    public String addState (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.createState(name,countryId);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
+        return "redirect:/Admin/regions";
+    }
+    
+    @RequestMapping("/addLocality")
+    public String addLocality (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.createCountry(name);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
         return "redirect:/Admin/regions";
     }
     
