@@ -36,8 +36,8 @@
                             <input name="name" type="text">
                         </div>
                     </div>
-                    <input name="countryId" type="hidden" value="${countryId}">
-                    <input name="stateId" type="hidden" value="${stateId}">
+                    <input name="countryId" type="hidden" value="${param.countryId}">
+                    <input name="stateId" type="hidden" value="${param.stateId}">
                     <div class="form-group">
                         <button type="submit" class="btn">Добавить</button>
                     </div>
@@ -46,7 +46,7 @@
                     <div>
                         <ul>
                             <c:forEach var="country" items="${countries}">
-                                <li><a href="<c:url value='../Admin/regions?countryId=${countryId}'/>">${country.name}</a></li>
+                                <li><a href="<c:url value='../Admin/regions?countryId=${country.id}'/>">${country.name}</a></li>
                                 </c:forEach>
                         </ul>
                     </div>
@@ -54,7 +54,7 @@
 
             </div>
             <div style="width: 33%; float: left;">
-                <c:if test="${!empty countryId}">
+                <c:if test="${!empty param.countryId}">
                     <form  method="post" action="../Admin/addState" >
                         <div class="boxtoinput">
                             <div class="">
@@ -62,8 +62,8 @@
                                 <input name="name" type="text">
                             </div>
                         </div>
-                        <input name="countryId" type="hidden" value="${countryId}">
-                        <input name="stateId" type="hidden" value="${stateId}">
+                        <input name="countryId" type="hidden" value="${param.countryId}">
+                        <input name="stateId" type="hidden" value="${param.stateId}">
                         <div class="form-group">
                             <button type="submit" class="btn">Добавить</button>
                         </div>
@@ -72,7 +72,7 @@
                         <div>
                             <ul>
                                 <c:forEach var="state" items="${states}">
-                                    <li><a href="<c:url value='../Admin/regions?countryId=${countryId}&stateId=${state.id}'/>">${state.name}</a></li>
+                                    <li><a href="<c:url value='../Admin/regions?countryId=${param.countryId}&stateId=${state.id}'/>">${state.name}</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -80,7 +80,7 @@
                 </c:if>
             </div>
             <div style="width: 33%; float: left;">
-                <c:if test="${!empty countryId && !empty stateId}">
+                <c:if test="${!empty param.countryId && !empty param.stateId}">
                     <form  method="post" action="../Admin/addLocality" >
                         <div class="boxtoinput">
                             <div class="">
@@ -88,8 +88,8 @@
                                 <input name="name" type="text">
                             </div>
                         </div>
-                        <input name="countryId" type="hidden" value="${countryId}">
-                        <input name="stateId" type="hidden" value="${stateId}">
+                        <input name="countryId" type="hidden" value="${param.countryId}">
+                        <input name="stateId" type="hidden" value="${param.stateId}">
                         <div class="form-group">
                             <button type="submit" class="btn">Добавить</button>
                         </div>
@@ -97,8 +97,8 @@
                     <c:if test="${!empty localities}">
                         <div>
                             <ul>
-                                <c:forEach var="state" items="${states}">
-                                    <li>${state.name}</li>
+                                <c:forEach var="locality" items="${localities}">
+                                    <li>${locality.name}</li>
                                     </c:forEach>
                             </ul>
                         </div>

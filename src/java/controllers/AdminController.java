@@ -74,9 +74,13 @@ public class AdminController extends WebController {
     
     @RequestMapping("/regions")
     public String showRegions (Map<String, Object> model,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
         model.put("countries",regService.getCountries());
+        model.put("states",regService.getStates(countryId));
+        model.put("localities",regService.getLocalities(stateId));
            
         return "regions";
     }
@@ -131,7 +135,7 @@ public class AdminController extends WebController {
         
             User u = authManager.getCurrentUser();
             if(u!=null){
-                regService.createCountry(name);
+                regService.createLocality(name,stateId);
                 if(!regService.getErrors().isEmpty()){
                     ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
                 }
