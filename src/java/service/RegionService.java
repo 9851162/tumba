@@ -40,10 +40,14 @@ public class RegionService extends PrimService {
 
     public void createCountry(String name) {
         if (name != null && !name.equals("")) {
-            Country c = new Country();
-            c.setName(name);
-            if (validate(c)) {
-                cDao.save(c);
+            if (cDao.isAvailableName(name)) {
+                Country c = new Country();
+                c.setName(name);
+                if (validate(c)) {
+                    cDao.save(c);
+                }
+            } else {
+                addError("Такое название страны уже добавлено");
             }
         } else {
             addError("Введите название страны");
@@ -52,12 +56,16 @@ public class RegionService extends PrimService {
 
     public void createState(String name, Long countryId) {
         if (name != null && !name.equals("")) {
-            Country c = cDao.find(countryId);
-            State s = new State();
-            s.setName(name);
-            s.setCountry(c);
-            if (validate(s)) {
-                stateDao.save(s);
+            if (stateDao.isAvailableName(name)) {
+                Country c = cDao.find(countryId);
+                State s = new State();
+                s.setName(name);
+                s.setCountry(c);
+                if (validate(s)) {
+                    stateDao.save(s);
+                }
+            } else {
+                addError("Такое название адм. округа уже добавлено");
             }
         } else {
             addError("Введите название административного округа");
@@ -66,13 +74,17 @@ public class RegionService extends PrimService {
 
     public void createLocality(String name, Long sateId) {
         if (name != null && !name.equals("")) {
-            State s = stateDao.find(sateId);
-            Locality l = new Locality();
-            l.setName(name);
-            l.setState(s);
-            l.setCountry(s.getCountry());
-            if (validate(l)) {
-                locDao.save(l);
+            if (stateDao.isAvailableName(name)) {
+                State s = stateDao.find(sateId);
+                Locality l = new Locality();
+                l.setName(name);
+                l.setState(s);
+                l.setCountry(s.getCountry());
+                if (validate(l)) {
+                    locDao.save(l);
+                }
+            } else {
+                addError("Такое название нас. пункта уже добавлено");
             }
         } else {
             addError("Введите название нас.пункта");
@@ -145,7 +157,7 @@ public class RegionService extends PrimService {
             return new ArrayList();
         }
     }
-    
+
     public List<Locality> getLocalities(Long stateId) {
         if (stateId != null) {
             State s = stateDao.find(stateId);
