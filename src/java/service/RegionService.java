@@ -74,7 +74,7 @@ public class RegionService extends PrimService {
 
     public void createLocality(String name, Long sateId) {
         if (name != null && !name.equals("")) {
-            if (stateDao.isAvailableName(name)) {
+            if (locDao.isAvailableName(name)) {
                 State s = stateDao.find(sateId);
                 Locality l = new Locality();
                 l.setName(name);

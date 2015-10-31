@@ -28,5 +28,4 @@ public class CountryDao extends Dao<Country>  {
         query.setParameter("name", name);
         return query.list().isEmpty();
     }
-    
 }
