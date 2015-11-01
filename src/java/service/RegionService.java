@@ -12,6 +12,7 @@ import entities.Country;
 import entities.Locality;
 import entities.State;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -112,6 +113,8 @@ public class RegionService extends PrimService {
 
     public void deleteLocality(Long localityId) {
         Locality l = locDao.find(localityId);
+        l.setAds(new HashSet());
+        locDao.update(l);
         locDao.delete(l);
     }
 

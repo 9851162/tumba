@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -47,6 +50,12 @@ public class Locality extends PrimEntity {
     @Index(name="countryIndex")
     private Country country;
     
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ads_at_locals",
+            joinColumns = @JoinColumn(name = "locality_id", referencedColumnName = "locality_id"),
+            inverseJoinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"))
+    private Set<Ad> ads;
+    
     @Override
     public Long getId() {
         return id;
@@ -74,6 +83,14 @@ public class Locality extends PrimEntity {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public Set<Ad> getAds() {
+        return ads;
+    }
+
+    public void setAds(Set<Ad> ads) {
+        this.ads = ads;
     }
     
     
