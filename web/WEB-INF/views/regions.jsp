@@ -32,8 +32,7 @@
                 <form  method="post" action="../Admin/addCountry" >
                     <div class="boxtoinput">
                         <div class="">
-                            <label>Страна</label>
-                            <input name="name" type="text">
+                            <input name="name" type="text" placeholder="Страна" style="margin-top: 36px;">
                         </div>
                     </div>
                     <input name="countryId" type="hidden" value="${param.countryId}">
@@ -58,8 +57,9 @@
                     <form  method="post" action="../Admin/addState" >
                         <div class="boxtoinput">
                             <div class="">
-                                <label>Адм. округ</label>
-                                <input name="name" type="text">
+                                <label>Страна: ${country.name}</label>
+                                <!--<label>Адм. округ</label>-->
+                                <input name="name" type="text" placeholder="Адм. округ">
                             </div>
                         </div>
                         <input name="countryId" type="hidden" value="${param.countryId}">
@@ -84,8 +84,9 @@
                     <form  method="post" action="../Admin/addLocality" >
                         <div class="boxtoinput">
                             <div class="">
-                                <label>Нас. пункт</label>
-                                <input name="name" type="text">
+                                <label>Адм.Окр.: ${state.name}</label>
+                                <!--<label>Нас. пункт</label>-->
+                                <input name="name" type="text" placeholder="Нас. пункт">
                             </div>
                         </div>
                         <input name="countryId" type="hidden" value="${param.countryId}">
@@ -98,7 +99,7 @@
                         <div>
                             <ul>
                                 <c:forEach var="locality" items="${localities}">
-                                    <li>${locality.name} <a href="#modalDelLocality" class="open_modal deletingLocality" data-id="${locality.id}" style="cursor: pointer;">x</a></li>
+                                    <li><a>${locality.name} </a><a href="#modalDelLocality" class="open_modal deletingLocality" data-id="${locality.id}" style="cursor: pointer;">x</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -107,7 +108,7 @@
             </div>
 
             <div id="modalDelCountry" class="modal_form modal_div">
-                <div class="nameform">Удалить страну со всеми административными единицами?</div>
+                <div class="nameform">Удалить страну <span id="countryName"></span> со всеми административными единицами?</div>
                 <form  method="post" action="<c:url value='../Admin/deleteCountry'/>" >
                     <div class="form-group">
                         <input type="hidden" name="deletingCountryId" value="">
@@ -119,7 +120,7 @@
             </div>
 
             <div id="modalDelState" class="modal_form modal_div">
-                <div class="nameform">Удалить административный округ со всеми входящими населенныйми пунктами?</div>
+                <div class="nameform">Удалить административный округ <span id="stateName"></span> со всеми входящими населенныйми пунктами?</div>
                 <form  method="post" action="<c:url value='../Admin/deleteState'/>" >
                     <div class="form-group">
                         <input type="hidden" name="deletingStateId" value="">
@@ -131,7 +132,7 @@
             </div>
 
             <div id="modalDelLocality" class="modal_form modal_div">
-                <div class="nameform">Удалить населенный пункт?</div>
+                <div class="nameform">Удалить населенный пункт <span id="localityName"></span>?</div>
                 <form  method="post" action="<c:url value='../Admin/deleteLocality'/>" >
                     <div class="form-group">
                         <input type="hidden" name="deletingLocalityId" value="">
@@ -152,12 +153,15 @@
         <script>
             $('.deletingCountry').click(function () {
                 $('[name = deletingCountryId]').val($(this).attr('data-id'));
+                $('#countryName').html($(this).parent().find('a:first').text());
             });
             $('.deletingState').click(function () {
                 $('[name = deletingStateId]').val($(this).attr('data-id'));
+                $('#stateName').html($(this).parent().find('a:first').text());
             });
             $('.deletingLocality').click(function () {
                 $('[name = deletingLocalityId]').val($(this).attr('data-id'));
+                $('#localityName').html($(this).parent().find('a:first').text());
             });
         </script>
     </body>

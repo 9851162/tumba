@@ -167,4 +167,20 @@ public class RegionService extends PrimService {
         }
     }
 
+    public Country getCountry(Long countryId) {
+        if (countryId != null) {
+            return cDao.find(countryId);
+        } else {
+            return null;
+        }
+    }
+
+    public State getState(Long stateId) {
+        if (stateId != null) {
+            return stateDao.find(stateId);
+        } else {
+            return null;
+        }
+    }
+
 }
