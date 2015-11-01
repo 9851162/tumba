@@ -23,7 +23,7 @@ public class LocalityDao extends Dao<Locality>  {
     }
     
     public boolean isAvailableName(String name,Long stateId){
-        String hql = "from Locality where name=:name and State.id=:stateId";
+        String hql = "from Locality where name=:name and state.id=:stateId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("name", name);
         query.setParameter("stateId", stateId);

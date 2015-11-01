@@ -23,7 +23,7 @@ public class StateDao extends Dao<State>  {
     }
     
     public boolean isAvailableName(String name,Long countryId){
-        String hql = "from State where name=:name and Country.id=:countryId";
+        String hql = "from State where name=:name and country.id=:countryId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("name", name);
         query.setParameter("countryId", countryId);
