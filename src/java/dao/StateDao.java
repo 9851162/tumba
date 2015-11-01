@@ -22,10 +22,11 @@ public class StateDao extends Dao<State>  {
         return State.class;
     }
     
-    public boolean isAvailableName(String name){
-        String hql = "from State where name=:name";
+    public boolean isAvailableName(String name,Long countryId){
+        String hql = "from State where name=:name and Country.id=:countryId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("name", name);
+        query.setParameter("countryId", countryId);
         return query.list().isEmpty();
     }
     

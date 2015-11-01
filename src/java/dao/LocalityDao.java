@@ -22,10 +22,11 @@ public class LocalityDao extends Dao<Locality>  {
         return Locality.class;
     }
     
-    public boolean isAvailableName(String name){
-        String hql = "from Locality where name=:name";
+    public boolean isAvailableName(String name,Long stateId){
+        String hql = "from Locality where name=:name and State.id=:stateId";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("name", name);
+        query.setParameter("stateId", stateId);
         return query.list().isEmpty();
     }
     

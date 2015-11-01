@@ -56,7 +56,7 @@ public class RegionService extends PrimService {
 
     public void createState(String name, Long countryId) {
         if (name != null && !name.equals("")) {
-            if (stateDao.isAvailableName(name)) {
+            if (stateDao.isAvailableName(name, countryId)) {
                 Country c = cDao.find(countryId);
                 State s = new State();
                 s.setName(name);
@@ -65,7 +65,7 @@ public class RegionService extends PrimService {
                     stateDao.save(s);
                 }
             } else {
-                addError("Такое название адм. округа уже добавлено");
+                addError("Такое название адм. округа уже добавлено в эту страну");
             }
         } else {
             addError("Введите название административного округа");
@@ -74,7 +74,7 @@ public class RegionService extends PrimService {
 
     public void createLocality(String name, Long sateId) {
         if (name != null && !name.equals("")) {
-            if (locDao.isAvailableName(name)) {
+            if (locDao.isAvailableName(name, sateId)) {
                 State s = stateDao.find(sateId);
                 Locality l = new Locality();
                 l.setName(name);
@@ -84,7 +84,7 @@ public class RegionService extends PrimService {
                     locDao.save(l);
                 }
             } else {
-                addError("Такое название нас. пункта уже добавлено");
+                addError("Такое название нас. пункта уже добавлено в этот адм. округ");
             }
         } else {
             addError("Введите название нас.пункта");
@@ -117,10 +117,14 @@ public class RegionService extends PrimService {
 
     public void changeCountryName(Long countryId, String newName) {
         if (newName != null && !newName.equals("")) {
-            Country c = cDao.find(countryId);
-            c.setName(newName);
-            if (validate(c)) {
-                cDao.save(c);
+            if (cDao.isAvailableName(newName)) {
+                Country c = cDao.find(countryId);
+                c.setName(newName);
+                if (validate(c)) {
+                    cDao.save(c);
+                }
+            } else {
+                addError("Такое название страны уже добавлено");
             }
         }
     }
@@ -128,9 +132,13 @@ public class RegionService extends PrimService {
     public void changeStateName(Long stateId, String newName) {
         if (newName != null && !newName.equals("")) {
             State s = stateDao.find(stateId);
-            s.setName(newName);
-            if (validate(s)) {
-                stateDao.update(s);
+            if (stateDao.isAvailableName(newName, s.getCountry().getId())) {
+                s.setName(newName);
+                if (validate(s)) {
+                    stateDao.update(s);
+                }
+            } else {
+                addError("Введите название административного округа");
             }
         }
     }
@@ -138,9 +146,13 @@ public class RegionService extends PrimService {
     public void changeLocalityName(Long localityId, String newName) {
         if (newName != null && !newName.equals("")) {
             Locality l = locDao.find(localityId);
-            l.setName(newName);
-            if (validate(l)) {
-                locDao.save(l);
+            if (locDao.isAvailableName(newName, l.getState().getId())) {
+                l.setName(newName);
+                if (validate(l)) {
+                    locDao.save(l);
+                }
+            } else {
+                addError("Такое название нас. пункта уже добавлено в этот адм. округ");
             }
         }
     }
@@ -152,19 +164,21 @@ public class RegionService extends PrimService {
     public List<State> getStates(Long countryId) {
         if (countryId != null) {
             Country c = cDao.find(countryId);
-            return c.getStates();
-        } else {
-            return new ArrayList();
+            if (c != null) {
+                return c.getStates();
+            }
         }
+        return new ArrayList();
     }
 
     public List<Locality> getLocalities(Long stateId) {
         if (stateId != null) {
             State s = stateDao.find(stateId);
-            return s.getLocalities();
-        } else {
-            return new ArrayList();
+            if (s != null) {
+                return s.getLocalities();
+            }
         }
+        return new ArrayList();
     }
 
     public Country getCountry(Long countryId) {

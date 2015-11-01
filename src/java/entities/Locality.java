@@ -31,7 +31,7 @@ public class Locality extends PrimEntity {
     @Column(name = "locality_id")
     private Long id;
     
-    @Column(name = "name",unique = true, length = 100)
+    @Column(name = "name", length = 100)
     @NotNull(message = "Необходимо указать название")
     private String name;
     

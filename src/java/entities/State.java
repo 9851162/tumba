@@ -36,7 +36,7 @@ public class State extends PrimEntity {
     @Column(name = "state_id")
     private Long id;
     
-    @Column(name = "name",unique = true, length = 100)
+    @Column(name = "name", length = 100)
     @NotNull(message = "Необходимо указать название")
     private String name;
     
