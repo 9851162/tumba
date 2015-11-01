@@ -46,7 +46,7 @@
                     <div>
                         <ul>
                             <c:forEach var="country" items="${countries}">
-                                <li><a href="<c:url value='../Admin/regions?countryId=${country.id}'/>">${country.name}</a></li>
+                                <li><a href="<c:url value='../Admin/regions?countryId=${country.id}'/>">${country.name}</a> ${country.getStates().size()} <a href="#modalDelCountry" class="open_modal deletingCountry" data-id="${country.id}" style="cursor: pointer;">x</a></li>
                                 </c:forEach>
                         </ul>
                     </div>
@@ -72,7 +72,7 @@
                         <div>
                             <ul>
                                 <c:forEach var="state" items="${states}">
-                                    <li><a href="<c:url value='../Admin/regions?countryId=${param.countryId}&stateId=${state.id}'/>">${state.name}</a></li>
+                                    <li><a href="<c:url value='../Admin/regions?countryId=${param.countryId}&stateId=${state.id}'/>">${state.name}</a> ${state.getLocalities().size()} <a href="#modalDelState" class="open_modal deletingState" data-id="${state.id}" style="cursor: pointer;">x</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -98,7 +98,7 @@
                         <div>
                             <ul>
                                 <c:forEach var="locality" items="${localities}">
-                                    <li>${locality.name}</li>
+                                    <li>${locality.name} <a href="#modalDelLocality" class="open_modal deletingLocality" data-id="${locality.id}" style="cursor: pointer;">x</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -106,32 +106,59 @@
                 </c:if>
             </div>
 
-
-
-        </div>
-
-
-        <div id="modal" class="modal_form modal_div">
-            <div class="nameform">Добавить</div>
-            <form  method="post" action="../Admin/addCountry" >
-                <div class="boxtoinput">
-                    <div class="toin">
-                        <label>Название</label>
-                        <input name="name" type="text">
+            <div id="modalDelCountry" class="modal_form modal_div">
+                <div class="nameform">Удалить страну со всеми административными единицами?</div>
+                <form  method="post" action="<c:url value='../Admin/deleteCountry'/>" >
+                    <div class="form-group">
+                        <input type="hidden" name="deletingCountryId" value="">
+                        <input type="hidden" name="stateId" value="${param.stateId}">
+                        <input type="hidden" name="countryId" value="${param.countryId}">
+                        <button type="submit" class="btn">Удалить</button>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn">Добавить</button>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <div id="modalDelState" class="modal_form modal_div">
+                <div class="nameform">Удалить административный округ со всеми входящими населенныйми пунктами?</div>
+                <form  method="post" action="<c:url value='../Admin/deleteState'/>" >
+                    <div class="form-group">
+                        <input type="hidden" name="deletingStateId" value="">
+                        <input type="hidden" name="stateId" value="${param.stateId}">
+                        <input type="hidden" name="countryId" value="${param.countryId}">
+                        <button type="submit" class="btn">Удалить</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="modalDelLocality" class="modal_form modal_div">
+                <div class="nameform">Удалить населенный пункт?</div>
+                <form  method="post" action="<c:url value='../Admin/deleteLocality'/>" >
+                    <div class="form-group">
+                        <input type="hidden" name="deletingLocalityId" value="">
+                        <input type="hidden" name="stateId" value="${param.stateId}">
+                        <input type="hidden" name="countryId" value="${param.countryId}">
+                        <button type="submit" class="btn">Удалить</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
+
+
 
 
 
         <div id="overlay"></div>
-        <script>$('.add_cat').click(function () {
-                var cid = $(this).attr('data-id');
-                $('[name = parentId]').val(cid);
-            });</script>
+        <script>
+            $('.deletingCountry').click(function () {
+                $('[name = deletingCountryId]').val($(this).attr('data-id'));
+            });
+            $('.deletingState').click(function () {
+                $('[name = deletingStateId]').val($(this).attr('data-id'));
+            });
+            $('.deletingLocality').click(function () {
+                $('[name = deletingLocalityId]').val($(this).attr('data-id'));
+            });
+        </script>
     </body>
 </html>

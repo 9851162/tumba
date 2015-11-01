@@ -145,6 +145,66 @@ public class AdminController extends WebController {
         return "redirect:/Admin/regions";
     }
     
+    @RequestMapping("/deleteCountry")
+    public String deleteCountry (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
+            @RequestParam(value = "deletingCountryId", required = false) Long deletingCountryId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.deleteCountry(deletingCountryId);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
+        return "redirect:/Admin/regions";
+    }
+    
+    @RequestMapping("/deleteState")
+    public String deleteState (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "deletingStateId", required = false) Long deletingStateId,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.deleteState(deletingStateId);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
+        return "redirect:/Admin/regions";
+    }
+    
+    @RequestMapping("/deleteLocality")
+    public String deleteLocality (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "stateId", required = false) Long stateId,
+            @RequestParam(value = "countryId", required = false) Long countryId,
+            @RequestParam(value = "deletingLocalityId", required = false) Long deletingLocalityId,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                regService.deleteLocality(deletingLocalityId);
+                if(!regService.getErrors().isEmpty()){
+                    ras.addFlashAttribute(ERRORS_LIST_NAME, regService.getErrors());
+                }
+            }
+            ras.addAttribute("stateId", stateId);
+            ras.addAttribute("countryId", countryId);
+        return "redirect:/Admin/regions";
+    }
+    
     @RequestMapping("/addCat")
     public String addCat (Map<String, Object> model,
             @RequestParam(value = "parentId", required = false) Long parentId,
