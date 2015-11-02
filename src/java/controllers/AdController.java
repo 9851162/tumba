@@ -49,7 +49,7 @@ public class AdController extends WebController {
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],
-            @RequestParam(value = "numVals", required = false) Long numVals[],
+            @RequestParam(value = "numVals", required = false) Double numVals[],
             @RequestParam(value = "dateIds", required = false) Long dateIds[],
             @RequestParam(value = "dateVals", required = false) Date dateVals[],
             @RequestParam(value = "selIds", required = false) Long selIds[],

@@ -67,7 +67,7 @@ public class AdService extends PrimService {
     UserService userService;
 
     public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
-            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Long numVals[],
+            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Double numVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
@@ -173,7 +173,7 @@ public class AdService extends PrimService {
                                 Long paramId = numIds[i];
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
-                                    Long val = numVals[i];
+                                    Double val = numVals[i];
                                     if(val!=null){
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
@@ -308,6 +308,8 @@ public class AdService extends PrimService {
                             }
                         }
 
+                    }else{
+                        addError("user:"+user.getId()+" "+user.getName());
                     }
                 }
             } else {

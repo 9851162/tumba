@@ -34,6 +34,11 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(name = "ad")
 public class Ad extends PrimEntity {
     
+    public static Integer NEW = 0;
+    public static Integer WAITING = 1;
+    public static Integer PAID = 2;
+    public static Integer DELIVERED = 3;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ad_id")
@@ -42,6 +47,21 @@ public class Ad extends PrimEntity {
     @Column(name = "insert_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date insertDate;
+    
+    //3 dates of status changings poka
+    //NEW->WAITING
+    @Column(name = "sale_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date saleDate;
+    
+    //WAITING->PAID
+    @Column(name = "pay_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date payDate;
+    
+    @Column(name = "delivery_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date deliveryDate;
     
     @Column(name = "price")
     @NotNull(message = "Необходимо добавить цену")
@@ -74,10 +94,6 @@ public class Ad extends PrimEntity {
             joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"),
             inverseJoinColumns = @JoinColumn(name = "locality_id", referencedColumnName = "locality_id"))
     private Set<Locality> localities;
-    
-    @Column(name = "sale_date")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Date saleDate;
     
     @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -189,6 +205,22 @@ public class Ad extends PrimEntity {
 
     public void setLocalities(Set<Locality> localities) {
         this.localities = localities;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
     
     

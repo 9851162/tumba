@@ -53,7 +53,7 @@ public class ParametrValue extends PrimEntity {
     private Long selectVal;
     
     @Column(name = "number_value")
-    private Long numVal;
+    private Double numVal;
     
     @Column(name = "date_value")
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -107,11 +107,11 @@ public class ParametrValue extends PrimEntity {
         this.selectVal = selectVal;
     }
 
-    public Long getNumVal() {
+    public Double getNumVal() {
         return numVal;
     }
 
-    public void setNumVal(Long numVal) {
+    public void setNumVal(Double numVal) {
         this.numVal = numVal;
     }
 
