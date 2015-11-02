@@ -120,6 +120,13 @@ public class Ad extends PrimEntity {
     public String getDescription() {
         return description;
     }
+    
+    public String getSmallDesc() {
+        if(description.length()>20){
+            return description.substring(0, 20);
+        }
+        return description;
+    }
 
     public void setDescription(String description) {
         this.description = description;
