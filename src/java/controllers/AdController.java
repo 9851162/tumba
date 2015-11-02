@@ -62,7 +62,7 @@ public class AdController extends WebController {
         ArrayList<String> errors = new ArrayList();
         
         User authedUser = authManager.getCurrentUser();
-        if(authManager.getCurrentUser()!=null){
+        if(authedUser!=null){
             email = authedUser.getEmail();
         }
         
@@ -84,6 +84,37 @@ public class AdController extends WebController {
         //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());
         //errors.add("s:"+errors.size());
         //ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
+        
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/buy")
+    public String buy (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+        User u = authManager.getCurrentUser();
+            if(u!=null){
+                adService.buy(u,adId);
+                ras.addAttribute(ERRORS_LIST_NAME, adService.getErrors());
+            }
+        
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/cahangeStatus")
+    public String cahangeStatus (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "status", required = false) Integer status,
+            RedirectAttributes ras) throws Exception {
+        
+        User u = authManager.getCurrentUser();
+            if(u!=null&&User.ROLEADMIN==u.getUserRole()){
+                adService.changeStatus(status,adId);
+                ras.addAttribute(ERRORS_LIST_NAME, adService.getErrors());
+            }
         
         return "redirect:/Main/";
     }

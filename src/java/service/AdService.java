@@ -56,7 +56,7 @@ public class AdService extends PrimService {
 
     @Autowired
     ParametrValueDao paramValueDao;
-    
+
     @Autowired
     ParametrSelOptionDao paramSelDao;
 
@@ -91,6 +91,7 @@ public class AdService extends PrimService {
                     Ad ad = new Ad();
                     ad.setInsertDate(new Date());
                     ad.setShowCount((long) 0);
+                    ad.setStatus(Ad.NEW);
 
                     ad.setAuthor(user);
 
@@ -113,9 +114,9 @@ public class AdService extends PrimService {
 
                         //не трогаем в плане рек не рек
                         //if (booleanVals != null && booleanVals.length > 0) {
-                        if(booleanIds!=null){
-                            if(booleanVals==null){
-                                booleanVals=new String[booleanIds.length];
+                        if (booleanIds != null) {
+                            if (booleanVals == null) {
+                                booleanVals = new String[booleanIds.length];
                             }
                             while (i < booleanIds.length) {
                                 Parametr p = paramDao.find(booleanIds[i]);
@@ -134,7 +135,7 @@ public class AdService extends PrimService {
                                     if (validate(pv)) {
                                         list4Save.add(pv);
                                     }
-                                    
+
                                 }
                                 i++;
                             }
@@ -148,7 +149,7 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
                                     String val = stringVals[i];
-                                    if(val!=null&&!val.equals("")){
+                                    if (val != null && !val.equals("")) {
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -160,7 +161,7 @@ public class AdService extends PrimService {
                                         if (validate(pv)) {
                                             list4Save.add(pv);
                                         }
-                                        
+
                                     }
                                 }
                                 i++;
@@ -174,7 +175,7 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
                                     Double val = numVals[i];
-                                    if(val!=null){
+                                    if (val != null) {
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -186,7 +187,7 @@ public class AdService extends PrimService {
                                         if (validate(pv)) {
                                             list4Save.add(pv);
                                         }
-                                        
+
                                     }
                                 }
                                 i++;
@@ -200,7 +201,7 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
                                     Date val = dateVals[i];
-                                    if(val!=null){
+                                    if (val != null) {
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -212,7 +213,7 @@ public class AdService extends PrimService {
                                         if (validate(pv)) {
                                             list4Save.add(pv);
                                         }
-                                        
+
                                     }
                                 }
                                 i++;
@@ -227,7 +228,7 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
                                     Long val = selVals[i];
-                                    if(val!=null&&!val.equals(0L)){
+                                    if (val != null && !val.equals(0L)) {
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -239,7 +240,7 @@ public class AdService extends PrimService {
                                         if (validate(pv)) {
                                             list4Save.add(pv);
                                         }
-                                        
+
                                     }
                                 }
                                 i++;
@@ -308,8 +309,8 @@ public class AdService extends PrimService {
                             }
                         }
 
-                    }else{
-                        addError("user:"+user.getId()+" "+user.getName());
+                    } else {
+                        addError("user:" + user.getId() + " " + user.getName());
                     }
                 }
             } else {
@@ -321,43 +322,41 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish,List<Long>catIds) {
+    public List<Ad> getAds(String wish, List<Long> catIds) {
         /*if(wish==null||wish.equals("")){
-            return adDao.getAll();
-        }else{*/
-            List<Ad>res = new ArrayList();
-            res.addAll(adDao.getAdsByWishInName(wish,catIds));
-            for(Ad ad:adDao.getAdsByWishInDesc(wish,catIds)){
-                if(!res.contains(ad)){
-                    res.add(ad);
-                }
-            }
-            
-            /*for(String s:splitted(wish)){
-                addError(s);
-            }*/
-            
-            return res;
-        //}
-    }
-    
-    /*private List<String> splitted(String request){
-        List<String> split=new ArrayList();
-        if(request!=null){
-            String[] splittedTest=request.split("\\s+");
-            int cnt=0;
-            for(String st:splittedTest){      
-                String res="";
-                for(int i=0;i<=cnt;i++){
-                    res+="%"+splittedTest[i]+"%";
-                }
-                split.add(res);
-                cnt++;
+         return adDao.getAll();
+         }else{*/
+        List<Ad> res = new ArrayList();
+        res.addAll(adDao.getAdsByWishInName(wish, catIds));
+        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds)) {
+            if (!res.contains(ad)) {
+                res.add(ad);
             }
         }
-        return split;
-    }*/
-    
+
+        /*for(String s:splitted(wish)){
+         addError(s);
+         }*/
+        return res;
+        //}
+    }
+
+    /*private List<String> splitted(String request){
+     List<String> split=new ArrayList();
+     if(request!=null){
+     String[] splittedTest=request.split("\\s+");
+     int cnt=0;
+     for(String st:splittedTest){      
+     String res="";
+     for(int i=0;i<=cnt;i++){
+     res+="%"+splittedTest[i]+"%";
+     }
+     split.add(res);
+     cnt++;
+     }
+     }
+     return split;
+     }*/
     public Ad getAd(Long adId) {
         return adDao.find(adId);
     }
@@ -404,17 +403,17 @@ public class AdService extends PrimService {
             return new ArrayList();
         }
     }
-    
-    public HashMap<Long,Ad> getChosenAdMap(Long userId){
-        HashMap<Long,Ad>res = new HashMap();
-        if(userId!=null){
-            for(Ad ad:getChosenAds(userId)){
+
+    public HashMap<Long, Ad> getChosenAdMap(Long userId) {
+        HashMap<Long, Ad> res = new HashMap();
+        if (userId != null) {
+            for (Ad ad : getChosenAds(userId)) {
                 res.put(ad.getId(), ad);
             }
         }
         return res;
     }
-    
+
     public List<Ad> getPurchases(Long userId) {
         if (userId != null) {
             return adDao.getPurchases(userId);
@@ -422,12 +421,42 @@ public class AdService extends PrimService {
             return new ArrayList();
         }
     }
-    
+
     public List<Ad> getSales(Long userId) {
         if (userId != null) {
             return adDao.getSales(userId);
         } else {
             return new ArrayList();
+        }
+    }
+
+    public void buy(User u, Long adId) {
+        Ad ad = adDao.find(adId);
+        if (ad != null) {
+            ad.setBuyer(u);
+            ad.setSaleDate(new Date());
+            ad.setStatus(Ad.WAITING);
+            if (validate(ad)) {
+                adDao.update(ad);
+            }
+        }
+    }
+
+    public void changeStatus(Integer status, Long adId) {
+        Ad ad = adDao.find(adId);
+        if (ad != null) {
+            ad.setStatus(status);
+            if (Ad.PAID == status) {
+                ad.setPayDate(new Date());
+                if (validate(ad)) {
+                    adDao.update(ad);
+                }
+            } else if (Ad.DELIVERED == status) {
+                ad.setDeliveryDate(new Date());
+                if (validate(ad)) {
+                    adDao.update(ad);
+                }
+            }
         }
     }
 

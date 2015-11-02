@@ -79,6 +79,10 @@ public class Ad extends PrimEntity {
     @NotNull(message = "Необходимо добавить описание")
     private String description;
     
+    @Column(name = "status")
+    @NotNull(message = "Статус не установлен")
+    private Integer status;
+    
     @JoinColumn(name = "author_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Автор не указан")
@@ -221,6 +225,14 @@ public class Ad extends PrimEntity {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
     
     
