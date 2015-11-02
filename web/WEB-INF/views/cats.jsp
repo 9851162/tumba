@@ -25,13 +25,14 @@
             <%@include file="/WEB-INF/jsp/error.jsp" %>
             <a href="<c:url value='/Admin/cats'/>">Категории</a>
                 <a href="<c:url value='/Admin/params'/>">Параметры</a>
+                <a href="<c:url value='/Admin/regions'/>">Регионы</a>
                 <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Категории</h3>
             <div id="categoryField" style="float: left;">
                 <myTags:category id="0" map="${nestingCatsMap}"/>
             </div>
-        </div>
-        <div id="modal" class="modal_form modal_div">
+            
+            <div id="modal" class="modal_form modal_div">
             <div class="nameform">Добавить категорию в каталог</div>
             <form  method="post" action="../Admin/addCat" >
                 <div class="boxtoinput">
@@ -48,6 +49,9 @@
                 </div>
             </form>
         </div>
+            
+        </div>
+        
 
         <div id="paramPlace" style="width: 45%;float: right;">
             <b>Категория: ${catName}</b>

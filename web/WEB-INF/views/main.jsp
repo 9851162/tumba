@@ -63,7 +63,9 @@
 
             <c:if test="${role=='user'||role=='admin'}">
                 <c:set var="choosePossible" value="choose"/>
+                <c:set var="msgPossible" value="open_modal messageSender"/>
                 <c:set var="comparePossible" value="compareAdder"/>
+                
                 <div class="icons">
                     <a href="<c:url value="../Main/purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
@@ -160,7 +162,7 @@
                                                     <c:set var="compClass" value="comparing"/>
                                                 </c:if>
                                                 <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
-                                                <a><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                 <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
                                                 <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
@@ -372,6 +374,23 @@
                     </div>
                 </form>
             </div>
+                    
+            <div id="modal4" class="modal_form modal_div">
+                <div class="nameform">Отправить сообщение</div>
+                <form id="sendMessage" method="post" action="<c:url value="../Message/send" />">
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <div class="minopright">до 500 символов</div>
+                            <textarea name="message" type="textarea" value=""></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" id="msgIdentifier" name="adId" value="">
+                        <input type="hidden" name="wish" value="${wish}">
+                    <div class="form-group">
+                        <button type="submit" class="btn">Отправить</button>
+                    </div>
+                </form>
+            </div>
 
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
@@ -393,6 +412,12 @@
                                         $('.categoryChanger').change(function () {
                                             var catId = $(this).val();
                                             $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
+                                        });
+        </script>
+        <script>
+                                        $('.messageSender').on('click', function () {
+                                            var adId = $(this).attr('data-ad-id');
+                                            $('#msgIdentifier').val(adId);
                                         });
         </script>
         <c:if test="${!empty errors}">

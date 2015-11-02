@@ -31,12 +31,12 @@ public class MessageService extends PrimService {
     @Autowired
     private MessageDao msgDao;
 
-    public void create(User sender, User receiver, String text, Ad ad) {
-        if (text != null && !text.equals("")) {
+    public void create(User sender,String text, Ad ad) {
+        if (text != null && !text.equals("")&& ad!=null) {
             Message msg = new Message();
             msg.setInsertDate(new Date());
-            msg.setSender(sender);;
-            msg.setReceiver(receiver);
+            msg.setSender(sender);
+            msg.setReceiver(ad.getAuthor());
             msg.setAd(ad);
             msg.setText(text);
             if (validate(msg)) {

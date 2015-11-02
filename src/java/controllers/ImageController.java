@@ -62,4 +62,17 @@ public class ImageController extends WebController {
         return new ResponseEntity<>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
     }
     
+    /*@RequestMapping("/")
+    public ResponseEntity<String> getImage(
+            @RequestParam(value = "name",required = false) String name,
+            @RequestParam(value = "id",required = false) String id) throws IOException {
+        File file = new File("/usr/local/seller/preview/"+id+"/"+name);
+        if(!file.exists()){
+            return null;
+        }
+        final HttpHeaders headers = new HttpHeaders();
+        //return "../imgs/"+id+"/"+name;
+        return new ResponseEntity<>("../imgs/"+id+"/"+name, headers, HttpStatus.CREATED);
+    }*/
+    
 }
