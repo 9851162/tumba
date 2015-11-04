@@ -92,6 +92,7 @@ public class AdController extends WebController {
     public String buy (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
         
         User u = authManager.getCurrentUser();
@@ -99,12 +100,12 @@ public class AdController extends WebController {
                 adService.buy(u,adId);
                 ras.addAttribute(ERRORS_LIST_NAME, adService.getErrors());
             }
-        
+        ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
     
-    @RequestMapping("/cahangeStatus")
-    public String cahangeStatus (Map<String, Object> model,
+    @RequestMapping("/changeStatus")
+    public String changeStatus (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
             @RequestParam(value = "status", required = false) Integer status,

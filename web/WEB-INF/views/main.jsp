@@ -150,6 +150,11 @@
                                             <h3>Дата</h3>
                                             <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
+                                            <form action="<c:url value="../Ad/buy" />">
+                                                <input type="hidden" name="wish" value="${wish}">
+                                                <input type="hidden" name="adId" value="${ad.id}">
+                                                <input type="submit" class="btn-buy" value="Купить">
+                                            </form>
                                             <div class="minmenu">
                                                 <c:set var="chosenImg" value="../img/dop5.png"/>
                                                 <c:set var="imgClass" value=""/>
@@ -166,7 +171,7 @@
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                 <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
                                                 <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-
+                                                
                                             </div>
                                         </div>
                                     </div>
