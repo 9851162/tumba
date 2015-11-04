@@ -34,7 +34,7 @@
                 
                 <div>
                     <form action="<c:url value="/Admin/users" />">
-                        <input type="text" name="keyWord">
+                        <input type="text" name="keyWord" placeholder="часть из ФИО или email">
                         <input type="submit" value="Найти">
                     </form>
                 </div>
