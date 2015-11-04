@@ -98,7 +98,7 @@ public class AdController extends WebController {
         User u = authManager.getCurrentUser();
             if(u!=null){
                 adService.buy(u,adId);
-                ras.addAttribute(ERRORS_LIST_NAME, adService.getErrors());
+                ras.addFlashAttribute(ERRORS_LIST_NAME, adService.getErrors());
             }
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";

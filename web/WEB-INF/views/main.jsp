@@ -119,6 +119,15 @@
                         <c:forEach var="ad" items="${adList}">
                             <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
                                 <c:set var="itempos" value="${itempos+1}"/>
+                                <c:if test="${ad.status==1}">
+                                    <div class="moz"></div>
+                                </c:if>
+                                    <c:if test="${ad.status==2}">
+                                    <div class="mop"></div>
+                                </c:if>
+                                    <c:if test="${ad.status==3}">
+                                    <div class="mdos"></div>
+                                </c:if>
                                 <div class="toramka divall">
                                     <div class="toblockimg">
                                         <div id="panel" class="prewimg">
@@ -150,11 +159,13 @@
                                             <h3>Дата</h3>
                                             <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
+                                            <c:if test="${ad.status==0}">
                                             <form action="<c:url value="../Ad/buy" />">
                                                 <input type="hidden" name="wish" value="${wish}">
                                                 <input type="hidden" name="adId" value="${ad.id}">
                                                 <input type="submit" class="btn-buy" value="Купить">
                                             </form>
+                                            </c:if>
                                             <div class="minmenu">
                                                 <c:set var="chosenImg" value="../img/dop5.png"/>
                                                 <c:set var="imgClass" value=""/>

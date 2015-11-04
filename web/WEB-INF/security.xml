@@ -29,7 +29,7 @@
         <intercept-url pattern="/Ad/setUnchosen" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Ad/addToComparison" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Ad/removeFromComparison" access="hasAnyRole('user','admin')" />
-        <intercept-url pattern="/Ad/buy" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Ad/buy" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Ad/changeStatus" access="hasAnyRole('admin')" />
         
         <intercept-url pattern="/index" access="hasAnyRole('user','admin')" />  
