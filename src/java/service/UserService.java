@@ -113,6 +113,34 @@ public class UserService extends PrimService {
         return userDao.getAll();
     }
     
+    public void delete(Long userId){
+        if(userId!=null){
+            User u = userDao.find(userId);
+            if(u!=null){
+                //for(Ad ad:u.)
+                userDao.delete(u);
+            }else{
+                addError("Пользователь с ид "+userId+"не найден");
+            }
+        }
+    }
     
+    public void setRole(Long userId,String role){
+        if(userId!=null){
+            User u = userDao.find(userId);
+            if(u!=null){
+                if(User.ROLEADMIN.equals(role)){
+                    u.setUserRole(role);
+                } else if(User.ROLEUSER.equals(role)){
+                    u.setUserRole(role);
+                }else{
+                    addError("Не удалось разобрать параметр роль");
+                }
+                userDao.update(u);
+            }else{
+                addError("Пользователь с ид "+userId+"не найден");
+            }
+        }
+    }
 
 }

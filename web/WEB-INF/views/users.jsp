@@ -30,6 +30,18 @@
                 <a href="<c:url value='/Admin/users'/>">Пользователи</a>
                 <a href="<c:url value='/Main/'/>">Главная</a>
             
+                <h3>Пользователи</h3>
+                
+                <div><table>
+                        <tr><th>№</th><th>email</th><th>ФИО</th><th>Роль</th><th>Изменить роль</th><th>Удалить</th></tr>
+                    <c:forEach var="user" items="${users}" varStatus="myIndex">
+                            <tr><td>${myIndex.count}</td><td>${user.email}</td><td>${user.name}</td><td>${user.getRusRole()}</td>
+                                <td><c:if test="${user.userRole=='admin'}"><a href="<c:url value="/Admin/setRole?userId=${user.id}&role=user" />">Сделать пользователем</a></c:if>
+                                    <c:if test="${user.userRole=='user'}"><a href="<c:url value="/Admin/setRole?userId=${user.id}&role=admin" />">Сделать администратором</a></c:if></td>
+                                <td><!--<a href="<c:url value="/Admin/deleteUser?userId=${user.id}" />">x</a>--></td></tr>
+                    </c:forEach>
+                    </table>
+                </div>
             
         </div>
             

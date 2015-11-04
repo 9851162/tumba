@@ -146,6 +146,12 @@ public class User extends PrimEntity {
         this.chosenAds = chosenAds;
     }
     
-    
+    public String getRusRole(){
+        String role = "Пользователь";
+        if(this.userRole.equals(ROLEADMIN)){
+            role = "Администратор";
+        }
+        return role;
+    }
     
 }

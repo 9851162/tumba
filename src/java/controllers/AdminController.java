@@ -86,11 +86,22 @@ public class AdminController extends WebController {
     
     @RequestMapping("/setRole")
     public String setRole(Map<String, Object> model,
-            @RequestParam(value = "catId", required = false) Long catId,
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "role", required = false) String role,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
         
+        userService.setRole(userId, role);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
+        return "redirect:/Admin/users";
+    }
+    
+    @RequestMapping("/deleteUser")
+    public String deleteUser(Map<String, Object> model,
+            @RequestParam(value = "userId", required = false) Long userId,
+            HttpServletRequest request, RedirectAttributes ras) throws Exception {
         
-        
+        userService.delete(userId);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/Admin/users";
     }
 
