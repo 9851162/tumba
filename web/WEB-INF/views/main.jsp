@@ -54,10 +54,10 @@
                     </div>
                 </div>
                 <div id="dobContainer">
-                <c:forEach var="cat" items="${selectedCats}">
-                    <div class="dob">${cat.name}<a href="<c:url value="../Main/removeCat4Search?catId=${cat.id}&wish=${param.wish}" />"><img src="../img/plus.png"></a>
-                    </div>
-                </c:forEach>
+                    <c:forEach var="cat" items="${selectedCats}">
+                        <div class="dob">${cat.name}<a href="<c:url value="../Main/removeCat4Search?catId=${cat.id}&wish=${param.wish}" />"><img src="../img/plus.png"></a>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                 <c:set var="choosePossible" value="choose"/>
                 <c:set var="msgPossible" value="open_modal messageSender"/>
                 <c:set var="comparePossible" value="compareAdder"/>
-                
+
                 <div class="icons">
                     <a href="<c:url value="../Main/purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
@@ -122,10 +122,10 @@
                                 <c:if test="${ad.status==1}">
                                     <div class="moz"></div>
                                 </c:if>
-                                    <c:if test="${ad.status==2}">
+                                <c:if test="${ad.status==2}">
                                     <div class="mop"></div>
                                 </c:if>
-                                    <c:if test="${ad.status==3}">
+                                <c:if test="${ad.status==3}">
                                     <div class="mdos"></div>
                                 </c:if>
                                 <div class="toramka divall">
@@ -160,29 +160,41 @@
                                             <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
                                             <c:if test="${ad.status==0}">
-                                            <form action="<c:url value="../Ad/buy" />">
-                                                <input type="hidden" name="wish" value="${wish}">
-                                                <input type="hidden" name="adId" value="${ad.id}">
-                                                <input type="submit" class="btn-buy" value="Купить">
-                                            </form>
+                                                <form action="<c:url value="../Ad/buy" />">
+                                                    <input type="hidden" name="wish" value="${wish}">
+                                                    <input type="hidden" name="adId" value="${ad.id}">
+                                                    <input type="submit" class="btn-buy" value="Купить">
+                                                </form>
                                             </c:if>
+
                                             <div class="minmenu">
-                                                <c:set var="chosenImg" value="../img/dop5.png"/>
-                                                <c:set var="imgClass" value=""/>
-                                                <c:if test="${!empty chosenAdsMap.get(ad.id)}">
-                                                    <c:set var="chosenImg" value="../img/dop5v2.png"/>
-                                                    <c:set var="imgClass" value="chosen"/>
-                                                </c:if>
-                                                <c:set var="compClass" value=""/>
-                                                <c:if test="${!empty comparingAdsMap.get(ad.id)}">
-                                                    <c:set var="compClass" value="comparing"/>
-                                                </c:if>
+                                                <c:if test="${role=='admin'&&ad.status!=0}">
+                                                    <div><form action="<c:url value="../Ad/changeStatus" />">
+                                                            <input type="hidden" name="wish" value="${wish}">
+                                                            <input type="hidden" name="adId" value="${ad.id}">
+                                                            <select name="status">
+                                                                <option value="2">Оплачено</option>
+                                                                <option value="3">Доставлено</option>
+                                                            </select>
+                                                            <input type="submit" class="btn-buy" value="установить">
+                                                        </form></div>
+                                                    </c:if>
+                                                    <c:set var="chosenImg" value="../img/dop5.png"/>
+                                                    <c:set var="imgClass" value=""/>
+                                                    <c:if test="${!empty chosenAdsMap.get(ad.id)}">
+                                                        <c:set var="chosenImg" value="../img/dop5v2.png"/>
+                                                        <c:set var="imgClass" value="chosen"/>
+                                                    </c:if>
+                                                    <c:set var="compClass" value=""/>
+                                                    <c:if test="${!empty comparingAdsMap.get(ad.id)}">
+                                                        <c:set var="compClass" value="comparing"/>
+                                                    </c:if>
                                                 <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
                                                 <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                 <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
                                                 <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -390,7 +402,7 @@
                     </div>
                 </form>
             </div>
-                    
+
             <div id="modal4" class="modal_form modal_div">
                 <div class="nameform">Отправить сообщение</div>
                 <form id="sendMessage" method="post" action="<c:url value="../Message/send" />">
@@ -401,7 +413,7 @@
                         </div>
                     </div>
                     <input type="hidden" id="msgIdentifier" name="adId" value="">
-                        <input type="hidden" name="wish" value="${wish}">
+                    <input type="hidden" name="wish" value="${wish}">
                     <div class="form-group">
                         <button type="submit" class="btn">Отправить</button>
                     </div>
@@ -431,10 +443,10 @@
                                         });
         </script>
         <script>
-                                        $('.messageSender').on('click', function () {
-                                            var adId = $(this).attr('data-ad-id');
-                                            $('#msgIdentifier').val(adId);
-                                        });
+            $('.messageSender').on('click', function () {
+                var adId = $(this).attr('data-ad-id');
+                $('#msgIdentifier').val(adId);
+            });
         </script>
         <c:if test="${!empty errors}">
             <script>

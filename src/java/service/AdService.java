@@ -445,6 +445,7 @@ public class AdService extends PrimService {
     public void changeStatus(Integer status, Long adId) {
         Ad ad = adDao.find(adId);
         if (ad != null) {
+            addError("status = "+status);
             ad.setStatus(status);
             if (Ad.PAID == status) {
                 ad.setPayDate(new Date());

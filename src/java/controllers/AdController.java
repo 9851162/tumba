@@ -109,14 +109,16 @@ public class AdController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
             @RequestParam(value = "status", required = false) Integer status,
+            @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+        ArrayList<String> errors = new ArrayList();
         User u = authManager.getCurrentUser();
-            if(u!=null&&User.ROLEADMIN==u.getUserRole()){
+            if(u!=null&&User.ROLEADMIN.equals(u.getUserRole())){
                 adService.changeStatus(status,adId);
-                ras.addAttribute(ERRORS_LIST_NAME, adService.getErrors());
             }
-        
+        errors.addAll(adService.getErrors());
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/Main/";
     }
     
