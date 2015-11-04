@@ -150,7 +150,7 @@ public class AdDao extends Dao<Ad>  {
             //sql+=" and category_id in (:catIds)";
         }
         
-        sql+=" order by sale_date desc";
+        sql+=" order by status,sale_date desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         
         if(!splitted.isEmpty()){
