@@ -32,8 +32,15 @@
             
                 <h3>Пользователи</h3>
                 
+                <div>
+                    <form action="<c:url value="/Admin/users" />">
+                        <input type="text" name="keyWord">
+                        <input type="submit" value="Найти">
+                    </form>
+                </div>
+                
                 <div><table>
-                        <tr><th>№</th><th>email</th><th>ФИО</th><th>Роль</th><th>Изменить роль</th><th>Удалить</th></tr>
+                        <tr><th>№</th><th>email</th><th>ФИО</th><th>Роль</th><th>Изменить роль</th><!--<th>Удалить</th>--></tr>
                     <c:forEach var="user" items="${users}" varStatus="myIndex">
                             <tr><td>${myIndex.count}</td><td>${user.email}</td><td>${user.name}</td><td>${user.getRusRole()}</td>
                                 <td><c:if test="${user.userRole=='admin'}"><a href="<c:url value="/Admin/setRole?userId=${user.id}&role=user" />">Сделать пользователем</a></c:if>

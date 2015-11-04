@@ -109,8 +109,12 @@ public class UserService extends PrimService {
         //TO DO
     }
     
-    public List<User>getUsers(){
-        return userDao.getAll();
+    public List<User>getUsers(String keyWord){
+        if(keyWord==null||keyWord.equals("")){
+            return userDao.getAll();
+        }else{
+            return userDao.getUsersByNameOrMail(keyWord);
+        }
     }
     
     public void delete(Long userId){

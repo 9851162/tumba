@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.User;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,13 @@ public class UserDao extends Dao<User>  {
         Query query = getCurrentSession().createQuery(queryString);
         query.setParameter("email", login);
         return (User) query.uniqueResult();
+    }
+    
+    public List<User>getUsersByNameOrMail(String keyWord){
+        String hql = "from User u where u.email like :keyWord or u.name like :keyWord";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("keyWord", "%"+keyWord+"%");
+        return query.list();
     }
 
 

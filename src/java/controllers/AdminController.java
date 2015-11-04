@@ -77,20 +77,23 @@ public class AdminController extends WebController {
     
     @RequestMapping("/users")
     public String showUsers(Map<String, Object> model,
+            @RequestParam(value = "keyWord", required = false) String keyWord,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
 
-        model.put("users", userService.getUsers());
-
+        model.put("users", userService.getUsers(keyWord));
+        model.put("keyWord",keyWord);
         return "users";
     }
     
     @RequestMapping("/setRole")
     public String setRole(Map<String, Object> model,
             @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "keyWord", required = false) String keyWord,
             @RequestParam(value = "role", required = false) String role,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
         
         userService.setRole(userId, role);
+        ras.addFlashAttribute("keyWord", keyWord);
         ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/Admin/users";
     }
@@ -98,9 +101,11 @@ public class AdminController extends WebController {
     @RequestMapping("/deleteUser")
     public String deleteUser(Map<String, Object> model,
             @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "keyWord", required = false) String keyWord,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
         
         userService.delete(userId);
+        ras.addFlashAttribute("keyWord", keyWord);
         ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
         return "redirect:/Admin/users";
     }
