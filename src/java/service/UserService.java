@@ -8,6 +8,7 @@ package service;
 import dao.UserDao;
 import entities.User;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -106,6 +107,10 @@ public class UserService extends PrimService {
         mailSender.sendMail(email, text);
         
         //TO DO
+    }
+    
+    public List<User>getUsers(){
+        return userDao.getAll();
     }
     
     

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.CategoryService;
 import service.RegionService;
+import service.UserService;
 
 /**
  *
@@ -27,6 +28,9 @@ public class AdminController extends WebController {
 
     @Autowired
     CategoryService catService;
+    
+    @Autowired
+    UserService userService;
 
     @Autowired
     RegionService regService;
@@ -69,6 +73,25 @@ public class AdminController extends WebController {
         model.put("params", catService.getAllParams());
 
         return "params";
+    }
+    
+    @RequestMapping("/users")
+    public String showUsers(Map<String, Object> model,
+            HttpServletRequest request, RedirectAttributes ras) throws Exception {
+
+        model.put("users", userService.getUsers());
+
+        return "users";
+    }
+    
+    @RequestMapping("/setRole")
+    public String setRole(Map<String, Object> model,
+            @RequestParam(value = "catId", required = false) Long catId,
+            HttpServletRequest request, RedirectAttributes ras) throws Exception {
+        
+        
+        
+        return "redirect:/Admin/users";
     }
 
     @RequestMapping("/regions")

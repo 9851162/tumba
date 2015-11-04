@@ -26,6 +26,7 @@
             <a href="<c:url value='/Admin/cats'/>">Категории</a>
             <a href="<c:url value='/Admin/params'/>">Параметры</a>
             <a href="<c:url value='/Admin/regions'/>">Регионы</a>
+            <a href="<c:url value='/Admin/users'/>">Пользователи</a>
             <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Регионы</h3>
             <div style="width: 33%; float: left;">
