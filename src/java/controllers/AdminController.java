@@ -31,7 +31,7 @@ public class AdminController extends WebController {
 
     @Autowired
     CategoryService catService;
-    
+
     @Autowired
     UserService userService;
 
@@ -77,30 +77,30 @@ public class AdminController extends WebController {
 
         return "params";
     }
-    
+
     @RequestMapping("/users")
     public String showUsers(Map<String, Object> model,
             @RequestParam(value = "keyWord", required = false) String keyWord,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
 
         model.put("users", userService.getUsers(keyWord));
-        model.put("keyWord",keyWord);
+        model.put("keyWord", keyWord);
         return "users";
     }
-    
+
     @RequestMapping("/setRole")
     public String setRole(Map<String, Object> model,
             @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "keyWord", required = false) String keyWord,
             @RequestParam(value = "role", required = false) String role,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
-        List<String>errors = new ArrayList();
+        List<String> errors = new ArrayList();
         User u = authManager.getCurrentUser();
-        if(u!=null){
-            if(!Objects.equals(u.getId(), userId)){
+        if (u != null) {
+            if (!Objects.equals(u.getId(), userId)) {
                 userService.setRole(userId, role);
                 ras.addFlashAttribute("keyWord", keyWord);
-            }else{
+            } else {
                 errors.add("Вы пытаетесь изменить свою роль");
             }
         }
@@ -108,19 +108,19 @@ public class AdminController extends WebController {
         ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/Admin/users";
     }
-    
+
     @RequestMapping("/deleteUser")
     public String deleteUser(Map<String, Object> model,
             @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "keyWord", required = false) String keyWord,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
-        List<String>errors = new ArrayList();
+        List<String> errors = new ArrayList();
         User u = authManager.getCurrentUser();
-        if(u!=null){
-            if(!Objects.equals(u.getId(), userId)){
-            userService.delete(userId);
-            ras.addFlashAttribute("keyWord", keyWord);
-            }else{
+        if (u != null) {
+            if (!Objects.equals(u.getId(), userId)) {
+                userService.delete(userId);
+                ras.addFlashAttribute("keyWord", keyWord);
+            } else {
                 errors.add("Нельзя удалить себя самого");
             }
         }
