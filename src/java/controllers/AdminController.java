@@ -335,9 +335,12 @@ public class AdminController extends WebController {
             @RequestParam(value = "req", required = false) String req,
             @RequestParam(value = "paramId", required = false) Long paramId,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
-
+        
+        List<String>errors=new ArrayList();
+        //errors.add("req="+req);
         catService.addParam(catId, req, paramId);
-        ras.addFlashAttribute(ERRORS_LIST_NAME, catService.getErrors());
+        errors.addAll(catService.getErrors());
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         ras.addAttribute("catId", catId);
         return "redirect:./cats";
     }
