@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.State;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,12 @@ public class StateDao extends Dao<State>  {
         query.setParameter("name", name);
         query.setParameter("countryId", countryId);
         return query.list().isEmpty();
+    }
+    
+    public List<State>getAllSortedByName(){
+        String hql = "from State order by name";
+        Query query = getCurrentSession().createQuery(hql);
+        return query.list();
     }
     
 }

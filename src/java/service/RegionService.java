@@ -201,7 +201,7 @@ public class RegionService extends PrimService {
     }
     
     public List<State> getAllStates(){
-        return stateDao.getAll();
+        return stateDao.getAllSortedByName();
     }
 
 }
