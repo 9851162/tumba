@@ -7,12 +7,14 @@ package service;
 
 import dao.AdDao;
 import dao.CategoryDao;
+import dao.LocalityDao;
 import dao.ParametrDao;
 import dao.ParametrSelOptionDao;
 import dao.ParametrValueDao;
 import dao.UserDao;
 import entities.Ad;
 import entities.Category;
+import entities.Locality;
 import entities.Parametr;
 import entities.ParametrValue;
 import entities.User;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -65,16 +68,19 @@ public class AdService extends PrimService {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    LocalityDao locDao;
 
     public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Double numVals[],
-            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) throws IOException {
+            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],Long localIds[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
                 if (email != null && !email.equals("")) {
-
+                    
                     List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
 
                     User user = userService.getUserByMail(email);
@@ -96,7 +102,15 @@ public class AdService extends PrimService {
                     ad.setAuthor(user);
 
                     ad.setCat(cat);
-
+                    
+                    Set<Locality>locals = new HashSet();
+                    if(localIds!=null){
+                        for(Long id:localIds){
+                            Locality l = locDao.find(id);
+                            locals.add(l);
+                        }
+                    }
+                    ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
                     ad.setPrice(price);

@@ -54,6 +54,7 @@ public class AdController extends WebController {
             @RequestParam(value = "dateVals", required = false) Date dateVals[],
             @RequestParam(value = "selIds", required = false) Long selIds[],
             @RequestParam(value = "selVals", required = false) Long selVals[],
+            @RequestParam(value = "localIds", required = false) Long localIds[],
             
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
@@ -67,7 +68,7 @@ public class AdController extends WebController {
         }
         
         adService.create(catId,email,price,previews,shortName,desc,booleanIds,booleanVals,
-                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals);
+                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,localIds);
         /*for(String er:adService.getErrors()){
             errors.add(er);
         }*/

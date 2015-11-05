@@ -159,15 +159,16 @@
                                             <h3>Дата</h3>
                                             <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
-                                            <c:if test="${ad.status==0}">
-                                                <form action="<c:url value="../Ad/buy" />">
-                                                    <input type="hidden" name="wish" value="${wish}">
-                                                    <input type="hidden" name="adId" value="${ad.id}">
-                                                    <input type="submit" class="btn-buy" value="Купить">
-                                                </form>
-                                            </c:if>
+                                            
 
                                             <div class="minmenu">
+                                                <c:if test="${ad.status==0}">
+                                                    <div><form action="<c:url value="../Ad/buy" />">
+                                                        <input type="hidden" name="wish" value="${wish}">
+                                                        <input type="hidden" name="adId" value="${ad.id}">
+                                                        <input type="submit" class="btn-buy" value="Купить">
+                                                        </form></div>
+                                                </c:if>
                                                 <c:if test="${role=='admin'&&ad.status!=0}">
                                                     <div><form action="<c:url value="../Ad/changeStatus" />">
                                                             <input type="hidden" name="wish" value="${wish}">
@@ -271,7 +272,7 @@
                                         <td style="text-align: left;vertical-align: top;">
                                             <c:forEach var="state" items="${states}">
                                                 <c:forEach var="loc" items="${state.localities}">
-                                                    <label><input style="width: initial;" id="${loc.id}" type="checkbox">${loc.name}(${state.name})</label><br>
+                                                    <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
                                                 </c:forEach>
                                             </c:forEach>
                                         </td>
