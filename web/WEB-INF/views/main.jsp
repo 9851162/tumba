@@ -258,31 +258,43 @@
                         </div>
                     </div>
 
-                    <c:if test="${!empty catList}">
-                        <div class="boxtoinput">
-                            <div class="num">5</div>
-                            <div class="toin">
-                                <label for="catId">Выбор категории для объявления</label>
-                                <select class="categoryChanger" name="catId">
-                                    <option value="">Не выбрана</option>
-                                    <c:forEach var="cat" items="${catList}">
-                                        <c:set var="prefix" value="${cat.getPrefix()}"/>
-                                        <option value="${cat.id}">
-                                            ${prefix}${cat.name}
-                                        </option>
+                    <div class="">
+                        <div class="num">5</div>
+                        <div class="toin">
+                            <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
+                            <div>
+                                <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                    <c:forEach var="state" items="${states}">
+                                    <br><label class=""><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
                                     </c:forEach>
-                                </select>
-
                             </div>
-
                         </div>
-                    </c:if>
+                    </div>
 
-                    <c:set var="nextNum" value="6"/>
+                    <div class="boxtoinput">
+                        <div class="num">6</div>
+                        <div class="toin">
+                            <label for="catId">Выбор категории для объявления</label>
+                            <select class="categoryChanger" name="catId">
+                                <option value="">Не выбрана</option>
+                                <c:forEach var="cat" items="${catList}">
+                                    <c:set var="prefix" value="${cat.getPrefix()}"/>
+                                    <option value="${cat.id}">
+                                        ${prefix}${cat.name}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+
+                    <c:set var="nextNum" value="7"/>
                     <c:if test="${empty userId}">
-                        <c:set var="nextNum" value="7"/>
                         <div class="boxtoinput">
-                            <div class="num">6</div>
+                            <div class="num">${nextNum}</div>
+                            <c:set var="nextNum" value="${nextNum+1}"/>
                             <div class="toin">
                                 <label>email</label>
                                 <input name="email" type="email" value="${email}">
@@ -505,27 +517,27 @@
                                         </c:when>
 
                                         <c:when test="${parametr.paramType==5}">
-                                            <br><label>${parametr.name} <input type="checkbox" name="booleanVals">
-                                                <input type="hidden" name="booleanIds" value="${parametr.id}">
-                                            </c:when>
+                                            <br><label>${parametr.name} <input type="checkbox" name="booleanVals"></label>
+                                            <input type="hidden" name="booleanIds" value="${parametr.id}">
+                                        </c:when>
 
-                                            <c:when test="${parametr.paramType==6}">
-                                                <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
-                                                <input type="hidden" name="dateIds" value="${parametr.id}">
-                                            </c:when>
+                                        <c:when test="${parametr.paramType==6}">
+                                            <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
+                                            <input type="hidden" name="dateIds" value="${parametr.id}">
+                                        </c:when>
 
-                                        </c:choose>
+                                    </c:choose>
 
-                                    </c:forEach>
-                                    <br>
-                                    </div>
-                                    </div>
-                                </c:if>
-
-                                </div>
-                            </c:forEach>
+                                </c:forEach>
+                                <br>
                             </div>
+                        </div>
+                    </c:if>
+
+                </div>
+            </c:forEach>
+        </div>
 
 
 
-                            </body></html>
+    </body></html>

@@ -199,5 +199,9 @@ public class RegionService extends PrimService {
             return null;
         }
     }
+    
+    public List<State> getAllStates(){
+        return stateDao.getAll();
+    }
 
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
 import service.CategoryService;
+import service.RegionService;
 import service.UserService;
 
 /**
@@ -36,6 +37,8 @@ public class mainController extends WebController {
     private UserService userService;
     @Autowired
     private CategoryService catService;
+    @Autowired
+    private RegionService regionService;
 
     private final static String USER_ID_SESSION_NAME = "userId";
     private final static String USER_NAME_SESSION_NAME = "userName";
@@ -74,7 +77,7 @@ public class mainController extends WebController {
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
         
-        
+        model.put("states",regionService.getAllStates());
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
