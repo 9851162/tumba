@@ -7,7 +7,10 @@ package controllers;
 
 import controllers.parent.WebController;
 import entities.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,10 +94,18 @@ public class AdminController extends WebController {
             @RequestParam(value = "keyWord", required = false) String keyWord,
             @RequestParam(value = "role", required = false) String role,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
-        
-        userService.setRole(userId, role);
-        ras.addFlashAttribute("keyWord", keyWord);
-        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
+        List<String>errors = new ArrayList();
+        User u = authManager.getCurrentUser();
+        if(u!=null){
+            if(!Objects.equals(u.getId(), userId)){
+                userService.setRole(userId, role);
+                ras.addFlashAttribute("keyWord", keyWord);
+            }else{
+                errors.add("Вы пытаетесь изменить свою роль");
+            }
+        }
+        errors.addAll(userService.getErrors());
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/Admin/users";
     }
     
@@ -103,10 +114,18 @@ public class AdminController extends WebController {
             @RequestParam(value = "userId", required = false) Long userId,
             @RequestParam(value = "keyWord", required = false) String keyWord,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
-        
-        userService.delete(userId);
-        ras.addFlashAttribute("keyWord", keyWord);
-        ras.addFlashAttribute(ERRORS_LIST_NAME, userService.getErrors());
+        List<String>errors = new ArrayList();
+        User u = authManager.getCurrentUser();
+        if(u!=null){
+            if(!Objects.equals(u.getId(), userId)){
+            userService.delete(userId);
+            ras.addFlashAttribute("keyWord", keyWord);
+            }else{
+                errors.add("Нельзя удалить себя самого");
+            }
+        }
+        errors.addAll(userService.getErrors());
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/Admin/users";
     }
 
