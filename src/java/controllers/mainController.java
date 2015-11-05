@@ -399,7 +399,7 @@ public class mainController extends WebController {
             @RequestParam(value = "email", required = false) String email,
             RedirectAttributes ras) throws Exception {
 
-        userService.createUser(phone, email, password, name, passconfirm, User.ROLEADMIN);
+        userService.createUser(phone, email, password, name, passconfirm, User.ROLEUSER);
 
         /*model.put("name", name);
          model.put("phone", phone);
