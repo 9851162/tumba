@@ -262,16 +262,16 @@
                         <div class="num">5</div>
                         <div class="toin">
                             <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
-                            <div><table><tr><td style="text-align: left;">
+                            <div><table><tr><td style="text-align: left;vertical-align: top;">
                                 <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
                                     <c:forEach var="state" items="${states}">
                                     <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
                                     </c:forEach>
                                         </td>
-                                        <td style="text-align: left;">
+                                        <td style="text-align: left;vertical-align: top;">
                                             <c:forEach var="state" items="${states}">
                                                 <c:forEach var="loc" items="${state.localities}">
-                                                    <label><input style="width: initial;" id="${loc.id}" type="checkbox">${loc.name}</label><br>
+                                                    <label><input style="width: initial;" id="${loc.id}" type="checkbox">${loc.name}(${state.name})</label><br>
                                                 </c:forEach>
                                             </c:forEach>
                                         </td>
