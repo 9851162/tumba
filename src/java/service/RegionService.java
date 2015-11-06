@@ -277,4 +277,14 @@ public class RegionService extends PrimService {
         return regDao.find(regionId);
     }
     
+    public void addRegion(User u,Region r){
+        if(u!=null){
+            List<Region>regs = u.getRegions();
+            if(validate(r)){
+                regs.add(r);
+            }
+            userDao.update(u);
+        }
+    }
+    
 }

@@ -438,6 +438,9 @@ public class mainController extends WebController {
             r = regionService.getDefaultRegion(null);
         }else{
             r = regionService.getRegion(localIds, stateIds, user,name);
+            if(user!=null){
+                regionService.addRegion(user,r);
+            }
         }
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
         errors.addAll(regionService.getErrors());

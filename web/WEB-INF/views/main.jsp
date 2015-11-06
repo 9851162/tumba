@@ -506,12 +506,17 @@
                     
                     <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
-                <div>
+                <div>Мои регионы
+                    <c:if test="${empty availableRegions}">
+                        Пока нет созданных регионов
+                    </c:if>
+                    <c:if test="${!empty availableRegions}">
                     <table>
                     <c:forEach var="region" items="${availableRegions}">
                         <tr><td>${region.name}</td><td>Сделать домашним</td><td>x</td></tr>
                     </c:forEach>
                     </table>
+                    </c:if>
                 </div>
                 <div>
                 <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
