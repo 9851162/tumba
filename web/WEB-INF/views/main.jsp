@@ -38,12 +38,17 @@
                         <c:if test="${region.isHomeRegion()}">
                             <c:set var="drHREFChosen" value="regChosen"/>
                         </c:if>
+                        <c:set var="regionName" value="выбор региона"/>
                         <c:if test="${!region.isHomeRegion()&&!region.isAllRussia()}">
                             <c:set var="rHREFChosen" value="regChosen"/>
+                            <c:set var="regionName" value="свой регион"/>
+                            <c:if test="${!empty region.name}">
+                                <c:set var="regionName" value="${region.name}"/>
+                            </c:if>
                         </c:if>
-                        <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1" />">вся россия</a>
+                        <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />">вся россия</a>
                         <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
-                        <a href="#modal5" class="open_modal ${rHREFChosen}">выбор региона</a>
+                        <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
                     </div>
                 </div>
                 <div class="toobnov">
