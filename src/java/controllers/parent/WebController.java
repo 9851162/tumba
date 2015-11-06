@@ -38,6 +38,8 @@ public class WebController {
     
     protected final String COMPARISON = "comparisonBasket";
     
+    protected final static String MOUNTED_REGION_SESSION_NAME = "region";
+    
     @Autowired
     private DateEditor dateEditor;
 

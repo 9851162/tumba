@@ -47,8 +47,20 @@
                             </c:if>
                         </c:if>
                         <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />">вся россия</a>
-                        <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
-                        <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
+                        <c:if test="${role=='user'||role=='admin'}">
+                            <c:if test="${empty homeSet}">
+                                <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            </c:if>
+                            <c:if test="${!empty homeSet}">
+                                <a href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />" class="${drHREFChosen}">домашний регион</a>
+                            </c:if>
+                            
+                            <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
+                        </c:if>
+                        <c:if test="${role!='user'&&role!='admin'}">
+                            <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
+                        </c:if>
                     </div>
                 </div>
                 <div class="toobnov">
@@ -273,10 +285,10 @@
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="boxtoinput">
                         <div class="num">5</div>
                         <div class="toin">
-                            <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
+                            <!--<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                             <div><table><tr><td style="text-align: left;vertical-align: top;">
                                             <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
                                                 <c:forEach var="state" items="${states}">
@@ -291,7 +303,14 @@
                                                 </c:forEach>
                                         </td>
                                     </tr></table>
-                            </div>
+                            </div>-->
+                            <label>Регионы</label>
+                            <select name="regionId">
+                                <option value="0">вся Россия</option>
+                                <c:forEach var="region" items="${availableRegions}">
+                                    <option value="${region.id}">${region.name}</option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 
@@ -483,6 +502,44 @@
                         <button type="submit" class="btn">Выбрать</button>
                     </div>
                 </form>
+            </div>
+                    
+                    <div id="modal6" class="modal_form modal_div">
+                <div class="nameform">Выбор региона</div>
+                <div>
+                    <table>
+                    <c:forEach var="region" items="${availableRegions}">
+                        <tr><td>${region.name}</td><td>Сделать домашним</td><td>x</td></tr>
+                    </c:forEach>
+                    </table>
+                </div>
+                <div>
+                <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                    <div class="toin">
+                        <label>Название<input type="text" name="name" placeholder="свой регион"></label>
+                        <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
+                        <div><table><tr><td style="text-align: left;vertical-align: top;">
+                                        <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                            <c:forEach var="state" items="${states}">
+                                            <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
+                                            </c:forEach>
+                                    </td>
+                                    <td style="text-align: left;vertical-align: top;">
+                                        <c:forEach var="state" items="${states}">
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                                </c:forEach>
+                                            </c:forEach>
+                                    </td>
+                                </tr></table>
+                        </div>
+                    </div>
+                    <input type="hidden" name="wish" value="${wish}">
+                    <div class="form-group">
+                        <button type="submit" class="btn">Создать</button>
+                    </div>
+                </form>
+                </div>
             </div>
 
             <div id="modalerror" class="modal_form modal_div">

@@ -44,7 +44,7 @@ public class mainController extends WebController {
     private final static String USER_ID_SESSION_NAME = "userId";
     private final static String USER_NAME_SESSION_NAME = "userName";
     private final static String CATEGORY_SEARCH_LIST_SESSION_NAME = "catsForSearchList";
-    private final static String MOUNTED_REGION_SESSION_NAME = "region";
+    
 
     @RequestMapping("/")
     public String getMain(Map<String, Object> model,
@@ -85,6 +85,7 @@ public class mainController extends WebController {
         List<Ad>ads=adService.getAds(wish,catIds,region);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
+        List<Region> availableRegions = regionService.getAvailableRegions(region,u);
         
         model.put("states",regionService.getAllStates());
         model.put("selectedCats",catService.getSelectedCats(catIds));
@@ -95,6 +96,7 @@ public class mainController extends WebController {
         model.put("resCount", ads.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
+        model.put("availableRegions", availableRegions);
         
         //to do srazu polu4enie 4isla iz bazi
         model.put("mySellCount", mySales.size());
@@ -438,6 +440,21 @@ public class mainController extends WebController {
             r = regionService.getRegion(localIds, stateIds, user,name);
         }
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        errors.addAll(regionService.getErrors());
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/setHomeRegion")
+    public String setHomeRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String>errors=new ArrayList();
+        User user = authManager.getCurrentUser();
+        
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);

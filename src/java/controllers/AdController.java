@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.parent.WebController;
 import entities.Ad;
+import entities.Region;
 import entities.User;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
+import service.RegionService;
 import support.JsonResponse;
 
 /**
@@ -33,6 +35,8 @@ public class AdController extends WebController {
     
     @Autowired
     private AdService adService;
+    @Autowired
+    private RegionService regionService;
     
     @RequestMapping("/add")
     public String add (Map<String, Object> model,
@@ -55,7 +59,8 @@ public class AdController extends WebController {
             @RequestParam(value = "selIds", required = false) Long selIds[],
             @RequestParam(value = "selVals", required = false) Long selVals[],
             
-            @RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "regionId", required = false) Long regionId,
+            //@RequestParam(value = "localIds", required = false) Long localIds[],
             
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
@@ -68,8 +73,18 @@ public class AdController extends WebController {
             email = authedUser.getEmail();
         }
         
+        Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+        if(regionId!=null){
+            if(regionId.equals(0L)){
+                region.setAllRussia(Boolean.TRUE);
+            }else{
+                region = regionService.getRegion(regionId);
+            }
+        }
+        //Long localIds[] = regionService.getLocIds(regionId,region);
+        
         adService.create(catId,email,price,previews,shortName,desc,booleanIds,booleanVals,
-                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,localIds);
+                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,region);
         /*for(String er:adService.getErrors()){
             errors.add(er);
         }*/

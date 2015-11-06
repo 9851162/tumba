@@ -7,6 +7,7 @@ package service;
 
 import dao.CountryDao;
 import dao.LocalityDao;
+import dao.RegionDao;
 import dao.StateDao;
 import dao.UserDao;
 import entities.Country;
@@ -45,6 +46,9 @@ public class RegionService extends PrimService {
 
     @Autowired
     private LocalityDao locDao;
+    
+    @Autowired
+    private RegionDao regDao;
 
     public void createCountry(String name) {
         if (name != null && !name.equals("")) {
@@ -254,6 +258,23 @@ public class RegionService extends PrimService {
         r.setUser(user);
         r.setName(name);
         return r;
+    }
+    
+    public List<Region>getAvailableRegions(Region region,User user){
+        List<Region>res = new ArrayList();
+        if(user!=null){
+            res.addAll(user.getRegions());
+        }else if(!region.isAllRussia()){
+            if(region.getName()==null||region.getName().equals("")){
+                region.setName("свой регион");
+            }
+            res.add(region);
+        }
+        return res;
+    }
+    
+    public Region getRegion(Long regionId){
+        return regDao.find(regionId);
     }
     
 }

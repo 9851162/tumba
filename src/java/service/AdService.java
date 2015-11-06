@@ -18,6 +18,7 @@ import entities.Locality;
 import entities.Parametr;
 import entities.ParametrValue;
 import entities.Region;
+import entities.State;
 import entities.User;
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +76,7 @@ public class AdService extends PrimService {
 
     public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Double numVals[],
-            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],Long localIds[]) throws IOException {
+            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],Region region) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
@@ -105,12 +106,22 @@ public class AdService extends PrimService {
                     ad.setCat(cat);
                     
                     Set<Locality>locals = new HashSet();
-                    if(localIds!=null){
+                    if(region!=null){
+                        if(region.isAllRussia()){
+                            locals.addAll(locDao.getAll());
+                        }else{
+                            for(State s:region.getStates()){
+                                locals.addAll(s.getLocalities());
+                            }
+                            locals.addAll(region.getLocalities());
+                        }
+                    }
+                    /*if(localIds!=null){
                         for(Long id:localIds){
                             Locality l = locDao.find(id);
                             locals.add(l);
                         }
-                    }
+                    }*/
                     ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
