@@ -36,7 +36,7 @@ public class User extends PrimEntity {
     public static final String ROLEADMIN = "admin";
     public static final String ROLEUSER = "user";
     
-    public static final Integer HOMESET = 1;
+    //public static final Integer HOMESET = 1;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,7 +82,7 @@ public class User extends PrimEntity {
     private String phone;
     
     @Column(name = "home_set")
-    private Integer homeSet;
+    private Long homeSet;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("name")
@@ -174,16 +174,20 @@ public class User extends PrimEntity {
     }
 
     public boolean isHomeSet() {
-        return HOMESET.equals(homeSet);
+        return homeSet!=null;
     }
 
-    public void setHomeSet(Boolean set) {
-        if(true==set){
-            this.homeSet = HOMESET;
+    public void setHomeSet(Long homeRegionId) {
+        if(homeRegionId!=null){
+            this.homeSet = homeRegionId;
         }else{
             this.homeSet = null;
         }
         
+    }
+    
+    public Long getHomeSet() {
+        return homeSet;
     }
     
     

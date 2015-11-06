@@ -69,6 +69,9 @@ public class mainController extends WebController {
         Long userId = null;
         if (u != null) {
             userId = u.getId();
+            if(u.isHomeSet()){
+                model.put("homeSet", u.getHomeSet());
+            }
         }
         
         //установка региона, если нет еще
@@ -442,7 +445,28 @@ public class mainController extends WebController {
                 regionService.addRegion(user,r);
             }
         }
-        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        errors.addAll(regionService.getErrors());
+        if(errors.isEmpty()){
+            request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        }
+        ras.addFlashAttribute("errors", errors);
+        ras.addAttribute("wish", wish);
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/chooseRegion")
+    public String chooseRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "regionId", required = false) Long regionId,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String>errors=new ArrayList();
+        User user = authManager.getCurrentUser();
+        
+        //проверку на юзера в регионе to do чтоб чужие нельзя было выбрать
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getRegion(regionId));
+        
+        //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
@@ -452,12 +476,37 @@ public class mainController extends WebController {
     @RequestMapping("/setHomeRegion")
     public String setHomeRegion(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "regionId", required = false) Long regionId,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
         List<String>errors=new ArrayList();
         User user = authManager.getCurrentUser();
         
-        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
+        if(user!=null){
+            regionService.setHomeRegion(regionId, user.getId());
+        }
+        
+        //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
+        errors.addAll(regionService.getErrors());
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/deleteRegion")
+    public String deleteRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "regionId", required = false) Long regionId,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String>errors=new ArrayList();
+        User user = authManager.getCurrentUser();
+        
+        if(user!=null){
+            regionService.deleteRegion(regionId, user.getId());
+        }
+        
+        //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);

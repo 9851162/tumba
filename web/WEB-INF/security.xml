@@ -22,6 +22,9 @@
         <intercept-url pattern="/Main/comparison" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Main/registration" access="hasAnyRole('ROLE_ANONYMOUS','admin')" />
         <intercept-url pattern="/Main/authorize" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Main/deleteRegion" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Main/chooseRegion" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Main/setHomeRegion" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Main/addCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Main/removeCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Main/createAndMountRegion" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />

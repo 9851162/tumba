@@ -52,7 +52,7 @@
                                 <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <c:if test="${!empty homeSet}">
-                                <a href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />" class="${drHREFChosen}">домашний регион</a>
+                                <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
                             
                             <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
@@ -506,19 +506,21 @@
                     
                     <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
-                <div>Мои регионы
+                <div style="width: 30%;float: left;">Мои регионы<br><br>
                     <c:if test="${empty availableRegions}">
                         Пока нет созданных регионов
                     </c:if>
                     <c:if test="${!empty availableRegions}">
                     <table>
                     <c:forEach var="region" items="${availableRegions}">
-                        <tr><td>${region.name}</td><td>Сделать домашним</td><td>x</td></tr>
+                        <tr><td>${region.name}</td><td><a href="<c:url value="../Main/chooseRegion?regionId=${region.id}&wish=${wish}" />">Выбрать</a></td>
+                            <td><a href="<c:url value="../Main/setHomeRegion?regionId=${region.id}&wish=${wish}" />">Сделать домашним</a></td>
+                            <td><a href="<c:url value="../Main/deleteRegion?regionId=${region.id}&wish=${wish}" />">x</a></td></tr>
                     </c:forEach>
                     </table>
                     </c:if>
                 </div>
-                <div>
+                <div style="width: 69%;float: right;">
                 <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
                     <div class="toin">
                         <label>Название<input type="text" name="name" placeholder="свой регион"></label>

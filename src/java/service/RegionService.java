@@ -256,6 +256,9 @@ public class RegionService extends PrimService {
         r.setStates(states);
         r.setLocalities(locals);
         r.setUser(user);
+        if(name==null||name.equals("")){
+            name="свой регион";
+        }
         r.setName(name);
         return r;
     }
@@ -279,12 +282,39 @@ public class RegionService extends PrimService {
     
     public void addRegion(User u,Region r){
         if(u!=null){
-            List<Region>regs = u.getRegions();
+            r.setUser(u);
             if(validate(r)){
-                regs.add(r);
+                regDao.save(r);
             }
-            userDao.update(u);
         }
+    }
+    
+    public void deleteRegion(Long regionId,Long userId){
+        User u = userDao.find(userId);
+        Region r = regDao.find(regionId);
+        if(r.isHomeRegion()){
+            u.setHomeSet(null);
+            if(validate(u)){
+                userDao.update(u);
+            }
+        }
+        regDao.delete(r);
+    }
+    
+    public void setHomeRegion(Long regionId,Long userId){
+        User u = userDao.find(userId);
+        u.setHomeSet(regionId);
+        Region r = regDao.find(regionId);
+        r.setHomeRegion(Boolean.TRUE);
+        if(validate(r)&&validate(u)){
+            clearHome(u);
+            userDao.update(u);
+            regDao.update(r);
+        }
+    }
+    
+    public void clearHome(User u){
+        regDao.clearHome(u.getId());
     }
     
 }

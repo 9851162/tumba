@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Region;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,6 +20,13 @@ public class RegionDao extends Dao<Region>  {
     @Override
     public Class getSupportedClass() {
         return Region.class;
+    }
+    
+    public int clearHome(Long userId){
+        String sql = "update region set home_region = null where user_id=:userId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("userId", userId);
+        return query.executeUpdate();
     }
     
 }
