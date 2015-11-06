@@ -32,9 +32,18 @@
                         </form>
                     </div>
                     <div class="controlsearch">
-                        <a href="#">вся россия</a>
-                        <a href="#">домашний регион</a>
-                        <a href="#">выбор региона</a>
+                        <c:if test="${region.isAllRussia()}">
+                            <c:set var="arHREFChosen" value="regChosen"/>
+                        </c:if>
+                        <c:if test="${region.isHomeRegion()}">
+                            <c:set var="drHREFChosen" value="regChosen"/>
+                        </c:if>
+                        <c:if test="${!region.isHomeRegion()&&!region.isAllRussia()}">
+                            <c:set var="rHREFChosen" value="regChosen"/>
+                        </c:if>
+                        <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1" />">вся россия</a>
+                        <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
+                        <a href="#modal5" class="open_modal ${rHREFChosen}">выбор региона</a>
                     </div>
                 </div>
                 <div class="toobnov">
@@ -159,17 +168,17 @@
                                             <h3>Дата</h3>
                                             <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                             <div class="price">${ad.price}</div>
-                                            
+
 
                                             <div class="minmenu">
                                                 <c:if test="${ad.status==0}">
                                                     <div><form action="<c:url value="../Ad/buy" />">
-                                                        <input type="hidden" name="wish" value="${wish}">
-                                                        <input type="hidden" name="adId" value="${ad.id}">
-                                                        <input type="submit" class="btn-buy" value="Купить">
+                                                            <input type="hidden" name="wish" value="${wish}">
+                                                            <input type="hidden" name="adId" value="${ad.id}">
+                                                            <input type="submit" class="btn-buy" value="Купить">
                                                         </form></div>
-                                                </c:if>
-                                                <c:if test="${role=='admin'&&ad.status!=0}">
+                                                    </c:if>
+                                                    <c:if test="${role=='admin'&&ad.status!=0}">
                                                     <div><form action="<c:url value="../Ad/changeStatus" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
@@ -264,17 +273,17 @@
                         <div class="toin">
                             <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                             <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
-                                    <c:forEach var="state" items="${states}">
-                                    <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
-                                    </c:forEach>
+                                            <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                                <c:forEach var="state" items="${states}">
+                                                <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
+                                                </c:forEach>
                                         </td>
                                         <td style="text-align: left;vertical-align: top;">
                                             <c:forEach var="state" items="${states}">
                                                 <c:forEach var="loc" items="${state.localities}">
                                                     <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                                    </c:forEach>
                                                 </c:forEach>
-                                            </c:forEach>
                                         </td>
                                     </tr></table>
                             </div>
@@ -335,7 +344,7 @@
                                     <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
                             </div>
                     </div>-->
-                    <div class="form-group">
+                    <div style="margin-left: 55px;margin-top: 15px;" class="form-group">
                         <button type="submit" class="btn btn-success">Добавить</button>
                     </div>
                 </form>
@@ -438,6 +447,35 @@
                     <input type="hidden" name="wish" value="${wish}">
                     <div class="form-group">
                         <button type="submit" class="btn">Отправить</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="modal5" class="modal_form modal_div">
+                <div class="nameform">Выбор региона</div>
+                <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                    <div class="toin">
+                        <label>Название<input type="text" name="name" placeholder="свой регион"></label>
+                        <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
+                        <div><table><tr><td style="text-align: left;vertical-align: top;">
+                                        <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                            <c:forEach var="state" items="${states}">
+                                            <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
+                                            </c:forEach>
+                                    </td>
+                                    <td style="text-align: left;vertical-align: top;">
+                                        <c:forEach var="state" items="${states}">
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                                </c:forEach>
+                                            </c:forEach>
+                                    </td>
+                                </tr></table>
+                        </div>
+                    </div>
+                    <input type="hidden" name="wish" value="${wish}">
+                    <div class="form-group">
+                        <button type="submit" class="btn">Выбрать</button>
                     </div>
                 </form>
             </div>

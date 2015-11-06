@@ -6,6 +6,7 @@
 package dao;
 
 import dao.parent.Dao;
+import entities.Region;
 import entities.User;
 import java.util.List;
 import org.hibernate.Query;
@@ -35,6 +36,17 @@ public class UserDao extends Dao<User>  {
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("keyWord", "%"+keyWord+"%");
         return query.list();
+    }
+    
+    public Region getHomeRegion(Long userId){
+        String hql = "from Region where user.userId=:userId and homeRegion is not null";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("userId", userId);
+        List<Region>res = query.list();
+        if(!res.isEmpty()){
+            return res.get(0);
+        }
+        return null;
     }
 
 

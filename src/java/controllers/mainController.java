@@ -7,6 +7,7 @@ package controllers;
 
 import controllers.parent.WebController;
 import entities.Ad;
+import entities.Region;
 import entities.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,8 @@ public class mainController extends WebController {
 
     private final static String USER_ID_SESSION_NAME = "userId";
     private final static String USER_NAME_SESSION_NAME = "userName";
-    private final static String CATEGORY_SEARCH_LIST_NAME = "catsForSearchList";
+    private final static String CATEGORY_SEARCH_LIST_SESSION_NAME = "catsForSearchList";
+    private final static String MOUNTED_REGION_SESSION_NAME = "region";
 
     @RequestMapping("/")
     public String getMain(Map<String, Object> model,
@@ -52,15 +54,10 @@ public class mainController extends WebController {
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-
-        User u = authManager.getCurrentUser();
-        Long userId = null;
-        if (u != null) {
-            userId = u.getId();
-        }
-
+        
+        Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
         List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
@@ -68,12 +65,24 @@ public class mainController extends WebController {
             compAds=new ArrayList();
         }
         
+        User u = authManager.getCurrentUser();
+        Long userId = null;
+        if (u != null) {
+            userId = u.getId();
+        }
+        
+        //установка региона, если нет еще
+        if(region==null){
+            region=regionService.getDefaultRegion(userId);
+            request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+        }
+        
         HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
         HashMap<Long,Ad> comparingMap = new HashMap();
         for(Ad ad:compAds){
             comparingMap.put(ad.getId(),ad);
         }
-        List<Ad>ads=adService.getAds(wish,catIds);
+        List<Ad>ads=adService.getAds(wish,catIds,region);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
         
@@ -121,14 +130,14 @@ public class mainController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             RedirectAttributes ras) throws Exception {
         
-        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catList==null){
             catList=new ArrayList();
         }
         if(!catList.contains(catId)&&catList.size()<20){
             catList.add(catId);
         }
-        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_NAME, catList);
+        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME, catList);
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
@@ -140,12 +149,12 @@ public class mainController extends WebController {
             @RequestParam(value = "catId", required = false) Long catId,
             RedirectAttributes ras) throws Exception {
         
-        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catList==null){
             catList=new ArrayList();
         }
         catList.remove(catId);
-        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_NAME, catList);
+        request.getSession().setAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME, catList);
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
@@ -166,7 +175,7 @@ public class mainController extends WebController {
         }
 
         List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
@@ -223,7 +232,7 @@ public class mainController extends WebController {
         }
 
         List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
@@ -282,7 +291,7 @@ public class mainController extends WebController {
         }
 
         List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
@@ -334,7 +343,7 @@ public class mainController extends WebController {
 
         List<Ad> ads = (List) request.getSession().getAttribute(COMPARISON);
         
-        List<Long>catIds = (List)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_NAME);
+        List<Long>catIds = (List)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if(catIds==null){
             catIds=new ArrayList();
         }
@@ -408,6 +417,30 @@ public class mainController extends WebController {
          ras.addAttribute("phone", phone);
          ras.addAttribute("email", email);*/
         ras.addAttribute("errors", userService.getErrors());
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/createAndMountRegion")
+    public String createAndMountRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "stateIds", required = false) Long stateIds[],
+            @RequestParam(value = "all", required = false) Integer all,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String>errors=new ArrayList();
+        User user = authManager.getCurrentUser();
+        Region r = null;
+        if(all!=null&&1==all){
+            r = regionService.getDefaultRegion(null);
+        }else{
+            r = regionService.getRegion(localIds, stateIds, user,name);
+        }
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        errors.addAll(regionService.getErrors());
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/";
     }
 

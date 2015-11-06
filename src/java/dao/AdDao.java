@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Ad;
+import entities.Region;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +128,7 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }*/
     
-    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds){
+    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
         if(!splitted.isEmpty()){
@@ -170,7 +171,7 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }
     
-    public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds){
+    public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds,Region region){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
         

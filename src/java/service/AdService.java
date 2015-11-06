@@ -17,6 +17,7 @@ import entities.Category;
 import entities.Locality;
 import entities.Parametr;
 import entities.ParametrValue;
+import entities.Region;
 import entities.User;
 import java.io.File;
 import java.io.IOException;
@@ -336,13 +337,13 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish, List<Long> catIds) {
+    public List<Ad> getAds(String wish, List<Long> catIds,Region region) {
         /*if(wish==null||wish.equals("")){
          return adDao.getAll();
          }else{*/
         List<Ad> res = new ArrayList();
-        res.addAll(adDao.getAdsByWishInName(wish, catIds));
-        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds)) {
+        res.addAll(adDao.getAdsByWishInName(wish, catIds,region));
+        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region)) {
             if (!res.contains(ad)) {
                 res.add(ad);
             }

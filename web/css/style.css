@@ -315,3 +315,8 @@ td {
     cursor: pointer;
     background-color: white;
 }
+
+.regChosen {
+    text-decoration: underline!important; 
+    font-weight: bold;
+}

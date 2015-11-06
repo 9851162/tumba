@@ -8,12 +8,16 @@ package service;
 import dao.CountryDao;
 import dao.LocalityDao;
 import dao.StateDao;
+import dao.UserDao;
 import entities.Country;
 import entities.Locality;
+import entities.Region;
 import entities.State;
+import entities.User;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -30,6 +34,9 @@ import service.parent.PrimService;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RegionService extends PrimService {
 
+    @Autowired
+    private UserDao userDao;
+    
     @Autowired
     private CountryDao cDao;
 
@@ -203,5 +210,50 @@ public class RegionService extends PrimService {
     public List<State> getAllStates(){
         return stateDao.getAllSortedByName();
     }
+    
+    /*public Long getDefaultRegionId(Long userId){
+        if(userId!=null){
+            Region r = userDao.getHomeRegion(userId);
+            if(r!=null){
+                return r.getId();
+            }
+        }
+        return Region.ALLRUSSIAID;
+    }*/
 
+    public Region getDefaultRegion(Long userId){
+        if(userId!=null){
+            Region r = userDao.getHomeRegion(userId);
+            if(r!=null){
+                return r;
+            }
+        }
+            Region reg = new Region();
+            reg.setAllRussia(Boolean.TRUE);
+            return reg;
+    }
+    
+    public Region getRegion(Long localIds[],Long stateIds[],User user,String name){
+        Set<Locality>locals = new HashSet();
+        Set<State>states = new HashSet();
+        Region r = new Region();
+        if(stateIds!=null){
+            for(Long id:stateIds){
+                State s = stateDao.find(id);
+                states.add(s);
+            }
+        }
+        if(localIds!=null){
+            for(Long id:localIds){
+                Locality l = locDao.find(id);
+                locals.add(l);
+            }
+        }
+        r.setStates(states);
+        r.setLocalities(locals);
+        r.setUser(user);
+        r.setName(name);
+        return r;
+    }
+    
 }

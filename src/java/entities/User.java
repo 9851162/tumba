@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
@@ -76,6 +78,10 @@ public class User extends PrimEntity {
     
     @Column(name = "phone")
     private String phone;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("name")
+    private List<Region> regions;
 
     @Override
     public Long getId() {
@@ -153,5 +159,15 @@ public class User extends PrimEntity {
         }
         return role;
     }
+
+    public List<Region> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<Region> regions) {
+        this.regions = regions;
+    }
+    
+    
     
 }
