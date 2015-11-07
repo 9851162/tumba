@@ -7,10 +7,14 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Ad;
+import entities.Locality;
 import entities.Region;
+import entities.State;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
@@ -128,15 +132,15 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }*/
     
-    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
-        String sql = "select * from ad";
+    /*public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
+        String sql = "";
+            sql="select * from ad";
         List<String> splitted=splitted(wish);
         if(!splitted.isEmpty()){
             sql+=" where 1!=1";
             for(String st:splitted){
                 sql+=" or (name like :wish"+splitted.indexOf(st)+")";
             }
-            
         }
         
         if(!catIds.isEmpty()){
@@ -148,7 +152,6 @@ public class AdDao extends Dao<Ad>  {
                 sql+=" or category_id=:catId"+catIds.indexOf(id);
             }
             sql+=")";
-            //sql+=" and category_id in (:catIds)";
         }
         
         sql+=" order by status,sale_date desc";
@@ -158,7 +161,6 @@ public class AdDao extends Dao<Ad>  {
             for(String st:splitted){
                 query.setParameter("wish"+splitted.indexOf(st),st);
             }
-            
         }
         
         if(!catIds.isEmpty()){
@@ -168,6 +170,47 @@ public class AdDao extends Dao<Ad>  {
         }
         
         query.addEntity(Ad.class);
+        return query.list();
+    }*/
+    
+    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
+        String hql = "";
+            hql="from Ad";
+        List<String> splitted=splitted(wish);
+        if(!splitted.isEmpty()){
+            hql+=" where 1!=1";
+            for(String st:splitted){
+                hql+=" or (name like :wish"+splitted.indexOf(st)+")";
+            }
+        }
+        
+        if(!catIds.isEmpty()){
+            if(splitted.isEmpty()){
+                hql+=" where 1=1";
+            }
+            hql+=" and (1!=1";
+            for(Long id:catIds){
+                hql+=" or cat.category_id=:catId"+catIds.indexOf(id);
+            }
+            hql+=")";
+        }
+        
+        hql+=" order by status,sale_date desc";
+        Query query = getCurrentSession().createQuery(hql);
+        
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+        }
+        
+        if(!catIds.isEmpty()){
+            for(Long id:catIds){
+                query.setParameter("catId"+catIds.indexOf(id), id);
+            }
+        }
+        
+        //query.addEntity(Ad.class);
         return query.list();
     }
     
@@ -257,4 +300,18 @@ public class AdDao extends Dao<Ad>  {
         }
         return split;
     }
+    
+    private Set<Long> getLocIds(Region r){
+        Set<Long>res=new HashSet();
+        for(State s:r.getStates()){
+            for(Locality l:s.getLocalities()){
+                res.add(l.getId());
+            }
+        }
+        for(Locality l:r.getLocalities()){
+            res.add(l.getId());
+        }
+        return res;
+    }
+    
 }
