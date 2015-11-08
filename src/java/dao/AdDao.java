@@ -18,6 +18,7 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+import support.StringAdapter;
 
 /**
  *
@@ -132,6 +133,57 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }*/
     
+    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
+        String sql = "";
+            sql="select * from ad";
+        List<String> splitted=splitted(wish);
+        if(!splitted.isEmpty()){
+            sql+=" where 1!=1";
+            for(String st:splitted){
+                sql+=" or (name like :wish"+splitted.indexOf(st)+")";
+            }
+        }
+        
+        if(!catIds.isEmpty()){
+            if(splitted.isEmpty()){
+                sql+=" where 1=1";
+            }
+            sql+=" and (1!=1";
+            for(Long id:catIds){
+                sql+=" or category_id=:catId"+catIds.indexOf(id);
+            }
+            sql+=")";
+        }
+        
+        if(region!=null&&!region.isAllRussia()){
+            sql+=" and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
+        }
+        
+        sql+=" order by status,sale_date desc";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+        }
+        
+        if(!catIds.isEmpty()){
+            for(Long id:catIds){
+                query.setParameter("catId"+catIds.indexOf(id), id);
+            }
+        }
+        
+        if(region!=null&&!region.isAllRussia()){
+            query.setParameterList("localIds", getLocIds(region));
+        }
+        
+        query.addEntity(Ad.class);
+        return query.list();
+    }
+    
+    
+    //without regs
     /*public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
         String sql = "";
             sql="select * from ad";
@@ -173,7 +225,8 @@ public class AdDao extends Dao<Ad>  {
         return query.list();
     }*/
     
-    public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
+    //hql
+    /*public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
         String hql = "";
             hql="from Ad";
         List<String> splitted=splitted(wish);
@@ -212,9 +265,9 @@ public class AdDao extends Dao<Ad>  {
         
         //query.addEntity(Ad.class);
         return query.list();
-    }
+    }*/
     
-    public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds,Region region){
+    /*public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds,Region region){
         String sql = "select * from ad";
         List<String> splitted=splitted(wish);
         
@@ -254,9 +307,57 @@ public class AdDao extends Dao<Ad>  {
             }
         }
         
-        /*if(!catIds.isEmpty()){
-            query.setParameterList("catIds", catIds);
-        }*/
+        query.addEntity(Ad.class);
+        return query.list();
+    }*/
+    
+    public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds,Region region){
+        String sql = "select * from ad";
+        List<String> splitted=splitted(wish);
+        
+        if(!splitted.isEmpty()){
+            sql+=" where 1!=1";
+            for(String st:splitted){
+                sql+=" or (description like :wish"+splitted.indexOf(st)+")";
+            }
+            
+        }
+        
+        if(!catIds.isEmpty()){
+            if(splitted.isEmpty()){
+                sql+=" where 1=1";
+            }
+            sql+=" and (1!=1";
+            for(Long id:catIds){
+                sql+=" or category_id=:catId"+catIds.indexOf(id);
+            }
+            sql+=")";
+            //sql+=" and category_id in (:catIds)";
+        }
+        
+        if(region!=null&&!region.isAllRussia()){
+            sql+=" and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
+        }
+        
+        sql+=" order by status,sale_date desc";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        
+        if(!splitted.isEmpty()){
+            for(String st:splitted){
+                query.setParameter("wish"+splitted.indexOf(st),st);
+            }
+            
+        }
+        
+        if(!catIds.isEmpty()){
+            for(Long id:catIds){
+                query.setParameter("catId"+catIds.indexOf(id), id);
+            }
+        }
+        
+        if(region!=null&&!region.isAllRussia()){
+            query.setParameterList("localIds", getLocIds(region));
+        }
         
         query.addEntity(Ad.class);
         return query.list();
@@ -303,13 +404,27 @@ public class AdDao extends Dao<Ad>  {
     
     private Set<Long> getLocIds(Region r){
         Set<Long>res=new HashSet();
-        for(State s:r.getStates()){
-            for(Locality l:s.getLocalities()){
+        if(r!=null){
+            for(State s:r.getStates()){
+                for(Locality l:s.getLocalities()){
+                    res.add(l.getId());
+                }
+            }
+            for(Locality l:r.getLocalities()){
                 res.add(l.getId());
             }
         }
-        for(Locality l:r.getLocalities()){
-            res.add(l.getId());
+        return res;
+    }
+    
+    private String getIdsAsString(Set<Long>ids){
+        String res = "0";
+        if(ids!=null&&!ids.isEmpty()){
+            res="";
+            for(Long id:ids){
+                res+=StringAdapter.getString(id)+",";
+            }
+            res=res.substring(0, res.length()-1);
         }
         return res;
     }

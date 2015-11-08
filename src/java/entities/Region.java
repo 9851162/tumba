@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -35,13 +36,13 @@ public class Region extends PrimEntity {
     @Column(name = "region_id")
     private Long id;
     
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "locals_at_region",
             joinColumns = @JoinColumn(name = "region_id", referencedColumnName = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "locality_id", referencedColumnName = "locality_id"))
     private Set<Locality> localities;
     
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "states_at_region",
             joinColumns = @JoinColumn(name = "region_id", referencedColumnName = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "state_id", referencedColumnName = "state_id"))
@@ -65,6 +66,9 @@ public class Region extends PrimEntity {
     }
 
     public Set<Locality> getLocalities() {
+        if(localities==null){
+            return new HashSet();
+        }
         return localities;
     }
 
@@ -73,6 +77,9 @@ public class Region extends PrimEntity {
     }
 
     public Set<State> getStates() {
+        if(states==null){
+            return new HashSet();
+        }
         return states;
     }
 

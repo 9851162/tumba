@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
+import dao.AdDao;
 import entities.Ad;
 import entities.Region;
 import entities.User;
@@ -55,6 +56,11 @@ public class mainController extends WebController {
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
         
+        List<String> ers = (List) model.get(ERRORS_LIST_NAME);
+        if (ers == null) {
+            ers = new ArrayList();
+        }
+        
         Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
         List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
         List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
@@ -78,7 +84,12 @@ public class mainController extends WebController {
         if(region==null){
             region=regionService.getDefaultRegion(userId);
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+            
         }
+        
+        /*ers.add("reg1:"+region.getName());
+        
+        ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
         
         HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
         HashMap<Long,Ad> comparingMap = new HashMap();
@@ -118,10 +129,7 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
-        List<String> ers = (List) model.get(ERRORS_LIST_NAME);
-        if (ers == null) {
-            ers = new ArrayList();
-        }
+        
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         model.put(ERRORS_LIST_NAME, ers);
