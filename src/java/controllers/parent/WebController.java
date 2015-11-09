@@ -40,6 +40,10 @@ public class WebController {
     
     protected final static String MOUNTED_REGION_SESSION_NAME = "region";
     
+    protected final static String USER_ID_SESSION_NAME = "userId";
+    protected final static String USER_NAME_SESSION_NAME = "userName";
+    protected final static String CATEGORY_SEARCH_LIST_SESSION_NAME = "catsForSearchList";
+    
     @Autowired
     private DateEditor dateEditor;
 

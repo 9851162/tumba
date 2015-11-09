@@ -46,7 +46,9 @@
                                 <c:set var="regionName" value="${region.name}"/>
                             </c:if>
                         </c:if>
+                        
                         <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />">вся россия</a>
+                        
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
                                 <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
@@ -54,13 +56,15 @@
                             <c:if test="${!empty homeSet}">
                                 <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
-                            
-                            <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
+                            <!--<a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>-->
                         </c:if>
                         <c:if test="${role!='user'&&role!='admin'}">
                             <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
-                            <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
+                            <!--<a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>-->
                         </c:if>
+                            
+                        <a href="<c:url value="../Regions/select" />" class="${rHREFChosen}">${regionName}</a>
+                        
                     </div>
                 </div>
                 <div class="toobnov">

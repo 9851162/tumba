@@ -37,7 +37,7 @@ public class RegionService extends PrimService {
 
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private CountryDao cDao;
 
@@ -46,7 +46,7 @@ public class RegionService extends PrimService {
 
     @Autowired
     private LocalityDao locDao;
-    
+
     @Autowired
     private RegionDao regDao;
 
@@ -210,115 +210,127 @@ public class RegionService extends PrimService {
             return null;
         }
     }
-    
-    public List<State> getAllStates(){
+
+    public List<State> getAllStates() {
         return stateDao.getAllSortedByName();
     }
-    
-    /*public Long getDefaultRegionId(Long userId){
-        if(userId!=null){
-            Region r = userDao.getHomeRegion(userId);
-            if(r!=null){
-                return r.getId();
-            }
-        }
-        return Region.ALLRUSSIAID;
-    }*/
 
-    public Region getDefaultRegion(Long userId){
-        if(userId!=null){
+    /*public Long getDefaultRegionId(Long userId){
+     if(userId!=null){
+     Region r = userDao.getHomeRegion(userId);
+     if(r!=null){
+     return r.getId();
+     }
+     }
+     return Region.ALLRUSSIAID;
+     }*/
+    public Region getDefaultRegion(Long userId) {
+        if (userId != null) {
             Region r = userDao.getHomeRegion(userId);
-            if(r!=null){
+            if (r != null) {
                 return r;
             }
         }
-            Region reg = new Region();
-            reg.setAllRussia(Boolean.TRUE);
-            return reg;
+        Region reg = new Region();
+        reg.setAllRussia(Boolean.TRUE);
+        return reg;
     }
-    
-    public Region getRegion(Long localIds[],Long stateIds[],User user,String name){
-        Set<Locality>locals = new HashSet();
-        Set<State>states = new HashSet();
-        Region r = new Region();
-        if(stateIds!=null){
-            for(Long id:stateIds){
-                State s = stateDao.find(id);
-                states.add(s);
+
+    public Region getRegion(Long localIds[], Long stateIds[], User user, String name) {
+        Region r = null;
+        if ((localIds != null && localIds.length != 0) || (stateIds != null && stateIds.length != 0)) {
+            if(localIds==null){
+                localIds=new Long[0];
             }
-        }
-        if(localIds!=null){
-            for(Long id:localIds){
-                Locality l = locDao.find(id);
-                locals.add(l);
+            if(stateIds==null){
+                stateIds=new Long[0];
             }
+            //addError("l:"+localIds.length+";s:"+stateIds.length);
+            Set<Locality> locals = new HashSet();
+            Set<State> states = new HashSet();
+            r = new Region();
+            if (stateIds != null) {
+                for (Long id : stateIds) {
+                    State s = stateDao.find(id);
+                    states.add(s);
+                }
+            }
+            if (localIds != null) {
+                for (Long id : localIds) {
+                    Locality l = locDao.find(id);
+                    locals.add(l);
+                }
+            }
+            r.setStates(states);
+            r.setLocalities(locals);
+            r.setUser(user);
+            if (name == null || name.equals("")) {
+                name = "свой регион";
+            }
+            r.setName(name);
+        } else {
+            addError("Нужно выбрать хотя бы один город или административный округ");
         }
-        r.setStates(states);
-        r.setLocalities(locals);
-        r.setUser(user);
-        if(name==null||name.equals("")){
-            name="свой регион";
-        }
-        r.setName(name);
         return r;
     }
-    
-    public List<Region>getAvailableRegions(Region region,User user){
-        List<Region>res = new ArrayList();
-        if(user!=null){
+
+    public List<Region> getAvailableRegions(Region region, User user) {
+        List<Region> res = new ArrayList();
+        if (user != null) {
             res.addAll(user.getRegions());
-        }else if(!region.isAllRussia()){
-            if(region.getName()==null||region.getName().equals("")){
-                region.setName("свой регион");
-            }
-            res.add(region);
-        }
+        }/*else if(!region.isAllRussia()){
+         if(region.getName()==null||region.getName().equals("")){
+         region.setName("свой регион");
+         }
+         res.add(region);
+         }*/
+
         return res;
     }
-    
-    public Region getRegion(Long regionId){
+
+    public Region getRegion(Long regionId) {
         return regDao.find(regionId);
     }
-    
-    public void addRegion(User u,Region r){
-        if(u!=null){
+
+    public void addRegion(User u, Region r) {
+        if (u != null) {
             r.setUser(u);
-            if(validate(r)){
+            if (validate(r)) {
                 regDao.save(r);
             }
         }
     }
-    
-    public void deleteRegion(Long regionId,Long userId){
+
+    public void deleteRegion(Long regionId, Long userId) {
         User u = userDao.find(userId);
         Region r = regDao.find(regionId);
-        if(r.isHomeRegion()){
+        if (r.isHomeRegion()) {
             u.setHomeSet(null);
-            if(validate(u)){
+            if (validate(u)) {
                 userDao.update(u);
             }
         }
         regDao.delete(r);
     }
-    
-    public void setHomeRegion(Long regionId,Long userId){
+
+    public void setHomeRegion(Long regionId, Long userId) {
         User u = userDao.find(userId);
         u.setHomeSet(regionId);
         Region r = regDao.find(regionId);
         r.setHomeRegion(Boolean.TRUE);
-        if(validate(r)&&validate(u)){
+        if (validate(r) && validate(u)) {
             clearHome(u);
             userDao.update(u);
             regDao.update(r);
         }
     }
-    
-    public void clearHome(User u){
+
+    public void clearHome(User u) {
         regDao.clearHome(u.getId());
     }
-    
-    public List<State> getNotEmptyStates(){
+
+    public List<State> getNotEmptyStates() {
         return stateDao.getNotEmptyStates();
     }
-    
+
 }

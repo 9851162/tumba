@@ -42,9 +42,7 @@ public class mainController extends WebController {
     @Autowired
     private RegionService regionService;
 
-    private final static String USER_ID_SESSION_NAME = "userId";
-    private final static String USER_NAME_SESSION_NAME = "userName";
-    private final static String CATEGORY_SEARCH_LIST_SESSION_NAME = "catsForSearchList";
+    
     
 
     @RequestMapping("/")
@@ -84,7 +82,6 @@ public class mainController extends WebController {
         if(region==null){
             region=regionService.getDefaultRegion(userId);
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
-            
         }
         
         /*ers.add("reg1:"+region.getName());
@@ -99,9 +96,9 @@ public class mainController extends WebController {
         List<Ad>ads=adService.getAds(wish,catIds,region);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
-        List<Region> availableRegions = regionService.getAvailableRegions(region,u);
+        //List<Region> availableRegions = regionService.getAvailableRegions(region,u);
         
-        model.put("states",regionService.getNotEmptyStates());
+        //model.put("states",regionService.getNotEmptyStates());
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
@@ -110,7 +107,7 @@ public class mainController extends WebController {
         model.put("resCount", ads.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
-        model.put("availableRegions", availableRegions);
+        //model.put("availableRegions", availableRegions);
         
         //to do srazu polu4enie 4isla iz bazi
         model.put("mySellCount", mySales.size());
@@ -456,10 +453,12 @@ public class mainController extends WebController {
         errors.addAll(regionService.getErrors());
         if(errors.isEmpty()){
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+            ras.addAttribute("wish", wish);
+            return "redirect:/Main/";
+        }else{
+            ras.addFlashAttribute("errors", errors);
+            return "redirect:/Regions/select";
         }
-        ras.addFlashAttribute("errors", errors);
-        ras.addAttribute("wish", wish);
-        return "redirect:/Main/";
     }
     
     @RequestMapping("/chooseRegion")
