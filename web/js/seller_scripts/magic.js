@@ -88,7 +88,15 @@ $(function () { // вся мaгия пoсле зaгрузки стрaницы
             $('#allRegionsSelector').prop('checked',this.checked);
         }
         
-    })
+    });
+    
+    $('.locSelector').on('change',function(){
+        var id = $(this).attr('data-state-id');
+        if(!$(this).prop('checked')){
+            $('#allRegionsSelector').prop('checked',this.checked);
+            $('.stateSelector[id='+id+']').prop('checked',this.checked);
+        }
+    });
 
 
 });

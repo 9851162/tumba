@@ -51,19 +51,19 @@
                         
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
-                                <a href="<c:url value="../Regions/select" />" class="${drHREFChosen}">домашний регион</a>
+                                <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <c:if test="${!empty homeSet}">
                                 <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
-                            <!--<a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>-->
+                            <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
                         </c:if>
                         <c:if test="${role!='user'&&role!='admin'}">
-                            <a href="<c:url value="../Regions/select" />" class="${drHREFChosen}">домашний регион</a>
-                            <!--<a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>-->
+                            <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
                         </c:if>
                             
-                        <a href="<c:url value="../Regions/select" />" class="${rHREFChosen}">${regionName}</a>
+                        <!--<a href="<c:url value="../Regions/select" />" class="${rHREFChosen}">${regionName}</a>-->
                         
                     </div>
                 </div>
@@ -486,15 +486,15 @@
                         <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                        <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                        <input style="width: initial;" id="allRegionsSelector" type="checkbox"><label for="allRegionsSelector">Все</label>
                                             <c:forEach var="state" items="${states}">
-                                            <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
+                                            <br><label><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
                                             </c:forEach>
                                     </td>
                                     <td style="text-align: left;vertical-align: top;">
                                         <c:forEach var="state" items="${states}">
                                             <c:forEach var="loc" items="${state.localities}">
-                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
                                                 </c:forEach>
                                             </c:forEach>
                                     </td>
@@ -503,7 +503,7 @@
                     </div>
                     <input type="hidden" name="wish" value="${wish}">
                     <div class="form-group">
-                        <button type="submit" class="btn">Выбрать</button>
+                        <button type="submit" class="btn">Создать</button>
                     </div>
                 </form>
             </div>
@@ -530,17 +530,17 @@
                         <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                        <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                        <input style="width: initial;" id="allRegionsSelector" type="checkbox"><label for="allRegionsSelector">Все</label>
                                             <c:forEach var="state" items="${states}">
-                                            <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
+                                            <br><label><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
                                             </c:forEach>
                                     </td>
                                     <td style="text-align: left;vertical-align: top;">
                                         <c:forEach var="state" items="${states}">
                                             <c:forEach var="loc" items="${state.localities}">
-                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
-                                                </c:forEach>
+                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
                                             </c:forEach>
+                                        </c:forEach>
                                     </td>
                                 </tr></table>
                         </div>

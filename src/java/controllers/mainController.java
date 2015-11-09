@@ -42,9 +42,6 @@ public class mainController extends WebController {
     @Autowired
     private RegionService regionService;
 
-    
-    
-
     @RequestMapping("/")
     public String getMain(Map<String, Object> model,
             HttpServletRequest request,
@@ -96,9 +93,9 @@ public class mainController extends WebController {
         List<Ad>ads=adService.getAds(wish,catIds,region);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
-        //List<Region> availableRegions = regionService.getAvailableRegions(region,u);
+        List<Region> availableRegions = regionService.getAvailableRegions(region,u);
         
-        //model.put("states",regionService.getNotEmptyStates());
+        model.put("states",regionService.getNotEmptyStates());
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
@@ -107,7 +104,7 @@ public class mainController extends WebController {
         model.put("resCount", ads.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
-        //model.put("availableRegions", availableRegions);
+        model.put("availableRegions", availableRegions);
         
         //to do srazu polu4enie 4isla iz bazi
         model.put("mySellCount", mySales.size());
