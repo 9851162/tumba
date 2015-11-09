@@ -45,7 +45,7 @@
                         <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                        <label><input style="width: initial;" id="allRegionsSelector" type="checkbox">Все</label>
+                                        <input style="width: initial;" id="allRegionsSelector" type="checkbox"><label for="allRegionsSelector">Все</label>
                                             <c:forEach var="state" items="${states}">
                                             <br><label><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
                                             </c:forEach>

@@ -76,9 +76,19 @@ $(function () { // вся мaгия пoсле зaгрузки стрaницы
      }); */
     
     $('#allRegionsSelector').on('change',function(){
+        //var box = $(this).find('input:checkbox');
         $('.stateSelector').prop('checked',this.checked);
         $('.locSelector').prop('checked',this.checked);
     });
+    
+    $('.stateSelector').on('change',function(){
+        var id = $(this).attr('id');
+            $('.locSelector[data-state-id='+id+']').prop('checked',this.checked);
+        if(!$(this).prop('checked')){
+            $('#allRegionsSelector').prop('checked',this.checked);
+        }
+        
+    })
 
 
 });
