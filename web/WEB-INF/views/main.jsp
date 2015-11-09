@@ -51,7 +51,7 @@
                         
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
-                                <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
+                                <a href="<c:url value="../Regions/select" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <c:if test="${!empty homeSet}">
                                 <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
@@ -59,7 +59,7 @@
                             <!--<a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>-->
                         </c:if>
                         <c:if test="${role!='user'&&role!='admin'}">
-                            <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            <a href="<c:url value="../Regions/select" />" class="${drHREFChosen}">домашний регион</a>
                             <!--<a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>-->
                         </c:if>
                             

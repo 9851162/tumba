@@ -45,15 +45,15 @@
                         <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                        <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
+                                        <label><input style="width: initial;" id="allRegionsSelector" type="checkbox">Все</label>
                                             <c:forEach var="state" items="${states}">
-                                            <br><label><input style="width: initial;" id="${state.id}" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
+                                            <br><label><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
                                             </c:forEach>
                                     </td>
                                     <td style="text-align: left;vertical-align: top;">
                                         <c:forEach var="state" items="${states}">
                                             <c:forEach var="loc" items="${state.localities}">
-                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                                <label><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
                                                 </c:forEach>
                                             </c:forEach>
                                     </td>
