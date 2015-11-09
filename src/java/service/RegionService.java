@@ -317,4 +317,8 @@ public class RegionService extends PrimService {
         regDao.clearHome(u.getId());
     }
     
+    public List<State> getNotEmptyStates(){
+        return stateDao.getNotEmptyStates();
+    }
+    
 }

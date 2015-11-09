@@ -101,7 +101,7 @@ public class mainController extends WebController {
         List<Ad> myPurchases = adService.getPurchases(userId);
         List<Region> availableRegions = regionService.getAvailableRegions(region,u);
         
-        model.put("states",regionService.getAllStates());
+        model.put("states",regionService.getNotEmptyStates());
         model.put("selectedCats",catService.getSelectedCats(catIds));
         model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
         model.put("adList", ads);

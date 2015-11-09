@@ -37,4 +37,10 @@ public class StateDao extends Dao<State>  {
         return query.list();
     }
     
+    public List<State>getNotEmptyStates(){
+        String hql = "select l.state from Locality l group by l.state";
+        Query query = getCurrentSession().createQuery(hql);
+        return query.list();
+    }
+    
 }
