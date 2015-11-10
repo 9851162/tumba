@@ -105,6 +105,7 @@ public class mainController extends WebController {
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
         model.put("availableRegions", availableRegions);
+        model.put("regionSet", region.getId());
         
         //to do srazu polu4enie 4isla iz bazi
         model.put("mySellCount", mySales.size());
