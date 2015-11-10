@@ -146,7 +146,7 @@ public class Ad extends PrimEntity {
     
     public String getSmallDesc() {
         if(description.length()>19){
-            return description.substring(0, 19);
+            return description.substring(0, 17)+"...";
         }
         return description;
     }

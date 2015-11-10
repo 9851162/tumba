@@ -74,33 +74,61 @@ $(function () { // вся мaгия пoсле зaгрузки стрaницы
      gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large')); 
      
      }); */
-    
-    $('#allRegionsSelector').on('change',function(){
+
+    $('#allRegionsSelector').on('change', function () {
         //var box = $(this).find('input:checkbox');
-        $('.stateSelector').prop('checked',this.checked);
-        $('.locSelector').prop('checked',this.checked);
+        $('.stateSelector').prop('checked', this.checked);
+        $('.locSelector').prop('checked', this.checked);
     });
-    
-    $('.stateSelector').on('change',function(){
+
+    $('.stateSelector').on('change', function () {
         var id = $(this).attr('id');
-            $('.locSelector[data-state-id='+id+']').prop('checked',this.checked);
-        if(!$(this).prop('checked')){
-            $('#allRegionsSelector').prop('checked',this.checked);
+        $('.locSelector[data-state-id=' + id + ']').prop('checked', this.checked);
+        if (!$(this).prop('checked')) {
+            $('#allRegionsSelector').prop('checked', this.checked);
+        } else {
+            var allChecked = true;
+            $('.stateSelector').each(function () {
+                if (!$(this).prop('checked')) {
+                    allChecked = false;
+                }
+            });
+            if (allChecked) {
+                $('#allRegionsSelector').prop('checked', true);
+            }
         }
-        
+
     });
-    
-    $('.locSelector').on('change',function(){
+
+    $('.locSelector').on('change', function () {
         var id = $(this).attr('data-state-id');
-        if(!$(this).prop('checked')){
-            $('#allRegionsSelector').prop('checked',this.checked);
-            $('.stateSelector[id='+id+']').prop('checked',this.checked);
+        if (!$(this).prop('checked')) {
+            $('#allRegionsSelector').prop('checked', this.checked);
+            $('.stateSelector[id=' + id + ']').prop('checked', this.checked);
+        } else {
+            var allChecked = true;
+            $('.locSelector[data-state-id=' + id + ']').each(function () {
+                if (!$(this).prop('checked')) {
+                    allChecked = false;
+                }
+            });
+            if (allChecked) {
+                $('.stateSelector[id=' + id + ']').prop('checked', true);
+                $('.stateSelector').each(function () {
+                    if (!$(this).prop('checked')) {
+                        allChecked = false;
+                    }
+                });
+                if (allChecked) {
+                    $('#allRegionsSelector').prop('checked', true);
+                }
+            }
         }
     });
-    
-    $(".opener").on('click',function(){
-       var stateId = $(this).attr('id');
-       $('.locLabel[data-state-id='+stateId+']').toggleClass('hidden');
+
+    $(".opener").on('click', function () {
+        var stateId = $(this).attr('id');
+        $('.locLabel[data-state-id=' + stateId + ']').toggleClass('hidden');
     });
 
 
