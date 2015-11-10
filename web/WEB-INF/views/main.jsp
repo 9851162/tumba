@@ -520,7 +520,7 @@
                                 <ul>
                                     <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox">Все</label></li>
                                             <c:forEach var="state" items="${states}">
-                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name}</label></li>
+                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (state.getLocalities().size())</label></li>
                                             <c:if test="${!empty state.localities}">
                                             <ul>
                                                 <c:forEach var="loc" items="${state.localities}">
