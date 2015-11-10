@@ -39,7 +39,7 @@ public class UserDao extends Dao<User>  {
     }
     
     public Region getHomeRegion(Long userId){
-        String hql = "from Region where user.userId=:userId and homeRegion is not null";
+        String hql = "from Region where user.id=:userId and homeRegion is not null";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("userId", userId);
         List<Region>res = query.list();

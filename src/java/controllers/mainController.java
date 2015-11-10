@@ -400,6 +400,9 @@ public class mainController extends WebController {
         request.getSession().setAttribute(USER_NAME_SESSION_NAME, user.getName());
         request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
         request.getSession().setAttribute("role", user.getUserRole());
+        
+        Region region=regionService.getDefaultRegion(user.getId());
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
         //ras.addAttribute("role", "admin");
 
         return "redirect:/Main/";

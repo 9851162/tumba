@@ -487,7 +487,7 @@
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="allRegionsSelector" style="cursor: pointer;">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox">Все</label></li>
                                     <c:forEach var="state" items="${states}">
                                     <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name}</label></li>
                                             <c:if test="${!empty state.localities}">
@@ -544,7 +544,7 @@
                             <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                             <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="allRegionsSelector" style="cursor: pointer;">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox">Все</label></li>
                                     <c:forEach var="state" items="${states}">
                                     <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name}</label></li>
                                             <c:if test="${!empty state.localities}">
