@@ -97,6 +97,11 @@ $(function () { // вся мaгия пoсле зaгрузки стрaницы
             $('.stateSelector[id='+id+']').prop('checked',this.checked);
         }
     });
+    
+    $(".opener").on('click',function(){
+       var stateId = $(this).attr('id');
+       $('.locLabel[data-state-id='+stateId+']').toggleClass('hidden');
+    });
 
 
 });

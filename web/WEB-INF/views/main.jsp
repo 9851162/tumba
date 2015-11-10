@@ -487,13 +487,13 @@
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                         <div>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="allRegionsSelector" style="cursor: pointer;">Все</label></li>
                                     <c:forEach var="state" items="${states}">
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label>${state.name}</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name}</label></li>
                                             <c:if test="${!empty state.localities}">
                                         <ul>
                                             <c:forEach var="loc" items="${state.localities}">
-                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}"><label>${loc.name}(${state.name})</label></li>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label></li>
                                                 </c:forEach>
                                         </ul>
                                     </c:if>
@@ -544,13 +544,13 @@
                             <label>Название<input type="text" name="name" placeholder="свой регион"></label>
                             <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="allRegionsSelector" style="cursor: pointer;">Все</label></li>
                                     <c:forEach var="state" items="${states}">
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label>${state.name}</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name}</label></li>
                                             <c:if test="${!empty state.localities}">
                                         <ul>
                                             <c:forEach var="loc" items="${state.localities}">
-                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}"><label>${loc.name}(${state.name})</label></li>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label></li>
                                                 </c:forEach>
                                         </ul>
                                     </c:if>
