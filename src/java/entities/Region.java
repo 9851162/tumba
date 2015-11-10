@@ -122,6 +122,14 @@ public class Region extends PrimEntity {
     public String getName() {
         return name;
     }
+    
+    public String getShortName() {
+        if(name.length()<=20){
+            return name;
+        }else{
+            return name.substring(0, 17)+"...";
+        }
+    }
 
     public void setName(String name) {
         this.name = name;
