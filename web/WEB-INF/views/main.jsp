@@ -52,20 +52,17 @@
 
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
-                                <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
+                                <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <c:if test="${!empty homeSet}">
                                 <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
-                            <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
+                            <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
                         </c:if>
                         <c:if test="${role!='user'&&role!='admin'}">
                             <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
                             <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
                         </c:if>
-
-<!--<a href="<c:url value="../Regions/select" />" class="${rHREFChosen}">${regionName}</a>-->
-
                     </div>
                 </div>
                 <div class="toobnov">
@@ -479,9 +476,8 @@
                     </div>
                 </form>
             </div>
-
-            <div id="modal6" class="modal_form modal_div">
-
+<!--выбор региона с авторизацией-->
+            <div id="modal5" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
                 <c:if test="${!empty role}">
                     <div style="width: 30%;float: left;">
@@ -510,48 +506,29 @@
                     </div>
                     <div style="width: 69%;float: right;">
                     </c:if>
-                    <c:if test="${empty role}">
-                        <div>
-                        </c:if>
                         <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
                             <div class="toin">
-                                <label>Название <input type="text" name="name" placeholder="свой регион"></label>
-                                <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
                                 <ul>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
-                                        <c:forEach var="state" items="${states}">
-                                            <c:set var="stateInReg" value=""/>
-                                            <c:if test="${!empty statesInRegMap.get(state.id)}">
-                                                <c:set var="stateInReg" value="checked"/>
-                                            </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
-                                                <c:if test="${!empty state.localities}">
-                                                    <ul>
-                                                    <c:forEach var="loc" items="${state.localities}">
-                                                        <c:set var="locInReg" value=""/>
-                                                        <c:if test="${!empty locsInRegMap.get(loc.id)}">
-                                                            <c:set var="locInReg" value="checked"/>
-                                                        </c:if>
-                                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
-                                                    </c:forEach>
-                                                    </ul>
+                                    <!--<li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>-->
+                                            <c:forEach var="state" items="${states}">
+                                                <c:set var="stateInReg" value=""/>
+                                                <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                                    <c:set var="stateInReg" value="checked"/>
                                                 </c:if>
-                                         </c:forEach>
-                                </ul>
-                                <!--<div><table><tr><td style="text-align: left;vertical-align: top;">
-                                                <input style="width: initial;" id="allRegionsSelector" type="checkbox"><label id="allRegionsOpener" for="allRegionsSelector">Все</label>
-                                <c:forEach var="state" items="${states}">
-                                <br><label><input style="width: initial;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" value="${state.id}">${state.name}</label>
-                                </c:forEach>
-                        </td>
-                        <td style="text-align: left;vertical-align: top;">
-                                <c:forEach var="state" items="${states}">
-                                    <c:forEach var="loc" items="${state.localities}">
-                                        <label><input style="width: initial;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
+                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                            <c:if test="${!empty state.localities}">
+                                            <ul>
+                                                <c:forEach var="loc" items="${state.localities}">
+                                                    <c:set var="locInReg" value=""/>
+                                                    <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                        <c:set var="locInReg" value="checked"/>
+                                                    </c:if>
+                                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input disabled style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                        </c:forEach>
+                                            </ul>
+                                        </c:if>
                                     </c:forEach>
-                                </c:forEach>
-                            </td>
-                        </tr></table>-->
+                                </ul>
                             </div>
 
                             <input type="hidden" name="wish" value="${wish}">
@@ -562,111 +539,148 @@
                     </div>
                 </div>
 
-                <div id="modalerror" class="modal_form modal_div">
-                    <div class="nameform">Ошибки</div>
-                    <%@include file="/WEB-INF/jsp/error.jsp" %>
-
+                
+                                <!--выбор региона без авторизации-->
+            <div id="modal6" class="modal_form modal_div">
+                <div class="nameform">Выбор региона</div>
+                <div>
+                    <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                        <div class="toin">
+                            <ul>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
+                                        <c:forEach var="state" items="${states}">
+                                            <c:set var="stateInReg" value=""/>
+                                            <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                                <c:set var="stateInReg" value="checked"/>
+                                            </c:if>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                        <c:if test="${!empty state.localities}">
+                                        <ul>
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <c:set var="locInReg" value=""/>
+                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                    <c:set var="locInReg" value="checked"/>
+                                                </c:if>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                    </c:forEach>
+                                        </ul>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="wish" value="${wish}">
+                        <div class="form-group" style="padding-left: 15px;">
+                            <button type="submit" class="btn">Выбрать</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
+            <div id="modalerror" class="modal_form modal_div">
+                <div class="nameform">Ошибки</div>
+                <%@include file="/WEB-INF/jsp/error.jsp" %>
 
-
-
-
-            <div id="overlay"></div>
-            <script src="../js/jquery.min.js"></script>
-            <script src="../js/seller_scripts/script.js"></script>
-            <script src="../js/seller_scripts/ajaxscript.js"></script>
-            <script src="../js/seller_scripts/magic.js"></script>
-            <script>
-                                        $('.categoryChanger').change(function () {
-                                            var catId = $(this).val();
-                                            $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
-                                        });
-            </script>
-            <script>
-                $('.messageSender').on('click', function () {
-                    var adId = $(this).attr('data-ad-id');
-                    $('#msgIdentifier').val(adId);
-                });
-            </script>
-            <c:if test="${!empty errors}">
-                <script>
-                    $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                            function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                                $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                                        .css('display', 'block')
-                                        .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                            });
-                </script>
-            </c:if>
-
-
-            <div style="float:left;" class="hidden">
-                <div data-cat-id="" class="catParamsDiv"></div>
-                <c:forEach var="catId" items="${catParamsMap.keySet()}">
-                    <div data-cat-id="${catId}" class="catParamsDiv">
-
-                        <c:if test="${!empty catParamsMap.get(catId)}">
-
-                            <div class="">
-                                <div class="num">${nextNum}</div>
-                                <div class="toin">
-                                    <label id="boxforparamslabel">Параметры</label>
-
-
-                                    <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
-                                        <c:choose>
-
-                                            <c:when test="${parametr.paramType==1}">
-                                                <br><label>${parametr.name} <input type="text" name="stringVals" placeholder="${parametr.name}"></label>
-                                                <input type="hidden" name="stringIds" value="${parametr.id}">
-                                            </c:when>
-
-                                            <c:when test="${parametr.paramType==2}">
-                                                <br><label>${parametr.name} <input type="text" name="numVals" placeholder="${parametr.name}"></label>
-                                                <input type="hidden" name="numIds" value="${parametr.id}">
-                                            </c:when>
-
-                                            <c:when test="${parametr.paramType==3&&!empty parametr.options}">
-                                                <br><label>${parametr.name} <select name="selVals">
-                                                        <c:forEach var="opt" items="${parametr.options}">
-                                                            <option value="${opt.id}">${opt.name}</option>
-                                                        </c:forEach>
-                                                    </select></label>
-                                                <input type="hidden" name="selIds" value="${parametr.id}">
-                                            </c:when>
-
-                                            <c:when test="${parametr.paramType==4&&!empty parametr.options}">
-                                                <br><label style="text-align: center;">${parametr.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
-                                                        <c:forEach var="opt" items="${parametr.options}">
-                                                            <option value="${parametr.id}_${opt.id}">${opt.name}</option>
-                                                        </c:forEach>
-                                                    </select></label>
-                                                <input type="hidden" name="multyIds" value="${parametr.id}">
-                                            </c:when>
-
-                                            <c:when test="${parametr.paramType==5}">
-                                                <br><label>${parametr.name} <input type="checkbox" name="booleanVals"></label>
-                                                <input type="hidden" name="booleanIds" value="${parametr.id}">
-                                            </c:when>
-
-                                            <c:when test="${parametr.paramType==6}">
-                                                <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
-                                                <input type="hidden" name="dateIds" value="${parametr.id}">
-                                            </c:when>
-
-                                        </c:choose>
-
-                                    </c:forEach>
-                                    <br>
-                                </div>
-                            </div>
-                        </c:if>
-
-                    </div>
-                </c:forEach>
             </div>
+        </div>
+
+
+
+
+
+        <div id="overlay"></div>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/seller_scripts/script.js"></script>
+        <script src="../js/seller_scripts/ajaxscript.js"></script>
+        <script src="../js/seller_scripts/magic.js"></script>
+        <script>
+                                    $('.categoryChanger').change(function () {
+                                        var catId = $(this).val();
+                                        $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
+                                    });
+        </script>
+        <script>
+            $('.messageSender').on('click', function () {
+                var adId = $(this).attr('data-ad-id');
+                $('#msgIdentifier').val(adId);
+            });
+        </script>
+        <c:if test="${!empty errors}">
+            <script>
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
+            </script>
+        </c:if>
+
+
+        <div style="float:left;" class="hidden">
+            <div data-cat-id="" class="catParamsDiv"></div>
+            <c:forEach var="catId" items="${catParamsMap.keySet()}">
+                <div data-cat-id="${catId}" class="catParamsDiv">
+
+                    <c:if test="${!empty catParamsMap.get(catId)}">
+
+                        <div class="">
+                            <div class="num">${nextNum}</div>
+                            <div class="toin">
+                                <label id="boxforparamslabel">Параметры</label>
+
+
+                                <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
+                                    <c:choose>
+
+                                        <c:when test="${parametr.paramType==1}">
+                                            <br><label>${parametr.name} <input type="text" name="stringVals" placeholder="${parametr.name}"></label>
+                                            <input type="hidden" name="stringIds" value="${parametr.id}">
+                                        </c:when>
+
+                                        <c:when test="${parametr.paramType==2}">
+                                            <br><label>${parametr.name} <input type="text" name="numVals" placeholder="${parametr.name}"></label>
+                                            <input type="hidden" name="numIds" value="${parametr.id}">
+                                        </c:when>
+
+                                        <c:when test="${parametr.paramType==3&&!empty parametr.options}">
+                                            <br><label>${parametr.name} <select name="selVals">
+                                                    <c:forEach var="opt" items="${parametr.options}">
+                                                        <option value="${opt.id}">${opt.name}</option>
+                                                    </c:forEach>
+                                                </select></label>
+                                            <input type="hidden" name="selIds" value="${parametr.id}">
+                                        </c:when>
+
+                                        <c:when test="${parametr.paramType==4&&!empty parametr.options}">
+                                            <br><label style="text-align: center;">${parametr.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
+                                                    <c:forEach var="opt" items="${parametr.options}">
+                                                        <option value="${parametr.id}_${opt.id}">${opt.name}</option>
+                                                    </c:forEach>
+                                                </select></label>
+                                            <input type="hidden" name="multyIds" value="${parametr.id}">
+                                        </c:when>
+
+                                        <c:when test="${parametr.paramType==5}">
+                                            <br><label>${parametr.name} <input type="checkbox" name="booleanVals"></label>
+                                            <input type="hidden" name="booleanIds" value="${parametr.id}">
+                                        </c:when>
+
+                                        <c:when test="${parametr.paramType==6}">
+                                            <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
+                                            <input type="hidden" name="dateIds" value="${parametr.id}">
+                                        </c:when>
+
+                                    </c:choose>
+
+                                </c:forEach>
+                                <br>
+                            </div>
+                        </div>
+                    </c:if>
+
+                </div>
+            </c:forEach>
+        </div>
 
 
 
