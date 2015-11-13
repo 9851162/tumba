@@ -528,6 +528,24 @@ public class mainController extends WebController {
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/";
     }
+    
+    @RequestMapping("/regions")
+    public String showRegions(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String>errors=new ArrayList();
+        User user = authManager.getCurrentUser();
+        
+        if(user!=null){
+            
+        }
+            
+        errors.addAll(regionService.getErrors());
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "regions4Users";
+    }
 
     /*@RequestMapping("/recoveryPassword")
      public String recoveryPassword(Map<String, Object> model, HttpServletRequest request,

@@ -1,8 +1,9 @@
 <%-- 
-    Document   : login
-    Created on : 16.03.2015, 19:17:08
-    Author     : Юрий
+    Document   : regions
+    Created on : 29.09.2015, 19:44:13
+    Author     : bezdatiuzer
 --%>
+
 <%@page session="true" import="java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -116,126 +117,9 @@
             </div>
 
             <div class="boxtoitem">
-                <div id="grid_navigation">
-                    <div class="expand">
-                        <img src="../img/greystrleft.png"><div>развернуть результат</div><img src="../img/greystrup.png">
-                    </div>
-
-                    <div class="rollup invisible">
-                        <img src="../img/greystrright.png">
-                        <div>свернуть результат</div>
-                        <img src="../img/greystrdown.png">
-                    </div>
-
-                    <div class="torez">
-                        <img style="    margin: 1px 0 0 0;" src="../img/vertline.png">
-                        <div>результатов: ${resCount}</div>
-                    </div>
-                    <div class="tosort">
-                        <img src="../img/vertline.png">
-                        <a>по популярности</a>
-                        <img src="../img/vertline.png">
-                        <a>по дате</a>
-                        <img src="../img/vertline.png">
-                        <a>по цене</a>
-                    </div>
-                </div>
-
-                <c:if test="${not empty adList}">
-                    <div id="grid">
-                        <c:set var="itempos" value="0"/>
-                        <c:forEach var="ad" items="${adList}">
-                            <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
-                                <c:set var="itempos" value="${itempos+1}"/>
-                                <c:if test="${ad.status==1}">
-                                    <div class="moz"></div>
-                                </c:if>
-                                <c:if test="${ad.status==2}">
-                                    <div class="mop"></div>
-                                </c:if>
-                                <c:if test="${ad.status==3}">
-                                    <div class="mdos"></div>
-                                </c:if>
-                                <div class="toramka divall">
-                                    <div class="toblockimg">
-                                        <div id="panel" class="prewimg">
-                                            <img id="largeImage1" class="large largeImage" src="../imgs/${ad.id}/0">
-                                        </div>
-                                        <div id="thumbs1" class="thumbs miniprew">
-                                            <img class="prev4change" src="../imgs/${ad.id}/0">
-                                            <img class="prev4change" src="../imgs/${ad.id}/1">
-                                            <img class="prev4change" src="../imgs/${ad.id}/2">
-                                            <img class="prev4change" src="../imgs/${ad.id}/3">
-                                            <img class="prev4change" src="../imgs/${ad.id}/4">
-                                            <img class="prev4change" src="../imgs/${ad.id}/5">
-                                            <img class="prev4change" src="../imgs/${ad.id}/6">
-                                        </div>
-                                    </div>
-                                    <div class="opisanie">
-                                        <div class="col1">
-                                            <h3>Продавец</h3>
-                                            <p>${ad.author.name}</p>
-                                            <h3>Товар</h3>
-                                            <p>${ad.name}</p>
-                                        </div>
-                                        <div class="col3">
-                                            <h3>Описание</h3>
-                                            <p class="minitext"> ${ad.getSmallDesc()} </p>
-                                            <p class="maxtext"> ${ad.description} </p>
-                                        </div>
-                                        <div class="col2">
-                                            <h3>Дата</h3>
-                                            <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
-                                            <div class="price">${ad.price}</div>
-
-
-                                            <div class="minmenu">
-                                                <c:if test="${ad.status==0}">
-                                                    <div><form action="<c:url value="../Ad/buy" />">
-                                                            <input type="hidden" name="wish" value="${wish}">
-                                                            <input type="hidden" name="adId" value="${ad.id}">
-                                                            <input type="submit" class="btn-buy" value="Купить">
-                                                        </form></div>
-                                                    </c:if>
-                                                    <c:if test="${role=='admin'&&ad.status!=0}">
-                                                    <div><form action="<c:url value="../Ad/changeStatus" />">
-                                                            <input type="hidden" name="wish" value="${wish}">
-                                                            <input type="hidden" name="adId" value="${ad.id}">
-                                                            <select name="status">
-                                                                <option value="2">Оплачено</option>
-                                                                <option value="3">Доставлено</option>
-                                                            </select>
-                                                            <input type="submit" class="btn-buy" value="установить">
-                                                        </form></div>
-                                                    </c:if>
-                                                    <c:set var="chosenImg" value="../img/dop5.png"/>
-                                                    <c:set var="imgClass" value=""/>
-                                                    <c:if test="${!empty chosenAdsMap.get(ad.id)}">
-                                                        <c:set var="chosenImg" value="../img/dop5v2.png"/>
-                                                        <c:set var="imgClass" value="chosen"/>
-                                                    </c:if>
-                                                    <c:set var="compClass" value=""/>
-                                                    <c:if test="${!empty comparingAdsMap.get(ad.id)}">
-                                                        <c:set var="compClass" value="comparing"/>
-                                                    </c:if>
-                                                <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
-                                                <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
-                                                <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
-                                                <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="button_expand hidden"><div class="boxssilka"><img src="../img/whiteniz.png"><div>развернуть</div><img src="../img/whiteniz.png"></div></div>
-                                <div class="button_rollUp hidden"><div class="boxssilka"><img src="../img/whiteverh.png"><div>cвернуть</div><img src="../img/whiteverh.png"></div></div>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </c:if>
-
+                
             </div>
+                        
             <footer>
                 <div class="tofotmin"></div>
                 <div class="tofotmin"><a href="#">наш сервис</a></div>
