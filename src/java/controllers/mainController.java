@@ -6,9 +6,10 @@
 package controllers;
 
 import controllers.parent.WebController;
-import dao.AdDao;
 import entities.Ad;
+import entities.Locality;
 import entities.Region;
+import entities.State;
 import entities.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +82,16 @@ public class mainController extends WebController {
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
         }
         
+        HashMap<Long,Long>locsInRegMap=new HashMap();
+        HashMap<Long,Long>statesInRegMap=new HashMap();
+        for(Locality l:region.getLocalities()){
+            locsInRegMap.put(l.getId(), l.getId());
+        }
+        for(State s:region.getStates()){
+            statesInRegMap.put(s.getId(), s.getId());
+        }
+        model.put("locsInRegMap",locsInRegMap);
+        model.put("statesInRegMap",statesInRegMap);
         /*ers.add("reg1:"+region.getName());
         
         ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
@@ -452,14 +463,11 @@ public class mainController extends WebController {
             }
         }
         errors.addAll(regionService.getErrors());
-        if(errors.isEmpty()){
-            request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
-            ras.addAttribute("wish", wish);
-            return "redirect:/Main/";
-        }else{
-            ras.addFlashAttribute("errors", errors);
-            return "redirect:/Regions/select";
-        }
+        
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Main/";    
     }
     
     @RequestMapping("/chooseRegion")
