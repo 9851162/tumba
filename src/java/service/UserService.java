@@ -103,7 +103,7 @@ public class UserService extends PrimService {
                 " Пароль Вы можете изменить в любой момент зайдя на сайт и авторизировавшись в Вашем личном кабинете."+
                 "Приятной Вам работы";
                 //или пройдя по ссылке
-                ;
+                
         mailSender.sendMail(email, text);
         
         //TO DO

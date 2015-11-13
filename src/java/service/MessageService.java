@@ -18,6 +18,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.SupMailSender;
 
 /**
  *
@@ -30,6 +31,9 @@ public class MessageService extends PrimService {
 
     @Autowired
     private MessageDao msgDao;
+    
+    @Autowired
+    private SupMailSender mailSender;
 
     public void create(User sender,String text, Ad ad) {
         if (text != null && !text.equals("")&& ad!=null) {
@@ -42,6 +46,11 @@ public class MessageService extends PrimService {
             if (validate(msg)) {
                 msgDao.save(msg);
             }
+            User receiver = ad.getAuthor();
+            //to do отправка сообщения если автор не на сайте только, а не всегда.
+            String url = "http://185.22.232.79/seller";
+            String mailText = sender.getName()+" оставил Вам сообщение: "+text+" в ответ на объявление "+ad.getName()+" ("+ad.getDescription()+") на сайте "+url;
+            mailSender.sendMail(receiver.getEmail(), mailText);
         }
     }
     
