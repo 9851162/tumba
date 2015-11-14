@@ -56,7 +56,7 @@ public class mainController extends WebController {
         if (ers == null) {
             ers = new ArrayList();
         }
-
+            
         
         List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if (catIds == null) {

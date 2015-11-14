@@ -109,7 +109,11 @@ public class Ad extends PrimEntity {
     @OneToMany(mappedBy = "ad")
     private Set<ParametrValue> values;
     
-    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "ads_from_ips",
+            joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"),
+            inverseJoinColumns = @JoinColumn(name = "ip", referencedColumnName = "ip"))
+    private Set<String> ips;
     
     @Override
     public Long getId() {
@@ -234,6 +238,16 @@ public class Ad extends PrimEntity {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public Set<String> getIps() {
+        return ips;
+    }
+
+    public void setIps(Set<String> ips) {
+        this.ips = ips;
+    }
+
+    
     
     
     
