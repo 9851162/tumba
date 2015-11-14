@@ -292,13 +292,16 @@ public class RegionService extends PrimService {
         return regDao.find(regionId);
     }
 
-    public void addRegion(User u, Region r) {
+    public Long addRegion(User u, Region r) {
+        Long id = null;
         if (u != null) {
             r.setUser(u);
             if (validate(r)) {
                 regDao.save(r);
+                id = r.getId();
             }
         }
+        return id;
     }
 
     public void deleteRegion(Long regionId, Long userId) {

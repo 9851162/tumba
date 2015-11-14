@@ -51,64 +51,66 @@ public class mainController extends WebController {
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        
+
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
         if (ers == null) {
             ers = new ArrayList();
         }
+
         
-        Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
-        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catIds==null){
-            catIds=new ArrayList();
+        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catIds == null) {
+            catIds = new ArrayList();
         }
-        if(compAds==null){
-            compAds=new ArrayList();
+        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+        if (compAds == null) {
+            compAds = new ArrayList();
         }
-        
+
         User u = authManager.getCurrentUser();
         Long userId = null;
         if (u != null) {
             userId = u.getId();
-            if(u.isHomeSet()){
+            if (u.isHomeSet()) {
                 model.put("homeSet", u.getHomeSet());
             }
         }
-        
+
+        Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
         //установка региона, если нет еще
-        if(region==null){
-            region=regionService.getDefaultRegion(userId);
+        if (region == null) {
+            region = regionService.getDefaultRegion(userId);
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
         }
-        
-        HashMap<Long,Long>locsInRegMap=new HashMap();
-        HashMap<Long,Long>statesInRegMap=new HashMap();
-        for(Locality l:region.getLocalities()){
+
+        HashMap<Long, Long> locsInRegMap = new HashMap();
+        HashMap<Long, Long> statesInRegMap = new HashMap();
+        for (Locality l : region.getLocalities()) {
             locsInRegMap.put(l.getId(), l.getId());
         }
-        for(State s:region.getStates()){
+        for (State s : region.getStates()) {
             statesInRegMap.put(s.getId(), s.getId());
         }
-        model.put("locsInRegMap",locsInRegMap);
-        model.put("statesInRegMap",statesInRegMap);
+        model.put("locsInRegMap", locsInRegMap);
+        model.put("statesInRegMap", statesInRegMap);
         /*ers.add("reg1:"+region.getName());
         
-        ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
-        
-        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
-        HashMap<Long,Ad> comparingMap = new HashMap();
-        for(Ad ad:compAds){
-            comparingMap.put(ad.getId(),ad);
+         ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
+
+        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+        HashMap<Long, Ad> comparingMap = new HashMap();
+        for (Ad ad : compAds) {
+            comparingMap.put(ad.getId(), ad);
         }
-        List<Ad>ads=adService.getAds(wish,catIds,region);
+        
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
-        List<Region> availableRegions = regionService.getAvailableRegions(region,u);
-        
-        model.put("states",regionService.getNotEmptyStates());
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        List<Ad> ads = adService.getAds(wish, catIds, region);
+        List<Region> availableRegions = regionService.getAvailableRegions(region, u);
+
+        model.put("states", regionService.getNotEmptyStates());
+        model.put("selectedCats", catService.getSelectedCats(catIds));
+        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
         model.put("adList", ads);
         model.put("chosenAdsMap", chosenMap);
         model.put("comparingAdsMap", comparingMap);
@@ -117,11 +119,11 @@ public class mainController extends WebController {
         model.put("compareCount", compAds.size());
         model.put("availableRegions", availableRegions);
         model.put("regionSet", region.getId());
-        
+
         //to do srazu polu4enie 4isla iz bazi
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
-        
+
         if (shortName != null) {
             model.put("shortName", shortName);
         }
@@ -135,42 +137,42 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
-        
+
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         model.put(ERRORS_LIST_NAME, ers);
         return "main";
     }
-    
+
     @RequestMapping("/addCat4Search")
     public String addCat4Search(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "catId", required = false) Long catId,
             RedirectAttributes ras) throws Exception {
-        
-        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catList==null){
-            catList=new ArrayList();
+
+        List<Long> catList = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catList == null) {
+            catList = new ArrayList();
         }
-        if(!catList.contains(catId)&&catList.size()<20){
+        if (!catList.contains(catId) && catList.size() < 20) {
             catList.add(catId);
         }
         request.getSession().setAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME, catList);
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/removeCat4Search")
     public String removeCat4Search(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "catId", required = false) Long catId,
             RedirectAttributes ras) throws Exception {
-        
-        List<Long>catList = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catList==null){
-            catList=new ArrayList();
+
+        List<Long> catList = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catList == null) {
+            catList = new ArrayList();
         }
         catList.remove(catId);
         request.getSession().setAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME, catList);
@@ -193,19 +195,19 @@ public class mainController extends WebController {
             userId = u.getId();
         }
 
-        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catIds==null){
-            catIds=new ArrayList();
+        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catIds == null) {
+            catIds = new ArrayList();
         }
-        if(compAds==null){
-            compAds=new ArrayList();
+        if (compAds == null) {
+            compAds = new ArrayList();
         }
-        
-        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
+
+        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
-        
+
         model.put("adList", adService.getChosenAds(userId));
         model.put("chosenAdsMap", chosenMap);
         model.put("shortName", shortName);
@@ -214,16 +216,16 @@ public class mainController extends WebController {
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
-        
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+
+        model.put("selectedCats", catService.getSelectedCats(catIds));
+        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
         model.put("resCount", chosenMap.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
-        
+
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
-        
+
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -250,17 +252,17 @@ public class mainController extends WebController {
             userId = u.getId();
         }
 
-        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catIds==null){
-            catIds=new ArrayList();
+        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catIds == null) {
+            catIds = new ArrayList();
         }
-        if(compAds==null){
-            compAds=new ArrayList();
+        if (compAds == null) {
+            compAds = new ArrayList();
         }
-        
-        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
-        
+
+        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
 
@@ -273,16 +275,16 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
-        
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+
+        model.put("selectedCats", catService.getSelectedCats(catIds));
+        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
         model.put("resCount", mySales.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
-        
+
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
-        
+
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -303,23 +305,23 @@ public class mainController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         User u = authManager.getCurrentUser();
-        
+
         Long userId = null;
         if (u != null) {
             userId = u.getId();
         }
 
-        List<Ad> compAds = (List)request.getSession().getAttribute(COMPARISON);
-        List<Long>catIds = (List<Long>)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catIds==null){
-            catIds=new ArrayList();
+        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catIds == null) {
+            catIds = new ArrayList();
         }
-        if(compAds==null){
-            compAds=new ArrayList();
+        if (compAds == null) {
+            compAds = new ArrayList();
         }
-        
-        HashMap<Long,Ad> chosenMap = adService.getChosenAdMap(userId);
-        
+
+        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
 
@@ -331,16 +333,16 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
-        
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+
+        model.put("selectedCats", catService.getSelectedCats(catIds));
+        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
         model.put("resCount", myPurchases.size());
         model.put("chosenCount", chosenMap.size());
         model.put("compareCount", compAds.size());
-        
+
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
-        
+
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -355,26 +357,26 @@ public class mainController extends WebController {
     public String getComparison(Map<String, Object> model,
             HttpServletRequest request,
             /*@RequestParam(value = "shortName", required = false) String shortName,
-            @RequestParam(value = "description", required = false) String desc,
-            @RequestParam(value = "price", required = false) Double price,*/
+             @RequestParam(value = "description", required = false) String desc,
+             @RequestParam(value = "price", required = false) Double price,*/
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
 
         List<Ad> ads = (List) request.getSession().getAttribute(COMPARISON);
-        
-        List<Long>catIds = (List)request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if(catIds==null){
-            catIds=new ArrayList();
+
+        List<Long> catIds = (List) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+        if (catIds == null) {
+            catIds = new ArrayList();
         }
 
         model.put("compMap", catService.getSortedParamsAndValsForComparison(ads));
-        model.put("selectedCats",catService.getSelectedCats(catIds));
-        model.put("notSelectedCats",catService.getNotSelectedCats(catIds));
+        model.put("selectedCats", catService.getSelectedCats(catIds));
+        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
         //model.put("purchasesList",adService.getPurchases(u.getId()));
-        model.put("compAds",ads);
+        model.put("compAds", ads);
         /*model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);*/
+         model.put("description", desc);
+         model.put("price", price);*/
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
@@ -412,8 +414,8 @@ public class mainController extends WebController {
         request.getSession().setAttribute(USER_NAME_SESSION_NAME, user.getName());
         request.getSession().setAttribute(USER_ID_SESSION_NAME, user.getId());
         request.getSession().setAttribute("role", user.getUserRole());
-        
-        Region region=regionService.getDefaultRegion(user.getId());
+
+        Region region = regionService.getDefaultRegion(user.getId());
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
         //ras.addAttribute("role", "admin");
 
@@ -441,7 +443,7 @@ public class mainController extends WebController {
         ras.addAttribute("errors", userService.getErrors());
         return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/createAndMountRegion")
     public String createAndMountRegion(Map<String, Object> model,
             HttpServletRequest request,
@@ -451,100 +453,204 @@ public class mainController extends WebController {
             @RequestParam(value = "all", required = false) Integer all,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
         Region r = null;
-        if(all!=null&&1==all){
+        if (all != null && 1 == all) {
             r = regionService.getDefaultRegion(null);
-        }else{
-            r = regionService.getRegion(localIds, stateIds, user,name);
-            if(user!=null){
-                regionService.addRegion(user,r);
+        } else {
+            r = regionService.getRegion(localIds, stateIds, user, name);
+            if (user != null) {
+                regionService.addRegion(user, r);
             }
         }
         errors.addAll(regionService.getErrors());
-        
+
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/";    
+        return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/chooseRegion")
     public String chooseRegion(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "regionId", required = false) Long regionId,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
-        
+
         //проверку на юзера в регионе to do чтоб чужие нельзя было выбрать
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getRegion(regionId));
-        
+
         //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/setHomeRegion")
     public String setHomeRegion(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
             @RequestParam(value = "regionId", required = false) Long regionId,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
-        
-        if(user!=null){
+
+        if (user != null) {
             regionService.setHomeRegion(regionId, user.getId());
         }
-        
+
         //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
+        ras.addAttribute("regionForShowId", regionForShowId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/";
+        return "redirect:/Main/regions";
     }
-    
+
     @RequestMapping("/deleteRegion")
     public String deleteRegion(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
             @RequestParam(value = "regionId", required = false) Long regionId,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
-        
-        if(user!=null){
+
+        if (user != null) {
             regionService.deleteRegion(regionId, user.getId());
         }
-        
+
         //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
+        ras.addAttribute("regionForShowId", regionForShowId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/";
+        return "redirect:/Main/regions";
     }
-    
+
     @RequestMapping("/regions")
     public String showRegions(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
             @RequestParam(value = "wish", required = false) String wish,
             RedirectAttributes ras) throws Exception {
-        List<String>errors=new ArrayList();
+        List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
-        
-        if(user!=null){
+
+        if (user != null) {
             
+            Region regionForShow = new Region();
+            if(regionForShowId!=null){
+                regionForShow = regionService.getRegion(regionForShowId);
+                if(regionForShow!=null){
+                    model.put("regionForShow", regionForShow);
+                }
+            }
+            
+            List<String> ers = (List) model.get(ERRORS_LIST_NAME);
+            if (ers == null) {
+                ers = new ArrayList();
+            }
+            Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+            //установка региона, если нет еще
+            if (region == null) {
+                region = regionService.getDefaultRegion(user.getId());
+                request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+            }
+
+            HashMap<Long, Long> locsInRegMap = new HashMap();
+            HashMap<Long, Long> statesInRegMap = new HashMap();
+            for (Locality l : regionForShow.getLocalities()) {
+                locsInRegMap.put(l.getId(), l.getId());
+            }
+            for (State s : regionForShow.getStates()) {
+                statesInRegMap.put(s.getId(), s.getId());
+            }
+            model.put("locsInRegMap", locsInRegMap);
+            model.put("statesInRegMap", statesInRegMap);
+            if (user.isHomeSet()) {
+                model.put("homeSet", user.getHomeSet());
+            }
+            
+            List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+            if (catIds == null) {
+                catIds = new ArrayList();
+            }
+            model.put("states", regionService.getNotEmptyStates());
+            model.put("selectedCats", catService.getSelectedCats(catIds));
+            model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+            
+            HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(user.getId());
+            List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+            if (compAds == null) {
+                compAds = new ArrayList();
+            }
+            
+            List<Ad> mySales = adService.getSales(user.getId());
+            List<Ad> myPurchases = adService.getPurchases(user.getId());
+            List<Region> availableRegions = regionService.getAvailableRegions(region, user);
+            
+            model.put("catList", catService.getCatList());
+            model.put("catMap", catService.getCatMap());
+            model.put("catParamsMap", catService.getCatIdParamsMap());
+            model.put("wish", wish);
+
+            ers.addAll(adService.getErrors());
+            ers.addAll(catService.getErrors());
+            model.put(ERRORS_LIST_NAME, ers);
+            
+            model.put("chosenCount", chosenMap.size());
+            model.put("compareCount", compAds.size());
+            model.put("availableRegions", availableRegions);
+            model.put("regionSet", region.getId());
+
+            //to do srazu polu4enie 4isla iz bazi
+            model.put("mySellCount", mySales.size());
+            model.put("myBuyCount", myPurchases.size());
+
         }
-            
+
         errors.addAll(regionService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
         return "regions4Users";
+    }
+    
+    @RequestMapping("/createRegion")
+    public String createRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "stateIds", required = false) Long stateIds[],
+            @RequestParam(value = "all", required = false) Integer all,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        User user = authManager.getCurrentUser();
+        Region r = null;
+        Long regId = null;
+        if (all != null && 1 == all) {
+            r = regionService.getDefaultRegion(null);
+        } else {
+            r = regionService.getRegion(localIds, stateIds, user, name);
+        }
+        if (user != null) {
+            regId = regionService.addRegion(user, r);
+        }
+        errors.addAll(regionService.getErrors());
+
+        request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
+        ras.addAttribute("regionForShowId", regId);
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Main/regions";
     }
 
     /*@RequestMapping("/recoveryPassword")
