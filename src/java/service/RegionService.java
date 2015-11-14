@@ -239,11 +239,11 @@ public class RegionService extends PrimService {
     public Region getRegion(Long localIds[], Long stateIds[], User user, String name) {
         Region r = null;
         if ((localIds != null && localIds.length != 0) || (stateIds != null && stateIds.length != 0)) {
-            if(localIds==null){
-                localIds=new Long[0];
+            if (localIds == null) {
+                localIds = new Long[0];
             }
-            if(stateIds==null){
-                stateIds=new Long[0];
+            if (stateIds == null) {
+                stateIds = new Long[0];
             }
             //addError("l:"+localIds.length+";s:"+stateIds.length);
             Set<Locality> locals = new HashSet();
@@ -294,7 +294,7 @@ public class RegionService extends PrimService {
 
     public Long addRegion(User u, Region r) {
         Long id = null;
-        if (u != null) {
+        if (u != null && r != null) {
             r.setUser(u);
             if (validate(r)) {
                 regDao.save(r);
@@ -334,6 +334,44 @@ public class RegionService extends PrimService {
 
     public List<State> getNotEmptyStates() {
         return stateDao.getNotEmptyStates();
+    }
+
+    public void changeRegionStructure(Long regionId, Long[] localIds, Long[] stateIds, User user) {
+        if (regionId != null) {
+            if ((localIds != null || stateIds != null)) {
+                Region r = regDao.find(regionId);
+                if (r != null) {
+                    if (localIds == null) {
+                        localIds = new Long[0];
+                    }
+                    if (stateIds == null) {
+                        stateIds = new Long[0];
+                    }
+                    //addError("l:"+localIds.length+";s:"+stateIds.length);
+                    Set<Locality> locals = new HashSet();
+                    Set<State> states = new HashSet();
+                    if (stateIds != null) {
+                        for (Long id : stateIds) {
+                            State s = stateDao.find(id);
+                            states.add(s);
+                        }
+                    }
+                    if (localIds != null) {
+                        for (Long id : localIds) {
+                            Locality l = locDao.find(id);
+                            locals.add(l);
+                        }
+                    }
+                    r.setStates(states);
+                    r.setLocalities(locals);
+                    if (validate(r)) {
+                        regDao.update(r);
+                    }
+                }
+            } else {
+                addError("Нужно указать хотя бы один город");
+            }
+        }
     }
 
 }

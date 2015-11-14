@@ -142,7 +142,7 @@
                                         <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/regions?regionForShowId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
                                                 
                                                 <td><a title="сделать домашним" class="btn ${homeClass}" href="<c:url value="../Main/setHomeRegion?regionId=${region.id}&regionForShowId=${regionForShow.id}&wish=${wish}" />"><i class="fa fa-home"></i></a></td>
-                                                <td><a title="изменить" class="open_modal btn btn-default regionChanger" data-region-id="${region.id}" href="#modal8"><i class="fa fa-pencil"></i></a></td>
+                                                <!--<td><a title="изменить" class="open_modal btn btn-default regionChanger" data-region-id="${region.id}" href="#modal8"><i class="fa fa-pencil"></i></a></td>-->
                                                 <td><a title="удалить" class="btn btn-default" href="<c:url value="../Main/deleteRegion?regionId=${region.id}&regionForShowId=${regionForShow.id}&wish=${wish}" />"><i class="fa fa-remove"></i></a></td></tr>
                                         </c:forEach>
                                 
@@ -153,14 +153,14 @@
                     
                         
                             <ul style="float:left;margin-top:0;padding-top: 10px;">
-                                <!--<form id="settingRegion" method="post" action="<c:url value="../Main/changeRegionStructure" />">
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>-->
+                                <form id="changingRegion" method="post" action="<c:url value="../Main/changeRegionStructure" />">
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
                                 <c:forEach var="state" items="${states}">
                                     <c:set var="stateInReg" value=""/>
                                     <c:if test="${!empty statesInRegMap.get(state.id)}">
                                         <c:set var="stateInReg" value="checked"/>
                                     </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input  style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
                                         <c:if test="${!empty state.localities}">
                                         <ul>
                                             <c:forEach var="loc" items="${state.localities}">
@@ -168,12 +168,14 @@
                                                 <c:if test="${!empty locsInRegMap.get(loc.id)}">
                                                     <c:set var="locInReg" value="checked"/>
                                                 </c:if>
-                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-state-id="${state.id}"><input disabled style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-state-id="${state.id}"><input  style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
                                                     </c:forEach>
                                         </ul>
                                     </c:if>
                                 </c:forEach>
-                                <!--</form>-->
+                                    <input type="hidden" name="wish" value="${wish}">
+                                    <button type="submit" id="regionChanger" class="btn btn-primary" disabled="disabled">Сохранить</button>
+                                </form>
                             </ul>
                         
                     
@@ -568,6 +570,13 @@
                                             var catId = $(this).val();
                                             $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
                                         });
+                                        
+                                        $('.locSelector').change(function(){
+                                            $('#regionChanger').prop('disabled','');
+                                        })
+                                        $('.stateSelector').change(function(){
+                                            $('#regionChanger').prop('disabled','');
+                                        })
         </script>
         <script>
             $('.messageSender').on('click', function () {

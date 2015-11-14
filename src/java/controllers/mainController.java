@@ -546,11 +546,22 @@ public class mainController extends WebController {
 
         if (user != null) {
             
+            //to do получение региона по юзеру и рег ид, а не только по рег ид
             Region regionForShow = new Region();
             if(regionForShowId!=null){
                 regionForShow = regionService.getRegion(regionForShowId);
                 if(regionForShow!=null){
                     model.put("regionForShow", regionForShow);
+                    HashMap<Long, Long> locsInRegMap = new HashMap();
+                    HashMap<Long, Long> statesInRegMap = new HashMap();
+                    for (Locality l : regionForShow.getLocalities()) {
+                        locsInRegMap.put(l.getId(), l.getId());
+                    }
+                    for (State s : regionForShow.getStates()) {
+                        statesInRegMap.put(s.getId(), s.getId());
+                    }
+                    model.put("locsInRegMap", locsInRegMap);
+                    model.put("statesInRegMap", statesInRegMap);
                 }
             }
             
@@ -565,16 +576,7 @@ public class mainController extends WebController {
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
 
-            HashMap<Long, Long> locsInRegMap = new HashMap();
-            HashMap<Long, Long> statesInRegMap = new HashMap();
-            for (Locality l : regionForShow.getLocalities()) {
-                locsInRegMap.put(l.getId(), l.getId());
-            }
-            for (State s : regionForShow.getStates()) {
-                statesInRegMap.put(s.getId(), s.getId());
-            }
-            model.put("locsInRegMap", locsInRegMap);
-            model.put("statesInRegMap", statesInRegMap);
+            
             if (user.isHomeSet()) {
                 model.put("homeSet", user.getHomeSet());
             }
@@ -648,6 +650,31 @@ public class mainController extends WebController {
 
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
         ras.addAttribute("regionForShowId", regId);
+        ras.addAttribute("wish", wish);
+        ras.addFlashAttribute("errors", errors);
+        return "redirect:/Main/regions";
+    }
+    
+    @RequestMapping("/changeRegionStructure")
+    public String changeRegionStructure(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
+            @RequestParam(value = "regionId", required = false) Long regionId,
+             @RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "stateIds", required = false) Long stateIds[],
+            @RequestParam(value = "all", required = false) Integer all,
+            @RequestParam(value = "wish", required = false) String wish,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        User user = authManager.getCurrentUser();
+
+        if (user != null) {
+            regionService.changeRegionStructure(regionId, localIds, stateIds, user);
+        }
+
+        //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
+        errors.addAll(regionService.getErrors());
+        ras.addAttribute("regionForShowId", regionForShowId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/regions";
