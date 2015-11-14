@@ -174,6 +174,7 @@
                                     </c:if>
                                 </c:forEach>
                                     <input type="hidden" name="wish" value="${wish}">
+                                    <input type="hidden" name="regionId" value="${regionForShow.id}">
                                     <button type="submit" id="regionChanger" class="btn btn-primary" disabled="disabled">Сохранить</button>
                                 </form>
                             </ul>
@@ -575,6 +576,9 @@
                                             $('#regionChanger').prop('disabled','');
                                         })
                                         $('.stateSelector').change(function(){
+                                            $('#regionChanger').prop('disabled','');
+                                        })
+                                        $('#allRegionsSelector').change(function(){
                                             $('#regionChanger').prop('disabled','');
                                         })
         </script>

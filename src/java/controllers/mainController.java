@@ -658,7 +658,6 @@ public class mainController extends WebController {
     @RequestMapping("/changeRegionStructure")
     public String changeRegionStructure(Map<String, Object> model,
             HttpServletRequest request,
-            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
             @RequestParam(value = "regionId", required = false) Long regionId,
              @RequestParam(value = "localIds", required = false) Long localIds[],
             @RequestParam(value = "stateIds", required = false) Long stateIds[],
@@ -674,7 +673,7 @@ public class mainController extends WebController {
 
         //request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, regionService.getDefaultRegion(user.getId()));
         errors.addAll(regionService.getErrors());
-        ras.addAttribute("regionForShowId", regionForShowId);
+        ras.addAttribute("regionForShowId", regionId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/regions";
