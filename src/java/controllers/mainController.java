@@ -193,39 +193,46 @@ public class mainController extends WebController {
         Long userId = null;
         if (u != null) {
             userId = u.getId();
+            
+            Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+            //установка региона, если нет еще
+            if (region == null) {
+                region = regionService.getDefaultRegion(userId);
+                request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+            }
+
+            List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+            List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+            if (catIds == null) {
+                catIds = new ArrayList();
+            }
+            if (compAds == null) {
+                compAds = new ArrayList();
+            }
+
+            HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+            List<Ad> mySales = adService.getSales(userId);
+            List<Ad> myPurchases = adService.getPurchases(userId);
+
+            model.put("adList", adService.getChosenAds(userId));
+            model.put("chosenAdsMap", chosenMap);
+            model.put("shortName", shortName);
+            model.put("description", desc);
+            model.put("price", price);
+            model.put("catList", catService.getCatList());
+            model.put("catMap", catService.getCatMap());
+            model.put("catParamsMap", catService.getCatIdParamsMap());
+
+            model.put("selectedCats", catService.getSelectedCats(catIds));
+            model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+            model.put("availableRegions", regionService.getAvailableRegions(region, u));
+            model.put("resCount", chosenMap.size());
+            model.put("chosenCount", chosenMap.size());
+            model.put("compareCount", compAds.size());
+
+            model.put("mySellCount", mySales.size());
+            model.put("myBuyCount", myPurchases.size());
         }
-
-        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
-        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if (catIds == null) {
-            catIds = new ArrayList();
-        }
-        if (compAds == null) {
-            compAds = new ArrayList();
-        }
-
-        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
-        List<Ad> mySales = adService.getSales(userId);
-        List<Ad> myPurchases = adService.getPurchases(userId);
-
-        model.put("adList", adService.getChosenAds(userId));
-        model.put("chosenAdsMap", chosenMap);
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
-        model.put("catList", catService.getCatList());
-        model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap", catService.getCatIdParamsMap());
-
-        model.put("selectedCats", catService.getSelectedCats(catIds));
-        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
-        model.put("resCount", chosenMap.size());
-        model.put("chosenCount", chosenMap.size());
-        model.put("compareCount", compAds.size());
-
-        model.put("mySellCount", mySales.size());
-        model.put("myBuyCount", myPurchases.size());
-
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -250,41 +257,48 @@ public class mainController extends WebController {
         Long userId = null;
         if (u != null) {
             userId = u.getId();
+            
+            Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+            //установка региона, если нет еще
+            if (region == null) {
+                region = regionService.getDefaultRegion(userId);
+                request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+            }
+
+            List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+            List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+            if (catIds == null) {
+                catIds = new ArrayList();
+            }
+            if (compAds == null) {
+                compAds = new ArrayList();
+            }
+
+            HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+
+            List<Ad> mySales = adService.getSales(userId);
+            List<Ad> myPurchases = adService.getPurchases(userId);
+
+            model.put("adList", mySales);
+            model.put("chosenAdsMap", adService.getChosenAdMap(userId));
+            model.put("shortName", shortName);
+            model.put("description", desc);
+            model.put("price", price);
+            model.put("catList", catService.getCatList());
+            model.put("catMap", catService.getCatMap());
+            model.put("catParamsMap", catService.getCatIdParamsMap());
+            model.put("wish", wish);
+
+            model.put("selectedCats", catService.getSelectedCats(catIds));
+            model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+            model.put("availableRegions", regionService.getAvailableRegions(region, u));
+            model.put("resCount", mySales.size());
+            model.put("chosenCount", chosenMap.size());
+            model.put("compareCount", compAds.size());
+
+            model.put("mySellCount", mySales.size());
+            model.put("myBuyCount", myPurchases.size());
         }
-
-        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
-        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if (catIds == null) {
-            catIds = new ArrayList();
-        }
-        if (compAds == null) {
-            compAds = new ArrayList();
-        }
-
-        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
-
-        List<Ad> mySales = adService.getSales(userId);
-        List<Ad> myPurchases = adService.getPurchases(userId);
-
-        model.put("adList", mySales);
-        model.put("chosenAdsMap", adService.getChosenAdMap(userId));
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
-        model.put("catList", catService.getCatList());
-        model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap", catService.getCatIdParamsMap());
-        model.put("wish", wish);
-
-        model.put("selectedCats", catService.getSelectedCats(catIds));
-        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
-        model.put("resCount", mySales.size());
-        model.put("chosenCount", chosenMap.size());
-        model.put("compareCount", compAds.size());
-
-        model.put("mySellCount", mySales.size());
-        model.put("myBuyCount", myPurchases.size());
-
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -309,40 +323,47 @@ public class mainController extends WebController {
         Long userId = null;
         if (u != null) {
             userId = u.getId();
+            
+            Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+            //установка региона, если нет еще
+            if (region == null) {
+                region = regionService.getDefaultRegion(u.getId());
+                request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+            }
+
+            List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+            List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+            if (catIds == null) {
+                catIds = new ArrayList();
+            }
+            if (compAds == null) {
+                compAds = new ArrayList();
+            }
+
+            HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+
+            List<Ad> mySales = adService.getSales(userId);
+            List<Ad> myPurchases = adService.getPurchases(userId);
+
+            model.put("adList", myPurchases);
+            model.put("shortName", shortName);
+            model.put("description", desc);
+            model.put("price", price);
+            model.put("catList", catService.getCatList());
+            model.put("catMap", catService.getCatMap());
+            model.put("catParamsMap", catService.getCatIdParamsMap());
+            model.put("wish", wish);
+
+            model.put("selectedCats", catService.getSelectedCats(catIds));
+            model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+            model.put("availableRegions", regionService.getAvailableRegions(region, u));
+            model.put("resCount", myPurchases.size());
+            model.put("chosenCount", chosenMap.size());
+            model.put("compareCount", compAds.size());
+
+            model.put("mySellCount", mySales.size());
+            model.put("myBuyCount", myPurchases.size());
         }
-
-        List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
-        List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-        if (catIds == null) {
-            catIds = new ArrayList();
-        }
-        if (compAds == null) {
-            compAds = new ArrayList();
-        }
-
-        HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
-
-        List<Ad> mySales = adService.getSales(userId);
-        List<Ad> myPurchases = adService.getPurchases(userId);
-
-        model.put("adList", myPurchases);
-        model.put("shortName", shortName);
-        model.put("description", desc);
-        model.put("price", price);
-        model.put("catList", catService.getCatList());
-        model.put("catMap", catService.getCatMap());
-        model.put("catParamsMap", catService.getCatIdParamsMap());
-        model.put("wish", wish);
-
-        model.put("selectedCats", catService.getSelectedCats(catIds));
-        model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
-        model.put("resCount", myPurchases.size());
-        model.put("chosenCount", chosenMap.size());
-        model.put("compareCount", compAds.size());
-
-        model.put("mySellCount", mySales.size());
-        model.put("myBuyCount", myPurchases.size());
-
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
@@ -386,13 +407,13 @@ public class mainController extends WebController {
             model.put("catMap", catService.getCatMap());
             model.put("catParamsMap", catService.getCatIdParamsMap());
             model.put("wish", wish);
-            
+
         }
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
-            if (ers == null) {
-                ers = new ArrayList();
+        if (ers == null) {
+            ers = new ArrayList();
 
-            }
+        }
         ers.addAll(catService.getErrors());
         //ers.add("err");
         model.put(ERRORS_LIST_NAME, ers);

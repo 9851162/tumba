@@ -349,7 +349,7 @@ public class AdService extends PrimService {
 
     //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order) {
-        if(!"sale_date".equals(order)||!"price".equals(order)||!"popularity".equals(order)){
+        if(!"sale_date".equals(order)||!"price".equals(order)||"popularity".equals(order)){
             order=null;
         }
         /*if(wish==null||wish.equals("")){

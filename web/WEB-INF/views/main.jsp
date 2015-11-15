@@ -133,11 +133,11 @@
                     </div>
                     <div class="tosort">
                         <img src="../img/vertline.png">
-                        <a>по популярности</a>
+                        <a href="<c:url value="../Main/?order=popularity&wish=${param.wish}" />">по популярности</a>
                         <img src="../img/vertline.png">
-                        <a>по дате</a>
+                        <a href="<c:url value="../Main/?order=sale_date&wish=${param.wish}" />">по дате</a>
                         <img src="../img/vertline.png">
-                        <a>по цене</a>
+                        <a href="<c:url value="../Main/?order=price&wish=${param.wish}" />">по цене</a>
                     </div>
                 </div>
 
