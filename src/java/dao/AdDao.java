@@ -132,7 +132,10 @@ public class AdDao extends Dao<Ad> {
      query.addEntity(Ad.class);
      return query.list();
      }*/
-    public List<Ad> getAdsByWishInName(String wish, List<Long> catIds, Region region) {
+    public List<Ad> getAdsByWishInName(String wish, List<Long> catIds, Region region,String order) {
+        if(order==null){
+            order="sale_date";
+        }
         String sql = "";
         sql = "select * from ad";
         if (wish == null) {
@@ -161,7 +164,7 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        sql += " order by status,sale_date desc";
+        sql += " order by status,:order desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -179,7 +182,7 @@ public class AdDao extends Dao<Ad> {
         if (region != null && !region.isAllRussia()) {
             query.setParameterList("localIds", getLocIds(region));
         }
-
+        query.setParameter("order", order);
         query.addEntity(Ad.class);
         return query.list();
     }
@@ -309,7 +312,10 @@ public class AdDao extends Dao<Ad> {
      query.addEntity(Ad.class);
      return query.list();
      }*/
-    public List<Ad> getAdsByWishInDesc(String wish, List<Long> catIds, Region region) {
+    public List<Ad> getAdsByWishInDesc(String wish, List<Long> catIds, Region region,String order) {
+        if(order==null){
+            order="sale_date";
+        }
         String sql = "select * from ad";
         if (wish == null) {
             wish = "";
@@ -340,7 +346,7 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        sql += " order by status,sale_date desc";
+        sql += " order by status,:order desc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -359,7 +365,7 @@ public class AdDao extends Dao<Ad> {
         if (region != null && !region.isAllRussia()) {
             query.setParameterList("localIds", getLocIds(region));
         }
-
+        query.setParameter("order", order);
         query.addEntity(Ad.class);
         return query.list();
     }

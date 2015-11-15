@@ -348,13 +348,16 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish, List<Long> catIds,Region region) {
+    public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order) {
+        if(!"sale_date".equals(order)||!"price".equals(order)||!"popularity".equals(order)){
+            order=null;
+        }
         /*if(wish==null||wish.equals("")){
          return adDao.getAll();
          }else{*/
         List<Ad> res = new ArrayList();
-        res.addAll(adDao.getAdsByWishInName(wish, catIds,region));
-        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region)) {
+        res.addAll(adDao.getAdsByWishInName(wish, catIds,region,order));
+        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
             if (!res.contains(ad)) {
                 res.add(ad);
             }

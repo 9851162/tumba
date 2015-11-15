@@ -28,13 +28,40 @@
                     <div class="formsearch">
                         <form style="margin-bottom: 0px;" action="<c:url value="../Main/" />">
                             <input type="text" name="wish" placeholder="Впишите ваше желание" value="${wish}">
-                            <button type="submit" class="btn btn-success">Поиск</button>
+                            <button type="submit" class="">Поиск</button>
                         </form>
                     </div>
                     <div class="controlsearch">
-                        <a href="#">вся россия</a>
-                        <a href="#">домашний регион</a>
-                        <a href="#">выбор региона</a>
+                        <c:if test="${region.isAllRussia()}">
+                            <c:set var="arHREFChosen" value="regChosen"/>
+                        </c:if>
+                        <c:if test="${region.isHomeRegion()}">
+                            <c:set var="drHREFChosen" value="regChosen"/>
+                        </c:if>
+                        <c:set var="regionName" value="выбор региона"/>
+                        <c:if test="${!region.isHomeRegion()&&!region.isAllRussia()}">
+                            <c:set var="rHREFChosen" value="regChosen"/>
+                            <c:set var="regionName" value="свой регион"/>
+                            <c:if test="${!empty region.name}">
+                                <c:set var="regionName" value="${region.name}"/>
+                            </c:if>
+                        </c:if>
+
+                        <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />">вся россия</a>
+
+                        <c:if test="${role=='user'||role=='admin'}">
+                            <c:if test="${empty homeSet}">
+                                <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            </c:if>
+                            <c:if test="${!empty homeSet}">
+                                <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
+                            </c:if>
+                            <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
+                        </c:if>
+                        <c:if test="${role!='user'&&role!='admin'}">
+                            <a href="#modal6" class="open_modal ${drHREFChosen}">домашний регион</a>
+                            <a href="#modal6" class="open_modal ${rHREFChosen}">${regionName}</a>
+                        </c:if>
                     </div>
                 </div>
                 <div class="toobnov">
@@ -341,7 +368,7 @@
                             </div>
                     </div>-->
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success">Добавить</button>
+                        <button type="submit" class="btn">Добавить</button>
                     </div>
                 </form>
             </div>
@@ -429,6 +456,102 @@
                         <button type="submit" class="btn">Войти</button>
                     </div>
                 </form>
+            </div>
+                    
+                    <div id="modal5" class="modal_form modal_div">
+                <div class="nameform">Выбор региона</div>
+                <c:if test="${!empty role}">
+                    <div style="width: 30%;float: left;">
+                        <div class="toin">Мои регионы<br><br>
+                            <c:if test="${empty availableRegions}">
+                                Пока нет созданных регионов
+                            </c:if>
+                            <c:if test="${!empty availableRegions}">
+                                <table>
+                                    <c:forEach var="region" items="${availableRegions}">
+                                        <c:set var="regClass" value="btn-default"/>
+                                        <!--<c:set var="homeClass" value="btn-default"/>
+                                        <c:if test="${!empty regionSet && regionSet==region.id}">
+                                            <c:set var="regClass" value="btn-primary"/>
+                                        </c:if>
+                                        <c:if test="${!empty homeSet && homeSet==region.id}">
+                                            <c:set var="homeClass" value="btn-primary"/>
+                                        </c:if>-->
+                                        <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/chooseRegion?regionId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
+                                            <c:if test="${!empty homeSet && homeSet==region.id}">
+                                            <td><i class="fa fa-home"></i></td>
+                                            </c:if>
+                                            <!--<td><a title="сделать домашним" class="btn ${homeClass}" href="<c:url value="../Main/setHomeRegion?regionId=${region.id}&wish=${wish}" />"><i class="fa fa-home"></i></a></td>
+                                            <td><a title="удалить" class="btn btn-default" href="<c:url value="../Main/deleteRegion?regionId=${region.id}&wish=${wish}" />"><i class="fa fa-remove"></i></a></td>--></tr>
+                                                </c:forEach>
+                                </table>
+                            </c:if>
+                        </div>
+                    </div>
+                    <div style="width: 69%;float: right;">
+                        <div class="toin">
+                            <ul>
+                                <!--<li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>-->
+                                <c:forEach var="state" items="${states}">
+                                    <c:set var="stateInReg" value=""/>
+                                    <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                        <c:set var="stateInReg" value="checked"/>
+                                    </c:if>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                        <c:if test="${!empty state.localities}">
+                                        <ul>
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <c:set var="locInReg" value=""/>
+                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                    <c:set var="locInReg" value="checked"/>
+                                                </c:if>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-state-id="${state.id}"><input disabled style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                    </c:forEach>
+                                        </ul>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                </div>
+                    </c:if>
+                
+            </div>
+
+
+            <!--выбор региона без авторизации-->
+            <div id="modal6" class="modal_form modal_div">
+                <div class="nameform">Выбор региона</div>
+                <div>
+                    <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                        <div class="toin">
+                            <ul>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
+                                        <c:forEach var="state" items="${states}">
+                                            <c:set var="stateInReg" value=""/>
+                                            <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                                <c:set var="stateInReg" value="checked"/>
+                                            </c:if>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                        <c:if test="${!empty state.localities}">
+                                        <ul>
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <c:set var="locInReg" value=""/>
+                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                    <c:set var="locInReg" value="checked"/>
+                                                </c:if>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                    </c:forEach>
+                                        </ul>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                        <input type="hidden" name="wish" value="${wish}">
+                        <div class="form-group" style="padding-left: 15px;">
+                            <button type="submit" class="btn">Выбрать</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div id="modalerror" class="modal_form modal_div">
