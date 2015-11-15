@@ -8,7 +8,9 @@ package entities;
 import entities.parent.PrimEntity;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -109,10 +111,10 @@ public class Ad extends PrimEntity {
     @OneToMany(mappedBy = "ad")
     private Set<ParametrValue> values;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "ads_from_ips",
-            joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"),
-            inverseJoinColumns = @JoinColumn(name = "ip", referencedColumnName = "ip"))
+    @ElementCollection
+    @CollectionTable(name = "ads_from_ips",
+            joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"))
+            @Column(name="ip")
     private Set<String> ips;
     
     @Override
