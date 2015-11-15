@@ -49,7 +49,7 @@ $(document).ready(function () {
             $(this).addClass('medium');
             $(this).removeClass('smal');
         }
-
+        addWatch($(this).attr('data-ad-id'));
     });
     $('#grid').on('click', '.button_expand', function () {
         $('.medium').addClass("big");
@@ -61,5 +61,28 @@ $(document).ready(function () {
     });
 
 
+    function addWatch(adId){
+        $.ajax({
+            url: "../Ad/watch?adId=" + adId,
+            dataType: "json",
+            cache: false,
+            //???
+            success: function (json) {
+                if (json['status'] == true) {
+                    //changebleElem.html(name);
+                } else {
+                    if (json['message'] != undefined) {
+                        alert("error: " + json['message']);
+                    } else {
+                        alert("При выполнении операции возникла ошибка, ответ сервера не удалось разобрать. Попробуйте обновить страницу и повторить операцию или обратитесь к системному администратору.");
+                    }
+                }
+
+            },
+            error: function (json) {
+                alert("Что-то пошло не так: " + json['message']);
+            }
+        });
+    }
 
 })

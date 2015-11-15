@@ -427,5 +427,13 @@ public class AdDao extends Dao<Ad> {
         }
         return res;
     }
+    
+    public boolean isIpNotWatched(Long adId,String ip){
+        String sql = "select * from ads_from_ips where ad_id=:adId and ip=:ip";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("adId", adId);
+        query.setParameter("ip", ip);
+        return query.list().isEmpty();
+    }
 
 }

@@ -145,7 +145,7 @@
                     <div id="grid">
                         <c:set var="itempos" value="0"/>
                         <c:forEach var="ad" items="${adList}">
-                            <div class="item smal" item-position="${itempos}" item-next="${itempos+1}">
+                            <div class="item smal" item-position="${itempos}" item-next="${itempos+1}" data-ad-id="${ad.id}">
                                 <c:set var="itempos" value="${itempos+1}"/>
                                 <c:if test="${ad.status==1}">
                                     <div class="moz"></div>

@@ -7,6 +7,7 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -24,6 +25,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -115,6 +118,7 @@ public class Ad extends PrimEntity {
     @CollectionTable(name = "ads_from_ips",
             joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"))
             @Column(name="ip")
+    @Cascade(CascadeType.ALL)
     private Set<String> ips;
     
     @Override
@@ -242,6 +246,9 @@ public class Ad extends PrimEntity {
     }
 
     public Set<String> getIps() {
+        if(ips==null){
+            return new HashSet();
+        }
         return ips;
     }
 

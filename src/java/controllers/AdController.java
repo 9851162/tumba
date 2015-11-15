@@ -212,4 +212,24 @@ public class AdController extends WebController {
         return "redirect:/Main/comparison";
     }
     
+    @RequestMapping("/watch")
+    @ResponseBody
+    public JsonResponse watch (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+            
+                String ip = request.getRemoteAddr();
+                adService.addWatchFromIp(adId, ip);
+            
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!adService.getErrors().isEmpty()){
+            res.setMessage(adService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        return res;
+    }
+    
 }

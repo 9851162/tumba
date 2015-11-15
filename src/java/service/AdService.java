@@ -485,5 +485,19 @@ public class AdService extends PrimService {
             }
         }
     }
+    
+    public void addWatchFromIp(Long adId,String ip){
+        if(adDao.isIpNotWatched(adId,ip)){
+            Ad ad = adDao.find(adId);
+            if(ad!=null){
+                Set<String>ips=ad.getIps();
+                ips.add(ip);
+                ad.setIps(ips);
+                if(validate(ad)){
+                    adDao.update(ad);
+                }
+            }
+        }
+    }
 
 }
