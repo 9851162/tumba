@@ -356,7 +356,7 @@ public class AdService extends PrimService {
         /*if(wish==null||wish.equals("")){
          return adDao.getAll();
          }else{*/
-        addError("2:"+order);
+        //addError("2:"+order);
         List<Ad> res = new ArrayList();
         res.addAll(adDao.getAdsByWishInName(wish, catIds,region,order));
         for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
