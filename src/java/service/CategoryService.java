@@ -62,7 +62,7 @@ public class CategoryService extends PrimService {
             cat.setParentId(parentId);
             //наследуем параметры и путь
             //List<Parametr> params = new ArrayList();
-            Set<ParamCategoryLink>paramLinks=new HashSet();
+            Set<ParamCategoryLink> paramLinks = new HashSet();
             if (!parentId.equals(Category.BASEID)) {
                 Category parent = catDao.find(parentId);
                 if (parent.getParamLinks() != null) {
@@ -79,16 +79,16 @@ public class CategoryService extends PrimService {
             cat.setNestingLevel(nestingLevel);
             if (validate(cat)) {
                 catDao.save(cat);
-                for(ParamCategoryLink l:paramLinks){
+                for (ParamCategoryLink l : paramLinks) {
                     ParamCategoryLink link = new ParamCategoryLink();
                     link.setCat(cat);
                     link.setParam(l.getParam());
-                    if(l.isReq()){
+                    if (l.isReq()) {
                         link.setReq();
-                    }else{
+                    } else {
                         link.setNotReq();
                     }
-                    if(validate(link)){
+                    if (validate(link)) {
                         linkDao.save(link);
                     }
                 }
@@ -406,7 +406,7 @@ public class CategoryService extends PrimService {
                     }
 
                     if (Objects.equals(Parametr.MULTISELECTING, pt)) {
-                        o[i] += pv.getStringVal()+"; ";
+                        o[i] += pv.getStringVal() + "; ";
                     } else {
                         o[i] = pv.getStringVal();
                     }
@@ -422,39 +422,57 @@ public class CategoryService extends PrimService {
                 }
                 i++;
             }
-            
-            List<Object[]>supList4Sort=new ArrayList();
-            for(Long pid:countMap.keySet()){
+
+            List<Object[]> supList4Sort = new ArrayList();
+            for (Long pid : countMap.keySet()) {
                 Object[] idCount = new Object[2];
-                idCount[0]=pid;
-                idCount[1]=countMap.get(pid);
+                idCount[0] = pid;
+                idCount[1] = countMap.get(pid);
                 supList4Sort.add(idCount);
             }
-            Collections.sort(supList4Sort,new countComparator());
-            
-            for(Object[]o:supList4Sort){
-                Long pid = (Long)o[0];
-                res.put(paramDao.find(pid),valMap.get(pid));
+            Collections.sort(supList4Sort, new countComparator());
+
+            for (Object[] o : supList4Sort) {
+                Long pid = (Long) o[0];
+                res.put(paramDao.find(pid), valMap.get(pid));
             }
-            
+
         }
         return res;
     }
-    
+
     private class countComparator implements Comparator<Object[]> {
 
         @Override
         public int compare(Object[] a, Object[] b) {
-            return (Integer)b[1]-(Integer)a[1];
+            return (Integer) b[1] - (Integer) a[1];
         }
     }
-    
-    public List<Category>getSelectedCats(List<Long>catIds){
+
+    public List<Category> getSelectedCats(List<Long> catIds) {
         return catDao.getSelectedCats(catIds);
     }
-    
-    public List<Category>getNotSelectedCats(List<Long>catIds){
+
+    public List<Category> getNotSelectedCats(List<Long> catIds) {
         return catDao.getNotSelectedCats(catIds);
+    }
+
+    public List<Parametr> getMutualParams(List<Long> catIds) {
+        List<Parametr> res = new ArrayList();
+        if (catIds != null && !catIds.isEmpty()) {
+            List<Object[]> preRes = paramDao.getParamIdsAndCountsByCatIds(catIds);
+            Integer neededCount = catIds.size();
+            for (Object[] o : preRes) {
+                Long paramId = ((BigInteger) o[0]).longValue();
+                Integer count = ((BigInteger) o[1]).intValue();
+                if (Objects.equals(count, neededCount)) {
+                    res.add(paramDao.find(paramId));
+                } else {
+                    break;
+                }
+            }
+        }
+        return res;
     }
 
     /*public ParametrValue setValue(Parametr p,Object val){

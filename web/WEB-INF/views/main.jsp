@@ -87,6 +87,14 @@
                         </div>
                     </c:forEach>
                 </div>
+                <c:if test="${!empty extendedSearchParams}">
+                <div>
+                    Параметры:
+                    <c:forEach var="searchParam" items="${extendedSearchParams}">
+                        <br>${searchParam.name}<br>
+                    </c:forEach>
+                </div>
+                    </c:if>
             </div>
 
             <c:if test="${role=='user'||role=='admin'}">

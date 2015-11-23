@@ -111,6 +111,7 @@ public class mainController extends WebController {
         model.put("states", regionService.getNotEmptyStates());
         model.put("selectedCats", catService.getSelectedCats(catIds));
         model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+        //model.put("extendedSearchParams", catService.getMutualParams(catIds));
         model.put("adList", ads);
         model.put("chosenAdsMap", chosenMap);
         model.put("comparingAdsMap", comparingMap);
@@ -120,7 +121,7 @@ public class mainController extends WebController {
         model.put("availableRegions", availableRegions);
         model.put("regionSet", region.getId());
 
-        //to do srazu polu4enie 4isla iz bazi
+        //to do srazu polu4enie 4isla iz bazi?
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
 
