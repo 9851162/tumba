@@ -206,14 +206,13 @@
           </div>
           <div class="tosort">
             <img src="../img/vertline.png">
-            <c:if test="${!empty order&&order.equals("show_countd")}">
-                <a href="<c:url value="../Main/?order=show_counta&wish=${param.wish}" />">по популярности</a>
-            </c:if>
+                <a href="<c:url value="../Main/?order=show_count&wish=${param.wish}" />">по популярности</a>
+            
                 
             <img src="../img/vertline.png">
-            <a href="<c:url value="../Main/?order=insert_datea&wish=${param.wish}" />">по дате</a>
+            <a href="<c:url value="../Main/?order=insert_date&wish=${param.wish}" />">по дате</a>
             <img src="../img/vertline.png">
-            <a href="<c:url value="../Main/?order=price&wisha=${param.wish}" />">по цене</a>
+            <a href="<c:url value="../Main/?order=price&wish=${param.wish}" />">по цене</a>
           </div>
         </div>
 

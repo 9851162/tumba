@@ -134,7 +134,7 @@ public class AdDao extends Dao<Ad> {
      }*/
     public List<Ad> getAdsByWishInName(String wish, List<Long> catIds, Region region,String order) {
         if(order==null){
-            order="show_count";
+            order="show_count desc";
         }
         String sql = "";
         sql = "select * from ad";
@@ -164,7 +164,7 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        sql += " order by status asc,"+order+" desc";
+        sql += " order by status asc,"+order;
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -314,7 +314,7 @@ public class AdDao extends Dao<Ad> {
      }*/
     public List<Ad> getAdsByWishInDesc(String wish, List<Long> catIds, Region region,String order) {
         if(order==null){
-            order="show_count";
+            order="show_count desc";
         }
         String sql = "select * from ad";
         if (wish == null) {
@@ -346,7 +346,7 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        sql += " order by status asc,"+order+" desc";
+        sql += " order by status asc,"+order;
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
