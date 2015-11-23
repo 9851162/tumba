@@ -93,27 +93,38 @@
               
                 <table id="searchParamTable">
               <c:forEach var="searchParam" items="${advancedSearchParams}">
-                  <tr><c:if test="${searchParam.paramType==1}">
-                        <td><label class="searchParamLabel">${searchParam.name}</label></td><td> <input type="text" name="stringVals" placeholder="${searchParam.name}"></td>
+                  <tr>
+                    <c:if test="${searchParam.paramType==1}">
+                        <td><label class="searchParamLabel">${searchParam.name}</label></td>
+                        <td></td>
+                        <td> <input type="text" name="stringVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="stringIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==2}">
-                      <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="text" name="numVals" placeholder="${searchParam.name}"></td>
+                      <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                      <td>
+                        <select name="hz"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select>
+                      </td>
+                      <td> <input type="text" name="numVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="numIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
-                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <select name="selVals">
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                  <td></td>
+                  <td> <select name="selVals">
                         <c:forEach var="opt" items="${searchParam.options}">
                             <option value="${opt.id}">${opt.name}</option>
                         </c:forEach>
+                    </select>
                  </td>
                     <input type="hidden" name="selIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                   <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                  <td></td>
                   <c:if test="${!empty searchParam.options}">
                       <c:set var="searchParamOptionSize" value="5"/>
                       <c:if test="${searchParam.options.size()<5}">
@@ -121,7 +132,7 @@
                       </c:if>
                   </c:if>
                   
-                  <td> <select multiple="true" size=${searchParamOptionSize} style="vertical-align: middle;" name="multyVals">
+                  <td> <select multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle;" name="multyVals">
                         <c:forEach var="opt" items="${searchParam.options}">
                             <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
                         </c:forEach>
@@ -130,12 +141,16 @@
                   </c:if>
 
                   <c:if test="${searchParam.paramType==5}">
-                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="checkbox" name="booleanVals"></td>
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                  <td></td>
+                  <td> <input type="checkbox" name="booleanVals"></td>
                     <input type="hidden" name="booleanIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==6}">
-                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="date" name="dateVals" placeholder="${searchParam.name}"></td>
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                  <td><select name="hz"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select></td>
+                  <td> <input type="date" name="dateVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="dateIds" value="${searchParam.id}">
                   </c:if>
                     </tr>
@@ -191,11 +206,14 @@
           </div>
           <div class="tosort">
             <img src="../img/vertline.png">
-            <a href="<c:url value="../Main/?order=popularity&wish=${param.wish}" />">по популярности</a>
+            <c:if test="${!empty order&&order.equals("show_countd")}">
+                <a href="<c:url value="../Main/?order=show_counta&wish=${param.wish}" />">по популярности</a>
+            </c:if>
+                
             <img src="../img/vertline.png">
-            <a href="<c:url value="../Main/?order=sale_date&wish=${param.wish}" />">по дате</a>
+            <a href="<c:url value="../Main/?order=insert_datea&wish=${param.wish}" />">по дате</a>
             <img src="../img/vertline.png">
-            <a href="<c:url value="../Main/?order=price&wish=${param.wish}" />">по цене</a>
+            <a href="<c:url value="../Main/?order=price&wisha=${param.wish}" />">по цене</a>
           </div>
         </div>
 
@@ -240,6 +258,7 @@
                           <h3>Описание</h3>
                           <p class="minitext"> ${ad.getSmallDesc()} </p>
                           <p class="maxtext"> ${ad.description} </p>
+                          <a href="#" class="aoo"><div class="btnoo">оценить объявление</div></a>
                         </div>
                         <div class="col2">
                           <h3>Дата</h3>

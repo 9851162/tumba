@@ -350,8 +350,9 @@ public class AdService extends PrimService {
     //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order) {
         //addError("1:"+order);
-        if(!"sale_date".equals(order)&&!"price".equals(order)/*||"popularity".equals(order)*/){
-            order=null;
+        if(!"insert_date".equals(order)&&!"price".equals(order)&&!"show_count".equals(order)){
+            //addError(order);
+            order="show_count";
         }
         /*if(wish==null||wish.equals("")){
          return adDao.getAll();
@@ -498,6 +499,7 @@ public class AdService extends PrimService {
                 Set<String>ips=ad.getIps();
                 ips.add(ip);
                 ad.setIps(ips);
+                ad.setShowCount(Long.valueOf(ips.size()));
                 if(validate(ad)){
                     adDao.update(ad);
                 }
