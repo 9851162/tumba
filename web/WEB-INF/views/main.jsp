@@ -112,7 +112,7 @@
                   </c:if>
 
                   <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
-                    <label class="searchParamLabel" style="text-align: center;">${searchParam.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
+                    <label class="searchParamLabel">${searchParam.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
                         <c:forEach var="opt" items="${searchParam.options}">
                             <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
                         </c:forEach>
