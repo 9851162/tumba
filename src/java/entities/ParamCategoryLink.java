@@ -47,6 +47,10 @@ public class ParamCategoryLink extends PrimEntity {
     @NotNull(message = "Необходимо указать является ли параметр необходимым")
     private Integer reqType;
     
+    @Column(name = "param_type")
+    @NotNull(message = "Необходимо указать будет ли параметр вводиться или выбираться")
+    private Integer paramType;
+    
     @Override
     public Long getId() {
         return id;
@@ -82,6 +86,14 @@ public class ParamCategoryLink extends PrimEntity {
 
     public Integer getReqType() {
         return reqType;
+    }
+
+    public Integer getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(Integer paramType) {
+        this.paramType = paramType;
     }
     
     

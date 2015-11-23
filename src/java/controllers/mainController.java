@@ -111,7 +111,7 @@ public class mainController extends WebController {
         model.put("states", regionService.getNotEmptyStates());
         model.put("selectedCats", catService.getSelectedCats(catIds));
         model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
-        //model.put("extendedSearchParams", catService.getMutualParams(catIds));
+        model.put("advancedSearchParams", catService.getMutualParams(catIds));
         model.put("adList", ads);
         model.put("chosenAdsMap", chosenMap);
         model.put("comparingAdsMap", comparingMap);
@@ -138,6 +138,7 @@ public class mainController extends WebController {
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
+        model.put("order", order);
 
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());

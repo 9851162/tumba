@@ -70,7 +70,7 @@ public class ParametrDao  extends Dao<Parametr>  {
     
     //получение списка ид параметров и подсчет их вхождений в категории отсортированный по убыванию числа вхождений
     public List<Object[]>getParamIdsAndCountsByCatIds(List<Long>catIds){
-        String sql = "select parametr_id,count(parametr_id) c from param_category_link where category_id in (:catIds) group by parametr_id order by c desc";
+        String sql = "select parametr_id,count(parametr_id) c from param_category_link where category_id in (:catIds) group by parametr_id order by c desc,param_type asc";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         query.setParameterList("catIds", catIds);
         return query.list();
