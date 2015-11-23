@@ -27,7 +27,7 @@
       <div id="search_add">
         <div class="tosearch">
           <div class="formsearch">
-            <form style="margin-bottom: 0px;" action="<c:url value="../Main/" />">
+            <form id="searchForm" style="margin-bottom: 0px;" action="<c:url value="../Main/" />">
               <input type="text" name="wish" placeholder="Впишите ваше желание" value="${wish}">
               <button type="submit" class="">Поиск</button>
             </form>
@@ -90,49 +90,59 @@
         <c:if test="${!empty advancedSearchParams}">
             <div id="advancedSearchParamsContainer">
               <h4>Параметры</h4>
-              <form style="float:left;" id="advancedSearchParams" action="<c:url value="../Main/?wish=${param.wish}&order=${param.order}"/>">
+              
+                <table id="searchParamTable">
               <c:forEach var="searchParam" items="${advancedSearchParams}">
-                  <c:if test="${searchParam.paramType==1}">
-                    <label class="searchParamLabel">${searchParam.name} <input type="text" name="stringVals" placeholder="${searchParam.name}"></label>
+                  <tr><c:if test="${searchParam.paramType==1}">
+                        <td><label class="searchParamLabel">${searchParam.name}</label></td><td> <input type="text" name="stringVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="stringIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==2}">
-                    <label class="searchParamLabel">${searchParam.name} <input type="text" name="numVals" placeholder="${searchParam.name}"></label>
+                      <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="text" name="numVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="numIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
-                    <label class="searchParamLabel">${searchParam.name} <select name="selVals">
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <select name="selVals">
                         <c:forEach var="opt" items="${searchParam.options}">
                             <option value="${opt.id}">${opt.name}</option>
                         </c:forEach>
-                      </select></label>
+                 </td>
                     <input type="hidden" name="selIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
-                    <label class="searchParamLabel">${searchParam.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td>
+                  <c:if test="${!empty searchParam.options}">
+                      <c:set var="searchParamOptionSize" value="5"/>
+                      <c:if test="${searchParam.options.size()<5}">
+                        <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
+                      </c:if>
+                  </c:if>
+                  
+                  <td> <select multiple="true" size=${searchParamOptionSize} style="vertical-align: middle;" name="multyVals">
                         <c:forEach var="opt" items="${searchParam.options}">
                             <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
                         </c:forEach>
-                      </select></label>
+                      </select></td>
                     <input type="hidden" name="multyIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==5}">
-                    <label class="searchParamLabel">${searchParam.name} <input type="checkbox" name="booleanVals"></label>
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="checkbox" name="booleanVals"></td>
                     <input type="hidden" name="booleanIds" value="${searchParam.id}">
                   </c:if>
 
                   <c:if test="${searchParam.paramType==6}">
-                    <label class="searchParamLabel">${searchParam.name} <input type="date" name="dateVals" placeholder="${searchParam.name}"></label>
+                  <td><label class="searchParamLabel">${searchParam.name} </label></td><td> <input type="date" name="dateVals" placeholder="${searchParam.name}"></td>
                     <input type="hidden" name="dateIds" value="${searchParam.id}">
                   </c:if>
-                    <br>
+                    </tr>
               </c:forEach>
+                </table>
               <!--<button type="submit" class="btn">Поиск</button>-->
-            </form>
+            
             </div>
         </c:if>
       </div>

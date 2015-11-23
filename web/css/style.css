@@ -40,11 +40,11 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .toobnov a{ color: white;  text-decoration: none;   font-size: 28px;    font-weight: 900;}
 
 
-.left_side {width: 370px;	height: 897px;	margin-top: 7px; float: left;}
-.menuitem{	text-align: center;	font-family: HelveticaNeue, sans-serif;	background-color: #fff;	width: 369px;	height: 53px;	line-height: 53px;	margin-bottom: 3px;	display: inline-block;	-moz-border-radius: 5px 0px 0px 5px;	-webkit-border-radius: 5px 0px 0px 5px;	border: 0px solid #000000;   font-size: 23px;	color:#00547e;}
+.left_side {width: 321px;	height: 897px;	margin-top: 7px; float: left;}
+.menuitem{	text-align: center;	font-family: HelveticaNeue, sans-serif;	background-color: #fff;	/*width: 369px;*/width: 320px;	height: 53px;	line-height: 53px;	margin-bottom: 3px;	display: inline-block;	-moz-border-radius: 5px 0px 0px 5px;	-webkit-border-radius: 5px 0px 0px 5px;	border: 0px solid #000000;   font-size: 23px;	color:#00547e;}
 .menuitem:hover{	background-color: #c8f0ff}
 .menuitem img{    float: right;    margin-top: 12px;	margin-right: 20px;}
-.icons{	position: absolute;	top: 289px;}
+.icons{	/*position: absolute;*/	top: 289px; margin-top:7px; float: left;}
 .icons_expand {	top: 214px;	margin-left: -49px;}
 #ico {	width: 49px;	height: 39px;	background-color: #00b3ff;	border-radius: 5px 0px 0px 5px;	-moz-border-radius: 5px 0px 0px 5px; -webkit-border-radius: 5px 0px 0px 5px;	border: 0px solid #000000;	margin-bottom: 3px; padding-top: 14px; text-align: center;}
 .promo {	height: 305px;	margin-top: 7px;	background: url(../img/reklama.png);	    background-size: cover;}
@@ -401,4 +401,12 @@ td {
     width:100%;
     text-align: left;
     margin: 3px;
+}
+
+#searchParamTable {
+    float: left;
+}
+
+#searchParamTable td {
+    text-align: left;
 }
