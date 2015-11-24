@@ -132,12 +132,11 @@ public class AdDao extends Dao<Ad> {
      query.addEntity(Ad.class);
      return query.list();
      }*/
-    public List<Ad> getAdsByWishInName(String wish, List<Long> catIds, Region region,String order) {
+    public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region,String order) {
         if(order==null){
             order="show_count desc";
         }
-        String sql = "";
-        sql = "select * from ad";
+        String sql = "select * from ad";
         if (wish == null) {
             wish = "";
         }
@@ -146,6 +145,9 @@ public class AdDao extends Dao<Ad> {
             sql += " where 1!=1";
             for (String st : splitted) {
                 sql += " or (name like :wish" + splitted.indexOf(st) + ")";
+            }
+            for (String st : splitted) {
+                sql += " or (description like :wish" + splitted.indexOf(st) + ")";
             }
         }
 
@@ -186,133 +188,10 @@ public class AdDao extends Dao<Ad> {
         query.addEntity(Ad.class);
         return query.list();
     }
-
-    //without regs
-    /*public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
-     String sql = "";
-     sql="select * from ad";
-     List<String> splitted=splitted(wish);
-     if(!splitted.isEmpty()){
-     sql+=" where 1!=1";
-     for(String st:splitted){
-     sql+=" or (name like :wish"+splitted.indexOf(st)+")";
-     }
-     }
-        
-     if(!catIds.isEmpty()){
-     if(splitted.isEmpty()){
-     sql+=" where 1=1";
-     }
-     sql+=" and (1!=1";
-     for(Long id:catIds){
-     sql+=" or category_id=:catId"+catIds.indexOf(id);
-     }
-     sql+=")";
-     }
-        
-     sql+=" order by status,sale_date desc";
-     SQLQuery query = getCurrentSession().createSQLQuery(sql);
-        
-     if(!splitted.isEmpty()){
-     for(String st:splitted){
-     query.setParameter("wish"+splitted.indexOf(st),st);
-     }
-     }
-        
-     if(!catIds.isEmpty()){
-     for(Long id:catIds){
-     query.setParameter("catId"+catIds.indexOf(id), id);
-     }
-     }
-        
-     query.addEntity(Ad.class);
-     return query.list();
-     }*/
-    //hql
-    /*public List<Ad>getAdsByWishInName(String wish,List<Long>catIds,Region region){
-     String hql = "";
-     hql="from Ad";
-     List<String> splitted=splitted(wish);
-     if(!splitted.isEmpty()){
-     hql+=" where 1!=1";
-     for(String st:splitted){
-     hql+=" or (name like :wish"+splitted.indexOf(st)+")";
-     }
-     }
-        
-     if(!catIds.isEmpty()){
-     if(splitted.isEmpty()){
-     hql+=" where 1=1";
-     }
-     hql+=" and (1!=1";
-     for(Long id:catIds){
-     hql+=" or cat.category_id=:catId"+catIds.indexOf(id);
-     }
-     hql+=")";
-     }
-        
-     hql+=" order by status,sale_date desc";
-     Query query = getCurrentSession().createQuery(hql);
-        
-     if(!splitted.isEmpty()){
-     for(String st:splitted){
-     query.setParameter("wish"+splitted.indexOf(st),st);
-     }
-     }
-        
-     if(!catIds.isEmpty()){
-     for(Long id:catIds){
-     query.setParameter("catId"+catIds.indexOf(id), id);
-     }
-     }
-        
-     //query.addEntity(Ad.class);
-     return query.list();
-     }*/
-    /*public List<Ad>getAdsByWishInDesc(String wish,List<Long>catIds,Region region){
-     String sql = "select * from ad";
-     List<String> splitted=splitted(wish);
-        
-     if(!splitted.isEmpty()){
-     sql+=" where 1!=1";
-     for(String st:splitted){
-     sql+=" or (description like :wish"+splitted.indexOf(st)+")";
-     }
-            
-     }
-        
-     if(!catIds.isEmpty()){
-     if(splitted.isEmpty()){
-     sql+=" where 1=1";
-     }
-     sql+=" and (1!=1";
-     for(Long id:catIds){
-     sql+=" or category_id=:catId"+catIds.indexOf(id);
-     }
-     sql+=")";
-     //sql+=" and category_id in (:catIds)";
-     }
-        
-     sql+=" order by status,sale_date desc";
-     SQLQuery query = getCurrentSession().createSQLQuery(sql);
-        
-     if(!splitted.isEmpty()){
-     for(String st:splitted){
-     query.setParameter("wish"+splitted.indexOf(st),st);
-     }
-            
-     }
-        
-     if(!catIds.isEmpty()){
-     for(Long id:catIds){
-     query.setParameter("catId"+catIds.indexOf(id), id);
-     }
-     }
-        
-     query.addEntity(Ad.class);
-     return query.list();
-     }*/
-    public List<Ad> getAdsByWishInDesc(String wish, List<Long> catIds, Region region,String order) {
+    
+    
+    
+    /*public List<Ad> getAdsByWishInDesc(String wish, List<Long> catIds, Region region,String order) {
         if(order==null){
             order="show_count desc";
         }
@@ -368,28 +247,7 @@ public class AdDao extends Dao<Ad> {
         //query.setParameter("order", order);
         query.addEntity(Ad.class);
         return query.list();
-    }
-
-    /*public List<Ad>getNonStrictlyCatByWish(String wish){
-     String sql = "select a.* from ad a left join category c on a.category_id=c.category_id where 1=1";
-     List<String> splitted=splitted(wish);
-     if(!splitted.isEmpty()){
-     for(String st:splitted){
-     sql+=" or (c.name like :wish"+splitted.indexOf(st)+")";
-     }
-            
-     }
-     sql+=" order by a.sale_date desc";
-     SQLQuery query = getCurrentSession().createSQLQuery(sql);
-     if(!splitted.isEmpty()){
-     for(String st:splitted){
-     query.setParameter("wish"+splitted.indexOf(st),st);
-     }
-            
-     }
-     query.addEntity(Ad.class);
-     return query.list();
-     }*/
+    }*/
     private List<String> splitted(String request) {
         List<String> split = new ArrayList();
         if (request != null) {
@@ -418,18 +276,6 @@ public class AdDao extends Dao<Ad> {
             for (Locality l : r.getLocalities()) {
                 res.add(l.getId());
             }
-        }
-        return res;
-    }
-
-    private String getIdsAsString(Set<Long> ids) {
-        String res = "0";
-        if (ids != null && !ids.isEmpty()) {
-            res = "";
-            for (Long id : ids) {
-                res += StringAdapter.getString(id) + ",";
-            }
-            res = res.substring(0, res.length() - 1);
         }
         return res;
     }

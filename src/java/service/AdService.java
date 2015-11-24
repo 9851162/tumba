@@ -363,13 +363,15 @@ public class AdService extends PrimService {
                 order=null;
             }
         }
-        List<Ad> res = new ArrayList();
-        res.addAll(adDao.getAdsByWishInName(wish, catIds,region,order));
-        for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
+        
+        
+        
+        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order);
+        /*for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
             if (!res.contains(ad)) {
                 res.add(ad);
             }
-        }
+        }*/
         return res;
     }
 
