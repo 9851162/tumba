@@ -166,7 +166,7 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        sql += " order by status asc,"+order;
+        sql += " order by status asc,:order";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -174,17 +174,15 @@ public class AdDao extends Dao<Ad> {
                 query.setParameter("wish" + splitted.indexOf(st), st);
             }
         }
-
         if (!catIds.isEmpty()) {
             for (Long id : catIds) {
                 query.setParameter("catId" + catIds.indexOf(id), id);
             }
         }
-
         if (region != null && !region.isAllRussia()) {
             query.setParameterList("localIds", getLocIds(region));
         }
-        //query.setParameter("order", order);
+        query.setParameter("order", order);
         query.addEntity(Ad.class);
         return query.list();
     }
