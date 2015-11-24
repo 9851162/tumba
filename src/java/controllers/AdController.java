@@ -42,7 +42,7 @@ public class AdController extends WebController {
     public String add (Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
-            @RequestParam(value = "description", required = false) String desc,
+            @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "catId", required = false) Long catId,
@@ -58,12 +58,12 @@ public class AdController extends WebController {
             @RequestParam(value = "dateVals", required = false) Date dateVals[],
             @RequestParam(value = "selIds", required = false) Long selIds[],
             @RequestParam(value = "selVals", required = false) Long selVals[],
+            @RequestParam(value = "multyIds", required = false) Long multyIds[],
+            @RequestParam(value = "multyVals", required = false) String multyVals[],
             
             @RequestParam(value = "regionId", required = false) Long regionId,
             //@RequestParam(value = "localIds", required = false) Long localIds[],
             
-            @RequestParam(value = "multyIds", required = false) Long multyIds[],
-            @RequestParam(value = "multyVals", required = false) String multyVals[],
             
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
@@ -83,17 +83,16 @@ public class AdController extends WebController {
         }
         //Long localIds[] = regionService.getLocIds(regionId,region);
         
-        adService.create(catId,email,price,previews,shortName,desc,booleanIds,booleanVals,
+        adService.create(catId,email,price,previews,shortName,description,booleanIds,booleanVals,
                 stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,region);
-        /*for(String er:adService.getErrors()){
-            errors.add(er);
-        }*/
+        
+        errors.addAll(regionService.getErrors());
         errors.addAll(adService.getErrors());
         
         if(!errors.isEmpty()){
             ras.addFlashAttribute("errors", errors);
             ras.addFlashAttribute("shortName", shortName);
-            ras.addFlashAttribute("description", desc);
+            ras.addFlashAttribute("description", description);
             ras.addFlashAttribute("price", price);
             ras.addFlashAttribute("catId", catId);
             //ras.addAttribute("previews", previews);

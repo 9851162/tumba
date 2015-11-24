@@ -348,7 +348,10 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order) {
+    public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order,
+            Long booleanIds[], String booleanVals[],Long stringIds[], String stringVals[], 
+            Long numIds[], Double numVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if(order!=null){
             if(order.equals("insert_date")){
                 order+=" desc";
@@ -367,30 +370,9 @@ public class AdService extends PrimService {
                 res.add(ad);
             }
         }
-
-        /*for(String s:splitted(wish)){
-         addError(s);
-         }*/
         return res;
-        //}
     }
 
-    /*private List<String> splitted(String request){
-     List<String> split=new ArrayList();
-     if(request!=null){
-     String[] splittedTest=request.split("\\s+");
-     int cnt=0;
-     for(String st:splittedTest){      
-     String res="";
-     for(int i=0;i<=cnt;i++){
-     res+="%"+splittedTest[i]+"%";
-     }
-     split.add(res);
-     cnt++;
-     }
-     }
-     return split;
-     }*/
     public Ad getAd(Long adId) {
         return adDao.find(adId);
     }
@@ -413,8 +395,6 @@ public class AdService extends PrimService {
 
     public void setUnsetChosen(Long userId, Long adId) {
         if (userId != null && adId != null) {
-            //User u = userDao.find(userId);
-            //Ad ad = adDao.find(adId);
             //есть - удалить, нет - добавить
 
             if (adDao.isChosenAd(userId, adId)) {

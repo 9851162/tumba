@@ -12,6 +12,7 @@ import entities.Region;
 import entities.State;
 import entities.User;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,23 @@ public class mainController extends WebController {
             @RequestParam(value = "price", required = false) Double price,
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "order", required = false) String order,
+            
+            @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
+            @RequestParam(value = "booleanVals", required = false) String booleanVals[],
+            @RequestParam(value = "stringIds", required = false) Long stringIds[],
+            @RequestParam(value = "stringVals", required = false) String stringVals[],
+            @RequestParam(value = "numIds", required = false) Long numIds[],
+            @RequestParam(value = "numVals", required = false) Double numVals[],
+            @RequestParam(value = "numCondition", required = false) Integer numConditions[],
+            @RequestParam(value = "dateIds", required = false) Long dateIds[],
+            @RequestParam(value = "dateVals", required = false) Date dateVals[],
+            @RequestParam(value = "dateCondition", required = false) Integer dateConditions[],
+            @RequestParam(value = "selIds", required = false) Long selIds[],
+            @RequestParam(value = "selVals", required = false) Long selVals[],
+            
+            @RequestParam(value = "multyIds", required = false) Long multyIds[],
+            @RequestParam(value = "multyVals", required = false) String multyVals[],
+            
             RedirectAttributes ras) throws Exception {
 
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
@@ -105,7 +123,8 @@ public class mainController extends WebController {
 
         List<Ad> mySales = adService.getSales(userId);
         List<Ad> myPurchases = adService.getPurchases(userId);
-        List<Ad> ads = adService.getAds(wish, catIds, region, order);
+        List<Ad> ads = adService.getAds(wish, catIds, region, order,booleanIds,booleanVals,
+                stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
 
         model.put("states", regionService.getNotEmptyStates());
