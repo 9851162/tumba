@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
-
+$(function() {
+          $( ".isDatepicker" ).datepicker();
+        });
 
     var i = 0,
             $metro = $('#grid'),

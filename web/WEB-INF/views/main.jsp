@@ -18,9 +18,12 @@
     <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" >
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" type="text/css" href="../css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
   </head>
   <body>
     <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
+    <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
+    <script src="<c:url value='/js/datepicker-ru.js'/>"></script>
     <div id="wrapper">
 
       <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -150,7 +153,7 @@
                   <c:if test="${searchParam.paramType==6}">
                   <td><label class="searchParamLabel">${searchParam.name} </label></td>
                   <td><select form="searchForm" name="dateCondition"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select></td>
-                  <td> <input form="searchForm" type="date" name="dateVals" placeholder="${searchParam.name}"></td>
+                  <td> <input form="searchForm" type="text" name="dateVals" class="isDatepicker" placeholder="${searchParam.name}"></td>
                     <input form="searchForm" type="hidden" name="dateIds" value="${searchParam.id}">
                   </c:if>
                     </tr>
@@ -657,7 +660,7 @@
     </div>
 
     <div id="overlay"></div>
-    <script src="../js/jquery.min.js"></script>
+    <!--<script src="../js/jquery.min.js"></script>-->
     <script src="../js/seller_scripts/script.js"></script>
     <script src="../js/seller_scripts/ajaxscript.js"></script>
     <script src="../js/seller_scripts/magic.js"></script>
@@ -665,6 +668,11 @@
                       $('.categoryChanger').change(function () {
                           var catId = $(this).val();
                           $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
+                          $('body').on('focus','.paramDatepicker',function(){
+                              $( this ).datepicker({
+                                dateFormat: "dd.mm.yy"
+                            });
+                          });
                       });
     </script>
     <script>
@@ -735,7 +743,7 @@
                             </c:when>
 
                             <c:when test="${parametr.paramType==6}">
-                                <br><label>${parametr.name} <input type="date" name="dateVals" placeholder="${parametr.name}"></label>
+                                <br><label>${parametr.name} <input type="text" name="dateVals" class="paramDatepicker" placeholder="${parametr.name}"></label>
                                 <input type="hidden" name="dateIds" value="${parametr.id}">
                             </c:when>
 
