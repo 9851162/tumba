@@ -49,7 +49,7 @@ public class mainController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
-            @RequestParam(value = "price", required = false) Double price,
+            @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "order", required = false) String order,
             
@@ -58,7 +58,7 @@ public class mainController extends WebController {
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],
-            @RequestParam(value = "numVals", required = false) Double numVals[],
+            @RequestParam(value = "numVals", required = false) String numVals[],
             @RequestParam(value = "numCondition", required = false) Integer numConditions[],
             @RequestParam(value = "dateIds", required = false) Long dateIds[],
             @RequestParam(value = "dateVals", required = false) Date dateVals[],

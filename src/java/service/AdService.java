@@ -74,8 +74,8 @@ public class AdService extends PrimService {
     @Autowired
     LocalityDao locDao;
 
-    public void create(Long catId, String email, Double price, MultipartFile previews[], String name, String desc,
-            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], Double numVals[],
+    public void create(Long catId, String email, String price, MultipartFile previews[], String name, String desc,
+            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],Region region) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
@@ -125,9 +125,9 @@ public class AdService extends PrimService {
                     ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
-                    ad.setPrice(price);
+                    ad.setPrice(getNumFromString(price));
                     ad.setValues(new HashSet());
-                    if (validate(ad)) {
+                    if (validate(ad)&&getErrors().isEmpty()) {
                         adDao.save(ad);
 
                         List<Parametr> catParams = paramDao.getParamsFromCat(catId);
@@ -194,14 +194,15 @@ public class AdService extends PrimService {
                             }
                         }
 
-                        if (numVals != null && numVals.length > 0) {
+                        if (snumVals != null && snumVals.length > 0) {
                             i = 0;
                             while (i < numIds.length) {
                                 Long paramId = numIds[i];
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
-                                    Double val = numVals[i];
-                                    if (val != null) {
+                                    String sval = snumVals[i];
+                                    if (sval != null&&!sval.equals("")) {
+                                        Double val = getNumFromString(sval);
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -217,6 +218,11 @@ public class AdService extends PrimService {
                                     }
                                 }
                                 i++;
+                            }
+                            if(!getErrors().isEmpty()){
+                                for(String e:getErrors()){
+                                    paramValsErrs.add(e);
+                                }
                             }
                         }
 
@@ -302,7 +308,7 @@ public class AdService extends PrimService {
                         }
 
                         //проверяем наконец есть ли ошибки и все ли требуемые параметры занесли
-                        if (!reqParamIds.isEmpty()) {
+                        if (!reqParamIds.isEmpty()||!paramValsErrs.isEmpty()) {
                             for (Long id : reqParamIds) {
                                 addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
                             }
@@ -350,7 +356,7 @@ public class AdService extends PrimService {
     //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order,
             Long booleanIds[], String booleanVals[],Long stringIds[], String stringVals[], 
-            Long numIds[], Double numVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
+            Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
             Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if(order!=null){
             if(order.equals("insert_date")){
@@ -364,9 +370,18 @@ public class AdService extends PrimService {
             }
         }
         
+        Double numVals[] = new Double[0];
+        if(snumVals!=null&&snumVals.length>0){
+            numVals = new Double[snumVals.length];
+            int i = 0;
+            for(String s:snumVals){
+                numVals[i++]=getNumFromString(s);
+            }
+        }
         
         
-        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order);
+        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order,booleanIds,booleanVals,
+                stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
         /*for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
             if (!res.contains(ad)) {
                 res.add(ad);
@@ -489,6 +504,18 @@ public class AdService extends PrimService {
                 }
             }
         }
+    }
+    
+    private Double getNumFromString(String val){
+        Double numVal = null;
+        if(val!=null){
+            try{
+                numVal = Double.valueOf(val.replace(",", "."));
+            }catch (Exception e) {
+                addError("Введенное значение "+val+" не является числом");
+            }
+        }
+        return numVal;
     }
 
 }

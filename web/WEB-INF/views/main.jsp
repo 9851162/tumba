@@ -262,7 +262,7 @@
                         <div class="col2">
                           <h3>Дата</h3>
                           <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
-                          <div class="price">${ad.price}</div>
+                          <div class="price"><fmt:formatNumber value="${ad.price}"/></div>
 
 
                           <div class="minmenu">
