@@ -562,7 +562,6 @@
         </div>
 
         <div id="overlay"></div>
-        <script src="../js/jquery.min.js"></script>
         <script src="../js/seller_scripts/script.js"></script>
         <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js"></script>

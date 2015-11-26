@@ -8,8 +8,8 @@
 <!DOCTYPE html>
 <div class="header">
 			<div class="tologo">
-				<img id="logo" src="../img/avatar.png">
-				<img id="minilogo" src="../img/round.png">
+                            <a href="../Main/"><img id="logo" src="../img/avatar.png"></a>
+                            <a href="../Main/"><img id="minilogo" src="../img/round.png"></a>
 			</div>
                         <div class="toavatar">
 				<div id="user_head">

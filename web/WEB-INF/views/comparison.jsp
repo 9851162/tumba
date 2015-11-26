@@ -106,7 +106,7 @@
                 <div class="boxtoitem boxtoitembig whitepod">
                     <div style="    width: 168px;;    float: left;">
                         <div class="oneatr firstatr">
-                            Показать<br>отличия
+                            
                         </div>
                         <c:forEach var="attr" items="${compMap.keySet()}">
                             <div class="oneatr">
@@ -138,85 +138,13 @@
                                             <p>${ad.cat.name}</p>
                                         </div>
                                         <div class="sravprice">
-                                            <div class="price">${ad.price}</div>
+                                            <div class="price"><fmt:formatNumber value="${ad.price}"/></div>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
                         </div>
-                        <!--<div class="onestr">
-          
-                          <div class="prewtov">
-                            <img class="sravimg" src="img/tov/tov16.jpg">
-                            <div class="sravopisanie">
-                              <div class="sravmin">
-                                <h3>Продавец</h3>
-                                <p>dfsfd sdfd</p>
-                                <h3>Товар</h3>
-                                <p>sыавыа</p>
-                              </div>
-                              <div class="sravprice">
-                                <div class="price">38,67 ₽</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="prewtov">
-                            <img class="sravimg" src="img/tov/tov16.jpg">
-                            <div class="sravopisanie">
-                              <div class="sravmin">
-                                <h3>Продавец</h3>
-                                <p>dfsfd sdfd</p>
-                                <h3>Товар</h3>
-                                <p>sыавыа</p>
-                              </div>
-                              <div class="sravprice">
-                                <div class="price">38,67 ₽</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="prewtov">
-                            <img class="sravimg" src="img/tov/tov16.jpg">
-                            <div class="sravopisanie">
-                              <div class="sravmin">
-                                <h3>Продавец</h3>
-                                <p>dfsfd sdfd</p>
-                                <h3>Товар</h3>
-                                <p>sыавыа</p>
-                              </div>
-                              <div class="sravprice">
-                                <div class="price">38,67 ₽</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="prewtov">
-                            <img class="sravimg" src="img/tov/tov16.jpg">
-                            <div class="sravopisanie">
-                              <div class="sravmin">
-                                <h3>Продавец</h3>
-                                <p>dfsfd sdfd</p>
-                                <h3>Товар</h3>
-                                <p>sыавыа</p>
-                              </div>
-                              <div class="sravprice">
-                                <div class="price">38,67 ₽</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="prewtov">
-                            <img class="sravimg" src="img/tov/tov16.jpg">
-                            <div class="sravopisanie">
-                              <div class="sravmin">
-                                <h3>Продавец</h3>
-                                <p>dfsfd sdfd</p>
-                                <h3>Товар</h3>
-                                <p>sыавыа</p>
-                              </div>
-                              <div class="sravprice">
-                                <div class="price">38,67 ₽</div>
-                              </div>
-                            </div>
-                          </div> 
-                        </div>	 -->
+                        
                         <c:forEach var="key" items="${compMap.keySet()}">
                             <div class="onestr">
                                 <c:forEach var="paramVal" items="${compMap.get(key)}">
@@ -227,32 +155,7 @@
                         </c:forEach>
 
 
-                        <!--<div class="onestr">
-          
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                        </div>				
-                        <div class="onestr">
-          
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                          <div>фывафывафывафвафва
-                          </div>
-                        </div>	-->			
+                        		
 
                     </div>
                 </div>
@@ -346,27 +249,7 @@
                     <div id="boxforparams" >
 
                     </div>
-                    <!--<div class="boxtoinput">
-                            <div class="num">4</div>
-                            <div class="toin">
-                                    <label>Выбор категории для объявления</label>
-                        <div class="dob">добавить<img src="./img/plus.png"> </div>
-                            </div>
-                    </div>-->
-                    <!--<div class="boxtoinput">
-                            <div class="num">5</div>
-                            <div class="toin">
-                                    <label>Выбор регионов</label>
-                        <div class="dob">добавить<img src="./img/plus.png"> </div>
-                            </div>
-                    </div>-->
-                    <!--<div class="boxtoinput">
-                            <div class="num">6</div>
-                            <div class="toin todata">
-                                    <label>Выбор даты для размещения объявления</label>
-                                    <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
-                            </div>
-                    </div>-->
+                    
                     <div class="form-group">
                         <button type="submit" class="btn">Добавить</button>
                     </div>
@@ -417,20 +300,6 @@
                         </div>
                     </div>
 
-                    <!--<div class="boxtoinput">
-                            <div class="num">4</div>
-                            <div class="toin">
-                                    <label>Добавление фото</label>
-                         <img src="../img/plusimg.png">
-                            </div>
-                    </div>
-                    <div class="boxtoinput">
-                            <div class="num">5</div>
-                            <div class="toin">
-                                    <label for="region">Выбор домашнего региона</label>
-                                <div class="dob">добавить<img src="../img/plus.png"> </div>
-                            </div>
-                    </div>-->
                     <div class="form-group">
                         <button type="submit" class="btn">Добавить</button>
                     </div>
@@ -564,7 +433,6 @@
 
 
         <div id="overlay"></div>
-        <script src="../js/jquery.min.js"></script>
         <script src="../js/seller_scripts/script.js"></script>
         <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js"></script>
