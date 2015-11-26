@@ -123,10 +123,12 @@ public class Ad extends PrimEntity {
     
     @Column(name = "date_from")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @NotNull(message = "Необходимо указать даты размещения объявления")
     private Date dateFrom;
     
     @Column(name = "date_to")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @NotNull(message = "Необходимо указать даты размещения объявления")
     private Date dateTo;
     
     @Override

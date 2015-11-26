@@ -76,7 +76,8 @@ public class AdService extends PrimService {
 
     public void create(Long catId, String email, String price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
-            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],Region region) throws IOException {
+            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],
+            Date dateFrom,Date dateTo,Region region) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
@@ -100,6 +101,8 @@ public class AdService extends PrimService {
                     ad.setInsertDate(new Date());
                     ad.setShowCount((long) 0);
                     ad.setStatus(Ad.NEW);
+                    ad.setDateFrom(dateFrom);
+                    ad.setDateTo(dateTo);
 
                     ad.setAuthor(user);
 

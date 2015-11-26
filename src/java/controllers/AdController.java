@@ -98,7 +98,7 @@ public class AdController extends WebController {
         //Long localIds[] = regionService.getLocIds(regionId,region);
         
         adService.create(catId,email,price,previews,shortName,description,booleanIds,booleanVals,
-                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,region);
+                stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,dateFrom,dateTo,region);
         
         errors.addAll(regionService.getErrors());
         errors.addAll(adService.getErrors());
