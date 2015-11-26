@@ -587,7 +587,7 @@
                         </div>
                     </div>
                     <div style="width: 69%;float: right;">
-                        <div class="toin">
+                        <div class="">
                             <ul>
                                 <!--<li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>-->
                                 <c:forEach var="state" items="${states}">
@@ -663,23 +663,7 @@
         <script src="../js/seller_scripts/script.js"></script>
         <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js"></script>
-        <script>
-              $('.categoryChanger').change(function () {
-                  var catId = $(this).val();
-                  $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
-                  $('body').on('focus', '.paramDatepicker', function () {
-                      $(this).datepicker({
-                          dateFormat: "dd.mm.yy"
-                      });
-                  });
-              });
-        </script>
-        <script>
-            $('.messageSender').on('click', function () {
-                var adId = $(this).attr('data-ad-id');
-                $('#msgIdentifier').val(adId);
-            });
-        </script>
+        
         <c:if test="${!empty errors}">
             <script>
                 $('#overlay').fadeIn(400, //пoкaзывaем oверлэй

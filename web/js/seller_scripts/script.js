@@ -1,8 +1,23 @@
 $(document).ready(function () {
 
-$(function() {
-          $( ".isDatepicker" ).datepicker();
+    $('body').on('click','.messageSender', function () {
+        var adId = $(this).attr('data-ad-id');
+        $('#msgIdentifier').val(adId);
+    });
+
+    $('.categoryChanger').change(function () {
+        var catId = $(this).val();
+        $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
+        $('body').on('focus', '.paramDatepicker', function () {
+            $(this).datepicker({
+                dateFormat: "dd.mm.yy"
+            });
         });
+    });
+
+    $(function () {
+        $(".isDatepicker").datepicker();
+    });
 
     var i = 0,
             $metro = $('#grid'),
@@ -63,7 +78,7 @@ $(function() {
     });
 
 
-    function addWatch(adId){
+    function addWatch(adId) {
         $.ajax({
             url: "../Ad/watch?adId=" + adId,
             dataType: "json",
