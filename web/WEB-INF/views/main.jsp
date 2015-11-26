@@ -301,7 +301,7 @@
                                                 <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
                                                 <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                <a><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
 
                                             </div>
                                         </div>
