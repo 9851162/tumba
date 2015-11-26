@@ -12,6 +12,7 @@ import entities.Region;
 import entities.State;
 import entities.User;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import service.AdService;
 import service.CategoryService;
 import service.RegionService;
 import service.UserService;
+import support.DateAdapter;
 
 /**
  *
@@ -52,6 +54,8 @@ public class mainController extends WebController {
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "order", required = false) String order,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) String booleanVals[],
@@ -75,6 +79,16 @@ public class mainController extends WebController {
         if (ers == null) {
             ers = new ArrayList();
         }
+        
+        if(dateFrom==null){
+            dateFrom=DateAdapter.getStartOfDate(new Date());
+        }
+        if(dateTo==null){
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_MONTH, 14);
+            dateTo=DateAdapter.getEndOfDate(c);
+        }
+        
 
         List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if (catIds == null) {
@@ -121,8 +135,7 @@ public class mainController extends WebController {
             comparingMap.put(ad.getId(), ad);
         }
 
-        List<Ad> mySales = adService.getSales(userId);
-        List<Ad> myPurchases = adService.getPurchases(userId);
+        
         List<Ad> ads = adService.getAds(wish, catIds, region, order,booleanIds,booleanVals,
                 stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
@@ -141,6 +154,8 @@ public class mainController extends WebController {
         model.put("regionSet", region.getId());
 
         //to do srazu polu4enie 4isla iz bazi?
+        List<Ad> mySales = adService.getSales(userId);
+        List<Ad> myPurchases = adService.getPurchases(userId);
         model.put("mySellCount", mySales.size());
         model.put("myBuyCount", myPurchases.size());
 
@@ -153,12 +168,14 @@ public class mainController extends WebController {
         if (price != null) {
             model.put("price", price);
         }
+        model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
+        model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
         model.put("order", order);
-
+        
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         model.put(ERRORS_LIST_NAME, ers);

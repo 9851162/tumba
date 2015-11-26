@@ -369,22 +369,6 @@
                     <div class="boxtoinput">
                         <div class="num">5</div>
                         <div class="toin">
-                            <!--<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">Регионы</label>
-                            <div><table><tr><td style="text-align: left;vertical-align: top;">
-                                            <label><input style="width: initial;" id="allRegions" type="checkbox">Все</label>
-                            <c:forEach var="state" items="${states}">
-                            <br><label><input style="width: initial;" id="${state.id}" type="checkbox">${state.name}</label>
-                            </c:forEach>
-                    </td>
-                    <td style="text-align: left;vertical-align: top;">
-                            <c:forEach var="state" items="${states}">
-                                <c:forEach var="loc" items="${state.localities}">
-                                    <label><input style="width: initial;" name="localIds" id="${loc.id}" type="checkbox" value="${loc.id}">${loc.name}(${state.name})</label><br>
-                                </c:forEach>
-                            </c:forEach>
-                    </td>
-                </tr></table>
-              </div>-->
                             <label>Регионы</label>
                             <select name="regionId">
                                 <option value="0">вся Россия</option>
@@ -397,6 +381,14 @@
 
                     <div class="boxtoinput">
                         <div class="num">6</div>
+                        <div class="toin todata">
+                            <label>Выбор даты для размещения объявления</label>
+                            <div class="minlab">c</div><input type="text" name="dateFrom" class="isDatepicker" value="${dateFrom}"><div class="minlab">по</div><input type="text" name="dateTo" class="isDatepicker" value="${dateTo}">
+                        </div>
+                    </div>
+
+                    <div class="boxtoinput">
+                        <div class="num">7</div>
                         <div class="toin">
                             <label for="catId">Выбор категории для объявления</label>
                             <select class="categoryChanger" name="catId">
@@ -414,7 +406,7 @@
 
 
 
-                    <c:set var="nextNum" value="7"/>
+                    <c:set var="nextNum" value="8"/>
                     <c:if test="${empty userId}">
                         <div class="boxtoinput">
                             <div class="num">${nextNum}</div>
@@ -663,15 +655,15 @@
         <script src="../js/seller_scripts/script.js"></script>
         <script src="../js/seller_scripts/ajaxscript.js"></script>
         <script src="../js/seller_scripts/magic.js"></script>
-        
+
         <c:if test="${!empty errors}">
             <script>
-                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                                    .css('display', 'block')
-                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                        });
+                                        $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                                                function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                                                    $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                                            .css('display', 'block')
+                                                            .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                                                });
             </script>
         </c:if>
 

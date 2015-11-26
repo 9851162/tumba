@@ -121,6 +121,14 @@ public class Ad extends PrimEntity {
     @Cascade(CascadeType.ALL)
     private Set<String> ips;
     
+    @Column(name = "date_from")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateFrom;
+    
+    @Column(name = "date_to")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateTo;
+    
     @Override
     public Long getId() {
         return id;
@@ -254,6 +262,22 @@ public class Ad extends PrimEntity {
 
     public void setIps(Set<String> ips) {
         this.ips = ips;
+    }
+
+    public Date getDateFrom() {
+        return dateFrom;
+    }
+
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
 
     
