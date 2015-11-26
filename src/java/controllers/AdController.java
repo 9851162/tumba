@@ -10,6 +10,7 @@ import entities.Ad;
 import entities.Region;
 import entities.User;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
 import service.RegionService;
+import support.DateAdapter;
 import support.JsonResponse;
+import support.StringAdapter;
 
 /**
  *
@@ -46,6 +49,8 @@ public class AdController extends WebController {
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "catId", required = false) Long catId,
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
@@ -73,6 +78,15 @@ public class AdController extends WebController {
             email = authedUser.getEmail();
         }
         
+        if(dateFrom==null){
+            dateFrom=DateAdapter.getStartOfDate(new Date());
+        }
+        if(dateTo==null){
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.DAY_OF_MONTH, 14);
+            dateTo=DateAdapter.getEndOfDate(c);
+        }
+        
         Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
         if(regionId!=null){
             if(regionId.equals(0L)){
@@ -95,6 +109,8 @@ public class AdController extends WebController {
             ras.addFlashAttribute("description", description);
             ras.addFlashAttribute("price", price);
             ras.addFlashAttribute("catId", catId);
+            ras.addFlashAttribute("dateFrom", dateFrom);
+            ras.addFlashAttribute("dateTo", dateTo);
             //ras.addAttribute("previews", previews);
         }
         //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());

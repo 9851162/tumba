@@ -28,6 +28,7 @@ import service.CategoryService;
 import service.RegionService;
 import service.UserService;
 import support.DateAdapter;
+import support.StringAdapter;
 
 /**
  *
@@ -81,12 +82,22 @@ public class mainController extends WebController {
         }
         
         if(dateFrom==null){
-            dateFrom=DateAdapter.getStartOfDate(new Date());
+            dateFrom=(Date)model.get("dateFrom");
+            if(dateFrom!=null){
+                dateFrom=DateAdapter.getStartOfDate(dateFrom);
+            }else{
+                dateFrom=DateAdapter.getStartOfDate(new Date());
+            }
         }
         if(dateTo==null){
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DAY_OF_MONTH, 14);
-            dateTo=DateAdapter.getEndOfDate(c);
+            dateTo=(Date)model.get("dateTo");
+            if(dateTo!=null){
+                dateTo=DateAdapter.getEndOfDate(dateTo);
+            }else{
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.DAY_OF_MONTH, 14);
+                dateTo=DateAdapter.getEndOfDate(c);
+            }
         }
         
 
