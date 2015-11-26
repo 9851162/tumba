@@ -13,10 +13,10 @@
 			</div>
                         <div class="toavatar">
 				<div id="user_head">
-                                        <div id="user_role">Администратор</div>
+                                        <div class="options" id="user_role">Администратор</div>
 					<div id="user_name">${userName}</div>
-					<div id="options"><a href="../Admin/administrating">управление</a></div>
-                                        <div id="logout" style="position: absolute;z-index: 2;"><a href="../logout">выйти</a></div>
+					<div class="options"><a href="../Admin/administrating">управление</a></div>
+                                        <div class="options" id="logout" style="position: absolute;z-index: 2;"><a href="../logout">выйти</a></div>
 				</div>
 				<img id="avatar" src="../img/avatar.png">
 				<img id="miniavatar" src="../img/round.png">
