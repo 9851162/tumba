@@ -73,9 +73,10 @@ public class AdDao extends Dao<Ad> {
     }
 
     public List<Ad> getChosenAds(Long userId) {
-        String sql = "select a.* from chosen_ads ca left join ad a on ca.ad_id=a.ad_id where ca.user_id=:userId";
+        String sql = "select a.* from chosen_ads ca left join ad a on ca.ad_id=a.ad_id where ca.user_id=:userId and a.date_to>:now and :now>a.date_from";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("userId", userId);
+        query.setParameter("now", new Date());
         query.addEntity(Ad.class);
         return query.list();
     }
@@ -142,25 +143,27 @@ public class AdDao extends Dao<Ad> {
         if (order == null) {
             order = "show_count desc";
         }
-        String sql = "select * from ad";
+        String sql = "select * from ad where date_from<:now and :now<date_to";
         if (wish == null) {
             wish = "";
         }
         List<String> splitted = splitted(wish);
         if (!splitted.isEmpty()) {
-            sql += " where 1!=1";
+            //sql += " where 1!=1";
+            sql+=" and (1!=1";
             for (String st : splitted) {
                 sql += " or (name like :wish" + splitted.indexOf(st) + ")";
             }
             for (String st : splitted) {
                 sql += " or (description like :wish" + splitted.indexOf(st) + ")";
             }
+            sql+=")";
         }
 
         if (!catIds.isEmpty()) {
-            if (splitted.isEmpty()) {
+            /*if (splitted.isEmpty()) {
                 sql += " where 1=1";
-            }
+            }*/
             sql += " and (1!=1";
             for (Long id : catIds) {
                 sql += " or category_id=:catId" + catIds.indexOf(id);
@@ -275,6 +278,7 @@ public class AdDao extends Dao<Ad> {
             query.setParameterList("localIds", getLocIds(region));
         }
         //query.setParameter("order", order);
+         query.setParameter("now", new Date());
         query.addEntity(Ad.class);
         return query.list();
     }
