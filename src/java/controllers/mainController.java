@@ -127,13 +127,16 @@ public class mainController extends WebController {
         }
 
         HashMap<Long, Long> locsInRegMap = new HashMap();
-        HashMap<Long, Long> statesInRegMap = new HashMap();
+        HashMap<Long, Integer> statesInRegMap = new HashMap();
         for (Locality l : region.getLocalities()) {
-            locsInRegMap.put(l.getId(), l.getId());
-        }
-        for (State s : region.getStates()) {
-            statesInRegMap.put(s.getId(), s.getId());
-        }
+                        locsInRegMap.put(l.getId(), l.getId());
+                        Long StateId = l.getState().getId();
+                        Integer locksInState = statesInRegMap.get(StateId);
+                        if(locksInState==null){
+                            locksInState=0;
+                        }
+                        statesInRegMap.put(StateId, ++locksInState);
+                    }
         model.put("locsInRegMap", locsInRegMap);
         model.put("statesInRegMap", statesInRegMap);
         /*ers.add("reg1:"+region.getName());
@@ -442,6 +445,21 @@ public class mainController extends WebController {
                 region = regionService.getDefaultRegion(u.getId());
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
+            
+            HashMap<Long, Long> locsInRegMap = new HashMap();
+            HashMap<Long, Integer> statesInRegMap = new HashMap();
+            for (Locality l : region.getLocalities()) {
+                        locsInRegMap.put(l.getId(), l.getId());
+                        Long StateId = l.getState().getId();
+                        Integer locksInState = statesInRegMap.get(StateId);
+                        if(locksInState==null){
+                            locksInState=0;
+                        }
+                        statesInRegMap.put(StateId, ++locksInState);
+                    }
+            model.put("locsInRegMap", locsInRegMap);
+            model.put("statesInRegMap", statesInRegMap);
+            model.put("availableRegions", regionService.getAvailableRegions(region, u));
 
             List<Long> catIds = (List) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
             if (catIds == null) {
@@ -611,21 +629,26 @@ public class mainController extends WebController {
         if (user != null) {
 
             //to do получение региона по юзеру и рег ид, а не только по рег ид
+            //Смысл state в регионе вообще следовало бы переделать.
             Region regionForShow = new Region();
             if (regionForShowId != null) {
                 regionForShow = regionService.getRegion(regionForShowId);
                 if (regionForShow != null) {
                     model.put("regionForShow", regionForShow);
-                    HashMap<Long, Long> locsInRegMap = new HashMap();
-                    HashMap<Long, Long> statesInRegMap = new HashMap();
+                    HashMap<Long, Long> locsInReg4ShowMap = new HashMap();
+                    HashMap<Long, Integer> statesInReg4ShowMap = new HashMap();
+                    
                     for (Locality l : regionForShow.getLocalities()) {
-                        locsInRegMap.put(l.getId(), l.getId());
+                        locsInReg4ShowMap.put(l.getId(), l.getId());
+                        Long StateId = l.getState().getId();
+                        Integer locksInState = statesInReg4ShowMap.get(StateId);
+                        if(locksInState==null){
+                            locksInState=0;
+                        }
+                        statesInReg4ShowMap.put(StateId, ++locksInState);
                     }
-                    for (State s : regionForShow.getStates()) {
-                        statesInRegMap.put(s.getId(), s.getId());
-                    }
-                    model.put("locsInRegMap", locsInRegMap);
-                    model.put("statesInRegMap", statesInRegMap);
+                    model.put("locsInReg4ShowMap", locsInReg4ShowMap);
+                    model.put("statesInReg4ShowMap", statesInReg4ShowMap);
                 }
             }
 
@@ -639,6 +662,20 @@ public class mainController extends WebController {
                 region = regionService.getDefaultRegion(user.getId());
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
+            HashMap<Long, Long> locsInRegMap = new HashMap();
+            HashMap<Long, Integer> statesInRegMap = new HashMap();
+
+            for (Locality l : region.getLocalities()) {
+                locsInRegMap.put(l.getId(), l.getId());
+                Long StateId = l.getState().getId();
+                Integer locksInState = statesInRegMap.get(StateId);
+                if(locksInState==null){
+                    locksInState=0;
+                }
+                statesInRegMap.put(StateId, ++locksInState);
+            }
+            model.put("locsInRegMap", locsInRegMap);
+            model.put("statesInRegMap", statesInRegMap);
 
             if (user.isHomeSet()) {
                 model.put("homeSet", user.getHomeSet());

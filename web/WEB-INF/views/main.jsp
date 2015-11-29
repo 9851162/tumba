@@ -559,19 +559,15 @@
                                 <table>
                                     <c:forEach var="region" items="${availableRegions}">
                                         <c:set var="regClass" value="btn-default"/>
-                                        <!--<c:set var="homeClass" value="btn-default"/>
-                                        <c:if test="${!empty regionSet && regionSet==region.id}">
-                                            <c:set var="regClass" value="btn-primary"/>
+                                        <c:if test="${!empty regionSet}">
+                                            <c:if test="${region.id==regionSet}">
+                                                <c:set var="regClass" value="btn-primary"/>
+                                            </c:if>
                                         </c:if>
-                                        <c:if test="${!empty homeSet && homeSet==region.id}">
-                                            <c:set var="homeClass" value="btn-primary"/>
-                                        </c:if>-->
                                         <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/chooseRegion?regionId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
                                                 <c:if test="${!empty homeSet && homeSet==region.id}">
                                                 <td><i class="fa fa-home"></i></td>
                                                 </c:if>
-                                                <!--<td><a title="сделать домашним" class="btn ${homeClass}" href="<c:url value="../Main/setHomeRegion?regionId=${region.id}&wish=${wish}" />"><i class="fa fa-home"></i></a></td>
-                                                <td><a title="удалить" class="btn btn-default" href="<c:url value="../Main/deleteRegion?regionId=${region.id}&wish=${wish}" />"><i class="fa fa-remove"></i></a></td>--></tr>
                                         </c:forEach>
                                 </table>
                             </c:if>
@@ -580,13 +576,14 @@
                     <div style="width: 69%;float: right;">
                         <div class="">
                             <ul>
-                                <!--<li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>-->
                                 <c:forEach var="state" items="${states}">
                                     <c:set var="stateInReg" value=""/>
+                                    <c:set var="checkedLocksInReg" value="0"/>
                                     <c:if test="${!empty statesInRegMap.get(state.id)}">
                                         <c:set var="stateInReg" value="checked"/>
+                                        <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
                                     </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${checkedLocksInReg}/${state.getLocalities().size()})</label></li>
                                         <c:if test="${!empty state.localities}">
                                         <ul>
                                             <c:forEach var="loc" items="${state.localities}">
@@ -603,9 +600,7 @@
                         </div>
                     </div>
                 </c:if>
-
             </div>
-
 
             <!--выбор региона без авторизации-->
             <div id="modal6" class="modal_form modal_div">
@@ -620,7 +615,7 @@
                                             <c:if test="${!empty statesInRegMap.get(state.id)}">
                                                 <c:set var="stateInReg" value="checked"/>
                                             </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (${state.getLocalities().size()})</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" class="opener" style="cursor: pointer;">${state.name} (0/${state.getLocalities().size()})</label></li>
                                         <c:if test="${!empty state.localities}">
                                         <ul>
                                             <c:forEach var="loc" items="${state.localities}">
