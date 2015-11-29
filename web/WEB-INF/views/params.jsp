@@ -19,10 +19,6 @@
     </head>
     <body style="overflow: scroll;">
         <div id="wrapper">
-            <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
-            <script src="../js/seller_scripts/magic.js">
-
-            </script>
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <%@include file="/WEB-INF/jsp/error.jsp" %>
             <a href="<c:url value='/Admin/cats'/>">Категории</a>

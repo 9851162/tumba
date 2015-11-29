@@ -19,7 +19,6 @@
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
     </head>
     <body>
-        <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
         <div id="wrapper">
 
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -433,9 +432,6 @@
 
 
         <div id="overlay"></div>
-        <script src="../js/seller_scripts/script.js"></script>
-        <script src="../js/seller_scripts/ajaxscript.js"></script>
-        <script src="../js/seller_scripts/magic.js"></script>
         <script>
                         $('.categoryChanger').change(function () {
                             var catId = $(this).val();

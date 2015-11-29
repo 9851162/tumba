@@ -37,6 +37,7 @@
         <intercept-url pattern="/Ad/buy" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Ad/watch" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Ad/changeStatus" access="hasAnyRole('admin')" />
+        <intercept-url pattern="/User/me" access="hasAnyRole('user','admin')" />
         
         <intercept-url pattern="/index" access="hasAnyRole('user','admin')" />  
         <intercept-url pattern="/" access="hasAnyRole('user','admin')" />

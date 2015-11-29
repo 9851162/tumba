@@ -19,11 +19,10 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
         <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
+        
     </head>
     <body>
-        <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
-        <script src="<c:url value='/js/jquery-ui.min.js'/>"></script>
-        <script src="<c:url value='/js/datepicker-ru.js'/>"></script>
+        
         <div id="wrapper">
 
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
@@ -652,9 +651,7 @@
         </div>
 
         <div id="overlay"></div>
-        <script src="../js/seller_scripts/script.js"></script>
-        <script src="../js/seller_scripts/ajaxscript.js"></script>
-        <script src="../js/seller_scripts/magic.js"></script>
+        
 
         <c:if test="${!empty errors}">
             <script>
