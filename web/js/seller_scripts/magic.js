@@ -78,7 +78,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
      
      }); */
 
-    $('#allRegionsSelector').on('change', function () {
+    /*$('#allRegionsSelector').on('change', function () {
         //var box = $(this).find('input:checkbox');
         $('.stateSelector').prop('checked', this.checked);
         $('.locSelector').prop('checked', this.checked);
@@ -132,91 +132,91 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
     $(".opener").on('click', function () {
         var stateId = $(this).attr('id');
         $('.locLabel[data-state-id=' + stateId + ']').toggleClass('hidden');
-    });
+    });*/
     
-    $('#allRegionsSelectorCr8').on('change', function () {
+    $('.allRegionsSelector').on('change', function () {
         var method = $(this).attr('data-method');
-        $('.stateSelectorCr8[data-method=' + method + ']').prop('checked', this.checked);
-        $('.locSelectorCr8[data-method=' + method + ']').prop('checked', this.checked);
+        $('.stateSelector[data-method=' + method + ']').prop('checked', this.checked);
+        $('.locSelector[data-method=' + method + ']').prop('checked', this.checked);
         //snyatie
         if (!$(this).prop('checked')) {
-            $('.checkedLocsCountCr8[data-method=' + method + ']').html(0);
+            $('.checkedLocsCount[data-method=' + method + ']').html(0);
         //odevanie
         }else{
-            $('.stateSelectorCr8[data-method=' + method + ']').each(function(id,el){
+            $('.stateSelector[data-method=' + method + ']').each(function(id,el){
                 var id = $(el).attr('id');
-                var count = $('.locSelectorCr8[data-state-id=' + id + '][data-method=' + method + ']').length;
-                $('.checkedLocsCountCr8[id='+id+'][data-method=' + method + ']').html(count);
+                var count = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
+                $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
             });
         }
     });
 
-    $('.stateSelectorCr8').on('change', function () {
+    $('.stateSelector').on('change', function () {
         var method = $(this).attr('data-method');
         var id = $(this).attr('id');
-        $('.locSelectorCr8[data-state-id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
-        var countChange = $('.locSelectorCr8[data-state-id=' + id + '][data-method=' + method + ']').length;
-        var count = parseInt($('.checkedLocsCountCr8[id='+id+'][data-method=' + method + ']').text());
+        $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
+        var countChange = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
+        var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
         //snyatie
         if (!$(this).prop('checked')) {
-            $('#allRegionsSelectorCr8[data-method=' + method + ']').prop('checked', this.checked);
+            $('#allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
             count = count-countChange;
         //odevanie
         } else {
             var allChecked = true;
-            $('.stateSelectorCr8[data-method=' + method + ']').each(function () {
+            $('.stateSelector[data-method=' + method + ']').each(function () {
                 if (!$(this).prop('checked')) {
                     allChecked = false;
                 }
             });
             if (allChecked) {
-                $('#allRegionsSelectorCr8[data-method=' + method + ']').prop('checked', true);
+                $('#allRegionsSelector[data-method=' + method + ']').prop('checked', true);
             }
             count = count+countChange;
         }
-        $('.checkedLocsCountCr8[id='+id+'][data-method=' + method + ']').html(count);
+        $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
     });
 
-    $('.locSelectorCr8').on('change', function () {
+    $('.locSelector').on('change', function () {
         var method = $(this).attr('data-method');
         var id = $(this).attr('data-state-id');
-        var count = parseInt($('.checkedLocsCountCr8[id='+id+'][data-method=' + method + ']').text());
+        var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
         //снятие
         if (!$(this).prop('checked')) {
-            $('#allRegionsSelectorCr8[data-method=' + method + ']').prop('checked', this.checked);
-            $('.stateSelectorCr8[id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
+            $('#allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
+            $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
             count=count-1;
         //одевание
         } else {
             var allChecked = true;
-            $('.locSelectorCr8[data-state-id=' + id + '][data-method=' + method + ']').each(function () {
+            $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').each(function () {
                 if (!$(this).prop('checked')) {
                     allChecked = false;
                 }
             });
             if (allChecked) {
-                $('.stateSelectorCr8[id=' + id + '][data-method=' + method + ']').prop('checked', true);
-                $('.stateSelectorCr8[data-method=' + method + ']').each(function () {
+                $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', true);
+                $('.stateSelector[data-method=' + method + ']').each(function () {
                     if (!$(this).prop('checked')) {
                         allChecked = false;
                     }
                 });
                 if (allChecked) {
-                    $('#allRegionsSelectorCr8[data-method=' + method + ']').prop('checked', true);
+                    $('#allRegionsSelector[data-method=' + method + ']').prop('checked', true);
                 }
             }
             count=count+1;
         }
-        $('.checkedLocsCountCr8[id='+id+'][data-method=' + method + ']').html(count);
+        $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
     });
 
-    $(".openerCr8").on('click', function () {
+    $(".opener").on('click', function () {
         var method = $(this).attr('data-method');
         var stateId = $(this).attr('id');
-        $('.locLabelCr8[data-state-id=' + stateId + '][data-method=' + method + ']').toggleClass('hidden');
+        $('.locLabel[data-state-id=' + stateId + '][data-method=' + method + ']').toggleClass('hidden');
     });
     
-    $('#allRegionsSelectorCh').on('change', function () {
+    /*$('#allRegionsSelectorCh').on('change', function () {
         //var box = $(this).find('input:checkbox');
         $('.stateSelectorCh').prop('checked', this.checked);
         $('.locSelectorCh').prop('checked', this.checked);
@@ -270,7 +270,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
     $(".openerCh").on('click', function () {
         var stateId = $(this).attr('id');
         $('.locLabelCh[data-state-id=' + stateId + ']').toggleClass('hidden');
-    });
+    });*/
     
 
 });

@@ -149,7 +149,7 @@
 
                             <ul style="float:left;margin-top:0;padding-top: 10px;">
                                 <form id="changingRegion" method="post" action="<c:url value="../Main/changeRegionStructure" />">
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="change" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="change" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="change" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="change" class="allRegionsSelector" type="checkbox" value="1">Все</label></li>
                                             <c:forEach var="state" items="${states}">
                                                 <c:set var="stateInReg" value=""/>
                                                 <c:set var="checkedLocksInReg" value="0"/>
@@ -432,7 +432,7 @@
                         <div class="toin">
                             <label><input type="text" name="name" placeholder="свой регион"> Наименование региона</label>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="cr8" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" id="allRegionsSelector" data-method="cr8" type="checkbox" value="1">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="cr8" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" class="allRegionsSelector" data-method="cr8" type="checkbox" value="1">Все</label></li>
                                         <c:forEach var="state" items="${states}">
                                             <c:set var="stateInReg" value=""/>
                                 <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="cr8" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="cr8" class="opener" style="cursor: pointer;">${state.name} (<span data-method="cr8" class="checkedLocsCount" id="${state.id}">0</span>/${state.getLocalities().size()})</label></li>
@@ -470,13 +470,13 @@
             });
         </script>
         <script>
-            $('.locSelectorCh').change(function () {
+            $('.locSelector[data-method=change]').change(function () {
                 $('#regionChanger').prop('disabled', '');
             })
-            $('.stateSelectorCh').change(function () {
+            $('.stateSelector[data-method=change]').change(function () {
                 $('#regionChanger').prop('disabled', '');
             })
-            $('#allRegionsSelectorCh').change(function () {
+            $('.allRegionsSelector[data-method=change]').change(function () {
                 $('#regionChanger').prop('disabled', '');
             })
         </script>
