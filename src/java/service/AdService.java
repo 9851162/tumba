@@ -20,14 +20,18 @@ import entities.ParametrValue;
 import entities.Region;
 import entities.State;
 import entities.User;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -329,11 +333,34 @@ public class AdService extends PrimService {
                                 i = 0;
                                 while (i < 7 && i < previews.length) {
                                     MultipartFile prev = previews[i];
-                                    if (prev.getSize() <= (long) 1024 * 1024) {
-                                        prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
+                                    if (prev.getSize() <= (long) 3 * 1024 * 1024) {
+                                        File f = new File("/usr/local/seller/preview/" + ad.getId() + "/supPreview");
+                                        if(f.exists()){
+                                            f.delete();
+                                        }
+                                        prev.transferTo(f);
+                                        try{
+                                            BufferedImage bi = ImageIO.read(f);
+                                            BigDecimal x = BigDecimal.valueOf(0);
+                                            BigDecimal y = BigDecimal.valueOf(0);
+                                            BigDecimal h = BigDecimal.valueOf(bi.getHeight());
+                                            BigDecimal w = BigDecimal.valueOf(bi.getWidth());
+                                            if(h.compareTo(w)>0){
+                                                y=(h.subtract(w)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                h=w;
+                                            }else if(h.compareTo(w)<0){
+                                                x=(w.subtract(h)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                w=h;
+                                            }
+                                            bi = bi.getSubimage(x.intValue(), y.intValue(), w.intValue(), h.intValue());
+                                            f = new File("/usr/local/seller/preview/" + ad.getId() + "/" + i);
+                                            ImageIO.write(bi, "png", f);
+                                        }catch (Exception e){
+                                            addError("Не удалось прочитать изображение "+prev.getName()+"; "+StringAdapter.getStackTraceException(e));
+                                        }
+                                        //prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
                                     } else {
-                                        addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 1мб.");
-
+                                        addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 3 мб.");
                                     }
                                     i++;
                                 }
@@ -419,45 +446,8 @@ public class AdService extends PrimService {
             }
         }
         
-        /*if(snumVals!=null){
-            addError("sn="+snumVals.length);
-            int a=0;
-            for(String s:snumVals){
-                addError("sn"+a+"="+s);
-                a++;
-            }
-        }
-        if(numVals!=null){
-            addError("n="+numVals.length);
-            int a=0;
-            for(Double s:numVals){
-                addError("n"+a+"="+s);
-                a++;
-            }
-        }
-        if(booleanVals!=null){
-            addError("b="+booleanVals.length);
-        }
-        if(stringVals!=null){
-            addError("s="+stringVals.length);
-        }
-        if(dateVals!=null){
-            addError("d="+dateVals.length);
-        }
-        if(multyVals!=null){
-            addError("m="+multyVals.length);
-        }
-        if(selVals!=null){
-            addError("sel="+selVals.length);
-        }*/
-        
         List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order,booleanIds,booleanVals,
                 stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals);
-        /*for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
-            if (!res.contains(ad)) {
-                res.add(ad);
-            }
-        }*/
         return res;
     }
 
