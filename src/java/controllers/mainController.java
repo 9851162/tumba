@@ -59,7 +59,7 @@ public class mainController extends WebController {
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
-            @RequestParam(value = "booleanVals", required = false) String booleanVals[],
+            @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],

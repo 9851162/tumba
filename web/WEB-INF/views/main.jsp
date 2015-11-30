@@ -145,7 +145,12 @@
                                 <c:if test="${searchParam.paramType==5}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
                                     <td></td>
-                                    <td> <input form="searchForm" type="checkbox" name="booleanVals"></td>
+                                    <!--<td> <input form="searchForm" type="checkbox" name="booleanVals"></td>-->
+                                            <td><select name="booleanVals" form="searchForm">
+                                                    <option value="">не выбрано</option>
+                                                    <option value="1">да</option>
+                                                    <option value="0">нет</option>
+                                        </select></td>
                                     <input form="searchForm" type="hidden" name="booleanIds" value="${searchParam.id}">
                                 </c:if>
 

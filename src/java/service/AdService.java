@@ -358,7 +358,7 @@ public class AdService extends PrimService {
 
     //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order,
-            Long booleanIds[], String booleanVals[],Long stringIds[], String stringVals[], 
+            Long booleanIds[], Long booleanVals[],Long stringIds[], String stringVals[], 
             Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
             Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if(order!=null){
@@ -373,18 +373,86 @@ public class AdService extends PrimService {
             }
         }
         
-        Double numVals[] = new Double[0];
-        if(snumVals!=null&&snumVals.length>0){
-            numVals = new Double[snumVals.length];
+        List<Long>stringIdsList=new ArrayList();
+        List<String>stringValsList=new ArrayList();
+        if(stringVals!=null&&stringVals.length>0){
             int i = 0;
-            for(String s:snumVals){
-                numVals[i++]=getNumFromString(s);
+            for(String s:stringVals){
+                if(s!=null&&!s.equals("")){
+                    stringValsList.add(s);
+                    stringIdsList.add(stringIds[i]);
+                }
+                i++;
             }
         }
         
+        List<Double>numValsList=new ArrayList();
+        List<Integer>numCondList=new ArrayList();
+        List<Long>numIdsList=new ArrayList();
+        if(snumVals!=null&&snumVals.length>0){
+            int i = 0;
+            for(String s:snumVals){
+                if(s!=null&&!s.equals("")){
+                    Double val=getNumFromString(s);
+                    if(val!=null&&!val.equals(Double.NaN)){
+                        numIdsList.add(numIds[i]);
+                        numCondList.add(numConditions[i]);
+                        numValsList.add(val);
+                    }
+                }
+                i++;
+            }
+        }
+        
+        List<Long>dateIdsList=new ArrayList();
+        List<Integer>dateCondList=new ArrayList();
+        List<Date>dateValsList=new ArrayList();
+        if(dateVals!=null&&dateVals.length>0){
+            int i = 0;
+            for(Date d:dateVals){
+                if(d!=null){
+                    dateValsList.add(d);
+                    dateCondList.add(dateConditions[i]);
+                    dateIdsList.add(dateIds[i]);
+                }
+                i++;
+            }
+        }
+        
+        /*if(snumVals!=null){
+            addError("sn="+snumVals.length);
+            int a=0;
+            for(String s:snumVals){
+                addError("sn"+a+"="+s);
+                a++;
+            }
+        }
+        if(numVals!=null){
+            addError("n="+numVals.length);
+            int a=0;
+            for(Double s:numVals){
+                addError("n"+a+"="+s);
+                a++;
+            }
+        }
+        if(booleanVals!=null){
+            addError("b="+booleanVals.length);
+        }
+        if(stringVals!=null){
+            addError("s="+stringVals.length);
+        }
+        if(dateVals!=null){
+            addError("d="+dateVals.length);
+        }
+        if(multyVals!=null){
+            addError("m="+multyVals.length);
+        }
+        if(selVals!=null){
+            addError("sel="+selVals.length);
+        }*/
         
         List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order,booleanIds,booleanVals,
-                stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
+                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals);
         /*for (Ad ad : adDao.getAdsByWishInDesc(wish, catIds,region,order)) {
             if (!res.contains(ad)) {
                 res.add(ad);
