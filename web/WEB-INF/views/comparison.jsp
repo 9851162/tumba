@@ -97,11 +97,11 @@
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
             </c:if>
-            <c:if test="${empty compAds||compAds.size()==1}">
+            <c:if test="${empty compAds}">
                 <div class="boxtoitem boxtoitembig whitepod" style="padding-left: 20px;">Ooops... Нечего сравнивать, добавьте объявления для сравнения.</div>
             </c:if>   
 
-            <c:if test="${!empty compAds&&compAds.size()>1}">
+            <c:if test="${!empty compAds}">
                 <div class="boxtoitem boxtoitembig whitepod">
                     <div style="    width: 168px;;    float: left;">
                         <div class="oneatr firstatr">
@@ -145,8 +145,9 @@
                         </div>
                         
                         <c:forEach var="key" items="${compMap.keySet()}">
-                            <div class="onestr">
+                            <div class="onestr" style="width:100%;">
                                 <c:forEach var="paramVal" items="${compMap.get(key)}">
+                                    <c:if test="${empty paramVal}"><c:set var="paramVal" value="-"/></c:if>
                                     <div>${paramVal}
                                     </div>
                                 </c:forEach>
