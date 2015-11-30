@@ -70,20 +70,4 @@ public class WebController {
         model.put(ERRORS_LIST_NAME, res.getErrors());
     }
     
-    /*@RequestMapping("/")
-    public String getMain (Map<String, Object> model,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
-            
-        return "redirect:/Main/";
-    }
-    
-    @RequestMapping("/index")
-    public String getIndex (Map<String, Object> model,
-            HttpServletRequest request,
-            RedirectAttributes ras) throws Exception {
-            
-        return "redirect:/Main/";
-    }*/
-    
 }

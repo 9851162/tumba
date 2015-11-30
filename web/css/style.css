@@ -416,3 +416,7 @@ td {
 #searchParamTable td {
     text-align: left;
 }
+
+.semichecked{
+    opacity: 0.5;
+}
