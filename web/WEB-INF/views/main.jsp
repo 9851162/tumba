@@ -163,13 +163,11 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                        <!--<button type="submit" class="btn">Поиск</button>-->
-
                     </div>
                 </c:if>
             </div>
 
-            <c:if test="${role=='user'||role=='admin'}">
+            
                 <c:set var="choosePossible" value="choose"/>
                 <c:set var="msgPossible" value="open_modal messageSender"/>
                 <c:set var="comparePossible" value="compareAdder"/>
@@ -181,7 +179,7 @@
                     <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
-            </c:if>
+            
 
             <div class="left_side  ">
                 <c:if test="${role=='user'||role=='admin'}">    
@@ -338,6 +336,7 @@
                             <input name="shortName" type="text" value="${shortName}">
                         </div>
                     </div>
+                        
                     <div class="boxtoinput">
                         <div class="num">2</div>
                         <div class="toin">
@@ -346,8 +345,7 @@
                             <textarea name="description" type="textarea" value="">${description}</textarea>
                         </div>
                     </div>
-
-
+                        
                     <div class="boxtoinput">
                         <div class="num">3</div>
                         <div class="toin">
@@ -406,10 +404,7 @@
                             </select>
                         </div>
                     </div>
-
-
-
-
+                        
                     <c:set var="nextNum" value="8"/>
                     <c:if test="${empty userId}">
                         <div class="boxtoinput">
@@ -424,32 +419,9 @@
                     <div id="boxforparams" >
 
                     </div>
-                    <!--<div class="boxtoinput">
-                            <div class="num">4</div>
-                            <div class="toin">
-                                    <label>Выбор категории для объявления</label>
-                        <div class="dob">добавить<img src="./img/plus.png"> </div>
-                            </div>
-                    </div>-->
-                    <!--<div class="boxtoinput">
-                            <div class="num">5</div>
-                            <div class="toin">
-                                    <label>Выбор регионов</label>
-                        <div class="dob">добавить<img src="./img/plus.png"> </div>
-                            </div>
-                    </div>-->
-                    <!--<div class="boxtoinput">
-                            <div class="num">6</div>
-                            <div class="toin todata">
-                                    <label>Выбор даты для размещения объявления</label>
-                                    <div class="minlab">c</div><input type="date"><div class="minlab">по</div><input type="date">
-                            </div>
-                    </div>-->
-                    <!--<div style="margin-left: 55px;margin-top: 15px;" class="form-group">-->
-                    <button style="margin-left: 55px;margin-top: 15px;" type="submit" class="btn btn-primary">Добавить</button>
-                    <!--</div>-->
                 </form>
             </div>
+                    <c:if test="${empty role}">
             <div id="modal2" class="modal_form modal_div">
                 <div class="nameform">РЕГИСТРАЦИЯ</div>
                 <form  method="post" action="../Main/registration">
@@ -513,8 +485,11 @@
                     </div>
                 </form>
             </div>
-
+                    </c:if>
+            
+                    <c:if test="${empty role}">
             <div id="modal3" class="modal_form modal_div">
+                
                 <div class="nameform">АВТОРИЗАЦИЯ</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">
@@ -534,6 +509,7 @@
                     </div>
                 </form>
             </div>
+                    </c:if>
 
             <div id="modal4" class="modal_form modal_div">
                 <div class="nameform">Отправить сообщение</div>
@@ -610,6 +586,7 @@
             <!--выбор региона без авторизации-->
             <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
+                <c:if test="${empty role}">
                 <div>
                     <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
                         <div class="toin">
@@ -641,6 +618,7 @@
                         </div>
                     </form>
                 </div>
+                </c:if>
             </div>
 
             <div id="modalerror" class="modal_form modal_div">

@@ -1,8 +1,4 @@
-<%-- 
-    Document   : login
-    Created on : 16.03.2015, 19:17:08
-    Author     : Юрий
---%>
+
 <%@page session="true" import="java.util.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -87,8 +83,7 @@
                 </div>
             </div>
 
-            <c:if test="${role=='user'||role=='admin'}">
-                <c:set var="choosePossible" value="choose"/>
+            
                 <div class="icons icons_expand">
                     <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
@@ -96,7 +91,6 @@
                     <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
-            </c:if>
             <c:if test="${empty compAds}">
                 <div class="boxtoitem boxtoitembig whitepod" style="padding-left: 20px;">Ooops... Нечего сравнивать, добавьте объявления для сравнения.</div>
             </c:if>   
@@ -387,6 +381,7 @@
             <!--выбор региона без авторизации-->
             <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
+                <c:if test="${empty role}">
                 <div>
                     <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
                         <div class="toin">
@@ -418,6 +413,7 @@
                         </div>
                     </form>
                 </div>
+                </c:if>
             </div>
 
             <div id="modalerror" class="modal_form modal_div">
