@@ -339,6 +339,7 @@ public class AdService extends PrimService {
                                             f.delete();
                                         }
                                         prev.transferTo(f);
+                                        //to do мб побыстрее как-то сделать?
                                         try{
                                             BufferedImage bi = ImageIO.read(f);
                                             BigDecimal x = BigDecimal.valueOf(0);
