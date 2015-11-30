@@ -71,68 +71,6 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         $(this).toggleClass("active");
         return false;
     });
-
-    /*$('.thumbs img').on('click', function(){
-     var gallery = $(this).closest('.toblockimg');
-     gallery.find('.largeImage').attr('src',$(this).attr('src').replace('thumb','large')); 
-     
-     }); */
-
-    /*$('#allRegionsSelector').on('change', function () {
-        //var box = $(this).find('input:checkbox');
-        $('.stateSelector').prop('checked', this.checked);
-        $('.locSelector').prop('checked', this.checked);
-    });
-
-    $('.stateSelector').on('change', function () {
-        var id = $(this).attr('id');
-        $('.locSelector[data-state-id=' + id + ']').prop('checked', this.checked);
-        if (!$(this).prop('checked')) {
-            $('#allRegionsSelector').prop('checked', this.checked);
-        } else {
-            var allChecked = true;
-            $('.stateSelector').each(function () {
-                if (!$(this).prop('checked')) {
-                    allChecked = false;
-                }
-            });
-            if (allChecked) {
-                $('#allRegionsSelector').prop('checked', true);
-            }
-        }
-
-    });
-
-    $('.locSelector').on('change', function () {
-        var id = $(this).attr('data-state-id');
-        if (!$(this).prop('checked')) {
-            $('#allRegionsSelector').prop('checked', this.checked);
-            $('.stateSelector[id=' + id + ']').prop('checked', this.checked);
-        } else {
-            var allChecked = true;
-            $('.locSelector[data-state-id=' + id + ']').each(function () {
-                if (!$(this).prop('checked')) {
-                    allChecked = false;
-                }
-            });
-            if (allChecked) {
-                $('.stateSelector[id=' + id + ']').prop('checked', true);
-                $('.stateSelector').each(function () {
-                    if (!$(this).prop('checked')) {
-                        allChecked = false;
-                    }
-                });
-                if (allChecked) {
-                    $('#allRegionsSelector').prop('checked', true);
-                }
-            }
-        }
-    });
-
-    $(".opener").on('click', function () {
-        var stateId = $(this).attr('id');
-        $('.locLabel[data-state-id=' + stateId + ']').toggleClass('hidden');
-    });*/
     
     $('.allRegionsSelector').on('change', function () {
         var method = $(this).attr('data-method');
@@ -159,7 +97,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
         //snyatie
         if (!$(this).prop('checked')) {
-            $('#allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
             count = count-countChange;
         //odevanie
         } else {
@@ -170,7 +108,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
                 }
             });
             if (allChecked) {
-                $('#allRegionsSelector[data-method=' + method + ']').prop('checked', true);
+                $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
             }
             count = count+countChange;
         }
@@ -183,7 +121,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
         //снятие
         if (!$(this).prop('checked')) {
-            $('#allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
             $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
             count=count-1;
         //одевание
@@ -202,7 +140,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
                     }
                 });
                 if (allChecked) {
-                    $('#allRegionsSelector[data-method=' + method + ']').prop('checked', true);
+                    $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
                 }
             }
             count=count+1;
@@ -215,62 +153,4 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         var stateId = $(this).attr('id');
         $('.locLabel[data-state-id=' + stateId + '][data-method=' + method + ']').toggleClass('hidden');
     });
-    
-    /*$('#allRegionsSelectorCh').on('change', function () {
-        //var box = $(this).find('input:checkbox');
-        $('.stateSelectorCh').prop('checked', this.checked);
-        $('.locSelectorCh').prop('checked', this.checked);
-    });
-
-    $('.stateSelectorCh').on('change', function () {
-        var id = $(this).attr('id');
-        $('.locSelectorCh[data-state-id=' + id + ']').prop('checked', this.checked);
-        if (!$(this).prop('checked')) {
-            $('#allRegionsSelectorCh').prop('checked', this.checked);
-        } else {
-            var allChecked = true;
-            $('.stateSelectorCh').each(function () {
-                if (!$(this).prop('checked')) {
-                    allChecked = false;
-                }
-            });
-            if (allChecked) {
-                $('#allRegionsSelectorCh').prop('checked', true);
-            }
-        }
-
-    });
-    
-    $('.locSelectorCh').on('change', function () {
-        var id = $(this).attr('data-state-id');
-        if (!$(this).prop('checked')) {
-            $('#allRegionsSelectorCh').prop('checked', this.checked);
-            $('.stateSelectorCh[id=' + id + ']').prop('checked', this.checked);
-        } else {
-            var allChecked = true;
-            $('.locSelectorCh[data-state-id=' + id + ']').each(function () {
-                if (!$(this).prop('checked')) {
-                    allChecked = false;
-                }
-            });
-            if (allChecked) {
-                $('.stateSelectorCh[id=' + id + ']').prop('checked', true);
-                $('.stateSelectorCh').each(function () {
-                    if (!$(this).prop('checked')) {
-                        allChecked = false;
-                    }
-                });
-                if (allChecked) {
-                    $('#allRegionsSelectorCh').prop('checked', true);
-                }
-            }
-        }
-    });
-    
-    $(".openerCh").on('click', function () {
-        var stateId = $(this).attr('id');
-        $('.locLabelCh[data-state-id=' + stateId + ']').toggleClass('hidden');
-    });*/
-    
-
 });

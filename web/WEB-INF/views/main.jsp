@@ -609,7 +609,7 @@
                     <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
                         <div class="toin">
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="set" id="allRegionsSelector" type="checkbox" value="1">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="set" class="allRegionsSelector" type="checkbox" value="1">Все</label></li>
                                         <c:forEach var="state" items="${states}">
                                             <c:set var="stateInReg" value=""/>
                                             <c:if test="${!empty statesInRegMap.get(state.id)}">
