@@ -90,10 +90,10 @@
             <c:if test="${role=='user'||role=='admin'}">
                 <c:set var="choosePossible" value="choose"/>
                 <div class="icons icons_expand">
-                    <a href="<c:url value="../Main/purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
-                    <a href="<c:url value="../Main/sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
+                    <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
+                    <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
                     <a href="<c:url value="../Main/regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
-                    <a href="<c:url value="../Main/chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
+                    <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
             </c:if>

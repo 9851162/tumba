@@ -46,6 +46,11 @@ public class mainController extends WebController {
     private CategoryService catService;
     @Autowired
     private RegionService regionService;
+    
+    public static String MAINACTIONNAME = "main";
+    public static String PURCHASESACTIONNAME = "purchases";
+    public static String SALESACTIONNAME = "sales";
+    public static String CHOSENACTIONNAME = "chosen";
 
     @RequestMapping("/")
     public String getMain(Map<String, Object> model,
@@ -73,12 +78,17 @@ public class mainController extends WebController {
             
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
-            
+            @RequestParam(value = "action", required = false) String action,
             RedirectAttributes ras) throws Exception {
-
+        
+        
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
         if (ers == null) {
             ers = new ArrayList();
+        }
+        
+        if(action==null){
+            action=MAINACTIONNAME;
         }
         
         if(dateFrom==null){
@@ -148,10 +158,19 @@ public class mainController extends WebController {
         for (Ad ad : compAds) {
             comparingMap.put(ad.getId(), ad);
         }
-
         
-        List<Ad> ads = adService.getAds(wish, catIds, region, order,booleanIds,booleanVals,
+        List<Ad> ads = new ArrayList();
+        
+        if (action.equals(CHOSENACTIONNAME)) {
+            ads=adService.getChosenAds(userId);
+        } else if (action.equals(PURCHASESACTIONNAME)) {
+            ads=adService.getPurchases(userId);
+        } else if (action.equals(SALESACTIONNAME)) {
+            ads=adService.getSales(userId);
+        } else {
+            ads = adService.getAds(wish, catIds, region, order,booleanIds,booleanVals,
                 stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
+        }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
 
         model.put("states", regionService.getNotEmptyStates());
@@ -189,6 +208,7 @@ public class mainController extends WebController {
         model.put("catParamsMap", catService.getCatIdParamsMap());
         model.put("wish", wish);
         model.put("order", order);
+        model.put("action", action);
         
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
@@ -232,7 +252,7 @@ public class mainController extends WebController {
         return "redirect:/Main/";
     }
 
-    @RequestMapping("/chosen")
+    /*@RequestMapping("/chosen")
     public String getChosen(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "shortName", required = false) String shortName,
@@ -424,7 +444,7 @@ public class mainController extends WebController {
         ers.addAll(catService.getErrors());
         model.put(ERRORS_LIST_NAME, ers);
         return "main";
-    }
+    }*/
 
     @RequestMapping("/comparison")
     public String getComparison(Map<String, Object> model,

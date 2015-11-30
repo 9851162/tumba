@@ -29,6 +29,8 @@
         <intercept-url pattern="/Main/addCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Main/removeCat4Search" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Main/createAndMountRegion" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
+        <intercept-url pattern="/Main/createRegion" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Main/changeRegionStructure" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Ad/add" access="hasAnyRole('ROLE_ANONYMOUS','user','admin')" />
         <intercept-url pattern="/Ad/setChosenUnchosen" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Ad/setUnchosen" access="hasAnyRole('user','admin')" />
