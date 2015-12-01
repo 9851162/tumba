@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
+import service.CategoryService;
 import service.RegionService;
 import support.DateAdapter;
 import support.JsonResponse;
-import support.StringAdapter;
 
 /**
  *
@@ -40,6 +40,8 @@ public class AdController extends WebController {
     private AdService adService;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private CategoryService catService;
     
     @RequestMapping("/add")
     public String add (Map<String, Object> model,
@@ -52,6 +54,7 @@ public class AdController extends WebController {
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
+            @RequestParam(value = "regionId", required = false) Long regionId,
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) String booleanVals[],
@@ -66,7 +69,7 @@ public class AdController extends WebController {
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
             
-            @RequestParam(value = "regionId", required = false) Long regionId,
+            
             //@RequestParam(value = "localIds", required = false) Long localIds[],
             
             
@@ -253,6 +256,59 @@ public class AdController extends WebController {
             res.setStatus(Boolean.FALSE);
         }
         return res;
+    }
+    
+    @RequestMapping("/getAd")
+    @ResponseBody
+    public JsonResponse getAd4Change (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            RedirectAttributes ras) throws Exception {
+        
+        User u = authManager.getCurrentUser();
+            Ad ad = adService.getAd(adId);
+            
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if(!adService.getErrors().isEmpty()){
+            res.setMessage(adService.getErrorsAsString());
+            res.setStatus(Boolean.FALSE);
+        }
+        if(ad.getAuthor().getId().equals(u.getId())){
+            res.addData("shortName",ad.getName());
+            res.addData("description",ad.getDescription());
+            res.addData("price",ad.getPrice());
+            res.addData("dateFrom",DateAdapter.formatByDate(ad.getDateFrom(),DateAdapter.SMALL_FORMAT));
+            res.addData("dateTo",DateAdapter.formatByDate(ad.getDateTo(),DateAdapter.SMALL_FORMAT));
+        }
+        
+        return res;
+    }
+    
+    @RequestMapping("/changeAd")
+    public String changeAd (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "action", required = false) String action,
+            @RequestParam(value = "shortName", required = false) String shortName,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "price", required = false) String price,
+            /*@RequestParam(value = "catId", required = false) Long catId,*/
+            @RequestParam(value = "dateFrom", required = false) Date dateFrom,
+            @RequestParam(value = "dateTo", required = false) Date dateTo,
+            /*@RequestParam(value = "previews", required = false) MultipartFile previews[],
+            @RequestParam(value = "regionId", required = false) Long regionId,*/
+            RedirectAttributes ras) throws Exception {
+        
+        
+            adService.changeAd(adId, shortName, description, price, dateFrom, dateTo);
+            
+            
+            ras.addAttribute("errors", adService.getErrors());
+            ras.addAttribute("wish", wish);
+            ras.addAttribute("action", action);
+        return "redirect:/Main/";
     }
     
 }

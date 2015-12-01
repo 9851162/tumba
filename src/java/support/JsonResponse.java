@@ -6,6 +6,9 @@
 
 package support;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author bezdatiuzer
@@ -13,6 +16,7 @@ package support;
 public class JsonResponse {
     private Boolean status = null;
     private String message = "";
+    private HashMap<String,Object> data = new HashMap();
     
     public static JsonResponse getInstance(){
         return new JsonResponse();
@@ -36,6 +40,18 @@ public class JsonResponse {
     
     public void addMessage(String msg){
         this.message+=";"+msg;
+    }
+
+    public HashMap<String,Object> getData() {
+        return data;
+    }
+
+    public void setData(HashMap<String,Object> data) {
+        this.data = data;
+    }
+    
+    public void addData(String name,Object o){
+        this.data.put(name,o);
     }
     
 }

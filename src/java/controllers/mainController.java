@@ -123,6 +123,7 @@ public class mainController extends WebController {
             if (u.isHomeSet()) {
                 model.put("homeSet", u.getHomeSet());
             }
+            model.put("userAds", adService.getUserAds(userId));
         }
 
         Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);

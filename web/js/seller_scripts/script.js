@@ -101,5 +101,37 @@ $(document).ready(function () {
             }
         });
     }
+    
+    $('body').on('click','.adChanger',function(event){
+       var adId = $(event.target.closest('a')).attr('data-id');
+       $('#changeAdForm').find('button[type=submit]').prop('disabled','disabled');
+       $.ajax({
+           url: "../Ad/getAd?adId=" + adId,
+           dataType: "json",
+           cache: false,
+           success: function (json) {
+                if (json['status'] == true) {
+                    //changebleElem.html(name);
+                    //alert(json['data'].shortName);
+                    var s = "";
+                    $.each(json['data'],function(key,value){
+                        if(key!='description'){
+                            $('#changeAdForm').find('[name='+key+']').attr('value',value);
+                        }else{
+                            $('#changeAdForm').find('[name='+key+']').text(value);
+                        }
+                    });
+                    /*$('#changeAdForm').find('[name=shortName]').attr('value',json['data'].shortName);
+                    $('#changeAdForm').find('[name=description]').text(json['data'].description);
+                    $('#changeAdForm').find('[name=price]').attr('value',json['data'].price);
+                    $('#changeAdForm').find('[name=dateFrom]').attr('value',json['data'].shortName);
+                    $('#changeAdForm').find('[name=dateTo]').attr('value',json['data'].shortName);*/
+                    $('#changeAdForm').find('[name=adId]').val(adId);
+                    $('#changeAdForm').find('button[type=submit]').prop('disabled','');
+                }
+
+            }
+       });
+    });
 
 })

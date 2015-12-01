@@ -578,5 +578,38 @@ public class AdService extends PrimService {
         }
         return numVal;
     }
+    
+    public void changeAd(Long adId,String shortName,String description,String price,Date dateFrom,Date dateTo){
+        if(adId!=null){
+            Ad ad = adDao.find(adId);
+            //Category cat = catDao.find(catId);
+            //Region r = 
+            if(ad!=null){
+                //if(cat!=null){
+                //addError("что-то не так");
+                    ad.setDateFrom(dateFrom);
+                    ad.setDateTo(dateTo);
+                    ad.setDescription(description);
+                    ad.setName(shortName);
+                    ad.setPrice(getNumFromString(price));
+                    //ad.setCat(cat);
+                    if(validate(ad)&&getErrors().isEmpty()){
+                        adDao.save(ad);
+                    }/*else{
+                        addError("не получается");
+                    }*/
+                //}
+            }
+        }
+    }
+    
+    public HashMap<Long,Long> getUserAds(Long userId){
+        List<Ad>ads=adDao.getAdsByUser(userId);
+        HashMap<Long,Long>adMap=new HashMap();
+        for(Ad ad:ads){
+            adMap.put(ad.getId(), ad.getId());
+        }
+        return adMap;
+    }
 
 }

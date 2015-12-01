@@ -72,6 +72,15 @@ public class AdDao extends Dao<Ad> {
         }
         return res;
     }
+    
+    public List<Ad> getAdsByUser(Long userId) {
+        String sql = "select * from ad where author_id=:userId and date_to>:now and :now>date_from";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("userId", userId);
+        query.setParameter("now", new Date());
+        query.addEntity(Ad.class);
+        return query.list();
+    }
 
     public List<Ad> getChosenAds(Long userId) {
         String sql = "select a.* from chosen_ads ca left join ad a on ca.ad_id=a.ad_id where ca.user_id=:userId and a.date_to>:now and :now>a.date_from";
