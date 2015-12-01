@@ -46,7 +46,7 @@ public class mainController extends WebController {
     private CategoryService catService;
     @Autowired
     private RegionService regionService;
-    
+
     public static String MAINACTIONNAME = "main";
     public static String PURCHASESACTIONNAME = "purchases";
     public static String SALESACTIONNAME = "sales";
@@ -62,7 +62,6 @@ public class mainController extends WebController {
             @RequestParam(value = "order", required = false) String order,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
-            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
@@ -75,41 +74,38 @@ public class mainController extends WebController {
             @RequestParam(value = "dateCondition", required = false) Integer dateConditions[],
             @RequestParam(value = "selIds", required = false) Long selIds[],
             @RequestParam(value = "selVals", required = false) Long selVals[],
-            
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes ras) throws Exception {
-        
-        
+
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
         if (ers == null) {
             ers = new ArrayList();
         }
-        
-        if(action==null){
-            action=MAINACTIONNAME;
+
+        if (action == null) {
+            action = MAINACTIONNAME;
         }
-        
-        if(dateFrom==null){
-            dateFrom=(Date)model.get("dateFrom");
-            if(dateFrom!=null){
-                dateFrom=DateAdapter.getStartOfDate(dateFrom);
-            }else{
-                dateFrom=DateAdapter.getStartOfDate(new Date());
+
+        if (dateFrom == null) {
+            dateFrom = (Date) model.get("dateFrom");
+            if (dateFrom != null) {
+                dateFrom = DateAdapter.getStartOfDate(dateFrom);
+            } else {
+                dateFrom = DateAdapter.getStartOfDate(new Date());
             }
         }
-        if(dateTo==null){
-            dateTo=(Date)model.get("dateTo");
-            if(dateTo!=null){
-                dateTo=DateAdapter.getEndOfDate(dateTo);
-            }else{
+        if (dateTo == null) {
+            dateTo = (Date) model.get("dateTo");
+            if (dateTo != null) {
+                dateTo = DateAdapter.getEndOfDate(dateTo);
+            } else {
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.DAY_OF_MONTH, 14);
-                dateTo=DateAdapter.getEndOfDate(c);
+                dateTo = DateAdapter.getEndOfDate(c);
             }
         }
-        
 
         List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
         if (catIds == null) {
@@ -139,14 +135,14 @@ public class mainController extends WebController {
         HashMap<Long, Long> locsInRegMap = new HashMap();
         HashMap<Long, Integer> statesInRegMap = new HashMap();
         for (Locality l : region.getLocalities()) {
-                        locsInRegMap.put(l.getId(), l.getId());
-                        Long StateId = l.getState().getId();
-                        Integer locksInState = statesInRegMap.get(StateId);
-                        if(locksInState==null){
-                            locksInState=0;
-                        }
-                        statesInRegMap.put(StateId, ++locksInState);
-                    }
+            locsInRegMap.put(l.getId(), l.getId());
+            Long StateId = l.getState().getId();
+            Integer locksInState = statesInRegMap.get(StateId);
+            if (locksInState == null) {
+                locksInState = 0;
+            }
+            statesInRegMap.put(StateId, ++locksInState);
+        }
         model.put("locsInRegMap", locsInRegMap);
         model.put("statesInRegMap", statesInRegMap);
         /*ers.add("reg1:"+region.getName());
@@ -154,22 +150,47 @@ public class mainController extends WebController {
          ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
 
         HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
+        List<Ad>chosenAds=new ArrayList();
+        if(userId==null){
+            chosenAds = (List<Ad>) request.getSession().getAttribute(CHOSEN_ADS_LIST_SESSION_NAME);
+            if(chosenAds==null){
+                chosenAds=new ArrayList();
+            }
+            for(Ad ad:chosenAds){
+                chosenMap.put(ad.getId(), ad);
+            }
+        }
+        
         HashMap<Long, Ad> comparingMap = new HashMap();
         for (Ad ad : compAds) {
             comparingMap.put(ad.getId(), ad);
         }
-        
+
         List<Ad> ads = new ArrayList();
-        
+
         if (action.equals(CHOSENACTIONNAME)) {
-            ads=adService.getChosenAds(userId);
+            if (userId != null) {
+                ads = adService.getChosenAds(userId);
+            } else {
+                ads = chosenAds;
+            }
         } else if (action.equals(PURCHASESACTIONNAME)) {
-            ads=adService.getPurchases(userId);
+            if (userId != null) {
+                ads = adService.getPurchases(userId);
+            } else {
+                ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
+                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+            }
         } else if (action.equals(SALESACTIONNAME)) {
-            ads=adService.getSales(userId);
+            if (userId != null) {
+                ads = adService.getSales(userId);
+            } else {
+                ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
+                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+            }
         } else {
-            ads = adService.getAds(wish, catIds, region, order,booleanIds,booleanVals,
-                stringIds,stringVals,numIds,numVals,numConditions,dateIds,dateVals,dateConditions,selIds,selVals,multyIds,multyVals);
+            ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
+                    stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
 
@@ -209,7 +230,7 @@ public class mainController extends WebController {
         model.put("wish", wish);
         model.put("order", order);
         model.put("action", action);
-        
+
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
         model.put(ERRORS_LIST_NAME, ers);
@@ -251,7 +272,7 @@ public class mainController extends WebController {
         ras.addAttribute("wish", wish);
         return "redirect:/Main/";
     }
-    
+
     @RequestMapping("/comparison")
     public String getComparison(Map<String, Object> model,
             HttpServletRequest request,
@@ -271,18 +292,18 @@ public class mainController extends WebController {
                 region = regionService.getDefaultRegion(u.getId());
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
-            
+
             HashMap<Long, Long> locsInRegMap = new HashMap();
             HashMap<Long, Integer> statesInRegMap = new HashMap();
             for (Locality l : region.getLocalities()) {
-                        locsInRegMap.put(l.getId(), l.getId());
-                        Long StateId = l.getState().getId();
-                        Integer locksInState = statesInRegMap.get(StateId);
-                        if(locksInState==null){
-                            locksInState=0;
-                        }
-                        statesInRegMap.put(StateId, ++locksInState);
-                    }
+                locsInRegMap.put(l.getId(), l.getId());
+                Long StateId = l.getState().getId();
+                Integer locksInState = statesInRegMap.get(StateId);
+                if (locksInState == null) {
+                    locksInState = 0;
+                }
+                statesInRegMap.put(StateId, ++locksInState);
+            }
             model.put("locsInRegMap", locsInRegMap);
             model.put("statesInRegMap", statesInRegMap);
             model.put("availableRegions", regionService.getAvailableRegions(region, u));
@@ -463,13 +484,13 @@ public class mainController extends WebController {
                     model.put("regionForShow", regionForShow);
                     HashMap<Long, Long> locsInReg4ShowMap = new HashMap();
                     HashMap<Long, Integer> statesInReg4ShowMap = new HashMap();
-                    
+
                     for (Locality l : regionForShow.getLocalities()) {
                         locsInReg4ShowMap.put(l.getId(), l.getId());
                         Long StateId = l.getState().getId();
                         Integer locksInState = statesInReg4ShowMap.get(StateId);
-                        if(locksInState==null){
-                            locksInState=0;
+                        if (locksInState == null) {
+                            locksInState = 0;
                         }
                         statesInReg4ShowMap.put(StateId, ++locksInState);
                     }
@@ -495,8 +516,8 @@ public class mainController extends WebController {
                 locsInRegMap.put(l.getId(), l.getId());
                 Long StateId = l.getState().getId();
                 Integer locksInState = statesInRegMap.get(StateId);
-                if(locksInState==null){
-                    locksInState=0;
+                if (locksInState == null) {
+                    locksInState = 0;
                 }
                 statesInRegMap.put(StateId, ++locksInState);
             }

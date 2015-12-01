@@ -127,12 +127,10 @@
                                 <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
                                     <td></td>
-                                    <c:if test="${!empty searchParam.options}">
                                         <c:set var="searchParamOptionSize" value="5"/>
                                         <c:if test="${searchParam.options.size()<5}">
                                             <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
                                         </c:if>
-                                    </c:if>
 
                                     <td> <select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle;" name="multyVals">
                                             <c:forEach var="opt" items="${searchParam.options}">
@@ -145,7 +143,6 @@
                                 <c:if test="${searchParam.paramType==5}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
                                     <td></td>
-                                    <!--<td> <input form="searchForm" type="checkbox" name="booleanVals"></td>-->
                                             <td><select name="booleanVals" form="searchForm">
                                                     <option value="">не выбрано</option>
                                                     <option value="1">да</option>
@@ -182,13 +179,13 @@
             
 
             <div class="left_side  ">
-                <c:if test="${role=='user'||role=='admin'}">    
+                <c:if test="${role=='user'||role=='admin'}">  </c:if>  
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/regions" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
-                        </c:if>
+                        
                 <div class="promo"> </div>
                 <div class="promo"> </div>
             </div>
@@ -211,13 +208,11 @@
                     </div>
                     <div class="tosort">
                         <img src="../img/vertline.png">
-                        <a href="<c:url value="../Main/?order=show_count&wish=${param.wish}" />">по популярности</a>
-
-
+                        <a href="<c:url value="../Main/?order=show_count&wish=${param.wish}&action=${action}" />">по популярности</a>
                         <img src="../img/vertline.png">
-                        <a href="<c:url value="../Main/?order=insert_date&wish=${param.wish}" />">по дате</a>
+                        <a href="<c:url value="../Main/?order=insert_date&wish=${param.wish}&action=${action}" />">по дате</a>
                         <img src="../img/vertline.png">
-                        <a href="<c:url value="../Main/?order=price&wish=${param.wish}" />">по цене</a>
+                        <a href="<c:url value="../Main/?order=price&wish=${param.wish}&action=${action}" />">по цене</a>
                     </div>
                 </div>
 
@@ -272,6 +267,7 @@
 
                                             <div class="minmenu">
                                                 <c:if test="${ad.status==0}">
+                                                    <div><input type="submit" data-id="${ad.id}" class="btn-buy" value="Изменить"></div>
                                                     <div><form action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
@@ -677,9 +673,13 @@
                                                 </select></label>
                                             <input type="hidden" name="selIds" value="${parametr.id}">
                                         </c:when>
-
+                                            
                                         <c:when test="${parametr.paramType==4&&!empty parametr.options}">
-                                            <br><label style="text-align: center;">${parametr.name} <select multiple="true" style="vertical-align: middle;" name="multyVals">
+                                            <c:set var="paramOptionSize" value="5"/>
+                                            <c:if test="${parametr.options.size()<5}">
+                                            <c:set var="paramOptionSize" value="${parametr.options.size()}"/>
+                                        </c:if>
+                                            <br><label style="text-align: center;">${parametr.name} <select multiple="true" size="${paramOptionSize}" style="vertical-align: middle;" name="multyVals">
                                                     <c:forEach var="opt" items="${parametr.options}">
                                                         <option value="${parametr.id}_${opt.id}">${opt.name}</option>
                                                     </c:forEach>

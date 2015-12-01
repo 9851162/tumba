@@ -492,7 +492,6 @@ public class AdService extends PrimService {
         if (userId != null) {
             return adDao.getChosenAds(userId);
         } else {
-            addError("Пользователь не указан");
             return new ArrayList();
         }
     }

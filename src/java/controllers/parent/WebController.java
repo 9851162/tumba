@@ -43,6 +43,7 @@ public class WebController {
     protected final static String USER_ID_SESSION_NAME = "userId";
     protected final static String USER_NAME_SESSION_NAME = "userName";
     protected final static String CATEGORY_SEARCH_LIST_SESSION_NAME = "catsForSearchList";
+    protected final static String CHOSEN_ADS_LIST_SESSION_NAME = "chosenBasket";
     
     @Autowired
     private DateEditor dateEditor;

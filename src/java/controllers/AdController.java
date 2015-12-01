@@ -164,6 +164,20 @@ public class AdController extends WebController {
             User u = authManager.getCurrentUser();
             if(u!=null){
                 adService.setUnsetChosen(u.getId(), adId);
+            }else{
+                List<Ad> chosenAds = (List<Ad>) request.getSession().getAttribute(CHOSEN_ADS_LIST_SESSION_NAME);
+                if(chosenAds==null){
+                    chosenAds = new ArrayList();
+                }
+                if(chosenAds.size()<20){
+                    Ad ad = adService.getAd(adId);
+                    if(!chosenAds.contains(ad)){
+                        chosenAds.add(ad);
+                    }else{
+                        chosenAds.remove(ad);
+                    }
+                }
+                request.getSession().setAttribute(CHOSEN_ADS_LIST_SESSION_NAME, chosenAds);
             }
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
