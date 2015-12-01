@@ -195,9 +195,7 @@ public class AdController extends WebController {
             @RequestParam(value = "adId", required = false) Long adId,
             RedirectAttributes ras) throws Exception {
         
-            User u = authManager.getCurrentUser();
-            if(u!=null){
-                List<Ad> ads = (List)request.getSession().getAttribute(COMPARISON);
+            List<Ad> ads = (List)request.getSession().getAttribute(COMPARISON);
                 if(ads==null){
                     ads = new ArrayList();
                 }
@@ -208,7 +206,6 @@ public class AdController extends WebController {
                     }
                 }
                 request.getSession().setAttribute(COMPARISON, ads);
-            }
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
         if(!adService.getErrors().isEmpty()){
@@ -225,8 +222,6 @@ public class AdController extends WebController {
             @RequestParam(value = "wish", required = false) Long wish,
             RedirectAttributes ras) throws Exception {
         
-            User u = authManager.getCurrentUser();
-            if(u!=null){
                 List ads = (List)request.getSession().getAttribute(COMPARISON);
                 if(ads==null){
                     ads = new ArrayList();
@@ -236,7 +231,6 @@ public class AdController extends WebController {
                     ads.remove(ad);
                 }
                 request.getSession().setAttribute(COMPARISON, ads);
-            }
             ras.addAttribute("wish", wish);
         return "redirect:/Main/comparison";
     }

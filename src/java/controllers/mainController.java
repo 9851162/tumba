@@ -283,13 +283,16 @@ public class mainController extends WebController {
             RedirectAttributes ras) throws Exception {
 
         User u = authManager.getCurrentUser();
-        if (u != null) {
+        Long userId = null;
+        if(u!=null){
+            userId=u.getId();
+        }
             List<Ad> ads = (List) request.getSession().getAttribute(COMPARISON);
 
             Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
             //установка региона, если нет еще
             if (region == null) {
-                region = regionService.getDefaultRegion(u.getId());
+                region = regionService.getDefaultRegion(userId);
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
 
@@ -322,7 +325,6 @@ public class mainController extends WebController {
             model.put("catParamsMap", catService.getCatIdParamsMap());
             model.put("wish", wish);
 
-        }
         ArrayList<String> ers = (ArrayList<String>) model.get("errors");
         if (ers == null) {
             ers = new ArrayList();
