@@ -267,7 +267,7 @@
 
                                             <div class="minmenu">
                                                 <c:if test="${ad.status==0}">
-                                                    <div><input type="submit" data-id="${ad.id}" class="btn-buy" value="Изменить"></div>
+                                                    <!--<div><input type="submit" data-id="${ad.id}" class="btn-buy" value="Изменить"></div>-->
                                                     <div><form action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
