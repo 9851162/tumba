@@ -148,7 +148,7 @@ public class AdDao extends Dao<Ad> {
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
             List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds,
             List<Date> dateVals, List<Integer> dateConditions,Long selIds[], Long selVals[], String multyVals[]){
-        String sql = "select c.name,count(ad.ad_id) cc from ad left join category c on ad.category_id=c.category_id where ad.date_from<:now and :now<ad.date_to";
+        String sql = "select c.name,count(sel.ad_id) cc from (select ad.ad_id,ad.category_id from ad where ad.date_from<:now and :now<ad.date_to";
         if (wish == null) {
             wish = "";
         }
@@ -262,12 +262,12 @@ public class AdDao extends Dao<Ad> {
 
             }
 
-            sql += " group by pv.ad_id) as tmp where tmp.cnt=:paramsCount and tmp.id=ad.ad_id) group by ad.category_id order by cc desc";
+            sql += " group by pv.ad_id) as tmp where tmp.cnt=:paramsCount and tmp.id=ad.ad_id)";
             
             
         }
 
-        
+        sql+=") sel left join category c on sel.category_id=c.category_id group by sel.category_id order by cc desc";
         /**
          * \Условия для параметров*
          */
