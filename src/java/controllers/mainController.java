@@ -193,7 +193,7 @@ public class mainController extends WebController {
                     stringIds, stringVals, numIds, numVals, numConditions, dateIds, 
                     dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
             
-            if(wish!=null&&!wish.equals("")){
+            if(wish!=null&&!wish.equals("")&&catIds.isEmpty()){
                 model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numVals, numConditions, dateIds, 
                     dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
