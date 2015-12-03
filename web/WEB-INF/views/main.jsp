@@ -161,6 +161,14 @@
                             </c:forEach>
                         </table>
                     </div>
+                    
+                </c:if>
+                <c:if test="${!empty catNamesWithCountsMap}">
+                    <div id="catInfoInSearch">
+                        <c:forEach var="catName" items="${catNamesWithCountsMap.keySet()}">
+                            <div class="adsFoundInCatInfo"><span style="color:#00547e;">${catName}</span> ${catNamesWithCountsMap.get(catName)}</div>
+                        </c:forEach>
+                    </div>
                 </c:if>
             </div>
 

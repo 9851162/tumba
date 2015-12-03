@@ -9,7 +9,6 @@ import controllers.parent.WebController;
 import entities.Ad;
 import entities.Locality;
 import entities.Region;
-import entities.State;
 import entities.User;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,6 @@ import service.CategoryService;
 import service.RegionService;
 import service.UserService;
 import support.DateAdapter;
-import support.StringAdapter;
 
 /**
  *
@@ -191,7 +190,15 @@ public class mainController extends WebController {
             }
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                    stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+                    stringIds, stringVals, numIds, numVals, numConditions, dateIds, 
+                    dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+            
+            if(wish!=null&&!wish.equals("")){
+                model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                    stringIds, stringVals, numIds, numVals, numConditions, dateIds, 
+                    dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
+            }
+            
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
 

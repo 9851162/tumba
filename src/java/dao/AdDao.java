@@ -8,21 +8,18 @@ package dao;
 import dao.parent.Dao;
 import entities.Ad;
 import entities.Locality;
-import entities.Parametr;
-import entities.ParametrValue;
 import entities.Region;
 import entities.State;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
-import support.DateAdapter;
-import support.StringAdapter;
 
 /**
  *
@@ -146,6 +143,193 @@ public class AdDao extends Dao<Ad> {
      query.addEntity(Ad.class);
      return query.list();
      }*/
+    
+    public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
+            Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
+            List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds,
+            List<Date> dateVals, List<Integer> dateConditions,Long selIds[], Long selVals[], String multyVals[]){
+        String sql = "select c.name,count(ad.ad_id) cc from ad left join category c on ad.category_id=c.category_id where ad.date_from<:now and :now<ad.date_to";
+        if (wish == null) {
+            wish = "";
+        }
+        List<String> splitted = splitted(wish);
+        if (!splitted.isEmpty()) {
+            sql += " and (1!=1";
+            for (String st : splitted) {
+                sql += " or (ad.name like :wish" + splitted.indexOf(st) + ")";
+            }
+            for (String st : splitted) {
+                sql += " or (ad.description like :wish" + splitted.indexOf(st) + ")";
+            }
+            sql += ")";
+        }
+
+        if (!catIds.isEmpty()) {
+            sql += " and (1!=1";
+            for (Long id : catIds) {
+                sql += " or ad.category_id=:catId" + catIds.indexOf(id);
+            }
+            sql += ")";
+        }
+
+        if (region != null && !region.isAllRussia()) {
+            sql += " and ad.ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
+        }
+
+        /**
+         * Условия для параметров*
+         */
+        Integer paramsCount = 0;
+        Boolean queryWithParams = false;
+        if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
+                || (numVals != null && !numVals.isEmpty()) || (dateVals != null && !dateVals.isEmpty())
+                || (selVals != null && selVals.length > 0) || (multyVals != null && multyVals.length > 0)) {
+
+            queryWithParams = true;
+            sql += " and exists(select 1 from (select count(pv.ad_id) cnt,pv.ad_id id from parametr_value pv where (1!=1)";
+            int i = 0;
+
+            if (booleanVals != null && booleanVals.length > 0) {
+                i = 0;
+                while (i < booleanIds.length) {
+                    Long paramId = booleanIds[i];
+                    Long val = booleanVals[i];
+                    if (val != null) {
+                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                        paramsCount++;
+                    }
+                    i++;
+                }
+            }
+
+            if (stringVals != null && !stringVals.isEmpty()) {
+                i = 0;
+                for (String val : stringVals) {
+                    sql += " or (parametr_id=:stringId" + i + " and string_value like '%:stringVal" + i + "%')";
+                    paramsCount++;
+                    i++;
+                }
+
+            }
+
+            if (numVals != null && !numVals.isEmpty()) {
+                i = 0;
+                for (Double val : numVals) {
+                    sql += " or (parametr_id=:numId" + i + " and number_value " + getStringCondition(numConditions.get(i)) + " :numVal" + i + ")";
+                    paramsCount++;
+                    i++;
+                }
+
+            }
+
+            if (dateVals != null && !dateVals.isEmpty()) {
+                i = 0;
+                for (Date val : dateVals) {
+                    sql += " or (parametr_id=:dateId" + i + " and date_value " + getStringCondition(dateConditions.get(i)) + " :dateVal" + i + ")";
+                    paramsCount++;
+                    i++;
+                }
+            }
+
+            if (selVals != null && selVals.length > 0) {
+                i = 0;
+                while (i < selIds.length) {
+                    Long paramId = selIds[i];
+                    Long val = selVals[i];
+                    if (val != null) {
+                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                        paramsCount++;
+                    }
+                    i++;
+                }
+            }
+
+            if (multyVals != null && multyVals.length > 0) {
+
+                for (String rawVal : multyVals) {
+                    String idValArr[] = rawVal.split("_");
+                    if (idValArr.length == 2) {
+                        String strId = idValArr[0];
+                        String strVal = idValArr[1];
+                        Long paramId = Long.valueOf(strId);
+                        Long val = Long.valueOf(strVal);
+                        if (val != null) {
+                            sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                            paramsCount++;
+                        }
+                    }
+                }
+
+            }
+
+            sql += " group by pv.ad_id) as tmp where tmp.cnt=:paramsCount and tmp.id=ad.ad_id) group by ad.category_id order by cc desc";
+            
+            
+        }
+
+        
+        /**
+         * \Условия для параметров*
+         */
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+
+        if (!splitted.isEmpty()) {
+            for (String st : splitted) {
+                query.setParameter("wish" + splitted.indexOf(st), st);
+            }
+        }
+        if (!catIds.isEmpty()) {
+            for (Long id : catIds) {
+                query.setParameter("catId" + catIds.indexOf(id), id);
+            }
+        }
+        if(stringVals!=null&&!stringVals.isEmpty()){
+            int i=0;
+            for(String s:stringVals){
+                query.setParameter("stringId"+i, stringIds.get(i));
+                query.setParameter("stringVal"+i, stringVals.get(i));
+                i++;
+            }
+        }
+        if(numVals!=null&&!numVals.isEmpty()){
+            int i=0;
+            for(Double d:numVals){
+                query.setParameter("numId"+i, numIds.get(i));
+                //query.setParameter("numCondition"+i, getStringCondition(numConditions.get(i)));
+                query.setParameter("numVal"+i, numVals.get(i));
+                i++;
+            }
+        }
+        if(dateVals!=null&&!dateVals.isEmpty()){
+            int i=0;
+            for(Date d:dateVals){
+                query.setParameter("dateId"+i, dateIds.get(i));
+                //query.setParameter("dateCondition"+i, getStringCondition(dateConditions.get(i)));
+                query.setParameter("dateVal"+i, dateVals.get(i));
+                i++;
+            }
+        }
+        if (queryWithParams) {
+            query.setParameter("paramsCount", paramsCount);
+        }
+        query.setParameter("now", new Date());
+        if (region != null && !region.isAllRussia()) {
+            query.setParameterList("localIds", getLocIds(region));
+        }
+        List<Object[]>rawRes=query.list();
+        LinkedHashMap<String,Integer>res = new LinkedHashMap();
+        if(!rawRes.isEmpty()){
+            for(Object[]o:rawRes){
+                String catName=(String)o[0];
+                Integer count=((BigInteger)o[1]).intValue();
+                if(0!=count){
+                    res.put(catName,count);
+                }
+            }
+        }
+        return res;
+    }
+    
     public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region, String order,
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
             List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds, List<Date> dateVals, List<Integer> dateConditions,
@@ -184,7 +368,6 @@ public class AdDao extends Dao<Ad> {
         /**
          * Условия для параметров*
          */
-        //TO DO экранировать ид/значения параметров
         Integer paramsCount = 0;
         Boolean queryWithParams = false;
         if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
@@ -270,84 +453,6 @@ public class AdDao extends Dao<Ad> {
 
             sql += " group by pv.ad_id) as tmp where tmp.cnt=:paramsCount and tmp.id=ad.ad_id)";
         }
-
-        /*if (stringVals != null && stringVals.length > 0) {
-         i = 0;
-         if (!queryWithParams) {
-         sql += " and ad_id in (select ad_id from parametr_value where 1=1";
-         queryWithParams = true;
-         }
-         while (i < stringIds.length) {
-         Long paramId = stringIds[i];
-         String val = stringVals[i];
-         if (val != null && !val.equals("")) {
-         sql += " and (parametr_id=" + paramId + " and string_value like '%" + val + "%')";
-         }
-         i++;
-         }
-         }
-
-         if (numVals != null && numVals.length > 0) {
-         i = 0;
-         if (!queryWithParams) {
-         sql += " and ad_id in (select ad_id from parametr_value where 1=1";
-         queryWithParams = true;
-         }
-         while (i < numIds.length) {
-         Long paramId = numIds[i];
-         String c = getStringCondition(numConditions[i]);
-         Double val = numVals[i];
-         if (val != null) {
-         sql += " and (parametr_id=" + paramId + " and number_value" + c + val+")";
-         }
-         i++;
-         }
-         }
-        
-         if (dateVals != null && dateVals.length > 0) {
-         i = 0;
-         if (!queryWithParams) {
-         sql += " and ad_id in (select ad_id from parametr_value where 1=1";
-         queryWithParams = true;
-         }
-         while (i < dateVals.length) {
-         Long paramId = dateIds[i];
-         String c = getStringCondition(dateConditions[i]);
-         Date val = dateVals[i];
-         if (val != null) {
-         sql += " and (parametr_id=" + paramId + " and date_value" + c + val+")";
-         }
-         i++;
-         }
-         }
-        
-         if (selVals != null && selVals.length > 0) {
-         i = 0;
-         if (!queryWithParams) {
-         sql += " and ad_id in (select ad_id from parametr_value where 1=1";
-         queryWithParams = true;
-         }
-         while (i < selIds.length) {
-         Long paramId = selIds[i];
-         Long val = selVals[i];
-         if (val != null) {
-         sql += " and (parametr_id=" + paramId + " and select_value=" + val+")";
-         }
-         i++;
-         }
-         }
-        
-         if (multyVals != null && multyVals.length > 0) {
-         if (!queryWithParams) {
-         sql += " and ad_id in (select ad_id from parametr_value where 1=1";
-         queryWithParams = true;
-         }
-            
-         }
-
-         if (queryWithParams) {
-         sql += ")";
-         }*/
         /**
          * \Условия для параметров*
          */

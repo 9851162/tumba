@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -610,6 +612,63 @@ public class AdService extends PrimService {
             adMap.put(ad.getId(), ad.getId());
         }
         return adMap;
+    }
+    
+    public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds,Region region,
+            Long booleanIds[], Long booleanVals[],Long stringIds[], String stringVals[], 
+            Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]){
+        List<Long>stringIdsList=new ArrayList();
+        List<String>stringValsList=new ArrayList();
+        if(stringVals!=null&&stringVals.length>0){
+            int i = 0;
+            for(String s:stringVals){
+                if(s!=null&&!s.equals("")){
+                    stringValsList.add(s);
+                    stringIdsList.add(stringIds[i]);
+                }
+                i++;
+            }
+        }
+        
+        List<Double>numValsList=new ArrayList();
+        List<Integer>numCondList=new ArrayList();
+        List<Long>numIdsList=new ArrayList();
+        if(snumVals!=null&&snumVals.length>0){
+            int i = 0;
+            for(String s:snumVals){
+                if(s!=null&&!s.equals("")){
+                    Double val=getNumFromString(s);
+                    if(val!=null&&!val.equals(Double.NaN)){
+                        numIdsList.add(numIds[i]);
+                        numCondList.add(numConditions[i]);
+                        numValsList.add(val);
+                    }
+                }
+                i++;
+            }
+        }
+        
+        List<Long>dateIdsList=new ArrayList();
+        List<Integer>dateCondList=new ArrayList();
+        List<Date>dateValsList=new ArrayList();
+        if(dateVals!=null&&dateVals.length>0){
+            int i = 0;
+            for(Date d:dateVals){
+                if(d!=null){
+                    dateValsList.add(d);
+                    dateCondList.add(dateConditions[i]);
+                    dateIdsList.add(dateIds[i]);
+                }
+                i++;
+            }
+        }
+        LinkedHashMap<String,Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds,region,booleanIds,booleanVals,
+                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals);
+        /*for(String s:res.keySet()){
+            addError(s+":"+res.get(s));
+        }*/
+        return res;
     }
 
 }
