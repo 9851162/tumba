@@ -93,7 +93,7 @@ public class UserController extends WebController {
         List<String> errors = new ArrayList();
         User u = authManager.getCurrentUser();
         
-        if(avatar!=null){
+        if(avatar!=null&&!avatar.isEmpty()){
             userService.uploadAvatar(u, avatar);
         }
         
