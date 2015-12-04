@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;

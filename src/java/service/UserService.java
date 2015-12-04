@@ -7,6 +7,7 @@ package service;
 
 import dao.UserDao;
 import entities.User;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,4 +176,14 @@ public class UserService extends PrimService {
             userDao.update(u);
         }
     }
+    
+    public String getAvatarPath(Long userId){
+        String path = "../img/no-image.png";
+        File f = new File("/usr/local/seller/preview/"+userId+"/avatar");
+        if(f.exists()){
+            path = "../imgs/"+userId+"/avatar";
+        }
+        return path;
+    }
+    
 }

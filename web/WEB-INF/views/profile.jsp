@@ -16,14 +16,19 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
     </head>
-    <body style="overflow: scroll;">
+    <body style="overflow-y: scroll;">
         <div id="wrapper">
             <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
             <script src="../js/seller_scripts/magic.js"></script>
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <h3>настройки</h3>
             <div id="userInfo">
-                <!--<div class="infodiv"><div class="num">1</div>-->
+                <div class="infodiv" style="height: 298px;"><div class="num">1</div>
+                    <img style="float: left; width: 250px;height: 250px; margin-left: 10px;" src="${avatarPath}" alt="avatar">
+                    <div style="width: 100%;float:left;">
+                        <a href="" class="btn btn-primary" style="float: left;margin-top:13px;margin-left: 50px;">изменить фото</a>
+                    </div>
+                </div>
                 <div class="infodiv"><div class="num">2</div>
                     <a href="#changeUserParamWindow" class="open_modal btn btn-primary paramChanger" style="float: left;margin-top:3px;margin-left: 10px;">изменить</a>
                     <label id="name">Имя:</label><span>${user.name}</span>

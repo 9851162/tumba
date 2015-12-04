@@ -39,6 +39,7 @@ public class UserController extends WebController {
         User u = authManager.getCurrentUser();
 
         model.put("user", u);
+        model.put("avatarPath",userService.getAvatarPath(u.getId()));
 
         return "profile";
     }
