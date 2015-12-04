@@ -27,7 +27,7 @@
                         <div style="width: 100%;float:left;margin-top:13px;margin-left: 50px;">
                             <div class="photoUpload" >
                                 <button id="avatarSubmitterButton" class="btn btn-primary" style="float: left;">изменить фото</button>
-                                <input id="avatarSubmitter" type="file" name="avatar" style="cursor:pointer;" onchange="javascript:this.form.submit();">
+                                <input id="avatarSubmitter" type="file" name="avatar" onchange="javascript:this.form.submit();">
                             </div>
                         </div>
                     </form>

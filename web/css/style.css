@@ -268,20 +268,20 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     //line-height: 2em       /* the same as height */
 }
 
-.photoUpload > button{
-    //float: right;
-    /*width: 8em;            
-    height: 100%;*/
-    /*border-radius: 10px;
+/*.photoUpload > button{
+    float: right;
+    width: 8em;            
+    height: 100%;
+    border-radius: 10px;
     width: 78px;
-    height: 78px;*/
-    //background-repeat: no-repeat;
+    height: 78px;
+    background-repeat: no-repeat;
     cursor: pointer;
-    //border:0px;
-}
-.photoUpload > div{
-    padding-left: 1em      /* example */
-}
+    border:0px;
+}*/
+/*.photoUpload > div{
+    padding-left: 1em  
+}*/
 @media only screen and ( max-width: 500px ){  /* example */
     .photoUpload > div{
         display: none
@@ -295,13 +295,13 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    /*width: 100%;
+    height: 100%;*/
     transform: scale(20);
     letter-spacing: 10em;     /* IE 9 fix */
     -ms-transform: scale(20); /* IE 9 fix */
     opacity: 0;
-    cursor: pointer
+    cursor: pointer!important;
 }
 
 .addCat{
