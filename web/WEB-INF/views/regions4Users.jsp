@@ -29,7 +29,7 @@
                     <div class="formsearch">
                         <form style="margin-bottom: 0px;" action="<c:url value="../Main/" />">
                             <input type="text" name="wish" placeholder="Впишите ваше желание" value="${wish}">
-                            <button type="submit" class="">Поиск</button>
+                            <button type="submit" class="" style="height: 46px;width: 200px;margin-left: 25px;">Поиск</button>
                         </form>
                     </div>
                     <div class="controlsearch">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="toobnov">
-                    <a href="#modal1" class="open_modal">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
+                    <a href="#modal1" class="open_modal" style="display: block;margin-left: 40px;height: 73px;">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
                 </div>
             </div>
 
