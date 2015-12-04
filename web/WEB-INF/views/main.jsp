@@ -172,25 +172,41 @@
                 </c:if>
             </div>
 
-            
+                        
+                
+                
+                        
                 <c:set var="choosePossible" value="choose"/>
-                <c:set var="msgPossible" value="open_modal messageSender"/>
                 <c:set var="comparePossible" value="compareAdder"/>
 
                 <div class="icons">
+                    <c:if test="${role=='user'||role=='admin'}">  
+                        <c:set var="msgPossible" value="open_modal messageSender"/>
                     <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
                     <a href="<c:url value="../Main/regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
+                    </c:if>  
+                    <c:if test="${empty role}">  
+                    <a href="#modalalert"><div id="ico" class="ico1 open_modal"><img src="../img/menu1.png"> </div></a>
+                    <a href="#modalalert"><div id="ico" class="ico2 open_modal"><img src="../img/menu2.png"> </div></a>
+                    <a href="#modalalert"><div id="ico" class="ico3 open_modal"><img src="../img/menu3.png"> </div></a>
+                    </c:if>
                     <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                     <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                 </div>
             
 
             <div class="left_side  ">
-                <c:if test="${role=='user'||role=='admin'}">  </c:if>  
+                <c:if test="${role=='user'||role=='admin'}">  
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/regions" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
+                     </c:if> 
+                    <c:if test="${empty role}">  
+                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
+                    </c:if>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
                         
@@ -306,11 +322,21 @@
                                                         <c:set var="compClass" value="comparing"/>
                                                     </c:if>
                                                 <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
+                                                <c:if test="${role=='user'||role=='admin'}">  
                                                 <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                </c:if>
+                                                <c:if test="${empty role}">
+                                                <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                </c:if>
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                <c:if test="${role=='user'||role=='admin'}"> 
                                                 <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
                                                 <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-
+                                                </c:if>
+                                                <c:if test="${empty role}">
+                                                <a href="#modalalert" class="open_modal"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -490,7 +516,7 @@
                             </div>
                     </div>-->
                     <div class="form-group">
-                        <button type="submit" class="btn">Добавить</button>
+                        <button type="submit" class="btn" style="margin-top: 10px;">Добавить</button>
                     </div>
                 </form>
             </div>
@@ -738,6 +764,12 @@
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
                 <%@include file="/WEB-INF/jsp/error.jsp" %>
+
+            </div>
+                
+                <div id="modalalert" class="modal_form modal_div">
+                <!--<div class="nameform">Ошибки</div>-->
+                <div class="toin todata">Чтобы использовать данную функцию, необходимо авторизироваться</div>
 
             </div>
                 
