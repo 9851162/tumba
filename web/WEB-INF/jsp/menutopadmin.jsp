@@ -19,7 +19,7 @@
                                         <div class="options"><a href="../Admin/administrating">управление</a></div>
                                         <div class="options" id="logout" style="position: absolute;z-index: 2;"><a href="../logout">выйти</a></div>
 				</div>
-				<img id="avatar" src="../img/avatar.png">
+				<img id="avatar" src="${avatar}">
 				<img id="miniavatar" src="../img/round.png">
 			</div>
 		</div>

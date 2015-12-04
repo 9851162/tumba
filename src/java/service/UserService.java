@@ -179,7 +179,7 @@ public class UserService extends PrimService {
         }
     }
     
-    public String getAvatarPath(Long userId){
+    public static String getAvatarPath(Long userId){
         String path = "../img/no-image.png";
         File f = new File("/usr/local/seller/preview/users/"+userId+"/avatar");
         if(f.exists()){

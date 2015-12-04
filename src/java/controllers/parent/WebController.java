@@ -6,9 +6,9 @@
 package controllers.parent;
 
 
+import entities.User;
 import java.util.Date;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.DateFormatter;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import service.UserService;
 import support.AuthManager;
 import support.editors.DateEditor;
 import support.ServiceResult;
@@ -50,7 +50,12 @@ public class WebController {
 
     @ModelAttribute
     public void setOrderInfo(Map<String, Object> model) {
-        
+        User u = authManager.getCurrentUser();
+        if(u!=null){
+            model.put("avatar", UserService.getAvatarPath(u.getId()));
+        }else{
+            model.put("avatar", "../img/avatar.png");
+        }
     }
 
     @ModelAttribute
