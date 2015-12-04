@@ -18,8 +18,6 @@
     </head>
     <body style="overflow-y: scroll;">
         <div id="wrapper">
-            <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
-            <script src="../js/seller_scripts/magic.js"></script>
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <!--<h3>настройки</h3>-->
             <div id="userInfo">
@@ -29,7 +27,7 @@
                         <div style="width: 100%;float:left;margin-top:13px;margin-left: 50px;">
                             <div class="photoUpload" >
                                 <button id="avatarSubmitterButton" class="btn btn-primary" style="float: left;">изменить фото</button>
-                                <input id="avatarSubmitter" type="file" name="avatar" onchange="javascript:this.form.submit();">
+                                <input id="avatarSubmitter" type="file" name="avatar" style="cursor:pointer;" onchange="javascript:this.form.submit();">
                             </div>
                         </div>
                     </form>

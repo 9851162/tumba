@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    
+    $('#avatarSubmitter').on('mouseover',function(){
+        $('#avatarSubmitterButton').attr('style','color: #fff;background-color: #3276b1;border-color: #285e8e;');
+    });
+    $('#avatarSubmitter').on('mouseout',function(){
+        $('#avatarSubmitterButton').attr('style','');
+    });
 
     $('body').on('click','.messageSender', function () {
         var adId = $(this).attr('data-ad-id');
