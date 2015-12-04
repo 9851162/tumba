@@ -140,11 +140,39 @@ public class UserService extends PrimService {
                 }else{
                     addError("Не удалось разобрать параметр роль");
                 }
-                userDao.update(u);
+                userDao.save(u);
+            }else{
+                addError("Пользователь с ид "+userId+"не найден");
+            }
+        }
+    }
+    
+    public void changeUserParam(String param,String value,Long userId){
+        if(userId!=null){
+            User u = userDao.find(userId);
+            if(u!=null){
+                if("name".equals(param)){
+                    u.setName(value);
+                } else if("email".equals(param)){
+                    u.setEmail(value);
+                }else if("phone".equals(param)){
+                    PhoneEditor phe = new PhoneEditor();
+                    value = phe.getPhone(value);
+                    u.setPhone(value);
+                }
+                if(validate(u)){
+                    userDao.update(u);
+                }
             }else{
                 addError("Пользователь с ид "+userId+"не найден");
             }
         }
     }
 
+    public void changeUserPass(String newPass,User u){
+        u.setPassword(newPass);
+        if(validate(u)){
+            userDao.update(u);
+        }
+    }
 }
