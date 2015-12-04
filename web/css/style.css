@@ -249,6 +249,53 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     cursor: pointer
 }
 
+
+.photoUpload{
+    
+    position: relative;
+    overflow: hidden;
+    width: 124px;
+    font-size: 1em;        /* example */
+    //height: 2em;           /* example */
+    //line-height: 2em       /* the same as height */
+}
+
+.photoUpload > button{
+    //float: right;
+    /*width: 8em;            
+    height: 100%;*/
+    /*border-radius: 10px;
+    width: 78px;
+    height: 78px;*/
+    //background-repeat: no-repeat;
+    cursor: pointer;
+    //border:0px;
+}
+.photoUpload > div{
+    padding-left: 1em      /* example */
+}
+@media only screen and ( max-width: 500px ){  /* example */
+    .photoUpload > div{
+        display: none
+    }
+    .photoUpload > button{
+        width: 100%
+    }
+}
+
+.photoUpload input[type=file]{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(20);
+    letter-spacing: 10em;     /* IE 9 fix */
+    -ms-transform: scale(20); /* IE 9 fix */
+    opacity: 0;
+    cursor: pointer
+}
+
 .addCat{
     vertical-align: middle;
     border-radius: 5px;
@@ -439,7 +486,7 @@ td {
     padding: 20px;
     margin-top: 7px;
     background-color: #fff;
-    position: absolute;
+    //position: absolute;
     box-shadow: 0px 0px 5px;
 }
 

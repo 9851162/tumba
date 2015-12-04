@@ -451,8 +451,8 @@
                     <div id="boxforparams" >
 
                     </div>
-                    <div class="form-group" style="margin-top:10px;">
-                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    <div class="form-group">
+                        <button type="submit" style="margin-top:10px;" class="btn btn-primary">Добавить</button>
                     </div>
                 </form>
             </div>

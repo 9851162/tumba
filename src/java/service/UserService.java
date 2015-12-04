@@ -8,6 +8,7 @@ package service;
 import dao.UserDao;
 import entities.User;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 import support.AuthManager;
 import support.SupMailSender;
@@ -179,11 +181,27 @@ public class UserService extends PrimService {
     
     public String getAvatarPath(Long userId){
         String path = "../img/no-image.png";
-        File f = new File("/usr/local/seller/preview/"+userId+"/avatar");
+        File f = new File("/usr/local/seller/preview/users/"+userId+"/avatar");
         if(f.exists()){
-            path = "../imgs/"+userId+"/avatar";
+            path = "../imgs/users/"+userId+"/avatar";
         }
         return path;
+    }
+    
+    public void uploadAvatar(User u,MultipartFile avatar) throws IOException{
+        if(u!=null&&avatar!=null){
+            if (avatar.getSize() <= (long) 3 * 1024 * 1024) {
+                File f = new File("/usr/local/seller/preview/users/" + u.getId() + "/avatar");
+                if(!f.exists()){
+                    f.mkdirs();
+                }else{
+                    f.delete();
+                }
+                avatar.transferTo(f);
+            }else{
+                addError("фото должно быть размером до 3мб");
+            }
+        }
     }
     
 }

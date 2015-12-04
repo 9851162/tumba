@@ -21,13 +21,18 @@
             <script src="<c:url value='/js/jquery-1.11.2.min.js'/>"></script>
             <script src="../js/seller_scripts/magic.js"></script>
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
-            <h3>настройки</h3>
+            <!--<h3>настройки</h3>-->
             <div id="userInfo">
                 <div class="infodiv" style="height: 298px;"><div class="num">1</div>
                     <img style="float: left; width: 250px;height: 250px; margin-left: 10px;" src="${avatarPath}" alt="avatar">
-                    <div style="width: 100%;float:left;">
-                        <a href="" class="btn btn-primary" style="float: left;margin-top:13px;margin-left: 50px;">изменить фото</a>
-                    </div>
+                    <form enctype="multipart/form-data" method="post" action="<c:url value="uploadAvatar"/>">
+                        <div style="width: 100%;float:left;margin-top:13px;margin-left: 50px;">
+                            <div class="photoUpload" >
+                                <button id="avatarSubmitterButton" class="btn btn-primary" style="float: left;">изменить фото</button>
+                                <input id="avatarSubmitter" type="file" name="avatar" onchange="javascript:this.form.submit();">
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="infodiv"><div class="num">2</div>
                     <a href="#changeUserParamWindow" class="open_modal btn btn-primary paramChanger" style="float: left;margin-top:3px;margin-left: 10px;">изменить</a>
@@ -89,34 +94,34 @@
                     </div>
                 </form>
             </div>
-                    <div id="modalerror" class="modal_form modal_div">
+            <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
                 <%@include file="/WEB-INF/jsp/error.jsp" %>
 
             </div>
 
         </div>
-                    <div id="overlay"></div>
-                <script>
-                    $('.paramChanger').on('click',function(){
-                       var rname = $(this).siblings('label').text() ;
-                       var name=$(this).siblings('label').attr('id');
-                       var val=$(this).siblings('span').text();
-                       $('input[name=paramName]').val(name);
-                       $('input[name=paramValue]').val(val);
-                       $('#rname').text(rname);
-                    });
-                </script>
-                <c:if test="${!empty errors}">
-                    <script>
-                                                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                                                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                                                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                                                                    .css('display', 'block')
-                                                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                                                        });
-                    </script>
-                </c:if>
+        <div id="overlay"></div>
+        <script>
+            $('.paramChanger').on('click', function () {
+                var rname = $(this).siblings('label').text();
+                var name = $(this).siblings('label').attr('id');
+                var val = $(this).siblings('span').text();
+                $('input[name=paramName]').val(name);
+                $('input[name=paramValue]').val(val);
+                $('#rname').text(rname);
+            });
+        </script>
+        <c:if test="${!empty errors}">
+            <script>
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
+            </script>
+        </c:if>
     </body>
 
 </html>

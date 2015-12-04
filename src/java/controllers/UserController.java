@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.UserService;
 import support.AuthManager;
@@ -79,6 +80,23 @@ public class UserController extends WebController {
                 errors.add("введен не верный пароль");
             }
         }
+        errors.addAll(userService.getErrors());
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
+        return "redirect:/User/me";
+    }
+    
+    @RequestMapping("/uploadAvatar")
+    public String uploadAvatar(Map<String, Object> model,
+            @RequestParam(value = "avatar", required = false) MultipartFile avatar,
+            HttpServletRequest request,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        User u = authManager.getCurrentUser();
+        
+        if(avatar!=null){
+            userService.uploadAvatar(u, avatar);
+        }
+        
         errors.addAll(userService.getErrors());
         ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/User/me";
