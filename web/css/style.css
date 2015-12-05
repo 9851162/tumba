@@ -511,3 +511,21 @@ td {
     font-family: HelveticaNeueThin;
     font-size: 25px;
 }
+
+.btn-link {
+    color: #428bca;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 0;
+    text-decoration:none;
+}
+
+.btn-link,.btn-link:active,.btn-link:focus,.btn-link:hover{
+    border-color:transparent;
+}
+
+.btn-link:focus,.btn-link:hover{
+    color:#23527c;
+    text-decoration:underline;
+    background-color:transparent;
+}

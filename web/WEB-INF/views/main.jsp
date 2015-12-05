@@ -528,19 +528,20 @@
                 <div class="nameform">АВТОРИЗАЦИЯ</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">
-                        <div class="toin">
+                        <div style="padding-left:55px;" class="toin">
                             <label>Логин</label>
                             <input name="j_username" type="text">
                         </div>
                     </div>
                     <div class="boxtoinput">
-                        <div class="toin">
+                        <div style="padding-left:55px;" class="toin">
                             <label>Пароль</label>
                             <input name="j_password" type="password">
                         </div>
                     </div>
-                    <div class="toin">
+                    <div style="padding-left:55px;" class="toin">
                         <button type="submit" class="btn">Войти</button>
+                        <a class="btn-link" style="float:right;" href="">восстановить пароль</a>
                     </div>
                 </form>
             </div>
@@ -769,22 +770,23 @@
                 
                 <div id="modalalert" class="modal_form modal_div">
                 <!--<div class="nameform">Ошибки</div>-->
-                <div class="toin todata">Чтобы использовать данную функцию, необходимо пройти авторизацию</div>
+                <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">
-                        <div class="toin">
+                        <div style="padding-left:55px;" class="toin">
                             <label>Логин</label>
                             <input name="j_username" type="text">
                         </div>
                     </div>
                     <div class="boxtoinput">
-                        <div class="toin">
+                        <div style="padding-left:55px;" class="toin">
                             <label>Пароль</label>
                             <input name="j_password" type="password">
                         </div>
                     </div>
-                    <div class="toin">
+                    <div style="padding-left:55px;" class="toin">
                         <button type="submit" class="btn">Войти</button>
+                        <a class="btn-link" style="float:right;" href="">восстановить пароль</a>
                     </div>
                 </form>
             </div>
