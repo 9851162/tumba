@@ -769,9 +769,27 @@
                 
                 <div id="modalalert" class="modal_form modal_div">
                 <!--<div class="nameform">Ошибки</div>-->
-                <div class="toin todata">Чтобы использовать данную функцию, необходимо авторизироваться</div>
-
+                <div class="toin todata">Чтобы использовать данную функцию, необходимо пройти авторизацию</div>
+                <form  method="post" action="../j_spring_security_check" class="login">
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <label>Логин</label>
+                            <input name="j_username" type="text">
+                        </div>
+                    </div>
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <label>Пароль</label>
+                            <input name="j_password" type="password">
+                        </div>
+                    </div>
+                    <div class="toin">
+                        <button type="submit" class="btn">Войти</button>
+                    </div>
+                </form>
             </div>
+                
+                
                 
         </div>
 
@@ -783,6 +801,18 @@
                                         $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
                                                 function () { // пoсле oкoнчaния пoкaзывaния oверлэя
                                                     $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                                            .css('display', 'block')
+                                                            .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                                                });
+            </script>
+        </c:if>
+            
+        <c:if test="${param.auth==false}">
+            <script>
+                $('#modal3').find('div.nameform').after('<div style="color:red;text-align:center;">ошибка авторизации, неверные логин или пароль</div>');
+                                        $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                                                function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                                                    $('#modal3') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
                                                             .css('display', 'block')
                                                             .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
                                                 });

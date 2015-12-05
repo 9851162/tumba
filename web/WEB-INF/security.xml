@@ -52,7 +52,7 @@
         <intercept-url pattern="/**" access="hasRole('admin')" />
         
         <logout logout-url="/logout" logout-success-url="/Main/" invalidate-session="true"/>
-        <form-login login-page="/Main/" default-target-url="/Main/authorize" always-use-default-target="true" authentication-failure-url="/Main/?error=true"
+        <form-login login-page="/Main/" default-target-url="/Main/authorize" always-use-default-target="true" authentication-failure-url="/Main/?auth=false"
         />
 
            

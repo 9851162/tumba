@@ -72,7 +72,11 @@ public class UserController extends WebController {
         if (u != null) {
             if (u.getPassword().equals(AuthManager.md5Custom(oldPass))) {
                 if (newPass.equals(checkPass)) {
-                    userService.changeUserPass(AuthManager.md5Custom(newPass),u);
+                    if(newPass.length()>3){
+                        userService.changeUserPass(AuthManager.md5Custom(newPass),u);
+                    }else{
+                        errors.add("Длина пароля должна быть не менее 4 символов");
+                    }
                 } else {
                     errors.add("новый пароль не совпадает");
                 }
