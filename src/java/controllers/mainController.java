@@ -373,13 +373,14 @@ public class mainController extends WebController {
 
         userService.createUser(phone, email, password, name, passconfirm, User.ROLEUSER);
 
-        /*model.put("name", name);
-         model.put("phone", phone);
-         model.put("email", email);*/
-        /*ras.addAttribute("name", name);
-         ras.addAttribute("phone", phone);
-         ras.addAttribute("email", email);*/
-        ras.addFlashAttribute("errors", userService.getErrors());
+        List<String>errors = userService.getErrors();
+        if(!errors.isEmpty()){
+            ras.addFlashAttribute("errors", errors);
+        }else{
+            List<String>msgs = userService.getErrors();
+            msgs.add("Регистрация успешно завершена. На указанный Вами email отправлено письмо для активации.");
+            ras.addFlashAttribute("messages", msgs);
+        }
         return "redirect:/Main/";
     }
 
