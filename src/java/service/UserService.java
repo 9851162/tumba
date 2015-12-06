@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 import support.AuthManager;
+import support.Constants;
+import support.Random;
 import support.SupMailSender;
 import support.editors.PhoneEditor;
 
@@ -54,8 +56,12 @@ public class UserService extends PrimService {
                             u.setPhone(phone);
                             u.setRegistrationDate(new Date());
                             u.setPassword(AuthManager.md5Custom(password));
+                            u.setActive(User.OFF);
+                            u.setHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
                             if (validate(u)) {
+                                String text = "Для активации Вашего аккаунта на сайте "+Constants.projectUrl+", пройдите по ссылке: "+Constants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
                                 userDao.save(u);
+                                mailSender.sendMail(email, text);
                             }
 
                         } else {
@@ -99,8 +105,7 @@ public class UserService extends PrimService {
     }
 
     public void notifyAboutRegistration(String email) {
-        String url = "http://185.22.232.79/seller";
-        String text = "Здравствуйте! На нашем сайте "+url+", было подано объявление с указанием этого email."+
+        String text = "Здравствуйте! На нашем сайте "+Constants.projectUrl+", было подано объявление с указанием этого email."+
                 " Для Вашего удобства, нами была создана учетная запись для просмотра и управления Вашими объявлениями."+
                 "В качестве логина был использован Ваш email: "+email+", пароль: 0000 "+
                 " Пароль Вы можете изменить в любой момент зайдя на сайт и авторизировавшись в Вашем личном кабинете."+
@@ -201,6 +206,14 @@ public class UserService extends PrimService {
             }else{
                 addError("фото должно быть размером до 3мб");
             }
+        }
+    }
+    
+    public void activate(User u){
+        u.setActive(User.ON);
+        u.setHash(null);
+        if(validate(u)){
+            userDao.update(u);
         }
     }
     

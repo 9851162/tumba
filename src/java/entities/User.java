@@ -9,6 +9,7 @@ import entities.parent.PrimEntity;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +38,8 @@ public class User extends PrimEntity {
     public static final String ROLEADMIN = "admin";
     public static final String ROLEUSER = "user";
     
+    public static final Integer ON = 1;
+    public static final Integer OFF = 0;
     //public static final Integer HOMESET = 1;
     
     @Id
@@ -81,6 +84,13 @@ public class User extends PrimEntity {
     
     @Column(name = "phone")
     private String phone;
+    
+    @Column(name = "active")
+    @NotNull(message = "Не указано, является ли пользователь активным")
+    private Integer active;
+    
+    @Column(name = "hash")
+    private String hash;
     
     @Column(name = "home_set")
     private Long homeSet;
@@ -189,6 +199,22 @@ public class User extends PrimEntity {
     
     public Long getHomeSet() {
         return homeSet;
+    }
+
+    public Boolean isActive() {
+        return Objects.equals(ON, active);
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
     
     

@@ -5,7 +5,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,7 +19,7 @@
         <div id="wrapper">
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <!--<h3>настройки</h3>-->
-            <div id="userInfo">
+            <div id="whiteList">
                 <div class="infodiv" style="height: 298px;"><div class="num">1</div>
                     <img style="float: left; width: 250px;height: 250px; margin-left: 10px;" src="${avatarPath}" alt="avatar">
                     <form enctype="multipart/form-data" method="post" action="<c:url value="uploadAvatar"/>">
@@ -92,6 +91,7 @@
                     </div>
                 </form>
             </div>
+                    
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
                 <%@include file="/WEB-INF/jsp/error.jsp" %>

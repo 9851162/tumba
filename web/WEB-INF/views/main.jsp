@@ -541,7 +541,7 @@
                     </div>
                     <div style="padding-left:55px;" class="toin">
                         <button type="submit" class="btn">Войти</button>
-                        <a class="btn-link" style="float:right;" href="">восстановить пароль</a>
+                        <a class="btn-link" style="float:right;" href="<c:url value="../User/passRecovery"/>">восстановить пароль</a>
                     </div>
                 </form>
             </div>
@@ -786,7 +786,7 @@
                     </div>
                     <div style="padding-left:55px;" class="toin">
                         <button type="submit" class="btn">Войти</button>
-                        <a class="btn-link" style="float:right;" href="">восстановить пароль</a>
+                        <a class="btn-link" style="float:right;" href="<c:url value="../User/passRecovery"/>">восстановить пароль</a>
                     </div>
                 </form>
             </div>

@@ -379,7 +379,7 @@ public class mainController extends WebController {
         /*ras.addAttribute("name", name);
          ras.addAttribute("phone", phone);
          ras.addAttribute("email", email);*/
-        ras.addAttribute("errors", userService.getErrors());
+        ras.addFlashAttribute("errors", userService.getErrors());
         return "redirect:/Main/";
     }
 

@@ -45,6 +45,8 @@
         <intercept-url pattern="/User/change" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/User/changePass" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/User/uploadAvatar" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/User/passRecovery" access="hasAnyRole('ROLE_ANONYMOUS')" />
+        <intercept-url pattern="/User/activation" access="hasAnyRole('ROLE_ANONYMOUS')" />
         
         <intercept-url pattern="/index" access="hasAnyRole('user','admin')" />  
         <intercept-url pattern="/" access="hasAnyRole('user','admin')" />

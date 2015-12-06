@@ -262,7 +262,7 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
     
     position: relative;
     overflow: hidden;
-    width: 124px;
+    width: 128px;
     font-size: 1em;        /* example */
     //height: 2em;           /* example */
     //line-height: 2em       /* the same as height */
@@ -489,7 +489,7 @@ td {
     margin-left: 35px;
 }
 
-#userInfo {
+#whiteList {
     width: 1080px;
     padding: 20px;
     margin-top: 7px;

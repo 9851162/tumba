@@ -105,5 +105,40 @@ public class UserController extends WebController {
         ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/User/me";
     }
-
+    
+    @RequestMapping("/passRecovery")
+    public String passRecovery(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "email", required = false) String email,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        
+        
+        
+        return "passRecovery";
+    }
+    
+    
+    @RequestMapping("/activation")
+    public String activation(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "hash", required = false) String hash,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        
+        User u = userService.getUserByMail(email);
+        if(u!=null){
+            if(hash.equals(u.getHash())){
+                userService.activate(u);
+                ras.addFlashAttribute("message","Вы успешно активировали свой аккаунт. Пожалуйста, авторизируйтесь");
+            }else if(!u.isActive()){
+                errors.add("не удалось выполнить активацию, возможно ссылка по которой выпрошли была изменена");
+            }
+        }else{
+             errors.add("такого пользователя не существует, попробуйте его зарегистрировать");
+        }
+        ras.addFlashAttribute(ERRORS_LIST_NAME,errors);
+       return "redirect:/Main/";
+    }
 }
