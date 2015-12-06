@@ -71,19 +71,19 @@
                     <div class="boxtoinput">
                         <div class="toin">
                             <label>текущий пароль</label>
-                            <input name="oldPass" type="text" value="">
+                            <input name="oldPass" type="password" value="">
                         </div>
                     </div>
                     <div class="boxtoinput">
                         <div class="toin">
                             <label>новый пароль</label>
-                            <input name="newPass" type="text" value="">
+                            <input name="newPass" type="password" value="">
                         </div>
                     </div>
                     <div class="boxtoinput">
                         <div class="toin">
                             <label>новый пароль</label>
-                            <input name="checkPass" type="text" value="">
+                            <input name="checkPass" type="password" value="">
                         </div>
                     </div>
                     <div class="form-group">

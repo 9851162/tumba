@@ -40,7 +40,7 @@ public class UserController extends WebController {
         User u = authManager.getCurrentUser();
 
         model.put("user", u);
-        model.put("avatarPath",UserService.getAvatarPath(u.getId()));
+        model.put("avatarPath", UserService.getAvatarPath(u.getId()));
 
         return "profile";
     }
@@ -72,9 +72,9 @@ public class UserController extends WebController {
         if (u != null) {
             if (u.getPassword().equals(AuthManager.md5Custom(oldPass))) {
                 if (newPass.equals(checkPass)) {
-                    if(newPass.length()>3){
-                        userService.changeUserPass(AuthManager.md5Custom(newPass),u);
-                    }else{
+                    if (newPass.length() > 3) {
+                        userService.changeUserPass(AuthManager.md5Custom(newPass), u);
+                    } else {
                         errors.add("Длина пароля должна быть не менее 4 символов");
                     }
                 } else {
@@ -88,7 +88,7 @@ public class UserController extends WebController {
         ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/User/me";
     }
-    
+
     @RequestMapping("/uploadAvatar")
     public String uploadAvatar(Map<String, Object> model,
             @RequestParam(value = "avatar", required = false) MultipartFile avatar,
@@ -96,29 +96,82 @@ public class UserController extends WebController {
             RedirectAttributes ras) throws Exception {
         List<String> errors = new ArrayList();
         User u = authManager.getCurrentUser();
-        
-        if(avatar!=null&&!avatar.isEmpty()){
+
+        if (avatar != null && !avatar.isEmpty()) {
             userService.uploadAvatar(u, avatar);
         }
-        
+
         errors.addAll(userService.getErrors());
         ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/User/me";
     }
-    
+
     @RequestMapping("/passRecovery")
     public String passRecovery(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "hash", required = false) String hash,
             RedirectAttributes ras) throws Exception {
         List<String> errors = new ArrayList();
-        
-        
-        
+        List<String> msgs = new ArrayList();
+
+        if (email != null) {
+            User u = userService.getUserByMail(email);
+            if (u != null) {
+                    if (hash != null&&!hash.equals("")) {
+                        if(!hash.equals(u.getHash())){
+                            errors.add("возможно ссылка по которой Вы прошли устарела или была изменена, попробуйте повторить попытку восстановления");
+                            model.put(ERRORS_LIST_NAME, errors);
+                        }else{
+                            ras.addAttribute("email", email);
+                            ras.addAttribute("hash", hash);
+                            return "redirect:/User/passRecovery";
+                        }
+                    }else{
+                        userService.sendPassRecoveryMail(u);
+                        errors.addAll(userService.getErrors());
+                        if (errors.isEmpty()) {
+                            msgs.add("на указанный Вами email было выслано письмо с дальнейшей инструкцией по восстановлению.");
+                            model.put("messages", msgs);
+                        }
+                    }
+            } else {
+                errors.add("Не удалось найти пользователя с таким email "+email);
+            }
+        }
+
         return "passRecovery";
     }
-    
-    
+
+    @RequestMapping("/passUpdate")
+    public String passUpdate(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "hash", required = false) String hash,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "checkPassword", required = false) String checkPassword,
+            RedirectAttributes ras) throws Exception {
+        List<String> errors = new ArrayList();
+        List<String> msgs = new ArrayList();
+        User u = userService.getUserByMail(email);
+        if (u != null) {
+            userService.updatePassword(u,hash,password,checkPassword);
+            errors.addAll(userService.getErrors());
+            if(errors.isEmpty()){
+                msgs.add("пароль был успешно обновлен");
+            }else{
+                ras.addAttribute("email", email);
+                ras.addAttribute("hash", hash);
+                return "redirect:/User/passRecovery";
+            }
+        } else {
+            errors.add("Не удалось найти пользователя с таким email "+email);
+        }
+        ras.addFlashAttribute("messages", msgs);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
+        return "redirect:/Main/";
+    }
+
     @RequestMapping("/activation")
     public String activation(Map<String, Object> model,
             HttpServletRequest request,
@@ -127,20 +180,20 @@ public class UserController extends WebController {
             RedirectAttributes ras) throws Exception {
         List<String> errors = new ArrayList();
         List<String> msgs = new ArrayList();
-        
+
         User u = userService.getUserByMail(email);
-        if(u!=null){
-            if(hash.equals(u.getHash())){
+        if (u != null) {
+            if (hash.equals(u.getHash())) {
                 userService.activate(u);
                 msgs.add("вы успешно активировали свой аккаунт");
-                ras.addFlashAttribute("messages",msgs);
-            }else if(!u.isActive()){
+                ras.addFlashAttribute("messages", msgs);
+            } else if (!u.isActive()) {
                 errors.add("не удалось выполнить активацию, возможно ссылка по которой Вы прошли была изменена");
             }
-        }else{
-             errors.add("пользователь с email "+email+" не существует, попробуйте его зарегистрировать");
+        } else {
+            errors.add("пользователь с email " + email + " не существует, попробуйте его зарегистрировать");
         }
-        ras.addFlashAttribute(ERRORS_LIST_NAME,errors);
-       return "redirect:/Main/";
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
+        return "redirect:/Main/";
     }
 }

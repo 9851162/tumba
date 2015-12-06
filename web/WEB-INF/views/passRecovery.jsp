@@ -20,14 +20,35 @@
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
             <!--<h3>настройки</h3>-->
             <div id="whiteList">
-                <h2>Отправка письма для восстановления пароля</h2>
+                <h2>восстановление пароля</h2>
+                <c:if test="${empty param.hash}">
                 <form action="<c:url value="../User/passRecovery"/>">
                         <div style="margin-top:10px;width: 100%;">
                             <label>email:</label>
                             <input name="email" type="text">
-                            <button type="submit" class="btn">Отправить</button>
+                            <button type="submit" class="btn">отправить</button>
                         </div>
                     </form>
+                </c:if>
+                <c:if test="${!empty param.hash}">
+                    <form action="<c:url value="../User/passUpdate"/>">
+                        <div style="margin-top:10px;width: 100%;">
+                            <label>новый пароль:</label>
+                            <div style="width: 100%;">
+                                <input name="password" type="password">
+                            </div>
+                            <label>повторно новый пароль:</label>
+                            <div style="width: 100%;">
+                                <input name="checkPassword" type="password">
+                            </div>
+                            <div style="width: 100%;">
+                                <input type="hidden" name="hash" value="${param.hash}">
+                                <input type="hidden" name="email" value="${param.email}">
+                                <button style="float:left;" type="submit" class="btn">сохранить</button>
+                            </div>
+                        </div>
+                    </form>
+                </c:if>
             </div>
             
             <div id="modal2" class="modal_form modal_div">
@@ -103,7 +124,19 @@
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
                 <%@include file="/WEB-INF/jsp/error.jsp" %>
-
+            </div>
+            
+            <div id="modalmessage" class="modal_form modal_div">
+                <div class="nameform">Сообщение</div>
+                <c:if test="${! empty messages}">
+                    <center>
+                        <div class="" >
+                            <c:forEach items="${messages}" var="msg" >
+                                <p>${msg}</p>
+                            </c:forEach>
+                        </div>
+                    </center>
+                </c:if>
             </div>
         </div>
         <div id="overlay"></div>
@@ -112,6 +145,16 @@
                 $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
                         function () { // пoсле oкoнчaния пoкaзывaния oверлэя
                             $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
+            </script>
+        </c:if>
+        <c:if test="${empty errors && !empty messages}">
+            <script>
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalmessage') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
                                     .css('display', 'block')
                                     .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
                         });

@@ -9,6 +9,7 @@ import dao.UserDao;
 import entities.User;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,6 +215,49 @@ public class UserService extends PrimService {
         u.setHash(null);
         if(validate(u)){
             userDao.update(u);
+        }
+    }
+    
+    public void sendPassRecoveryMail(User u){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, -15);
+        if(c.getTime().before(u.getMailDate())){
+            String hash = AuthManager.md5Custom(Random.getString("qwertyuiopasghjklzxcvbnm", 10));
+            String text = "На сайт "+Constants.projectUrl+" поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
+                    Constants.projectUrl+"/User/passRecovery?email="+u.getEmail()+"&hash="+hash;
+            try{
+                mailSender.sendMail(u.getEmail(), text);
+            }catch (Exception e){
+                addError("не удалось отправить сообщение с инструкцией по восстановлению, попробуйте повторить попытку позже");
+            }
+            if(getErrors().isEmpty()){
+                u.setHash(hash);
+                u.setMailDate(new Date());
+                if(validate(u)){
+                    userDao.update(u);
+                }
+            }
+        }
+    }
+    
+    public void updatePassword(User u,String hash,String pass,String checkPass){
+        if(pass!=null&&pass.length()>4){
+            if(pass.equals(checkPass)){
+                if(hash.equals(u.getHash())){
+                    u.setHash("");
+                    u.setPassword(AuthManager.md5Custom(pass));
+                    u.setActive(User.ON);
+                    if(validate(u)){
+                        userDao.update(u);
+                    }
+                }else{
+                    addError("ссылка по которой Вы прошли устарела, попробуйте повторить попытку восстановления");
+                }
+            }else{
+                addError("пароли не совпадают");
+            }
+        }else{
+            addError("длина пароля должна быть более 4 символов");
         }
     }
     

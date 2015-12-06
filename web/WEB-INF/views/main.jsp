@@ -762,22 +762,7 @@
                     </div>
                 </form>
             </div>
-
-
-
-            <div id="modalmessage" class="modal_form modal_div">
-                <div class="nameform">Сообщение</div>
-                <c:if test="${! empty messages}">
-                    <center>
-                        <div class="" >
-                            <c:forEach items="${messages}" var="msg" >
-                                <p>${msg}</p>
-                            </c:forEach>
-                        </div>
-                    </center>
-                </c:if>
-            </div>
-
+                    
             <div id="modalalert" class="modal_form modal_div">
                 <!--<div class="nameform">Ошибки</div>-->
                 <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
@@ -804,7 +789,19 @@
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
                 <%@include file="/WEB-INF/jsp/error.jsp" %>
-
+            </div>
+            
+            <div id="modalmessage" class="modal_form modal_div">
+                <div class="nameform">Сообщение</div>
+                <c:if test="${! empty messages}">
+                    <center>
+                        <div class="" >
+                            <c:forEach items="${messages}" var="msg" >
+                                <p>${msg}</p>
+                            </c:forEach>
+                        </div>
+                    </center>
+                </c:if>
             </div>
 
         </div>

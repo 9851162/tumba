@@ -70,6 +70,10 @@ public class User extends PrimEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date registrationDate;
     
+    @Column(name = "mail_date")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date mailDate;
+    
     @Column(name = "user_role")
     @NotNull(message = "Необходимо указать роль")
     private String userRole;
@@ -215,6 +219,14 @@ public class User extends PrimEntity {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public Date getMailDate() {
+        return mailDate;
+    }
+
+    public void setMailDate(Date mailDate) {
+        this.mailDate = mailDate;
     }
     
     
