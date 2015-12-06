@@ -126,17 +126,19 @@ public class UserController extends WebController {
             @RequestParam(value = "hash", required = false) String hash,
             RedirectAttributes ras) throws Exception {
         List<String> errors = new ArrayList();
+        List<String> msgs = new ArrayList();
         
         User u = userService.getUserByMail(email);
         if(u!=null){
             if(hash.equals(u.getHash())){
                 userService.activate(u);
-                ras.addFlashAttribute("message","Вы успешно активировали свой аккаунт. Пожалуйста, авторизируйтесь");
+                msgs.add("вы успешно активировали свой аккаунт");
+                ras.addFlashAttribute("messages",msgs);
             }else if(!u.isActive()){
-                errors.add("не удалось выполнить активацию, возможно ссылка по которой выпрошли была изменена");
+                errors.add("не удалось выполнить активацию, возможно ссылка по которой Вы прошли была изменена");
             }
         }else{
-             errors.add("такого пользователя не существует, попробуйте его зарегистрировать");
+             errors.add("пользователь с email "+email+" не существует, попробуйте его зарегистрировать");
         }
         ras.addFlashAttribute(ERRORS_LIST_NAME,errors);
        return "redirect:/Main/";

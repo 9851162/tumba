@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : login
     Created on : 16.03.2015, 19:17:08
     Author     : Юрий
@@ -19,13 +19,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/animate.css">
         <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
-        
+
     </head>
     <body>
-        
+
         <div id="wrapper">
 
             <%@include file="/WEB-INF/jsp/menu.jsp" %>
+
             <div id="search_add">
                 <div class="tosearch">
                     <div class="formsearch">
@@ -127,10 +128,10 @@
                                 <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
                                     <td></td>
-                                        <c:set var="searchParamOptionSize" value="5"/>
-                                        <c:if test="${searchParam.options.size()<5}">
-                                            <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
-                                        </c:if>
+                                    <c:set var="searchParamOptionSize" value="5"/>
+                                    <c:if test="${searchParam.options.size()<5}">
+                                        <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
+                                    </c:if>
 
                                     <td> <select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle;" name="multyVals">
                                             <c:forEach var="opt" items="${searchParam.options}">
@@ -143,10 +144,10 @@
                                 <c:if test="${searchParam.paramType==5}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
                                     <td></td>
-                                            <td><select name="booleanVals" form="searchForm">
-                                                    <option value="">не выбрано</option>
-                                                    <option value="1">да</option>
-                                                    <option value="0">нет</option>
+                                    <td><select name="booleanVals" form="searchForm">
+                                            <option value="">не выбрано</option>
+                                            <option value="1">да</option>
+                                            <option value="0">нет</option>
                                         </select></td>
                                     <input form="searchForm" type="hidden" name="booleanIds" value="${searchParam.id}">
                                 </c:if>
@@ -161,7 +162,7 @@
                             </c:forEach>
                         </table>
                     </div>
-                    
+
                 </c:if>
                 <c:if test="${!empty catNamesWithCountsMap}">
                     <div id="catInfoInSearch">
@@ -172,44 +173,44 @@
                 </c:if>
             </div>
 
-                        
-                
-                
-                        
-                <c:set var="choosePossible" value="choose"/>
-                <c:set var="comparePossible" value="compareAdder"/>
 
-                <div class="icons">
-                    <c:if test="${role=='user'||role=='admin'}">  
-                        <c:set var="msgPossible" value="open_modal messageSender"/>
+
+
+
+            <c:set var="choosePossible" value="choose"/>
+            <c:set var="comparePossible" value="compareAdder"/>
+
+            <div class="icons">
+                <c:if test="${role=='user'||role=='admin'}">
+                    <c:set var="msgPossible" value="open_modal messageSender"/>
                     <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
                     <a href="<c:url value="../Main/regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
-                    </c:if>  
-                    <c:if test="${empty role}">  
+                        </c:if>
+                        <c:if test="${empty role}">
                     <a href="#modalalert"><div id="ico" class="ico1 open_modal"><img src="../img/menu1.png"> </div></a>
                     <a href="#modalalert"><div id="ico" class="ico2 open_modal"><img src="../img/menu2.png"> </div></a>
                     <a href="#modalalert"><div id="ico" class="ico3 open_modal"><img src="../img/menu3.png"> </div></a>
-                    </c:if>
-                    <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
-                    <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
-                </div>
-            
+                        </c:if>
+                <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
+                <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
+            </div>
+
 
             <div class="left_side">
-                <c:if test="${role=='user'||role=='admin'}">  
+                <c:if test="${role=='user'||role=='admin'}">
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/regions" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
-                     </c:if> 
-                    <c:if test="${empty role}">  
+                        </c:if>
+                        <c:if test="${empty role}">
                     <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
-                    </c:if>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
-                        
+                        </c:if>
+                <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
+                <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
+
                 <div class="promo"> </div>
                 <div class="promo"> </div>
             </div>
@@ -293,7 +294,7 @@
                                                 <c:if test="${ad.status==0}">
                                                     <c:if test="${!empty userAds&&!empty userAds.get(ad.id)}">
                                                         <div><a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-buy adChanger" style="font: 12px Arial;">изменить</a></div>
-                                                        </c:if>
+                                                    </c:if>
                                                     <div><form action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
@@ -322,21 +323,21 @@
                                                         <c:set var="compClass" value="comparing"/>
                                                     </c:if>
                                                 <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
-                                                <c:if test="${role=='user'||role=='admin'}">  
-                                                <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
-                                                </c:if>
-                                                <c:if test="${empty role}">
-                                                <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
-                                                </c:if>
+                                                    <c:if test="${role=='user'||role=='admin'}">
+                                                    <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                    </c:if>
+                                                    <c:if test="${empty role}">
+                                                    <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                    </c:if>
                                                 <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
-                                                <c:if test="${role=='user'||role=='admin'}"> 
-                                                <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-                                                </c:if>
-                                                <c:if test="${empty role}">
-                                                <a href="#modalalert" class="open_modal"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
-                                                </c:if>
+                                                    <c:if test="${role=='user'||role=='admin'}">
+                                                    <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                    <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                    </c:if>
+                                                    <c:if test="${empty role}">
+                                                    <a href="#modalalert" class="open_modal"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
+                                                    <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                    </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -368,7 +369,7 @@
                             <input name="shortName" type="text" value="${shortName}">
                         </div>
                     </div>
-                        
+
                     <div class="boxtoinput">
                         <div class="num">2</div>
                         <div class="toin">
@@ -377,7 +378,7 @@
                             <textarea name="description" type="textarea" value="">${description}</textarea>
                         </div>
                     </div>
-                        
+
                     <div class="boxtoinput">
                         <div class="num">3</div>
                         <div class="toin">
@@ -436,7 +437,7 @@
                             </select>
                         </div>
                     </div>
-                        
+
                     <c:set var="nextNum" value="8"/>
                     <c:if test="${empty userId}">
                         <div class="boxtoinput">
@@ -456,96 +457,96 @@
                     </div>
                 </form>
             </div>
-                    <c:if test="${empty role}">
-            <div id="modal2" class="modal_form modal_div">
-                <div class="nameform">РЕГИСТРАЦИЯ</div>
-                <form  method="post" action="../Main/registration">
-                    <div class="boxtoinput">
-                        <div class="num">1</div>
-                        <div class="toin">
-                            <label>Имя</label>
-                            <div class="minopright">до 30 символов</div>
-                            <input name="name" type="text">
+            <c:if test="${empty role}">
+                <div id="modal2" class="modal_form modal_div">
+                    <div class="nameform">РЕГИСТРАЦИЯ</div>
+                    <form  method="post" action="../Main/registration">
+                        <div class="boxtoinput">
+                            <div class="num">1</div>
+                            <div class="toin">
+                                <label>Имя</label>
+                                <div class="minopright">до 30 символов</div>
+                                <input name="name" type="text">
+                            </div>
                         </div>
-                    </div>
-                    <div class="boxtoinput">
-                        <div class="num">2</div>
-                        <div class="toin">
-                            <label>Телефон</label>
-                            <div class="minopright">до 30 символов</div>
-                            <input name="phone" type="text">
+                        <div class="boxtoinput">
+                            <div class="num">2</div>
+                            <div class="toin">
+                                <label>Телефон</label>
+                                <div class="minopright">до 30 символов</div>
+                                <input name="phone" type="text">
+                            </div>
                         </div>
-                    </div>
-                    <div class="boxtoinput">
-                        <div class="num">3</div>
-                        <div class="toin">
-                            <label>E-mail</label>
-                            <div class="minopright">до 30 символов</div>
-                            <input name="email" type="email">
+                        <div class="boxtoinput">
+                            <div class="num">3</div>
+                            <div class="toin">
+                                <label>E-mail</label>
+                                <div class="minopright">до 30 символов</div>
+                                <input name="email" type="email">
+                            </div>
                         </div>
-                    </div>
-                    <div class="boxtoinput">
-                        <div class="num">4</div>
-                        <div class="toin">
-                            <label>Пароль</label>
-                            <div class="minopright">до 30 символов</div>
-                            <input name="password" type="password">
-                        </div>
-                    </div>
-                    <div class="boxtoinput">
-                        <div class="num">5</div>
-                        <div class="toin">
-                            <label>Подтверждение пароля</label>
-                            <div class="minopright">до 30 символов</div>
-                            <input name="passconfirm" type="password">
-                        </div>
-                    </div>
-
-                    <!--<div class="boxtoinput">
+                        <div class="boxtoinput">
                             <div class="num">4</div>
                             <div class="toin">
-                                    <label>Добавление фото</label>
-                         <img src="../img/plusimg.png">
+                                <label>Пароль</label>
+                                <div class="minopright">до 30 символов</div>
+                                <input name="password" type="password">
                             </div>
-                    </div>
-                    <div class="boxtoinput">
+                        </div>
+                        <div class="boxtoinput">
                             <div class="num">5</div>
                             <div class="toin">
-                                    <label for="region">Выбор домашнего региона</label>
-                                <div class="dob">добавить<img src="../img/plus.png"> </div>
+                                <label>Подтверждение пароля</label>
+                                <div class="minopright">до 30 символов</div>
+                                <input name="passconfirm" type="password">
                             </div>
-                    </div>-->
-                    <div class="form-group">
-                        <button type="submit" class="btn" style="margin-top: 10px;">Добавить</button>
-                    </div>
-                </form>
-            </div>
-                    </c:if>
-            
-                    <c:if test="${empty role}">
-            <div id="modal3" class="modal_form modal_div">
-                
-                <div class="nameform">АВТОРИЗАЦИЯ</div>
-                <form  method="post" action="../j_spring_security_check" class="login">
-                    <div class="boxtoinput">
-                        <div style="padding-left:55px;" class="toin">
-                            <label>Логин</label>
-                            <input name="j_username" type="text">
                         </div>
-                    </div>
-                    <div class="boxtoinput">
-                        <div style="padding-left:55px;" class="toin">
-                            <label>Пароль</label>
-                            <input name="j_password" type="password">
+
+                        <!--<div class="boxtoinput">
+                                <div class="num">4</div>
+                                <div class="toin">
+                                        <label>Добавление фото</label>
+                             <img src="../img/plusimg.png">
+                                </div>
                         </div>
-                    </div>
-                    <div style="padding-left:55px;" class="toin">
-                        <button type="submit" class="btn">Войти</button>
-                        <a class="btn-link" style="float:right;" href="<c:url value="../User/passRecovery"/>">восстановить пароль</a>
-                    </div>
-                </form>
-            </div>
-                    </c:if>
+                        <div class="boxtoinput">
+                                <div class="num">5</div>
+                                <div class="toin">
+                                        <label for="region">Выбор домашнего региона</label>
+                                    <div class="dob">добавить<img src="../img/plus.png"> </div>
+                                </div>
+                        </div>-->
+                        <div class="form-group">
+                            <button type="submit" class="btn" style="margin-top: 10px;">Добавить</button>
+                        </div>
+                    </form>
+                </div>
+            </c:if>
+
+            <c:if test="${empty role}">
+                <div id="modal3" class="modal_form modal_div">
+
+                    <div class="nameform">АВТОРИЗАЦИЯ</div>
+                    <form  method="post" action="../j_spring_security_check" class="login">
+                        <div class="boxtoinput">
+                            <div style="padding-left:55px;" class="toin">
+                                <label>Логин</label>
+                                <input name="j_username" type="text">
+                            </div>
+                        </div>
+                        <div class="boxtoinput">
+                            <div style="padding-left:55px;" class="toin">
+                                <label>Пароль</label>
+                                <input name="j_password" type="password">
+                            </div>
+                        </div>
+                        <div style="padding-left:55px;" class="toin">
+                            <button type="submit" class="btn">Войти</button>
+                            <a class="btn-link" style="float:right;" href="<c:url value="../User/passRecovery"/>">восстановить пароль</a>
+                        </div>
+                    </form>
+                </div>
+            </c:if>
 
             <div id="modal4" class="modal_form modal_div">
                 <div class="nameform">Отправить сообщение</div>
@@ -585,7 +586,7 @@
                                                 <c:if test="${!empty homeSet && homeSet==region.id}">
                                                 <td><i class="fa fa-home"></i></td>
                                                 </c:if>
-                                        </c:forEach>
+                                            </c:forEach>
                                 </table>
                             </c:if>
                         </div>
@@ -623,42 +624,42 @@
             <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
                 <c:if test="${empty role}">
-                <div>
-                    <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
-                        <div class="toin">
-                            <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="set" class="allRegionsSelector" type="checkbox" value="1">Все</label></li>
-                                        <c:forEach var="state" items="${states}">
-                                            <c:set var="stateInReg" value=""/>
-                                            <c:if test="${!empty statesInRegMap.get(state.id)}">
-                                                <c:set var="stateInReg" value="checked"/>
-                                            </c:if>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>/${state.getLocalities().size()})</label></li>
-                                        <c:if test="${!empty state.localities}">
-                                        <ul>
-                                            <c:forEach var="loc" items="${state.localities}">
-                                                <c:set var="locInReg" value=""/>
-                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
-                                                    <c:set var="locInReg" value="checked"/>
+                    <div>
+                        <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                            <div class="toin">
+                                <ul>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" data-method="set" class="allRegionsSelector" type="checkbox" value="1">Все</label></li>
+                                            <c:forEach var="state" items="${states}">
+                                                <c:set var="stateInReg" value=""/>
+                                                <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                                    <c:set var="stateInReg" value="checked"/>
                                                 </c:if>
-                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-method="set" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-method="set" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
-                                                    </c:forEach>
-                                        </ul>
-                                    </c:if>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                        <input type="hidden" name="wish" value="${wish}">
-                        <div class="form-group" style="padding-left: 15px;">
-                            <button type="submit" class="btn">Выбрать</button>
-                        </div>
-                    </form>
-                </div>
+                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>/${state.getLocalities().size()})</label></li>
+                                            <c:if test="${!empty state.localities}">
+                                            <ul>
+                                                <c:forEach var="loc" items="${state.localities}">
+                                                    <c:set var="locInReg" value=""/>
+                                                    <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                        <c:set var="locInReg" value="checked"/>
+                                                    </c:if>
+                                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-method="set" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-method="set" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                        </c:forEach>
+                                            </ul>
+                                        </c:if>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="wish" value="${wish}">
+                            <div class="form-group" style="padding-left: 15px;">
+                                <button type="submit" class="btn">Выбрать</button>
+                            </div>
+                        </form>
+                    </div>
                 </c:if>
             </div>
-            
+
             <div id="changeAdForm" class="modal_form modal_div">
-                
+
                 <div class="nameform">ИЗМЕНИТЬ ОБЪЯВЛЕНИЕ</div>
                 <form  method="post" action="<c:url value="../Ad/changeAd" />">
 
@@ -670,7 +671,7 @@
                             <input name="shortName" type="text" value="">
                         </div>
                     </div>
-                        
+
                     <div class="boxtoinput">
                         <!--<div class="num">2</div>-->
                         <div class="toin">
@@ -679,7 +680,7 @@
                             <textarea name="description" type="textarea" value=""></textarea>
                         </div>
                     </div>
-                        
+
                     <!--<div class="boxtoinput">
                         <div class="num">3</div>
                         <div class="toin">
@@ -708,12 +709,12 @@
                             <label>Регионы</label>
                             <select name="regionId">
                                 <option value="0">вся Россия</option>
-                                <c:forEach var="region" items="${availableRegions}">
-                                    <option value="${region.id}">${region.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>-->
+                    <c:forEach var="region" items="${availableRegions}">
+                        <option value="${region.id}">${region.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>-->
 
                     <div class="boxtoinput">
                         <!--<div class="num">6</div>-->
@@ -729,26 +730,26 @@
                             <label for="catId">Выбор категории для объявления</label>
                             <select class="categoryChanger" name="catId">
                                 <option value="">Не выбрана</option>
-                                <c:forEach var="cat" items="${catList}">
-                                    <c:set var="prefix" value="${cat.getPrefix()}"/>
-                                    <option value="${cat.id}">
-                                        ${prefix}${cat.name}
-                                    </option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>-->
-                        
+                    <c:forEach var="cat" items="${catList}">
+                        <c:set var="prefix" value="${cat.getPrefix()}"/>
+                        <option value="${cat.id}">
+                        ${prefix}${cat.name}
+                    </option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>-->
+
                     <!--<c:set var="nextNum" value="8"/>
                     <c:if test="${empty userId}">
                         <div class="boxtoinput">
                             <div class="num">${nextNum}</div>
-                            <c:set var="nextNum" value="${nextNum+1}"/>
-                            <div class="toin">
-                                <label>email</label>
-                                <input name="email" type="email" value="${email}">
-                            </div>
+                        <c:set var="nextNum" value="${nextNum+1}"/>
+                        <div class="toin">
+                            <label>email</label>
+                            <input name="email" type="email" value="${email}">
                         </div>
+                    </div>
                     </c:if>
                     <div id="boxforparams" >
 
@@ -762,13 +763,22 @@
                 </form>
             </div>
 
-            <div id="modalerror" class="modal_form modal_div">
-                <div class="nameform">Ошибки</div>
-                <%@include file="/WEB-INF/jsp/error.jsp" %>
 
+
+            <div id="modalmessage" class="modal_form modal_div">
+                <div class="nameform">Сообщение</div>
+                <c:if test="${! empty messages}">
+                    <center>
+                        <div class="" >
+                            <c:forEach items="${messages}" var="msg" >
+                                <p>${msg}</p>
+                            </c:forEach>
+                        </div>
+                    </center>
+                </c:if>
             </div>
-                
-                <div id="modalalert" class="modal_form modal_div">
+
+            <div id="modalalert" class="modal_form modal_div">
                 <!--<div class="nameform">Ошибки</div>-->
                 <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
@@ -790,38 +800,50 @@
                     </div>
                 </form>
             </div>
-                
-                
-                
+
+            <div id="modalerror" class="modal_form modal_div">
+                <div class="nameform">Ошибки</div>
+                <%@include file="/WEB-INF/jsp/error.jsp" %>
+
+            </div>
+
         </div>
 
         <div id="overlay"></div>
         
-
-        <c:if test="${!empty errors}">
-            <script>
-                                        $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                                                function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                                                    $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                                                            .css('display', 'block')
-                                                            .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                                                });
-            </script>
-        </c:if>
-            
         <c:if test="${param.auth==false}">
             <script>
                 $('#modal3').find('div.nameform').after('<div style="color:red;text-align:center;">ошибка авторизации, неверные логин или пароль</div>');
-                                        $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
-                                                function () { // пoсле oкoнчaния пoкaзывaния oверлэя
-                                                    $('#modal3') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
-                                                            .css('display', 'block')
-                                                            .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
-                                                });
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modal3') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
             </script>
         </c:if>
 
-
+        <c:if test="${!empty errors}">
+            <script>
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalerror') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
+            </script>
+        </c:if>
+        <c:if test="${empty errors && !empty messages}">
+            <script>
+                $('#overlay').fadeIn(400, //пoкaзывaем oверлэй
+                        function () { // пoсле oкoнчaния пoкaзывaния oверлэя
+                            $('#modalmessage') // берем стрoку с селектoрoм и делaем из нее jquery oбъект
+                                    .css('display', 'block')
+                                    .animate({opacity: 1, top: '0%'}, 200); // плaвнo пoкaзывaем
+                        });
+            </script>
+        </c:if>
+            
         <div style="float:left;" class="hidden">
             <div data-cat-id="" class="catParamsDiv"></div>
             <c:forEach var="catId" items="${catParamsMap.keySet()}">
@@ -856,12 +878,12 @@
                                                 </select></label>
                                             <input type="hidden" name="selIds" value="${parametr.id}">
                                         </c:when>
-                                            
+
                                         <c:when test="${parametr.paramType==4&&!empty parametr.options}">
                                             <c:set var="paramOptionSize" value="5"/>
                                             <c:if test="${parametr.options.size()<5}">
-                                            <c:set var="paramOptionSize" value="${parametr.options.size()}"/>
-                                        </c:if>
+                                                <c:set var="paramOptionSize" value="${parametr.options.size()}"/>
+                                            </c:if>
                                             <br><label style="text-align: center;">${parametr.name} <select multiple="true" size="${paramOptionSize}" style="vertical-align: middle;" name="multyVals">
                                                     <c:forEach var="opt" items="${parametr.options}">
                                                         <option value="${parametr.id}_${opt.id}">${opt.name}</option>
@@ -891,6 +913,6 @@
                 </div>
             </c:forEach>
         </div>
-            
+
 
     </body></html>

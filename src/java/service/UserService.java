@@ -59,7 +59,7 @@ public class UserService extends PrimService {
                             u.setActive(User.OFF);
                             u.setHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
                             if (validate(u)) {
-                                String text = "Для активации Вашего аккаунта на сайте "+Constants.projectUrl+", пройдите по ссылке: "+Constants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
+                                String text = "Для активации Вашего аккаунта на сайте "+Constants.projectUrl+" пройдите по ссылке: "+Constants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
                                 userDao.save(u);
                                 mailSender.sendMail(email, text);
                             }
