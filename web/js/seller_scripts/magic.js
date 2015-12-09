@@ -86,22 +86,27 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
                 var count = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
                 $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
             });
+            //показать все
+            $('.locLabel[data-method=' + method + ']').removeClass('hidden');
         }
+        setOpacity(method);
     });
 
     $('.stateSelector').on('change', function () {
         var method = $(this).attr('data-method');
         var id = $(this).attr('id');
+        //odevanie locs
         $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
-        var countChange = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
-        var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
+        //var countChange = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
+        //var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
+        var count=0;
         //snyatie
         if (!$(this).prop('checked')) {
-            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
-            count = count-countChange;
+            //$('.allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
+            //count = count-countChange;
         //odevanie
         } else {
-            var allChecked = true;
+            /*var allChecked = true;
             $('.stateSelector[data-method=' + method + ']').each(function () {
                 if (!$(this).prop('checked')) {
                     allChecked = false;
@@ -109,13 +114,21 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
             });
             if (allChecked) {
                 $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
-            }
-            count = count+countChange;
+            }*/
+            //count = count+countChange;
+            count=$('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
+        }
+        var checkedLocsLength = $('.locSelector[data-method=' + method + ']:checked').length;
+        if(checkedLocsLength==0){
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
+        }else{
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
         }
         $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
+        setOpacity(method);
     });
 
-    $('.locSelector').on('change', function () {
+    /*$('.locSelector').on('change', function () {
         var method = $(this).attr('data-method');
         var id = $(this).attr('data-state-id');
         var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
@@ -146,6 +159,35 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
             count=count+1;
         }
         $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
+        //setOpacity(method);
+    });*/
+    
+    $('.locSelector').on('change', function () {
+        var method = $(this).attr('data-method');
+        var id = $(this).attr('data-state-id');
+        var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
+        //снятие
+        if (!$(this).prop('checked')) {
+            count=count-1;
+        //одевание
+        } else {
+            count=count+1;
+        }
+        
+        var checkedLocsLength = $('.locSelector[data-method=' + method + ']:checked').length;
+        if(checkedLocsLength==0){
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
+        }else{
+            $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
+        }
+        
+        $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
+        if(count==0){
+            $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', false);
+        }else{
+            $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', true);
+        }
+        setOpacity(method);
     });
 
     $(".opener").on('click', function () {
@@ -153,4 +195,35 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         var stateId = $(this).attr('id');
         $('.locLabel[data-state-id=' + stateId + '][data-method=' + method + ']').toggleClass('hidden');
     });
+    
+    $(".allRegionsOpener").on('click', function () {
+        var method = $(this).attr('data-method');
+        //var allLocs = $('.locLabel[data-method=' + method + ']').length;
+        var hiddenLocs = $('.locLabel.hidden[data-method=' + method + ']').length;
+        if(hiddenLocs==0){
+            $('.locLabel[data-method=' + method + ']').addClass('hidden');
+        }else{
+            $('.locLabel[data-method=' + method + ']').removeClass('hidden');
+        }
+    });
+    
+    function setOpacity(method){
+        $('.stateSelector[data-method=' + method + ']').each(function(){
+            var checkedLocs = parseInt($(this).siblings('.opener').find('.checkedLocsCount').text());
+            var stateLocs = parseInt($(this).siblings('.opener').find('.locsAmount').text());
+            if(checkedLocs==stateLocs||checkedLocs==0){
+                $(this).removeClass('semichecked');
+            }else{
+                $(this).addClass('semichecked');
+            }
+        });
+        var allRegsSelector = $('.allRegionsSelector[data-method=' + method + ']')
+        var checkedStates = $('.stateSelector[data-method=' + method + ']:checked').length;
+        var allStates = $('.stateSelector[data-method=' + method + ']').length;
+        if(checkedStates==0||checkedStates==allStates){
+            allRegsSelector.removeClass('semichecked');
+        }else{
+            allRegsSelector.addClass('semichecked');
+        }
+    }
 });
