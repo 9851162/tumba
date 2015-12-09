@@ -303,6 +303,8 @@ public class mainController extends WebController {
                 region = regionService.getDefaultRegion(userId);
                 request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
             }
+            model.put("regionSet", region.getId());
+            model.put("states", regionService.getNotEmptyStates());
 
             HashMap<Long, Long> locsInRegMap = new HashMap();
             HashMap<Long, Integer> statesInRegMap = new HashMap();

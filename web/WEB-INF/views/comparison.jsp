@@ -76,29 +76,29 @@
                     </div>
                 </div>
                 <div id="dobContainer">
-                <c:forEach var="cat" items="${selectedCats}">
-                    <div class="dob">${cat.name}<a href="<c:url value="../Main/removeCat4Search?catId=${cat.id}&wish=${param.wish}" />"><img src="../img/plus.png"></a>
-                    </div>
-                </c:forEach>
+                    <c:forEach var="cat" items="${selectedCats}">
+                        <div class="dob">${cat.name}<a href="<c:url value="../Main/removeCat4Search?catId=${cat.id}&wish=${param.wish}" />"><img src="../img/plus.png"></a>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
 
-            
-                <div class="icons icons_expand">
-                    <c:if test="${role=='user'||role=='admin'}">  
-                        <c:set var="msgPossible" value="open_modal messageSender"/>
+
+            <div class="icons icons_expand">
+                <c:if test="${role=='user'||role=='admin'}">  
+                    <c:set var="msgPossible" value="open_modal messageSender"/>
                     <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
                     <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
                     <a href="<c:url value="../Main/regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
-                    </c:if>  
-                    <c:if test="${empty role}">  
+                        </c:if>  
+                        <c:if test="${empty role}">  
                     <a href="#modalalert"><div id="ico" class="ico1 open_modal"><img src="../img/menu1.png"> </div></a>
                     <a href="#modalalert"><div id="ico" class="ico2 open_modal"><img src="../img/menu2.png"> </div></a>
                     <a href="#modalalert"><div id="ico" class="ico3 open_modal"><img src="../img/menu3.png"> </div></a>
-                    </c:if>
-                    <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
-                    <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
-                </div>
+                        </c:if>
+                <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
+                <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
+            </div>
             <c:if test="${empty compAds}">
                 <div class="boxtoitem boxtoitembig whitepod" style="padding-left: 20px;">Ooops... Нечего сравнивать, добавьте объявления для сравнения.</div>
             </c:if>   
@@ -107,7 +107,7 @@
                 <div class="boxtoitem boxtoitembig whitepod">
                     <div style="    width: 168px;;    float: left;">
                         <div class="oneatr firstatr">
-                            
+
                         </div>
                         <c:forEach var="attr" items="${compMap.keySet()}">
                             <div class="oneatr">
@@ -125,11 +125,11 @@
                         <div class="onestr">
                             <c:forEach var="ad" items="${compAds}">
                                 <div class="prewtov">
-                                  <a href="<c:url value="../Ad/removeFromComparison?adId=${ad.id}&wish=${param.wish}" />"><div class="ad_top_bubble" title="убрать из сравнения">
-                                      <div class="ad_bubble_delete_wrap">
-                                      <div class="ad_bubble_delete"></div>
-                                      </div>
-                                    </div></a>
+                                    <a href="<c:url value="../Ad/removeFromComparison?adId=${ad.id}&wish=${param.wish}" />"><div class="ad_top_bubble" title="убрать из сравнения">
+                                            <div class="ad_bubble_delete_wrap">
+                                                <div class="ad_bubble_delete"></div>
+                                            </div>
+                                        </div></a>
                                     <img class="sravimg" src="../imgs/${ad.id}/0">
                                     <div class="sravopisanie">
                                         <div class="sravmin">
@@ -145,7 +145,7 @@
                                 </div>
                             </c:forEach>
                         </div>
-                        
+
                         <c:forEach var="key" items="${compMap.keySet()}">
                             <div class="onestr" style="width:100%;">
                                 <c:forEach var="paramVal" items="${compMap.get(key)}">
@@ -157,7 +157,7 @@
                         </c:forEach>
 
 
-                        		
+
 
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                     <div id="boxforparams" >
 
                     </div>
-                    
+
                     <div class="form-group">
                         <button type="submit" class="btn">Добавить</button>
                     </div>
@@ -328,7 +328,7 @@
                     </div>
                 </form>
             </div>
-                    
+
             <!--выбор региона с авторизацией-->
             <div id="modal5" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
@@ -351,7 +351,7 @@
                                                 <c:if test="${!empty homeSet && homeSet==region.id}">
                                                 <td><i class="fa fa-home"></i></td>
                                                 </c:if>
-                                        </c:forEach>
+                                            </c:forEach>
                                 </table>
                             </c:if>
                         </div>
@@ -390,37 +390,37 @@
             <div id="modal6" class="modal_form modal_div">
                 <div class="nameform">Выбор региона</div>
                 <c:if test="${empty role}">
-                <div>
-                    <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
-                        <div class="toin">
-                            <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" class="allRegionsSelector" data-method="set" type="checkbox" value="1">Все</label></li>
+                    <div>
+                        <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                            <div class="toin">
+                                <ul>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" class="allRegionsSelector" data-method="set" type="checkbox" value="1">Все</label></li>
                                         <c:forEach var="state" items="${states}">
                                             <c:set var="stateInReg" value=""/>
                                             <c:if test="${!empty statesInRegMap.get(state.id)}">
                                                 <c:set var="stateInReg" value="checked"/>
                                             </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" data-method="set" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>${state.getLocalities().size()})</label></li>
-                                        <c:if test="${!empty state.localities}">
-                                        <ul>
-                                            <c:forEach var="loc" items="${state.localities}">
-                                                <c:set var="locInReg" value=""/>
-                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
-                                                    <c:set var="locInReg" value="checked"/>
-                                                </c:if>
-                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-method="set" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" data-method="set" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
-                                                    </c:forEach>
-                                        </ul>
-                                    </c:if>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                        <input type="hidden" name="wish" value="${wish}">
-                        <div class="form-group" style="padding-left: 15px;">
-                            <button type="submit" class="btn">Выбрать</button>
-                        </div>
-                    </form>
-                </div>
+                                            <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" data-method="set" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>${state.getLocalities().size()})</label></li>
+                                            <c:if test="${!empty state.localities}">
+                                                <ul>
+                                                    <c:forEach var="loc" items="${state.localities}">
+                                                        <c:set var="locInReg" value=""/>
+                                                        <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                            <c:set var="locInReg" value="checked"/>
+                                                        </c:if>
+                                                        <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel hidden" data-method="set" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" data-method="set" class="locSelector" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                            </c:forEach>
+                                                </ul>
+                                            </c:if>
+                                        </c:forEach>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="wish" value="${wish}">
+                            <div class="form-group" style="padding-left: 15px;">
+                                <button type="submit" class="btn">Выбрать</button>
+                            </div>
+                        </form>
+                    </div>
                 </c:if>
             </div>
 
@@ -435,10 +435,10 @@
 
         <div id="overlay"></div>
         <script>
-                        $('.categoryChanger').change(function () {
-                            var catId = $(this).val();
-                            $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
-                        });
+            $('.categoryChanger').change(function () {
+                var catId = $(this).val();
+                $('#boxforparams').html($('.catParamsDiv[data-cat-id=' + catId + ']').clone())
+            });
         </script>
         <c:if test="${!empty errors}">
             <script>

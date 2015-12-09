@@ -218,9 +218,9 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
             }
         });
         var allRegsSelector = $('.allRegionsSelector[data-method=' + method + ']')
-        var checkedStates = $('.stateSelector[data-method=' + method + ']:checked').length;
-        var allStates = $('.stateSelector[data-method=' + method + ']').length;
-        if(checkedStates==0||checkedStates==allStates){
+        var checkedLocs = $('.locSelector[data-method=' + method + ']:checked').length;
+        var allLocs = $('.locSelector[data-method=' + method + ']').length;
+        if(checkedLocs==0||checkedLocs==allLocs){
             allRegsSelector.removeClass('semichecked');
         }else{
             allRegsSelector.addClass('semichecked');
