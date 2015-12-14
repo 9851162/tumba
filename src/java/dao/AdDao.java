@@ -333,7 +333,7 @@ public class AdDao extends Dao<Ad> {
     public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region, String order,
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
             List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds, List<Date> dateVals, List<Integer> dateConditions,
-            Long selIds[], Long selVals[], String multyVals[]) {
+            Long selIds[], Long selVals[], String multyVals[],Double price,Integer priceCondition) {
         if (order == null) {
             order = "show_count desc";
         }
@@ -368,6 +368,10 @@ public class AdDao extends Dao<Ad> {
         /**
          * Условия для параметров*
          */
+        
+        if(price!=null){
+            sql+=" and price"+getStringCondition(priceCondition)+":price";
+        }
         Integer paramsCount = 0;
         Boolean queryWithParams = false;
         if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
@@ -468,6 +472,9 @@ public class AdDao extends Dao<Ad> {
             for (Long id : catIds) {
                 query.setParameter("catId" + catIds.indexOf(id), id);
             }
+        }
+        if(price!=null){
+            query.setParameter("price", price);
         }
         if(stringVals!=null&&!stringVals.isEmpty()){
             int i=0;

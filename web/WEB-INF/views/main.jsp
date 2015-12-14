@@ -95,6 +95,11 @@
                         <h4>Параметры</h4>
 
                         <table id="searchParamTable">
+                            <tr><td><label class="searchParamLabel">Цена</label></td>
+                                <td>
+                                        <select form="searchForm" name="priceCondition"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select>
+                                    </td>
+                                <td><input form="searchForm" type="text" name="searchPrice" placeholder="Цена"></td></tr>
                             <c:forEach var="searchParam" items="${advancedSearchParams}">
                                 <tr>
                                     <c:if test="${searchParam.paramType==1}">
@@ -259,16 +264,16 @@
                                 <div class="toramka divall">
                                     <div class="toblockimg">
                                         <div id="panel" class="prewimg">
-                                            <img id="largeImage1" class="large largeImage" src="../imgs/${ad.id}/0">
+                                            <img id="largeImage1" class="large largeImage" src="${ad.getPathToImg(0)}">
                                         </div>
                                         <div id="thumbs1" class="thumbs miniprew">
-                                            <img class="prev4change" src="../imgs/${ad.id}/0">
-                                            <img class="prev4change" src="../imgs/${ad.id}/1">
-                                            <img class="prev4change" src="../imgs/${ad.id}/2">
-                                            <img class="prev4change" src="../imgs/${ad.id}/3">
-                                            <img class="prev4change" src="../imgs/${ad.id}/4">
-                                            <img class="prev4change" src="../imgs/${ad.id}/5">
-                                            <img class="prev4change" src="../imgs/${ad.id}/6">
+                                            <img class="prev4change" src="${ad.getPathToImg(0)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(1)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(2)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(3)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(4)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(5)}">
+                                            <img class="prev4change" src="${ad.getPathToImg(6)}">
                                         </div>
                                     </div>
                                     <div class="opisanie">
@@ -291,18 +296,19 @@
 
 
                                             <div class="minmenu">
+                                                <div style="width: 100%;height: 28px;">&nbsp;
                                                 <c:if test="${ad.status==0}">
                                                     <c:if test="${!empty userAds&&!empty userAds.get(ad.id)}">
-                                                        <div><a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-buy adChanger" style="font: 12px Arial;">изменить</a></div>
+                                                        <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-buy adChanger" style="font: 12px Arial; float: right;">изменить</a>
                                                     </c:if>
-                                                    <div><form action="<c:url value="../Ad/buy" />">
+                                                        <form style="float: right;" action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
                                                             <input type="submit" class="btn-buy" value="Купить">
-                                                        </form></div>
+                                                        </form>
                                                     </c:if>
                                                     <c:if test="${role=='admin'&&ad.status!=0}">
-                                                    <div><form action="<c:url value="../Ad/changeStatus" />">
+                                                        <form style="float: right;" action="<c:url value="../Ad/changeStatus" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
                                                             <select name="status">
@@ -310,8 +316,9 @@
                                                                 <option value="3">Доставлено</option>
                                                             </select>
                                                             <input type="submit" class="btn-buy" value="установить">
-                                                        </form></div>
+                                                        </form>
                                                     </c:if>
+                                                        </div>
                                                     <c:set var="chosenImg" value="../img/dop5.png"/>
                                                     <c:set var="imgClass" value=""/>
                                                     <c:if test="${!empty chosenAdsMap.get(ad.id)}">
@@ -575,17 +582,17 @@
                             </c:if>
                             <c:if test="${!empty availableRegions}">
                                 <table>
-                                    <c:forEach var="region" items="${availableRegions}">
+                                    <c:forEach var="aregion" items="${availableRegions}">
                                         <c:set var="regClass" value="btn-default"/>
                                         <c:if test="${!empty regionSet}">
-                                            <c:if test="${region.id==regionSet}">
+                                            <c:if test="${aregion.id==regionSet}">
                                                 <c:set var="regClass" value="btn-primary"/>
                                             </c:if>
                                         </c:if>
-                                        <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/chooseRegion?regionId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
-                                                <c:if test="${!empty homeSet && homeSet==region.id}">
-                                                <td><i class="fa fa-home"></i></td>
-                                                </c:if>
+                                        <tr><td><a title="${aregion.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/chooseRegion?regionId=${aregion.id}&wish=${wish}" />">${aregion.getShortName()}</a></td>
+                                                
+                                                <td><c:if test="${!empty homeSet && homeSet==aregion.id}"><i class="fa fa-home"></i></c:if></td>
+                                                
                                             </c:forEach>
                                 </table>
                             </c:if>
@@ -764,7 +771,6 @@
             </div>
                     
             <div id="modalalert" class="modal_form modal_div">
-                <!--<div class="nameform">Ошибки</div>-->
                 <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">

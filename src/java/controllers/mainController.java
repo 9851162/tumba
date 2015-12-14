@@ -75,6 +75,8 @@ public class mainController extends WebController {
             @RequestParam(value = "selVals", required = false) Long selVals[],
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
+            @RequestParam(value = "searchPrice", required = false) String searchPrice,
+            @RequestParam(value = "priceCondition", required = false) Integer priceCondition,
             @RequestParam(value = "action", required = false) String action,
             RedirectAttributes ras) throws Exception {
 
@@ -179,19 +181,21 @@ public class mainController extends WebController {
                 ads = adService.getPurchases(userId);
             } else {
                 ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals,
+                        dateConditions, selIds, selVals, multyIds, multyVals,searchPrice,priceCondition);
             }
         } else if (action.equals(SALESACTIONNAME)) {
             if (userId != null) {
                 ads = adService.getSales(userId);
             } else {
                 ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals,
+                        dateConditions, selIds, selVals, multyIds, multyVals,searchPrice,priceCondition);
             }
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numVals, numConditions, dateIds, 
-                    dateVals, dateConditions, selIds, selVals, multyIds, multyVals);
+                    dateVals, dateConditions, selIds, selVals, multyIds, multyVals,searchPrice,priceCondition);
             
             if(wish!=null&&!wish.equals("")&&catIds.isEmpty()){
                 model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
@@ -594,11 +598,11 @@ public class mainController extends WebController {
         User user = authManager.getCurrentUser();
         Region r = null;
         Long regId = null;
-        if (all != null && 1 == all) {
+        /*if (all != null && 1 == all) {
             r = regionService.getDefaultRegion(null);
-        } else {
+        } else {*/
             r = regionService.getRegion(localIds, stateIds, user, name);
-        }
+        //}
         if (user != null) {
             regId = regionService.addRegion(user, r);
         }

@@ -47,4 +47,15 @@ public class MessageController extends WebController {
         return "redirect:/Main/";
     }
     
+    @RequestMapping("/show")
+    public String show (Map<String, Object> model,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                
+            }
+        return "messages";
+    }
+    
 }

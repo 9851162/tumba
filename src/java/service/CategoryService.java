@@ -454,12 +454,36 @@ public class CategoryService extends PrimService {
     }
 
     public List<Category> getNotSelectedCats(List<Long> catIds) {
-        return catDao.getNotSelectedCats(catIds);
+        //return catDao.getNotSelectedCats(catIds);
+        Set<Long>set = new HashSet();
+        List<Category> res = new ArrayList();
+        HashMap<Long, List<Category>> catMap = getNestingMapOfCats();
+        Long i = (long) 0;
+        if (!catMap.isEmpty() && catMap.get(i) != null) {
+            res.addAll(getCatsWithRecursionAndExceptions(i, catMap,catIds));
+        }
+        return res;
+    }
+    
+    private List<Category> getCatsWithRecursionAndExceptions(Long i, HashMap<Long, List<Category>> catMap,List<Long> catIds) {
+        List<Category> res = new ArrayList();
+        for (Category c : catMap.get(i)) {
+            Long id = c.getId();
+            if(!catIds.contains(id)){
+                res.add(c);
+            }
+            if (catMap.get(id) != null) {
+                res.addAll(getCatsWithRecursionAndExceptions(id, catMap,catIds));
+            }
+        }
+        return res;
     }
 
     public List<Parametr> getMutualParams(List<Long> catIds) {
         List<Parametr> res = new ArrayList();
         if (catIds != null && !catIds.isEmpty()) {
+            //тип цена
+            res.add(new Parametr());
             List<Object[]> preRes = paramDao.getParamIdsAndCountsByCatIds(catIds);
             Integer neededCount = catIds.size();
             for (Object[] o : preRes) {

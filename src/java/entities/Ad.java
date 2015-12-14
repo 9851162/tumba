@@ -6,6 +6,7 @@
 package entities;
 
 import entities.parent.PrimEntity;
+import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -280,6 +281,14 @@ public class Ad extends PrimEntity {
 
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
+    }
+    
+    public String getPathToImg(Integer num){
+        File f = new File("/usr/local/seller/preview/"+this.id+"/"+num);
+        if(f.exists()){
+            return "../imgs/"+this.id+"/"+num;
+        }
+        return "../img/no-photo.png";
     }
 
     

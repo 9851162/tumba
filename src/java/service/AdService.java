@@ -330,6 +330,12 @@ public class AdService extends PrimService {
                             }
 
                             File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
+                            if(file.exists()){
+                                for(File f:file.listFiles()){
+                                    f.delete();
+                                }
+                                file.delete();
+                            }
                             file.mkdirs();
                             if (previews != null && previews.length > 0) {
                                 i = 0;
@@ -356,6 +362,7 @@ public class AdService extends PrimService {
                                                 w=h;
                                             }
                                             bi = bi.getSubimage(x.intValue(), y.intValue(), w.intValue(), h.intValue());
+                                            f.delete();
                                             f = new File("/usr/local/seller/preview/" + ad.getId() + "/" + i);
                                             ImageIO.write(bi, "png", f);
                                         }catch (Exception e){
@@ -390,7 +397,7 @@ public class AdService extends PrimService {
     public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order,
             Long booleanIds[], Long booleanVals[],Long stringIds[], String stringVals[], 
             Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
-            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[],String stringPrice,Integer priceCondition) {
         if(order!=null){
             if(order.equals("insert_date")){
                 order+=" desc";
@@ -449,8 +456,13 @@ public class AdService extends PrimService {
             }
         }
         
+        Double price = null;
+        if(stringPrice!=null&&!stringPrice.equals("")){
+            getNumFromString(stringPrice);
+        }
+        
         List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order,booleanIds,booleanVals,
-                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals);
+                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals,price,priceCondition);
         return res;
     }
 
@@ -571,7 +583,7 @@ public class AdService extends PrimService {
     
     private Double getNumFromString(String val){
         Double numVal = null;
-        if(val!=null){
+        if(val!=null&&!val.equals("")){
             try{
                 numVal = Double.valueOf(val.replace(",", "."));
             }catch (Exception e) {
