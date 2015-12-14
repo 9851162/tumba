@@ -611,7 +611,7 @@ public class mainController extends WebController {
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
         ras.addAttribute("regionForShowId", regId);
         ras.addAttribute("wish", wish);
-        ras.addFlashAttribute("errors", errors);
+        ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
         return "redirect:/Main/regions";
     }
 
