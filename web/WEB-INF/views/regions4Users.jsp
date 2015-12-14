@@ -432,7 +432,7 @@
                         <div class="toin">
                             <label><input type="text" name="name" placeholder="свой регион"> Наименование региона</label>
                             <ul>
-                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="cursor: pointer;" name="all" class="allRegionsSelector" data-method="cr8" type="checkbox" value="1"><label class=allRegionsOpener" data-method="cr8" style="cursor: pointer;">Все</label></li>
+                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="cursor: pointer;" name="all" class="allRegionsSelector" data-method="cr8" type="checkbox" value="1"><label class="allRegionsOpener" data-method="cr8" style="cursor: pointer;">Все</label></li>
                                         <c:forEach var="state" items="${states}">
                                             <c:set var="stateInReg" value=""/>
                                 <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="cursor: pointer;" id="${state.id}" class="stateSelector" data-method="cr8" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="cr8" class="opener" style="cursor: pointer;">${state.name} (<span data-method="cr8" class="checkedLocsCount" id="${state.id}">0</span>/<span data-method="cr8" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
