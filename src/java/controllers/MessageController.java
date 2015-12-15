@@ -34,13 +34,14 @@ public class MessageController extends WebController {
     @RequestMapping("/send")
     public String administrating (Map<String, Object> model,
             @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "subject", required = false) String subject,
             @RequestParam(value = "message", required = false) String text,
             @RequestParam(value = "wish", required = false) String wish,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
             User u = authManager.getCurrentUser();
             if(u!=null){
-                msgService.create(u, text, adService.getAd(adId));
+                msgService.create(u,subject, text, adService.getAd(adId));
                 ras.addFlashAttribute(ERRORS_LIST_NAME, msgService.getErrors());
             }
             ras.addFlashAttribute("wish", wish);

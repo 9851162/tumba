@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Index;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -55,7 +56,12 @@ public class Message extends PrimEntity {
     
     @Column(name = "text", columnDefinition="TEXT")
     @NotNull(message = "Необходимо добавить текст")
+    @Length(max = 1001,message="Максимальная длина сообщения - 1000 символов")
     private String text;
+    
+    @Column(name = "subject")
+    @Length(max = 256,message="Максимальная длина темы - 255 символов")
+    private String subject;
     
     @Override
     public Long getId() {
@@ -100,6 +106,14 @@ public class Message extends PrimEntity {
 
     public void setInsertDate(Date insertDate) {
         this.insertDate = insertDate;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
     
     

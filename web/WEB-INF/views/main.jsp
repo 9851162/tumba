@@ -560,7 +560,15 @@
                 <form id="sendMessage" method="post" action="<c:url value="../Message/send" />">
                     <div class="boxtoinput">
                         <div class="toin">
-                            <div class="minopright">до 500 символов</div>
+                                <label>Тема</label>
+                            <div class="minopright">до 255 символов</div>
+                            <input name="subject" type="text" value="">
+                        </div>
+                    </div>
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <div class="minopright">до 1000 символов</div>
+                            <label>Сообщение</label>
                             <textarea name="message" type="textarea" value=""></textarea>
                         </div>
                     </div>

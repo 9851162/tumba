@@ -35,22 +35,23 @@ public class MessageService extends PrimService {
     @Autowired
     private SupMailSender mailSender;
 
-    public void create(User sender,String text, Ad ad) {
+    public void create(User sender,String subject,String text, Ad ad) {
         if (text != null && !text.equals("")&& ad!=null) {
             Message msg = new Message();
             msg.setInsertDate(new Date());
+            msg.setSubject(subject);
             msg.setSender(sender);
             msg.setReceiver(ad.getAuthor());
             msg.setAd(ad);
             msg.setText(text);
             if (validate(msg)) {
                 msgDao.save(msg);
+                User receiver = ad.getAuthor();
+                //to do отправка сообщения если автор не на сайте только, а не всегда.
+                String url = "http://185.22.232.79/seller";
+                String mailText = sender.getName()+" оставил Вам сообщение. Тема: "+subject+", текст: "+text+", в ответ на объявление "+ad.getName()+" ("+ad.getDescription()+") на сайте "+url;
+                mailSender.sendMail(receiver.getEmail(), mailText);
             }
-            User receiver = ad.getAuthor();
-            //to do отправка сообщения если автор не на сайте только, а не всегда.
-            String url = "http://185.22.232.79/seller";
-            String mailText = sender.getName()+" оставил Вам сообщение: "+text+" в ответ на объявление "+ad.getName()+" ("+ad.getDescription()+") на сайте "+url;
-            mailSender.sendMail(receiver.getEmail(), mailText);
         }
     }
     
