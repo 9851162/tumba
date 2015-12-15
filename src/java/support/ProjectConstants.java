@@ -9,7 +9,7 @@ package support;
  *
  * @author bezdatiuzer
  */
-public class Constants {
+public class ProjectConstants {
     
     public static String projectUrl = "http://185.22.232.79/seller";
     

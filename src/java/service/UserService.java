@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
 import support.AuthManager;
-import support.Constants;
+import support.ProjectConstants;
 import support.Random;
 import support.SupMailSender;
 import support.editors.PhoneEditor;
@@ -60,7 +60,7 @@ public class UserService extends PrimService {
                             u.setActive(User.OFF);
                             u.setHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
                             if (validate(u)) {
-                                String text = "Для активации Вашего аккаунта на сайте "+Constants.projectUrl+" пройдите по ссылке: "+Constants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
+                                String text = "Для активации Вашего аккаунта на сайте "+ProjectConstants.projectUrl+" пройдите по ссылке: "+ProjectConstants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
                                 userDao.save(u);
                                 mailSender.sendMail(email, text);
                             }
@@ -106,7 +106,7 @@ public class UserService extends PrimService {
     }
 
     public void notifyAboutRegistration(String email) {
-        String text = "Здравствуйте! На нашем сайте "+Constants.projectUrl+", было подано объявление с указанием этого email."+
+        String text = "Здравствуйте! На нашем сайте "+ProjectConstants.projectUrl+", было подано объявление с указанием этого email."+
                 " Для Вашего удобства, нами была создана учетная запись для просмотра и управления Вашими объявлениями."+
                 "В качестве логина был использован Ваш email: "+email+", пароль: 0000 "+
                 " Пароль Вы можете изменить в любой момент зайдя на сайт и авторизировавшись в Вашем личном кабинете."+
@@ -223,8 +223,8 @@ public class UserService extends PrimService {
         c.add(Calendar.MINUTE, -15);
         if(c.getTime().before(u.getMailDate())){
             String hash = AuthManager.md5Custom(Random.getString("qwertyuiopasghjklzxcvbnm", 10));
-            String text = "На сайт "+Constants.projectUrl+" поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
-                    Constants.projectUrl+"/User/passRecovery?email="+u.getEmail()+"&hash="+hash;
+            String text = "На сайт "+ProjectConstants.projectUrl+" поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
+                    ProjectConstants.projectUrl+"/User/passRecovery?email="+u.getEmail()+"&hash="+hash;
             try{
                 mailSender.sendMail(u.getEmail(), text);
             }catch (Exception e){

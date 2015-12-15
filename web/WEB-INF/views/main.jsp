@@ -548,7 +548,7 @@
                             </div>
                         </div>
                         <div style="padding-left:55px;" class="toin">
-                            <button type="submit" class="btn">Войти</button>
+                            <button type="submit" class="btn">войти</button>
                             <a class="btn-link" style="float:right;" href="<c:url value="../User/passRecovery"/>">восстановить пароль</a>
                         </div>
                     </form>
@@ -556,7 +556,7 @@
             </c:if>
 
             <div id="modal4" class="modal_form modal_div">
-                <div class="nameform">Отправить сообщение</div>
+                <div class="nameform">отправить сообщение</div>
                 <form id="sendMessage" method="post" action="<c:url value="../Message/send" />">
                     <div class="boxtoinput">
                         <div class="toin">
@@ -567,7 +567,7 @@
                     </div>
                     <div class="boxtoinput">
                         <div class="toin">
-                            <div class="minopright">до 1000 символов</div>
+                            <!--<div class="minopright">до 1000 символов</div>-->
                             <label>Сообщение</label>
                             <textarea name="message" type="textarea" value=""></textarea>
                         </div>
@@ -575,7 +575,7 @@
                     <input type="hidden" id="msgIdentifier" name="adId" value="">
                     <input type="hidden" name="wish" value="${wish}">
                     <div class="form-group">
-                        <button type="submit" class="btn">Отправить</button>
+                        <button type="submit" class="btn">отправить</button>
                     </div>
                 </form>
             </div>
