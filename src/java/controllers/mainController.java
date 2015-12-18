@@ -208,6 +208,9 @@ public class mainController extends WebController {
             
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
+        if(u==null&&!region.isAllRussia()){
+            availableRegions.add(region);
+        }
 
         model.put("states", regionService.getNotEmptyStates());
         model.put("selectedCats", catService.getSelectedCats(catIds));
