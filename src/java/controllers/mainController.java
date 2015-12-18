@@ -147,6 +147,9 @@ public class mainController extends WebController {
         }
         model.put("locsInRegMap", locsInRegMap);
         model.put("statesInRegMap", statesInRegMap);
+        /*for(Long id:statesInRegMap.keySet()){
+            ers.add("id:"+id+"-"+statesInRegMap.get(id));
+        }*/
         /*ers.add("reg1:"+region.getName());
         
          ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
@@ -402,14 +405,14 @@ public class mainController extends WebController {
         List<String> errors = new ArrayList();
         User user = authManager.getCurrentUser();
         Region r = null;
-        if (all != null && 1 == all) {
+        /*if (all != null && 1 == all) {
             r = regionService.getDefaultRegion(null);
-        } else {
+        } else {*/
             r = regionService.getRegion(localIds, stateIds, user, name);
             if (user != null) {
                 regionService.addRegion(user, r);
             }
-        }
+        //}
         errors.addAll(regionService.getErrors());
 
         request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, r);
@@ -637,6 +640,17 @@ public class mainController extends WebController {
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
         return "redirect:/Main/regions";
+    }
+    
+    @RequestMapping("/messages")
+    public String showMessages (Map<String, Object> model,
+            HttpServletRequest request,RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            if(u!=null){
+                
+            }
+        return "messages";
     }
 
     /*@RequestMapping("/recoveryPassword")

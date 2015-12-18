@@ -646,10 +646,12 @@
                                     <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="cursor:pointer;" name="all" data-method="set" class="allRegionsSelector" type="checkbox" value="1"><label class="allRegionsOpener" data-method="set" style="cursor: pointer;">Все</label></li>
                                             <c:forEach var="state" items="${states}">
                                                 <c:set var="stateInReg" value=""/>
+                                                <c:set var="checkedLocksInReg" value="0"/>
                                                 <c:if test="${!empty statesInRegMap.get(state.id)}">
                                                     <c:set var="stateInReg" value="checked"/>
+                                                    <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
                                                 </c:if>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>/<span data-method="set" class="locsAmount">${state.getLocalities().size()})</span></label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount"  id="${state.id}" data-method="set">${checkedLocksInReg}</span>/<span data-method="set" class="locsAmount">${state.getLocalities().size()})</span></label></li>
                                             <c:if test="${!empty state.localities}">
                                             <ul>
                                                 <c:forEach var="loc" items="${state.localities}">

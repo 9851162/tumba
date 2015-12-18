@@ -261,7 +261,7 @@ public class RegionService extends PrimService {
                     locals.add(l);
                 }
             }
-            r.setStates(states);
+            //r.setStates(states);
             r.setLocalities(locals);
             r.setUser(user);
             if (name == null || name.equals("")) {

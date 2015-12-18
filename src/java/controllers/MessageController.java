@@ -48,7 +48,7 @@ public class MessageController extends WebController {
         return "redirect:/Main/";
     }
     
-    @RequestMapping("/show")
+    /*@RequestMapping("/show")
     public String show (Map<String, Object> model,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         
@@ -57,6 +57,6 @@ public class MessageController extends WebController {
                 
             }
         return "messages";
-    }
+    }*/
     
 }

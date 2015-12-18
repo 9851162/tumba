@@ -341,36 +341,37 @@ public class AdService extends PrimService {
                                 i = 0;
                                 while (i < 7 && i < previews.length) {
                                     MultipartFile prev = previews[i];
-                                    if (prev.getSize() <= (long) 3 * 1024 * 1024) {
-                                        File f = new File("/usr/local/seller/preview/" + ad.getId() + "/supPreview");
-                                        if(f.exists()){
-                                            f.delete();
-                                        }
-                                        prev.transferTo(f);
-                                        //to do мб побыстрее как-то сделать?
-                                        try{
-                                            BufferedImage bi = ImageIO.read(f);
-                                            BigDecimal x = BigDecimal.valueOf(0);
-                                            BigDecimal y = BigDecimal.valueOf(0);
-                                            BigDecimal h = BigDecimal.valueOf(bi.getHeight());
-                                            BigDecimal w = BigDecimal.valueOf(bi.getWidth());
-                                            if(h.compareTo(w)>0){
-                                                y=(h.subtract(w)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
-                                                h=w;
-                                            }else if(h.compareTo(w)<0){
-                                                x=(w.subtract(h)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
-                                                w=h;
+                                    if(prev!=null && 0L<prev.getSize()){
+                                        if (prev.getSize() <= (long) 3 * 1024 * 1024) {
+                                            File f = new File("/usr/local/seller/preview/" + ad.getId() + "/supPreview");
+                                            if(f.exists()){
+                                                f.delete();
                                             }
-                                            bi = bi.getSubimage(x.intValue(), y.intValue(), w.intValue(), h.intValue());
-                                            f.delete();
-                                            f = new File("/usr/local/seller/preview/" + ad.getId() + "/" + i);
-                                            ImageIO.write(bi, "png", f);
-                                        }catch (Exception e){
-                                            addError("Не удалось прочитать изображение "+prev.getName()+"; "+StringAdapter.getStackTraceException(e));
+                                            prev.transferTo(f);
+                                            //to do мб побыстрее как-то сделать?
+                                            try{
+                                                BufferedImage bi = ImageIO.read(f);
+                                                BigDecimal x = BigDecimal.valueOf(0);
+                                                BigDecimal y = BigDecimal.valueOf(0);
+                                                BigDecimal h = BigDecimal.valueOf(bi.getHeight());
+                                                BigDecimal w = BigDecimal.valueOf(bi.getWidth());
+                                                if(h.compareTo(w)>0){
+                                                    y=(h.subtract(w)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                    h=w;
+                                                }else if(h.compareTo(w)<0){
+                                                    x=(w.subtract(h)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                    w=h;
+                                                }
+                                                bi = bi.getSubimage(x.intValue(), y.intValue(), w.intValue(), h.intValue());
+                                                f.delete();
+                                                f = new File("/usr/local/seller/preview/" + ad.getId() + "/" + i);
+                                                ImageIO.write(bi, "png", f);
+                                            }catch (Exception e){
+                                                addError("Не удалось прочитать изображение "+prev.getName()+/*"; s="+prev.getSize()+"; t="+prev.getContentType()+"; l="+previews.length+*/"; "+StringAdapter.getStackTraceException(e));
+                                            }
+                                        } else {
+                                            addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 3 мб.");
                                         }
-                                        //prev.transferTo(new File("/usr/local/seller/preview/" + ad.getId() + "/" + i));
-                                    } else {
-                                        addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 3 мб.");
                                     }
                                     i++;
                                 }
