@@ -478,6 +478,9 @@ public class AdService extends PrimService {
                 for (ParametrValue val : ad.getValues()) {
                     valDao.delete(val);
                 }
+                adDao.clearIps(adId);
+                adDao.clearLocs(adId);
+                adDao.clearChosens(adId);
                 adDao.delete(ad);
             } else {
                 addError("Объявление не найдено по указанному ИД: " + adId + "; ");
@@ -683,5 +686,11 @@ public class AdService extends PrimService {
         }*/
         return res;
     }
+    
+    /*public void delete(Long adId){
+        if(adId!=null){
+            Ad ad = adDao.find(adId);
+        }
+    }*/
 
 }

@@ -43,6 +43,7 @@
         <intercept-url pattern="/Ad/changeStatus" access="hasAnyRole('admin')" />
         <intercept-url pattern="/Ad/getAd" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/Ad/changeAd" access="hasAnyRole('user','admin')" />
+        <intercept-url pattern="/Ad/delete" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/User/me" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/User/change" access="hasAnyRole('user','admin')" />
         <intercept-url pattern="/User/changePass" access="hasAnyRole('user','admin')" />

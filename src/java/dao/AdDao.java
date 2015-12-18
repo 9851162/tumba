@@ -619,5 +619,26 @@ public class AdDao extends Dao<Ad> {
             return "=";
         }
     }
+    
+    public Integer clearIps(Long adId){
+        String sql = "delete from ads_from_ips where ad_id=:adId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("adId", adId);
+        return query.executeUpdate();
+    }
+    
+    public Integer clearLocs(Long adId){
+        String sql = "delete from ads_at_locals where ad_id=:adId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("adId", adId);
+        return query.executeUpdate();
+    }
+    
+    public Integer clearChosens(Long adId){
+        String sql = "delete from chosen_ads where ad_id=:adId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("adId", adId);
+        return query.executeUpdate();
+    }
 
 }

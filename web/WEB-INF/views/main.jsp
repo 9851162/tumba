@@ -300,7 +300,11 @@
                                                 <c:if test="${ad.status==0}">
                                                     <c:if test="${!empty userAds&&!empty userAds.get(ad.id)}">
                                                         <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-buy adChanger" style="font: 12px Arial; float: right;">изменить</a>
+                                                        
                                                     </c:if>
+                                                        <c:if test="${(!empty userAds&&!empty userAds.get(ad.id))||role=='admin'}">
+                                                            <a class="btn-buy" href="<c:url value="../Ad/delete?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>" style="font: 12px Arial; float: right;">удалить</a>
+                                                        </c:if>
                                                         <form style="float: right;" action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">

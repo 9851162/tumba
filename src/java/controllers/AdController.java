@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -304,6 +305,26 @@ public class AdController extends WebController {
         
             adService.changeAd(adId, shortName, description, price, dateFrom, dateTo);
             
+            
+            ras.addAttribute("errors", adService.getErrors());
+            ras.addAttribute("wish", wish);
+            ras.addAttribute("action", action);
+        return "redirect:/Main/";
+    }
+    
+    @RequestMapping("/delete")
+    public String delete (Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "action", required = false) String action,
+            RedirectAttributes ras) throws Exception {
+        
+            User u = authManager.getCurrentUser();
+            Ad ad = adService.getAd(adId);
+            if(User.ROLEADMIN.equals(u.getUserRole())||Objects.equals(ad.getAuthor().getId(),u.getId())){
+                adService.delete(adId);
+            }  
             
             ras.addAttribute("errors", adService.getErrors());
             ras.addAttribute("wish", wish);
