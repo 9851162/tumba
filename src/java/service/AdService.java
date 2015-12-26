@@ -687,6 +687,25 @@ public class AdService extends PrimService {
         return res;
     }
     
+    /*public List<String>getPreviews(Long adId){
+        List<String>res = new ArrayList();
+        int i = 0;
+        while(i<7){
+            File f = new File("/usr/local/seller/preview/"+adId+"/"+i);
+            if(f.exists()){
+                res.add("../imgs/"+adId+"/"+(i++));
+            }else{
+                if(i==0){
+                    res.add("../img/no-photo.png");
+                }
+                break;
+            }
+        }
+        return res;
+    }*/
+    
+    
+    
     /*public void delete(Long adId){
         if(adId!=null){
             Ad ad = adDao.find(adId);

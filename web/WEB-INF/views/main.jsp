@@ -264,16 +264,12 @@
                                 <div class="toramka divall">
                                     <div class="toblockimg">
                                         <div id="panel" class="prewimg">
-                                            <img id="largeImage1" class="large largeImage" src="${ad.getPathToImg(0)}">
+                                            <img id="largeImage1" class="large largeImage" src="${ad.getFirstPreviewPath()}">
                                         </div>
                                         <div id="thumbs1" class="thumbs miniprew">
-                                            <img class="prev4change" src="${ad.getPathToImg(0)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(1)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(2)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(3)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(4)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(5)}">
-                                            <img class="prev4change" src="${ad.getPathToImg(6)}">
+                                            <c:forEach var="previewPath" items="${ad.getPreviewpaths()}">
+                                                <img class="prev4change" src="${previewPath}">
+                                            </c:forEach>
                                         </div>
                                     </div>
                                     <div class="opisanie">
