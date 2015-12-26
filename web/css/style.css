@@ -71,9 +71,9 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .smal .miniprew,.smal .btnoo{display:none}
 .smal .prewimg img { width: 200px;height: 200px;cursor: pointer;	  }
 .smal .prewimg  {     width: 200px;    height: 200px; padding-right: 7px;    float: left;}
-.smal h3,.medium h3,.big h3{color: #8e8e8e; margin: 0;  padding: 2px 0;font-weight: 100;    font-size: 15px;    line-height: 15px;}
+.smal h3,.medium h3,.big h3{color: #8e8e8e; margin: 0;  padding: 2px 0;font-weight: 100;    font-size: 19px;    line-height: 15px;}
 .smal p {  margin: 0;    padding: 0; font-size:14px; }
-.medium p,.big p {  margin: 0;    padding: 0; font-size:14px;    margin-bottom: 3px;}
+.medium p,.big p {  margin: 0;    padding: 0; font-size:24px;    margin-bottom: 3px;}
 .smal .opisanie {float: left;    width: 153px;  font-family: HelveticaNeue, sans-serif; }
 .smal .price{color:#689100;    font-size: 29px;    font-weight: 600;}
 .smal .minmenu{ display:block; bottom: 0px;    position: absolute;    right: 0px;}
@@ -107,7 +107,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 
 .big .toramka {    height: 688px;}
 .big .btnoo{background:#00b4ff; color:white;    text-align: center;    padding: 2px;    font-size: 16px;    margin-top: 10px;}
-.big {    width: 745px;  height: 749px;     margin:0 0 5px 5px ; background-color: #fff;	float:left;	  background-color: #fff;    position: relative;}
+.big {    width: 745px;  height: 775px;     margin:0 0 5px 5px ; background-color: #fff;	float:left;	  background-color: #fff;    position: relative;}
 .big .prewimg {    height: 431px; width: 100%;margin: 0 auto;text-align: center;}
 .big .prewimg > img {    height: 431px;  /*width: 100%; */    position: relative;}
 .big .opisanie {    width: 100%;  display: inline-block;  background: white;    padding-left: 0px;    padding-right: 0px;    float: left;}
@@ -124,7 +124,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .big .minmenu img {float: right;    width: 18px;    padding-left: 5px;}
 .big .minmenu  a{    text-decoration: none;float: right;}
 .big .button_rollUp{    display: inline-block;}
-.boxtoitembig .big {	height: 850px;    width: 1120px;    background-color: #fff;    margin: 0 0 5px 5px;}
+.boxtoitembig .big {	height: 860px;    width: 1120px;    background-color: #fff;    margin: 0 0 5px 5px;}
 .boxtoitembig .big .miniprew {width: 100%; }
 .boxtoitembig .big .prewimg{    height: 532px;}
 .boxtoitembig .big .toblockimg {width: 100%;    display: inline-block;}
@@ -185,7 +185,7 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 .todata img{float:left;}
 ::-webkit-calendar-picker-indicator{ }
 ::-webkit-calendar-picker-button  { display: none;}
-.spoiler_body{     z-index: 10;      z-index: 10;    background-color: #fff;    text-align: left;    width: 120px;}
+.spoiler_body{     z-index: 10;      z-index: 10;    background-color: #fff;    text-align: left;    /*width: 120px;*/}
 .tostrel {    width: 30px;    height: 15px; background: url(../img/strela.png) no-repeat;  float: right;    margin-top: 5px;    margin-left: 10px;}
 .spoiler_links.active .tostrel { background: url(../img/strelaup.png) no-repeat;}
 .moz{background: url(../img/metka_ozhidanie.png) no-repeat;position:absolute;height: 116px;    width: 116px;    top: 0;    left: 0; z-index: 1;}

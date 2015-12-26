@@ -75,11 +75,11 @@
 
             <div id="advanced_search">
                 <h1>Расширенный поиск</h1>
-                <div class="cat">категория<a href="" class="spoiler_links"><div class="tostrel"></div></a>
+                <div class="cat"><span style="float: left;">категория</span><a href="" class="spoiler_links"><div class="tostrel"></div></a>
                     <div class="spoiler_body " style="display:none;">
                         <c:forEach var="cat" items="${notSelectedCats}">
                             <div style="cursor: pointer;" value="${cat.id}"><a style="text-decoration: none;color: #00547e;" href="<c:url value="../Main/addCat4Search?catId=${cat.id}&wish=${param.wish}" />">
-                                    ${cat.name}</a>
+                                    ${cat.getPrefix()}${cat.name}</a>
                             </div>
                         </c:forEach>
                     </div>
@@ -92,7 +92,6 @@
                 </div>
                 <c:if test="${!empty advancedSearchParams}">
                     <div id="advancedSearchParamsContainer">
-                        <h4>Параметры</h4>
 
                         <table id="searchParamTable">
                             <tr><td><label class="searchParamLabel">Цена</label></td>
@@ -192,11 +191,7 @@
                     <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
                     <a href="<c:url value="../Main/regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
                         </c:if>
-                        <c:if test="${empty role}">
-                    <a href="#modalalert"><div id="ico" class="ico1 open_modal"><img src="../img/menu1.png"> </div></a>
-                    <a href="#modalalert"><div id="ico" class="ico2 open_modal"><img src="../img/menu2.png"> </div></a>
-                    <a href="#modalalert"><div id="ico" class="ico3 open_modal"><img src="../img/menu3.png"> </div></a>
-                        </c:if>
+                        
                 <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                 <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
             </div>
@@ -208,16 +203,11 @@
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/regions" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
                         </c:if>
-                        <c:if test="${empty role}">
-                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="#modalalert" class="open_modal"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
-                        </c:if>
+                        
                 <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
                 <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
 
-                <div class="promo"> </div>
-                <div class="promo"> </div>
+                
             </div>
 
             <div class="boxtoitem">
@@ -436,9 +426,8 @@
                             <select class="categoryChanger" name="catId">
                                 <option value="">Не выбрана</option>
                                 <c:forEach var="cat" items="${catList}">
-                                    <c:set var="prefix" value="${cat.getPrefix()}"/>
                                     <option value="${cat.id}">
-                                        ${prefix}${cat.name}
+                                        ${cat.getPrefix()}${cat.name}
                                     </option>
                                 </c:forEach>
                             </select>
