@@ -6,9 +6,9 @@
 package entities;
 
 import entities.parent.PrimEntity;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -40,13 +41,14 @@ public class Region extends PrimEntity {
     @JoinTable(name = "locals_at_region",
             joinColumns = @JoinColumn(name = "region_id", referencedColumnName = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "locality_id", referencedColumnName = "locality_id"))
-    private Set<Locality> localities;
+    //@OrderBy("name")
+    private List<Locality> localities;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    /*@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "states_at_region",
             joinColumns = @JoinColumn(name = "region_id", referencedColumnName = "region_id"),
             inverseJoinColumns = @JoinColumn(name = "state_id", referencedColumnName = "state_id"))
-    private Set<State> states;
+    private Set<State> states;*/
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -58,25 +60,26 @@ public class Region extends PrimEntity {
     @Column(name = "home_region")
     private Integer homeRegion;
     
-    private boolean allRussia;
+    @Column(name = "all_russia")
+    private Boolean allRussia;
     
     @Override
     public Long getId() {
         return id;
     }
 
-    public Set<Locality> getLocalities() {
+    public List<Locality> getLocalities() {
         if(localities==null){
-            return new HashSet();
+            return new ArrayList();
         }
         return localities;
     }
 
-    public void setLocalities(Set<Locality> localities) {
+    public void setLocalities(List<Locality> localities) {
         this.localities = localities;
     }
 
-    public Set<State> getStates() {
+    /*public Set<State> getStates() {
         if(states==null){
             return new HashSet();
         }
@@ -85,7 +88,7 @@ public class Region extends PrimEntity {
 
     public void setStates(Set<State> states) {
         this.states = states;
-    }
+    }*/
 
     public User getUser() {
         return user;
@@ -107,8 +110,8 @@ public class Region extends PrimEntity {
         }
     }
 
-    public boolean isAllRussia() {
-        return allRussia;
+    public Boolean isAllRussia() {
+        return Objects.equals(Boolean.TRUE, allRussia);
     }
 
     public void setAllRussia(Boolean set) {

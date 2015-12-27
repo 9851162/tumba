@@ -587,14 +587,14 @@ public class AdDao extends Dao<Ad> {
         return split;
     }
 
-    private Set<Long> getLocIds(Region r) {
-        Set<Long> res = new HashSet();
+    private List<Long> getLocIds(Region r) {
+        ArrayList<Long> res = new ArrayList();
         if (r != null) {
-            for (State s : r.getStates()) {
+           /* for (State s : r.getStates()) {
                 for (Locality l : s.getLocalities()) {
                     res.add(l.getId());
                 }
-            }
+            }*/
             for (Locality l : r.getLocalities()) {
                 res.add(l.getId());
             }

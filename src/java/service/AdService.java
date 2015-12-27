@@ -119,9 +119,6 @@ public class AdService extends PrimService {
                         if(region.isAllRussia()){
                             locals.addAll(locDao.getAll());
                         }else{
-                            for(State s:region.getStates()){
-                                locals.addAll(s.getLocalities());
-                            }
                             locals.addAll(region.getLocalities());
                         }
                     }

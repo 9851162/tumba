@@ -42,14 +42,14 @@
                             </c:if>
                         </c:if>
 
-                        <a class="${arHREFChosen}" href="<c:url value="../Main/createAndMountRegion?all=1&wish=${wish}" />">вся россия</a>
+                        <a class="${arHREFChosen}" href="<c:url value="../Main/mountRegion?all=1&wish=${wish}" />">вся россия</a>
 
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
                                 <a href="#modal5" class="open_modal ${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <c:if test="${!empty homeSet}">
-                                <a href="<c:url value="../Main/chooseRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
+                                <a href="<c:url value="../Main/mountRegion?wish=${wish}&regionId=${homeSet}" />" class="${drHREFChosen}">домашний регион</a>
                             </c:if>
                             <a href="#modal5" class="open_modal ${rHREFChosen}">${regionName}</a>
                         </c:if>
@@ -357,7 +357,7 @@
                                                 <c:set var="regClass" value="btn-primary"/>
                                             </c:if>
                                         </c:if>
-                                        <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/chooseRegion?regionId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
+                                        <tr><td><a title="${region.name}" style="width: 150px;" class="btn ${regClass}" href="<c:url value="../Main/mountRegion?regionId=${region.id}&wish=${wish}" />">${region.getShortName()}</a></td>
                                                 <c:if test="${!empty homeSet && homeSet==region.id}">
                                                 <td><i class="fa fa-home"></i></td>
                                                 </c:if>
@@ -401,10 +401,10 @@
                 <div class="nameform">Выбор региона</div>
                 <c:if test="${empty role}">
                     <div>
-                        <form id="settingRegion" method="post" action="<c:url value="../Main/createAndMountRegion" />">
+                        <form id="settingRegion" method="post" action="<c:url value="../Main/createRegion" />">
                             <div class="toin">
                                 <ul>
-                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" class="allRegionsSelector" data-method="set" type="checkbox" value="1">Все</label></li>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label id="allRegionsOpener" data-method="set" style="cursor: pointer;"><input style="width: initial;cursor: pointer;" name="all" class="allRegionsSelector" data-method="set" type="checkbox" value="">Все</label></li>
                                         <c:forEach var="state" items="${states}">
                                             <c:set var="stateInReg" value=""/>
                                             <c:if test="${!empty statesInRegMap.get(state.id)}">
