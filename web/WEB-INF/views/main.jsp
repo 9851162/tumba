@@ -401,7 +401,7 @@
                     <div class="boxtoinput">
                         <div class="num">5</div>
                         <div class="toin">
-                            <label>Регионы</label>
+                            <label>Регион продажи</label>
                             <select name="regionId">
                                 <option value="0">вся Россия</option>
                                 <c:forEach var="region" items="${availableRegions}">
