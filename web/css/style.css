@@ -369,15 +369,6 @@ td {
   padding: 4px 0;
 }
 
-.btn-buy {
-    border: 2px solid red;
-    padding: 5px;
-    color: red;
-    cursor: pointer;
-    background-color: white;
-    margin-left: 1px;
-    margin-right: 1px;
-}
 
 .regChosen {
     text-decoration: underline!important; 
@@ -530,4 +521,77 @@ td {
     color:#23527c;
     text-decoration:underline;
     background-color:transparent;
+}
+
+/*.btn-buy {
+    border: 2px solid red;
+    padding: 5px;
+    color: red;
+    cursor: pointer;
+    background-color: white;
+    margin-left: 1px;
+    margin-right: 1px;
+}*/
+
+.btn-chen {
+ display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 4px 8px;
+    outline: none;
+    border-width: 2px 0;
+    border-style: solid none;
+    border-color: #FDBE33 #000 #D77206;
+    border-radius: 6px;
+    background: linear-gradient(#F3AE0F, #E38916) #E38916;
+    transition: 0.2s;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;   
+}
+
+.btn-chen:hover {
+    background: linear-gradient(#E38916, #E38916) #E38916;
+}
+
+.btn-del{
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 4px 8px;
+    outline: none;
+    border-width: 2px 0;
+    border-style: solid none;
+    border-color: #EC3434 #000 #840000;
+    border-radius: 6px;
+    background: linear-gradient(#C11313, #A72D09) rgb(255, 17, 17);
+    transition: 0.2s;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-del:hover{
+        background: linear-gradient(#A72D09, #A72D09) #A72D09;
+}
+
+.btn-buy{
+        display: inline-block;
+    color: white;
+    text-decoration: none;
+    padding: 4px 8px;
+    outline: none;
+    border-width: 2px 0;
+    border-style: solid none;
+    border-color: #00CA41 #000 #209203;
+    border-radius: 6px;
+    background: linear-gradient(#00D02D, #027700) #E38916;
+    transition: 0.2s;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-buy:hover{
+        background: linear-gradient(#027700, #027700) #027700;
 }

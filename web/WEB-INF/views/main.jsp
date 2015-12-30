@@ -285,16 +285,16 @@
                                                 <div style="width: 100%;height: 28px;">&nbsp;
                                                 <c:if test="${ad.status==0}">
                                                     <c:if test="${!empty userAds&&!empty userAds.get(ad.id)}">
-                                                        <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-buy adChanger" style="font: 12px Arial; float: right;">изменить</a>
+                                                        <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-chen adChanger">изменить</a>
                                                         
                                                     </c:if>
                                                         <c:if test="${(!empty userAds&&!empty userAds.get(ad.id))||role=='admin'}">
-                                                            <a class="btn-buy" href="<c:url value="../Ad/delete?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>" style="font: 12px Arial; float: right;">удалить</a>
+                                                            <a class="btn-del" href="<c:url value="../Ad/delete?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">удалить</a>
                                                         </c:if>
                                                         <form style="float: right;" action="<c:url value="../Ad/buy" />">
                                                             <input type="hidden" name="wish" value="${wish}">
                                                             <input type="hidden" name="adId" value="${ad.id}">
-                                                            <input type="submit" class="btn-buy" value="Купить">
+                                                            <input type="submit" class="btn-buy" value="купить">
                                                         </form>
                                                     </c:if>
                                                     <c:if test="${role=='admin'&&ad.status!=0}">
@@ -305,7 +305,7 @@
                                                                 <option value="2">Оплачено</option>
                                                                 <option value="3">Доставлено</option>
                                                             </select>
-                                                            <input type="submit" class="btn-buy" value="установить">
+                                                            <input type="submit" class="btn-chen" value="установить">
                                                         </form>
                                                     </c:if>
                                                         </div>

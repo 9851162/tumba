@@ -14,7 +14,7 @@
                         <div class="toavatar">
 				<div id="user_head">
                                         <div class="options">
-                                            <a href="#modal3" class="open_modal">авторизация</a>
+                                            <a href="#modal3" class="open_modal">авторизация</a><br>
                                             <a href="#modal2" class="open_modal">регистрация</a>
                                         </div>
 				</div>

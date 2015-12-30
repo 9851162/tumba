@@ -379,9 +379,9 @@ public class AdService extends PrimService {
                             }
                         }
 
-                    } else {
+                    }/* else {
                         addError("user:" + user.getId() + " " + user.getName());
-                    }
+                    }*/
                 }
             } else {
                 addError("Категория с ид " + catId + " не была найдена.");
