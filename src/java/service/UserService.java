@@ -221,7 +221,7 @@ public class UserService extends PrimService {
     public void sendPassRecoveryMail(User u){
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MINUTE, -15);
-        if(c.getTime().before(u.getMailDate())){
+        if(u.getMailDate()==null||c.getTime().before(u.getMailDate())){
             String hash = AuthManager.md5Custom(Random.getString("qwertyuiopasghjklzxcvbnm", 10));
             String text = "На сайт "+ProjectConstants.projectUrl+" поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
                     ProjectConstants.projectUrl+"/User/passRecovery?email="+u.getEmail()+"&hash="+hash;

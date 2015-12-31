@@ -123,9 +123,11 @@ public class UserController extends WebController {
                             errors.add("возможно ссылка по которой Вы прошли устарела или была изменена, попробуйте повторить попытку восстановления");
                             model.put(ERRORS_LIST_NAME, errors);
                         }else{
-                            ras.addAttribute("email", email);
-                            ras.addAttribute("hash", hash);
-                            return "redirect:/User/passRecovery";
+                            model.put("email", email);
+                            model.put("hash", hash);
+                            //ras.addAttribute("email", email);
+                            //ras.addAttribute("hash", hash);
+                            //return "redirect:/User/passRecovery";
                         }
                     }else{
                         userService.sendPassRecoveryMail(u);
