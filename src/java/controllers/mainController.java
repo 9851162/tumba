@@ -48,6 +48,7 @@ public class mainController extends WebController {
     private RegionService regionService;
 
     public static String MAINACTIONNAME = "main";
+    public static String ONEITEMACTIONNAME = "showoneitem";
     public static String PURCHASESACTIONNAME = "purchases";
     public static String SALESACTIONNAME = "sales";
     public static String CHOSENACTIONNAME = "chosen";
@@ -79,6 +80,7 @@ public class mainController extends WebController {
             @RequestParam(value = "searchPrice", required = false) String searchPrice,
             @RequestParam(value = "priceCondition", required = false) Integer priceCondition,
             @RequestParam(value = "action", required = false) String action,
+            @RequestParam(value = "adId", required = false) Long adId,
             RedirectAttributes ras) throws Exception {
 
         List<String> ers = (List) model.get(ERRORS_LIST_NAME);
@@ -196,6 +198,10 @@ public class mainController extends WebController {
                         stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals,
                         dateConditions, selIds, selVals, multyIds, multyVals, searchPrice, priceCondition);
             }
+        } else if (action.equals(ONEITEMACTIONNAME)&&adId!=null) {
+            Ad ad = adService.getAd(adId);
+            ads = new ArrayList();
+            ads.add(ad);
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numVals, numConditions, dateIds,

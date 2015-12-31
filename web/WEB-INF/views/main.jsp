@@ -268,17 +268,19 @@
                                             <p>${ad.author.name}</p>
                                             <h3>Товар</h3>
                                             <p>${ad.name}</p>
+                                            <h3>Дата</h3>
+                                            <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
                                         </div>
                                         <div class="col3">
                                             <h3>Описание</h3>
                                             <p class="minitext"> ${ad.getSmallDesc()} </p>
                                             <p class="maxtext"> ${ad.description} </p>
-                                            <a href="#" class="aoo"><div class="btnoo">оценить объявление</div></a>
+                                            
                                         </div>
                                         <div class="col2">
-                                            <h3>Дата</h3>
-                                            <p><fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></p>
-                                            <div class="price"><fmt:formatNumber value="${ad.price}"/></div>
+                                            
+                                            <div class="price"><fmt:formatNumber type="currency" value="${ad.price}"/></div>
+                                            <a href="#" class="aoo"><div class="btnoo">оценить объявление</div></a>
 
 
                                             <div class="minmenu">
@@ -319,21 +321,20 @@
                                                     <c:if test="${!empty comparingAdsMap.get(ad.id)}">
                                                         <c:set var="compClass" value="comparing"/>
                                                     </c:if>
-                                                <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
+                                                    <a class="${choosePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${imgClass}" src=${chosenImg}><div>добавить в избранное</div></a>
                                                     <c:if test="${role=='user'||role=='admin'}">
-                                                    <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                        <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                     </c:if>
                                                     <c:if test="${empty role}">
-                                                    <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
+                                                        <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop4.png"><div>отправить сообщение</div></a>
                                                     </c:if>
-                                                <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                    <a class="${comparePossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img class="${compClass}" src="../img/dop3.png"><div>добавить к сравнению</div></a>
+                                                    <a href="../Main/?action=showoneitem&adId=${ad.id}" target="_blank" style="cursor: pointer;"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
                                                     <c:if test="${role=='user'||role=='admin'}">
-                                                    <a><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                    <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                        <a href="#modal4" class="${msgPossible}" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
                                                     </c:if>
                                                     <c:if test="${empty role}">
-                                                    <a href="#modalalert" class="open_modal"><img src="../img/dop2.png"><div>открыть в новом окне</div></a>
-                                                    <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
+                                                        <a href="#modalalert" class="open_modal" data-ad-id="${ad.id}" style="cursor: pointer;"><img src="../img/dop1.png"><div>предложить свою цену</div></a>
                                                     </c:if>
                                             </div>
                                         </div>
