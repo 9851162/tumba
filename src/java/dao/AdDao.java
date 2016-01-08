@@ -20,6 +20,7 @@ import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
+import support.BilateralCondition;
 
 /**
  *
@@ -332,8 +333,8 @@ public class AdDao extends Dao<Ad> {
     
     public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region, String order,
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
-            List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds, List<Date> dateVals, List<Integer> dateConditions,
-            Long selIds[], Long selVals[], String multyVals[],Double price,Integer priceCondition) {
+            List<BilateralCondition>numVals, List<BilateralCondition> dateVals,
+            Long selIds[], Long selVals[], String multyVals[],Double priceFrom,Double priceTo) {
         if (order == null) {
             order = "show_count desc";
         }
@@ -369,8 +370,11 @@ public class AdDao extends Dao<Ad> {
          * Условия для параметров*
          */
         
-        if(price!=null){
-            sql+=" and price"+getStringCondition(priceCondition)+":price";
+        if(priceFrom!=null){
+            sql+=" and price>=:priceFrom";
+        }
+        if(priceTo!=null){
+            sql+=" and price<=:priceTo";
         }
         Integer paramsCount = 0;
         Boolean queryWithParams = false;
@@ -407,20 +411,57 @@ public class AdDao extends Dao<Ad> {
 
             if (numVals != null && !numVals.isEmpty()) {
                 i = 0;
-                for (Double val : numVals) {
-                    sql += " or (parametr_id=:numId" + i + " and number_value " + getStringCondition(numConditions.get(i)) + " :numVal" + i + ")";
+                for (BilateralCondition c : numVals) {
+                    Double numFrom =(Double)c.getFrom();
+                    Double numTo =(Double)c.getTo();
+                    if(numFrom!=null||numTo!=null){
+                        
+                        if(numFrom!=null&&numTo!=null){
+                            sql += " or (parametr_id=:numId" + i + " and number_value >= :numFrom" + i + " and number_value <= :numTo" + i + ")";
+                        }else{
+                            if(numFrom!=null){
+                                sql += " or (parametr_id=:numId" + i + " and number_value >= :numFrom" + i + ")";
+                            }
+                            if(numTo!=null){
+                                sql += " or (parametr_id=:numId" + i + " and number_value <= :numTo" + i + ")";
+                            }
+                        }
+                        paramsCount++;
+                        i++;
+                    }
+                }
+
+            }
+            
+            /*if (numValsTo != null && !numValsTo.isEmpty()) {
+                i = 0;
+                for (Double val : numValsTo) {
+                    sql += " or (parametr_id=:numId" + i + " and number_value <= :numValTo" + i + ")";
                     paramsCount++;
                     i++;
                 }
 
-            }
-
+            }*/
+            
             if (dateVals != null && !dateVals.isEmpty()) {
                 i = 0;
-                for (Date val : dateVals) {
-                    sql += " or (parametr_id=:dateId" + i + " and date_value " + getStringCondition(dateConditions.get(i)) + " :dateVal" + i + ")";
-                    paramsCount++;
-                    i++;
+                for (BilateralCondition c : dateVals) {
+                    Date dateFrom =(Date)c.getFrom();
+                    Date dateTo =(Date)c.getTo();
+                    if(dateFrom!=null||dateTo!=null){
+                        if(dateFrom!=null&&dateTo!=null){
+                            sql += " or (parametr_id=:dateId" + i + " and date_value >= :dateFrom" + i + " and date_value <= :dateTo" + i + ")";
+                        }else{
+                            if(dateFrom!=null){
+                                sql += " or (parametr_id=:dateId" + i + " and date_value >= :dateFrom" + i + ")";
+                            }
+                            if(dateTo!=null){
+                                sql += " or (parametr_id=:dateId" + i + " and date_value <= :dateTo" + i + ")";
+                            }
+                        }
+                        paramsCount++;
+                        i++;
+                    }
                 }
             }
 
@@ -473,8 +514,11 @@ public class AdDao extends Dao<Ad> {
                 query.setParameter("catId" + catIds.indexOf(id), id);
             }
         }
-        if(price!=null){
-            query.setParameter("price", price);
+        if(priceFrom!=null){
+            query.setParameter("priceFrom", priceFrom);
+        }
+        if(priceTo!=null){
+            query.setParameter("priceTo", priceTo);
         }
         if(stringVals!=null&&!stringVals.isEmpty()){
             int i=0;
@@ -486,22 +530,69 @@ public class AdDao extends Dao<Ad> {
         }
         if(numVals!=null&&!numVals.isEmpty()){
             int i=0;
-            for(Double d:numVals){
-                query.setParameter("numId"+i, numIds.get(i));
-                //query.setParameter("numCondition"+i, getStringCondition(numConditions.get(i)));
-                query.setParameter("numVal"+i, numVals.get(i));
+            for(BilateralCondition c:numVals){
+                Long id = c.getId();
+                Double numFrom =(Double)c.getFrom();
+                Double numTo =(Double)c.getTo();
+                query.setParameter("numId"+i, id);
+                if(numFrom!=null){
+                    query.setParameter("numFrom"+i, numFrom);
+                }
+                if(numTo!=null){
+                    query.setParameter("numTo"+i, numTo);
+                }
                 i++;
             }
         }
+        /*if(numValsFrom!=null&&!numValsFrom.isEmpty()){
+            int i=0;
+            for(Double d:numValsFrom){
+                query.setParameter("numId"+i, numIds.get(i));
+                query.setParameter("numVal"+i, numValsFrom.get(i));
+                i++;
+            }
+        }
+        if(numValsTo!=null&&!numValsTo.isEmpty()){
+            int i=0;
+            for(Double d:numValsTo){
+                query.setParameter("numId"+i, numIds.get(i));
+                query.setParameter("numVal"+i, numValsTo.get(i));
+                i++;
+            }
+        }*/
         if(dateVals!=null&&!dateVals.isEmpty()){
             int i=0;
-            for(Date d:dateVals){
-                query.setParameter("dateId"+i, dateIds.get(i));
-                //query.setParameter("dateCondition"+i, getStringCondition(dateConditions.get(i)));
-                query.setParameter("dateVal"+i, dateVals.get(i));
+            for(BilateralCondition c:dateVals){
+                Long id = c.getId();
+                Date dateFrom =(Date)c.getFrom();
+                Date dateTo =(Date)c.getTo();
+                query.setParameter("dateId"+i, id);
+                if(dateFrom!=null){
+                    query.setParameter("dateFrom"+i, dateFrom);
+                }
+                if(dateTo!=null){
+                    query.setParameter("dateTo"+i, dateTo);
+                }
                 i++;
             }
         }
+        
+        /*if(dateValsFrom!=null&&!dateValsFrom.isEmpty()){
+            int i=0;
+            for(Date d:dateValsFrom){
+                query.setParameter("dateId"+i, dateIds.get(i));
+                query.setParameter("dateVal"+i, dateValsFrom.get(i));
+                i++;
+            }
+        }
+        if(dateValsTo!=null&&!dateValsTo.isEmpty()){
+            int i=0;
+            for(Date d:dateValsTo){
+                query.setParameter("dateId"+i, dateIds.get(i));
+                query.setParameter("dateVal"+i, dateValsTo.get(i));
+                i++;
+            }
+        }*/
         if (queryWithParams) {
             query.setParameter("paramsCount", paramsCount);
         }
@@ -609,7 +700,7 @@ public class AdDao extends Dao<Ad> {
         query.setParameter("ip", ip);
         return query.list().isEmpty();
     }
-
+    
     private String getStringCondition(Integer condition) {
         if ((-1) == condition) {
             return ("<");

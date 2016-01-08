@@ -60,25 +60,26 @@ public class mainController extends WebController {
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "wish", required = false) String wish,
-            @RequestParam(value = "order", required = false) String order,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "order", required = false) String order,
+            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],
-            @RequestParam(value = "numVals", required = false) String numVals[],
-            @RequestParam(value = "numCondition", required = false) Integer numConditions[],
+            @RequestParam(value = "numValsFrom", required = false) String numValsFrom[],
+            @RequestParam(value = "numValsTo", required = false) String numValsTo[],
             @RequestParam(value = "dateIds", required = false) Long dateIds[],
-            @RequestParam(value = "dateVals", required = false) Date dateVals[],
-            @RequestParam(value = "dateCondition", required = false) Integer dateConditions[],
+            @RequestParam(value = "dateValsFrom", required = false) String dateValsFrom[],
+            @RequestParam(value = "dateValsTo", required = false) String dateValsTo[],
             @RequestParam(value = "selIds", required = false) Long selIds[],
             @RequestParam(value = "selVals", required = false) Long selVals[],
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
-            @RequestParam(value = "searchPrice", required = false) String searchPrice,
-            @RequestParam(value = "priceCondition", required = false) Integer priceCondition,
+            @RequestParam(value = "searchPriceFrom", required = false) String searchPriceFrom,
+            @RequestParam(value = "searchPriceTo", required = false) String searchPriceTo,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "adId", required = false) Long adId,
             RedirectAttributes ras) throws Exception {
@@ -187,16 +188,16 @@ public class mainController extends WebController {
                 ads = adService.getPurchases(userId);
             } else {
                 ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals,
-                        dateConditions, selIds, selVals, multyIds, multyVals, searchPrice, priceCondition);
+                        stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds, dateValsFrom,
+                        dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
             }
         } else if (action.equals(SALESACTIONNAME)) {
             if (userId != null) {
                 ads = adService.getSales(userId);
             } else {
                 ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numVals, numConditions, dateIds, dateVals,
-                        dateConditions, selIds, selVals, multyIds, multyVals, searchPrice, priceCondition);
+                        stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds, dateValsFrom,
+                        dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
             }
         } else if (action.equals(ONEITEMACTIONNAME)&&adId!=null) {
             Ad ad = adService.getAd(adId);
@@ -204,14 +205,14 @@ public class mainController extends WebController {
             ads.add(ad);
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
-                    stringIds, stringVals, numIds, numVals, numConditions, dateIds,
-                    dateVals, dateConditions, selIds, selVals, multyIds, multyVals, searchPrice, priceCondition);
+                    stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
+                    dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
-            if (wish != null && !wish.equals("") && catIds.isEmpty()) {
+            /*if (wish != null && !wish.equals("") && catIds.isEmpty()) {
                 model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                         stringIds, stringVals, numIds, numVals, numConditions, dateIds,
                         dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
-            }
+            }*/
 
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);

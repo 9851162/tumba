@@ -41,6 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.parent.PrimService;
+import support.BilateralCondition;
 import support.DateAdapter;
 import support.StringAdapter;
 
@@ -76,20 +77,20 @@ public class AdService extends PrimService {
 
     @Autowired
     UserService userService;
-    
+
     @Autowired
     LocalityDao locDao;
 
     public void create(Long catId, String email, String price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],
-            Date dateFrom,Date dateTo,Region region) throws IOException {
+            Date dateFrom, Date dateTo, Region region) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
                 if (email != null && !email.equals("")) {
-                    
+
                     List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
 
                     User user = userService.getUserByMail(email);
@@ -113,27 +114,27 @@ public class AdService extends PrimService {
                     ad.setAuthor(user);
 
                     ad.setCat(cat);
-                    
-                    Set<Locality>locals = new HashSet();
-                    if(region!=null){
-                        if(region.isAllRussia()){
+
+                    Set<Locality> locals = new HashSet();
+                    if (region != null) {
+                        if (region.isAllRussia()) {
                             locals.addAll(locDao.getAll());
-                        }else{
+                        } else {
                             locals.addAll(region.getLocalities());
                         }
                     }
                     /*if(localIds!=null){
-                        for(Long id:localIds){
-                            Locality l = locDao.find(id);
-                            locals.add(l);
-                        }
-                    }*/
+                     for(Long id:localIds){
+                     Locality l = locDao.find(id);
+                     locals.add(l);
+                     }
+                     }*/
                     ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
                     ad.setPrice(getNumFromString(price));
                     ad.setValues(new HashSet());
-                    if (validate(ad)&&getErrors().isEmpty()) {
+                    if (validate(ad) && getErrors().isEmpty()) {
                         adDao.save(ad);
 
                         List<Parametr> catParams = paramDao.getParamsFromCat(catId);
@@ -207,7 +208,7 @@ public class AdService extends PrimService {
                                 Parametr p = paramDao.find(paramId);
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
                                     String sval = snumVals[i];
-                                    if (sval != null&&!sval.equals("")) {
+                                    if (sval != null && !sval.equals("")) {
                                         Double val = getNumFromString(sval);
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
@@ -225,8 +226,8 @@ public class AdService extends PrimService {
                                 }
                                 i++;
                             }
-                            if(!getErrors().isEmpty()){
-                                for(String e:getErrors()){
+                            if (!getErrors().isEmpty()) {
+                                for (String e : getErrors()) {
                                     paramValsErrs.add(e);
                                 }
                             }
@@ -314,7 +315,7 @@ public class AdService extends PrimService {
                         }
 
                         //проверяем наконец есть ли ошибки и все ли требуемые параметры занесли
-                        if (!reqParamIds.isEmpty()||!paramValsErrs.isEmpty()) {
+                        if (!reqParamIds.isEmpty() || !paramValsErrs.isEmpty()) {
                             for (Long id : reqParamIds) {
                                 addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
                             }
@@ -327,8 +328,8 @@ public class AdService extends PrimService {
                             }
 
                             File file = new File("/usr/local/seller/preview/" + ad.getId() + "/");
-                            if(file.exists()){
-                                for(File f:file.listFiles()){
+                            if (file.exists()) {
+                                for (File f : file.listFiles()) {
                                     f.delete();
                                 }
                                 file.delete();
@@ -338,33 +339,33 @@ public class AdService extends PrimService {
                                 i = 0;
                                 while (i < 7 && i < previews.length) {
                                     MultipartFile prev = previews[i];
-                                    if(prev!=null && 0L<prev.getSize()){
+                                    if (prev != null && 0L < prev.getSize()) {
                                         if (prev.getSize() <= (long) 3 * 1024 * 1024) {
                                             File f = new File("/usr/local/seller/preview/" + ad.getId() + "/supPreview");
-                                            if(f.exists()){
+                                            if (f.exists()) {
                                                 f.delete();
                                             }
                                             prev.transferTo(f);
                                             //to do мб побыстрее как-то сделать?
-                                            try{
+                                            try {
                                                 BufferedImage bi = ImageIO.read(f);
                                                 BigDecimal x = BigDecimal.valueOf(0);
                                                 BigDecimal y = BigDecimal.valueOf(0);
                                                 BigDecimal h = BigDecimal.valueOf(bi.getHeight());
                                                 BigDecimal w = BigDecimal.valueOf(bi.getWidth());
-                                                if(h.compareTo(w)>0){
-                                                    y=(h.subtract(w)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
-                                                    h=w;
-                                                }else if(h.compareTo(w)<0){
-                                                    x=(w.subtract(h)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
-                                                    w=h;
+                                                if (h.compareTo(w) > 0) {
+                                                    y = (h.subtract(w)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                    h = w;
+                                                } else if (h.compareTo(w) < 0) {
+                                                    x = (w.subtract(h)).divide(BigDecimal.valueOf(2), RoundingMode.HALF_UP);
+                                                    w = h;
                                                 }
                                                 bi = bi.getSubimage(x.intValue(), y.intValue(), w.intValue(), h.intValue());
                                                 f.delete();
                                                 f = new File("/usr/local/seller/preview/" + ad.getId() + "/" + i);
                                                 ImageIO.write(bi, "png", f);
-                                            }catch (Exception e){
-                                                addError("Не удалось прочитать изображение "+prev.getName()+/*"; s="+prev.getSize()+"; t="+prev.getContentType()+"; l="+previews.length+*/"; "+StringAdapter.getStackTraceException(e));
+                                            } catch (Exception e) {
+                                                addError("Не удалось прочитать изображение " + prev.getName() +/*"; s="+prev.getSize()+"; t="+prev.getContentType()+"; l="+previews.length+*/ "; " + StringAdapter.getStackTraceException(e));
                                             }
                                         } else {
                                             addError("Изображение " + prev.getName() + " не было добавлено, так как его размер больше ограничения в 3 мб.");
@@ -380,8 +381,9 @@ public class AdService extends PrimService {
                         }
 
                     }/* else {
-                        addError("user:" + user.getId() + " " + user.getName());
-                    }*/
+                     addError("user:" + user.getId() + " " + user.getName());
+                     }*/
+
                 }
             } else {
                 addError("Категория с ид " + catId + " не была найдена.");
@@ -392,75 +394,126 @@ public class AdService extends PrimService {
     }
 
     //TO DO search by wishword upgrade?
-    public List<Ad> getAds(String wish, List<Long> catIds,Region region,String order,
-            Long booleanIds[], Long booleanVals[],Long stringIds[], String stringVals[], 
-            Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
-            Long selIds[], Long selVals[], Long multyIds[], String multyVals[],String stringPrice,Integer priceCondition) {
-        if(order!=null){
-            if(order.equals("insert_date")){
-                order+=" desc";
-            }else if(order.equals("price")){
-                order+=" asc";
-            }else if(order.equals("show_count")){
-                order+=" desc";
-            }else{
-                order=null;
+    public List<Ad> getAds(String wish, List<Long> catIds, Region region, String order,
+            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
+            Long numIds[], String snumValsFrom[], String snumValsTo[], Long dateIds[], String dateValsFrom[], String dateValsTo[],
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[], String stringPriceFrom, String stringPriceTo) {
+        if (order != null) {
+            if (order.equals("insert_date")) {
+                order += " desc";
+            } else if (order.equals("price")) {
+                order += " asc";
+            } else if (order.equals("show_count")) {
+                order += " desc";
+            } else {
+                order = null;
             }
         }
-        
-        List<Long>stringIdsList=new ArrayList();
-        List<String>stringValsList=new ArrayList();
-        if(stringVals!=null&&stringVals.length>0){
+
+        List<Long> stringIdsList = new ArrayList();
+        List<String> stringValsList = new ArrayList();
+        if (stringVals != null && stringVals.length > 0) {
             int i = 0;
-            for(String s:stringVals){
-                if(s!=null&&!s.equals("")){
+            for (String s : stringVals) {
+                if (s != null && !s.equals("")) {
                     stringValsList.add(s);
                     stringIdsList.add(stringIds[i]);
                 }
                 i++;
             }
         }
-        
-        List<Double>numValsList=new ArrayList();
-        List<Integer>numCondList=new ArrayList();
-        List<Long>numIdsList=new ArrayList();
-        if(snumVals!=null&&snumVals.length>0){
+
+        List<BilateralCondition> numVals = new ArrayList();
+        if (snumValsFrom != null && snumValsFrom.length > 0 || snumValsTo != null && snumValsTo.length > 0) {
             int i = 0;
-            for(String s:snumVals){
-                if(s!=null&&!s.equals("")){
-                    Double val=getNumFromString(s);
-                    if(val!=null&&!val.equals(Double.NaN)){
-                        numIdsList.add(numIds[i]);
-                        numCondList.add(numConditions[i]);
-                        numValsList.add(val);
-                    }
+            /*addError("i="+numIds.length+";f="+snumValsFrom.length+";t="+snumValsTo.length);
+             for(Long id:numIds){
+             addError("i"+(i++)+"="+id);
+             }
+             i = 0;
+             for(String f:snumValsFrom){
+             addError("f"+(i++)+"="+f);
+             }
+             i = 0;
+             for(String t:snumValsTo){
+             addError("t"+(i++)+"="+t);
+             }*/
+
+            while (i < numIds.length) {
+                Double from = null;
+                Double to = null;
+                if (snumValsFrom != null && snumValsFrom.length > 0) {
+                    from = getNumFromString(snumValsFrom[i]);
+                }
+                if (snumValsTo != null && snumValsTo.length > 0) {
+                    to = getNumFromString(snumValsTo[i]);
+                }
+                if (from != null || to != null) {
+                    BilateralCondition c = new BilateralCondition(numIds[i], from, to);
+                    numVals.add(c);
                 }
                 i++;
             }
         }
-        
-        List<Long>dateIdsList=new ArrayList();
-        List<Integer>dateCondList=new ArrayList();
-        List<Date>dateValsList=new ArrayList();
-        if(dateVals!=null&&dateVals.length>0){
+
+        /*List<Long>dateIdsList=new ArrayList();
+         List<Integer>dateCondList=new ArrayList();
+         List<Date>dateValsList=new ArrayList();
+         if(dateVals!=null&&dateVals.length>0){
+         int i = 0;
+         for(Date d:dateVals){
+         if(d!=null){
+         dateValsList.add(d);
+         dateCondList.add(dateConditions[i]);
+         dateIdsList.add(dateIds[i]);
+         }
+         i++;
+         }
+         }*/
+        List<BilateralCondition> dateVals = new ArrayList();
+        if (dateValsFrom != null && dateValsFrom.length > 0 || dateValsTo != null && dateValsTo.length > 0) {
             int i = 0;
-            for(Date d:dateVals){
-                if(d!=null){
-                    dateValsList.add(d);
-                    dateCondList.add(dateConditions[i]);
-                    dateIdsList.add(dateIds[i]);
+            /*addError("i="+dateIds.length+";f="+dateValsFrom.length+";t="+dateValsTo.length);
+            
+             for(Long id:dateIds){
+             addError("i"+(i++)+"="+id);
+             }
+             i = 0;
+             for(Date f:dateValsFrom){
+             addError("f"+(i++)+"="+f);
+             }
+             i = 0;
+             for(Date t:dateValsTo){
+             addError("t"+(i++)+"="+t);
+             }*/
+
+            while (i < dateIds.length) {
+                Date from = null;
+                Date to = null;
+                if (dateValsFrom != null && dateValsFrom.length > 0) {
+                    from = DateAdapter.getDateFromString(dateValsFrom[i]);
+                }
+                if (dateValsTo != null && dateValsTo.length > 0) {
+                    to = DateAdapter.getDateFromString(dateValsTo[i]);
+                }
+                if (from != null || to != null) {
+                    BilateralCondition c = new BilateralCondition(dateIds[i], from, to);
+                    dateVals.add(c);
                 }
                 i++;
             }
         }
-        
-        Double price = null;
-        if(stringPrice!=null&&!stringPrice.equals("")){
-            getNumFromString(stringPrice);
+
+        Double priceFrom = null;
+        if (stringPriceFrom != null && !stringPriceFrom.equals("")) {
+            priceFrom = getNumFromString(stringPriceFrom);
         }
-        
-        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds,region,order,booleanIds,booleanVals,
-                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals,price,priceCondition);
+        Double priceTo = null;
+        if (stringPriceTo != null && !stringPriceTo.equals("")) {
+            priceTo = getNumFromString(stringPriceTo);
+        }
+        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds, region, order, booleanIds, booleanVals,
+                stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
         return res;
     }
 
@@ -566,93 +619,95 @@ public class AdService extends PrimService {
             }
         }
     }
-    
-    public void addWatchFromIp(Long adId,String ip){
-        if(adDao.isIpNotWatched(adId,ip)){
+
+    public void addWatchFromIp(Long adId, String ip) {
+        if (adDao.isIpNotWatched(adId, ip)) {
             Ad ad = adDao.find(adId);
-            if(ad!=null){
-                Set<String>ips=ad.getIps();
+            if (ad != null) {
+                Set<String> ips = ad.getIps();
                 ips.add(ip);
                 ad.setIps(ips);
                 ad.setShowCount(Long.valueOf(ips.size()));
-                if(validate(ad)){
+                if (validate(ad)) {
                     adDao.update(ad);
                 }
             }
         }
     }
-    
-    private Double getNumFromString(String val){
+
+    private Double getNumFromString(String val) {
         Double numVal = null;
-        if(val!=null&&!val.equals("")){
-            try{
+        if (val != null && !val.equals("")) {
+            try {
                 numVal = Double.valueOf(val.replace(",", "."));
-            }catch (Exception e) {
-                addError("Введенное значение "+val+" не является числом");
+            } catch (Exception e) {
+                addError("Введенное значение " + val + " не является числом");
             }
         }
         return numVal;
     }
-    
-    public void changeAd(Long adId,String shortName,String description,String price,Date dateFrom,Date dateTo){
-        if(adId!=null){
+
+    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo) {
+        if (adId != null) {
             Ad ad = adDao.find(adId);
             //Category cat = catDao.find(catId);
             //Region r = 
-            if(ad!=null){
+            if (ad != null) {
                 //if(cat!=null){
                 //addError("что-то не так");
-                    ad.setDateFrom(dateFrom);
-                    ad.setDateTo(dateTo);
-                    ad.setDescription(description);
-                    ad.setName(shortName);
-                    ad.setPrice(getNumFromString(price));
-                    //ad.setCat(cat);
-                    if(validate(ad)&&getErrors().isEmpty()){
-                        adDao.save(ad);
-                    }/*else{
-                        addError("не получается");
-                    }*/
+                ad.setDateFrom(dateFrom);
+                ad.setDateTo(dateTo);
+                ad.setDescription(description);
+                ad.setName(shortName);
+                ad.setPrice(getNumFromString(price));
+                //ad.setCat(cat);
+                if (validate(ad) && getErrors().isEmpty()) {
+                    adDao.save(ad);
+                }/*else{
+                 addError("не получается");
+                 }*/
+
                 //}
+
             }
         }
     }
-    
-    public HashMap<Long,Long> getUserAds(Long userId){
-        List<Ad>ads=adDao.getAdsByUser(userId);
-        HashMap<Long,Long>adMap=new HashMap();
-        for(Ad ad:ads){
+
+    public HashMap<Long, Long> getUserAds(Long userId) {
+        List<Ad> ads = adDao.getAdsByUser(userId);
+        HashMap<Long, Long> adMap = new HashMap();
+        for (Ad ad : ads) {
             adMap.put(ad.getId(), ad.getId());
         }
         return adMap;
     }
-    
-    public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds,Region region,
-            Long booleanIds[], Long booleanVals[],Long stringIds[], String stringVals[], 
-            Long numIds[], String snumVals[], Integer numConditions[],Long dateIds[], Date dateVals[], Integer dateConditions[],
-            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]){
-        List<Long>stringIdsList=new ArrayList();
-        List<String>stringValsList=new ArrayList();
-        if(stringVals!=null&&stringVals.length>0){
+
+    public LinkedHashMap<String, Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
+            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
+            Long numIds[], String snumVals[], Integer numConditions[], Long dateIds[], Date dateVals[], Integer dateConditions[],
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
+        List<Long> stringIdsList = new ArrayList();
+        List<String> stringValsList = new ArrayList();
+        if (stringVals != null && stringVals.length > 0) {
             int i = 0;
-            for(String s:stringVals){
-                if(s!=null&&!s.equals("")){
+            for (String s : stringVals) {
+                if (s != null && !s.equals("")) {
                     stringValsList.add(s);
                     stringIdsList.add(stringIds[i]);
                 }
                 i++;
             }
         }
-        
-        List<Double>numValsList=new ArrayList();
-        List<Integer>numCondList=new ArrayList();
-        List<Long>numIdsList=new ArrayList();
-        if(snumVals!=null&&snumVals.length>0){
+
+        List<Double> numValsList = new ArrayList();
+        List<Integer> numCondList = new ArrayList();
+        List<Long> numIdsList = new ArrayList();
+        if (snumVals != null && snumVals.length > 0) {
             int i = 0;
-            for(String s:snumVals){
-                if(s!=null&&!s.equals("")){
-                    Double val=getNumFromString(s);
-                    if(val!=null&&!val.equals(Double.NaN)){
+            for (String s : snumVals) {
+                if (s != null && !s.equals("")) {
+                    Double val = getNumFromString(s);
+                    if (val != null && !val.equals(Double.NaN)) {
                         numIdsList.add(numIds[i]);
                         numCondList.add(numConditions[i]);
                         numValsList.add(val);
@@ -661,14 +716,14 @@ public class AdService extends PrimService {
                 i++;
             }
         }
-        
-        List<Long>dateIdsList=new ArrayList();
-        List<Integer>dateCondList=new ArrayList();
-        List<Date>dateValsList=new ArrayList();
-        if(dateVals!=null&&dateVals.length>0){
+
+        List<Long> dateIdsList = new ArrayList();
+        List<Integer> dateCondList = new ArrayList();
+        List<Date> dateValsList = new ArrayList();
+        if (dateVals != null && dateVals.length > 0) {
             int i = 0;
-            for(Date d:dateVals){
-                if(d!=null){
+            for (Date d : dateVals) {
+                if (d != null) {
                     dateValsList.add(d);
                     dateCondList.add(dateConditions[i]);
                     dateIdsList.add(dateIds[i]);
@@ -676,37 +731,33 @@ public class AdService extends PrimService {
                 i++;
             }
         }
-        LinkedHashMap<String,Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds,region,booleanIds,booleanVals,
-                stringIdsList,stringValsList,numIdsList,numValsList,numCondList,dateIdsList,dateValsList,dateCondList,selIds,selVals,multyVals);
+        LinkedHashMap<String, Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                stringIdsList, stringValsList, numIdsList, numValsList, numCondList, dateIdsList, dateValsList, dateCondList, selIds, selVals, multyVals);
         /*for(String s:res.keySet()){
-            addError(s+":"+res.get(s));
-        }*/
+         addError(s+":"+res.get(s));
+         }*/
         return res;
     }
-    
-    /*public List<String>getPreviews(Long adId){
-        List<String>res = new ArrayList();
-        int i = 0;
-        while(i<7){
-            File f = new File("/usr/local/seller/preview/"+adId+"/"+i);
-            if(f.exists()){
-                res.add("../imgs/"+adId+"/"+(i++));
-            }else{
-                if(i==0){
-                    res.add("../img/no-photo.png");
-                }
-                break;
-            }
-        }
-        return res;
-    }*/
-    
-    
-    
-    /*public void delete(Long adId){
-        if(adId!=null){
-            Ad ad = adDao.find(adId);
-        }
-    }*/
 
+    /*public List<String>getPreviews(Long adId){
+     List<String>res = new ArrayList();
+     int i = 0;
+     while(i<7){
+     File f = new File("/usr/local/seller/preview/"+adId+"/"+i);
+     if(f.exists()){
+     res.add("../imgs/"+adId+"/"+(i++));
+     }else{
+     if(i==0){
+     res.add("../img/no-photo.png");
+     }
+     break;
+     }
+     }
+     return res;
+     }*/
+    /*public void delete(Long adId){
+     if(adId!=null){
+     Ad ad = adDao.find(adId);
+     }
+     }*/
 }

@@ -96,30 +96,26 @@
                         <table id="searchParamTable">
                             <tr><td><label class="searchParamLabel">Цена</label></td>
                                 <td>
-                                        <select form="searchForm" name="priceCondition"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select>
-                                    </td>
-                                <td><input form="searchForm" type="text" name="searchPrice" placeholder="Цена"></td></tr>
+                                    от <input form="searchForm" type="text" name="searchPriceFrom" placeholder="от" style="width: 61px;">
+                                    до <input form="searchForm" type="text" name="searchPriceTo" placeholder="до" style="width: 61px;"></td></tr>
                             <c:forEach var="searchParam" items="${advancedSearchParams}">
                                 <tr>
                                     <c:if test="${searchParam.paramType==1}">
                                         <td><label class="searchParamLabel">${searchParam.name}</label></td>
-                                        <td></td>
                                         <td> <input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}"></td>
                                     <input form="searchForm" type="hidden" name="stringIds" value="${searchParam.id}">
                                 </c:if>
 
                                 <c:if test="${searchParam.paramType==2}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
-                                    <td>
-                                        <select form="searchForm" name="numCondition"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select>
-                                    </td>
-                                    <td> <input form="searchForm" type="text" name="numVals" placeholder="${searchParam.name}"></td>
+                                    <td>от <input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="width: 61px;">
+                                        до <input form="searchForm" type="text" name="numValsTo" placeholder="до" style="width: 61px;"></td>
                                     <input form="searchForm" type="hidden" name="numIds" value="${searchParam.id}">
                                 </c:if>
 
                                 <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
-                                    <td></td>
+                                    
                                     <td> <select form="searchForm" name="selVals">
                                             <c:forEach var="opt" items="${searchParam.options}">
                                                 <option value="${opt.id}">${opt.name}</option>
@@ -131,7 +127,7 @@
 
                                 <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
-                                    <td></td>
+                                    
                                     <c:set var="searchParamOptionSize" value="5"/>
                                     <c:if test="${searchParam.options.size()<5}">
                                         <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
@@ -147,7 +143,7 @@
 
                                 <c:if test="${searchParam.paramType==5}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
-                                    <td></td>
+                                    
                                     <td><select name="booleanVals" form="searchForm">
                                             <option value="">не выбрано</option>
                                             <option value="1">да</option>
@@ -158,8 +154,8 @@
 
                                 <c:if test="${searchParam.paramType==6}">
                                     <td><label class="searchParamLabel">${searchParam.name} </label></td>
-                                    <td><select form="searchForm" name="dateCondition"><option value="1">></option><option selected value="0">=</option><option value="-1"><</option></select></td>
-                                    <td> <input form="searchForm" type="text" name="dateVals" class="isDatepicker" placeholder="${searchParam.name}"></td>
+                                    <td> от <input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="width: 61px;">
+                                        до <input form="searchForm" type="text" name="dateValsTo" class="isDatepicker" placeholder="до" style="width: 61px;"></td>
                                     <input form="searchForm" type="hidden" name="dateIds" value="${searchParam.id}">
                                 </c:if>
                                 </tr>
@@ -176,11 +172,7 @@
                     </div>
                 </c:if>
             </div>
-
-
-
-
-
+            
             <c:set var="choosePossible" value="choose"/>
             <c:set var="comparePossible" value="compareAdder"/>
 
@@ -409,9 +401,34 @@
                                     <option value="${region.id}">${region.name}</option>
                                 </c:forEach>
                             </select>
+                            
                         </div>
+                        
                     </div>
-
+                        
+                        <ul>
+                                <c:forEach var="state" items="${states}">
+                                    <c:set var="stateInReg" value=""/>
+                                    <c:set var="checkedLocksInReg" value="0"/>
+                                    <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                        <c:set var="stateInReg" value="checked"/>
+                                        <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
+                                    </c:if>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="show" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="show" class="opener" style="cursor: pointer;">${state.name} (${checkedLocksInReg}/${state.getLocalities().size()})</label></li>
+                                        <c:if test="${!empty state.localities}">
+                                        <ul>
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <c:set var="locInReg" value=""/>
+                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                    <c:set var="locInReg" value="checked"/>
+                                                </c:if>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-method="show" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-method="show" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                    </c:forEach>
+                                        </ul>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        
                     <div class="boxtoinput">
                         <div class="num">6</div>
                         <div class="toin todata">
