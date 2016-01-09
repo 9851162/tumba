@@ -186,6 +186,9 @@
                         
                 <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                 <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
+                <c:if test="${role=='user'||role=='admin'}">
+                    <a href="<c:url value="../Main/" />"><div id="ico" class="ico6"><img src="../img/menu6.png"> </div></a>
+                </c:if>
             </div>
 
 
@@ -198,7 +201,9 @@
                         
                 <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
                 <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
-
+                        <c:if test="${role=='user'||role=='admin'}">
+                    <a style="text-decoration: none;" href="<c:url value="../Main/" />"><div class="menuitem">Сообщения<img src="../img/strright.png"></div></a>
+                        </c:if>
                 
             </div>
 
