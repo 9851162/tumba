@@ -62,6 +62,8 @@ public class mainController extends WebController {
             @RequestParam(value = "wish", required = false) String wish,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "order", required = false) String order,
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
@@ -248,11 +250,19 @@ public class mainController extends WebController {
         if (price != null) {
             model.put("price", price);
         }
+        if((phone==null||phone.equals(""))&&u!=null){
+            phone=u.getPhone();
+        }
+        if((email==null||email.equals(""))&&u!=null){
+            email=u.getEmail();
+        }
         model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
         model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
         model.put("catList", catService.getCatList());
         model.put("catMap", catService.getCatMap());
         model.put("catParamsMap", catService.getCatIdParamsMap());
+        model.put("phone", phone);
+        model.put("email", email);
         model.put("wish", wish);
         model.put("order", order);
         model.put("action", action);

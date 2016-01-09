@@ -44,6 +44,7 @@ import service.parent.PrimService;
 import support.BilateralCondition;
 import support.DateAdapter;
 import support.StringAdapter;
+import support.editors.PhoneEditor;
 
 /**
  *
@@ -81,7 +82,7 @@ public class AdService extends PrimService {
     @Autowired
     LocalityDao locDao;
 
-    public void create(Long catId, String email, String price, MultipartFile previews[], String name, String desc,
+    public void create(Boolean isAutherized,Long catId, String email,String phone, String price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],
             Date dateFrom, Date dateTo, Region region) throws IOException {
@@ -89,12 +90,16 @@ public class AdService extends PrimService {
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
-                if (email != null && !email.equals("")) {
+                if (isAutherized||(!isAutherized&&email!=null&&!email.equals(""))) {
 
                     List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
-
+                    
+                    PhoneEditor phe = new PhoneEditor();
+                    phone = phe.getPhone(phone);
+                    addError(phe.error);
+                    
                     User user = userService.getUserByMail(email);
-                    if (user == null) {
+                    if (!isAutherized&&user==null) {
                         user = userService.registerStandardUser(email);
                         newUser = true;
                         List<String> userErrors = userService.getErrors();
@@ -110,6 +115,8 @@ public class AdService extends PrimService {
                     ad.setStatus(Ad.NEW);
                     ad.setDateFrom(dateFrom);
                     ad.setDateTo(dateTo);
+                    ad.setEmail(email);
+                    ad.setPhone(phone);
 
                     ad.setAuthor(user);
 
@@ -384,6 +391,8 @@ public class AdService extends PrimService {
                      addError("user:" + user.getId() + " " + user.getName());
                      }*/
 
+                }else{
+                    addError("для подачи объявления без авторизации необходимо указать email");
                 }
             } else {
                 addError("Категория с ид " + catId + " не была найдена.");

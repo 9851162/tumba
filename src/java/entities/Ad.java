@@ -78,6 +78,12 @@ public class Ad extends PrimEntity {
     @Column(name = "show_count")
     @NotNull(message = "Количество показов не может быть пустым")
     private Long showCount;
+    
+    @Column(name = "email")
+    private String email;
+    
+    @Column(name = "phone")
+    private String phone;
 
     @Column(name = "name")
     @NotNull(message = "Необходимо указать наименование")
@@ -285,13 +291,22 @@ public class Ad extends PrimEntity {
         this.dateTo = dateTo;
     }
 
-    /*public String getPathToImg(Integer num){
-     File f = new File("/usr/local/seller/preview/"+this.id+"/"+num);
-     if(f.exists()){
-     return "../imgs/"+this.id+"/"+num;
-     }
-     return "../img/no-photo.png";
-     }*/
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
     public List<String> getPreviewpaths() {
         List<String> res = new ArrayList();
         int i = 0;

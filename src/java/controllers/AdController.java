@@ -56,6 +56,7 @@ public class AdController extends WebController {
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
             @RequestParam(value = "regionId", required = false) Long regionId,
+            @RequestParam(value = "phone", required = false) String phone,
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) String booleanVals[],
@@ -76,10 +77,10 @@ public class AdController extends WebController {
             
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
-        
+        Boolean isAutherized = false;
         User authedUser = authManager.getCurrentUser();
         if(authedUser!=null){
-            email = authedUser.getEmail();
+            isAutherized = true;
         }
         
         if(dateFrom==null){
@@ -101,7 +102,7 @@ public class AdController extends WebController {
         }
         //Long localIds[] = regionService.getLocIds(regionId,region);
         
-        adService.create(catId,email,price,previews,shortName,description,booleanIds,booleanVals,
+        adService.create(isAutherized,catId,email,phone,price,previews,shortName,description,booleanIds,booleanVals,
                 stringIds,stringVals,numIds,numVals,dateIds,dateVals,selIds,selVals,multyIds,multyVals,dateFrom,dateTo,region);
         
         errors.addAll(regionService.getErrors());
@@ -115,6 +116,8 @@ public class AdController extends WebController {
             ras.addFlashAttribute("catId", catId);
             ras.addFlashAttribute("dateFrom", dateFrom);
             ras.addFlashAttribute("dateTo", dateTo);
+            ras.addFlashAttribute("email", email);
+            ras.addFlashAttribute("phone", phone);
             //ras.addAttribute("previews", previews);
         }
         //errors.add("user="+authManager.getCurrentUser().getEmail()+", "+authManager.getCurrentUser().getName());

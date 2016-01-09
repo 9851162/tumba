@@ -359,7 +359,7 @@
                     <div class="boxtoinput">
                         <div class="num">1</div>
                         <div class="toin">
-                            <label>Краткое название товара или услуги</label>
+                            <label>краткое название товара или услуги</label>
                             <div class="minopright">до 30 символов</div>
                             <input name="shortName" type="text" value="${shortName}">
                         </div>
@@ -368,7 +368,7 @@
                     <div class="boxtoinput">
                         <div class="num">2</div>
                         <div class="toin">
-                            <label>Описание</label>
+                            <label>описание</label>
                             <div class="minopright">до 500 символов</div>
                             <textarea name="description" type="textarea" value="">${description}</textarea>
                         </div>
@@ -377,7 +377,7 @@
                     <div class="boxtoinput">
                         <div class="num">3</div>
                         <div class="toin">
-                            <label>Добавление фото</label>
+                            <label>добавление фото</label>
                             <div class="form-group">
                                 <div class="file_upload">
                                     <button type="button"></button>
@@ -391,7 +391,7 @@
                     <div class="boxtoinput">
                         <div class="num">4</div>
                         <div class="toin">
-                            <label for="price">Цена</label>
+                            <label for="price">цена</label>
                             <input class="form-control" name="price" id="price" type="text" value="${price}">
                         </div>
                     </div>
@@ -399,7 +399,7 @@
                     <div class="boxtoinput">
                         <div class="num">5</div>
                         <div class="toin">
-                            <label>Регион продажи</label>
+                            <label>регион продажи</label>
                             <select name="regionId">
                                 <option value="0">вся Россия</option>
                                 <c:forEach var="region" items="${availableRegions}">
@@ -437,17 +437,33 @@
                     <div class="boxtoinput">
                         <div class="num">6</div>
                         <div class="toin todata">
-                            <label>Выбор даты для размещения объявления</label>
+                            <label>выбор даты для размещения объявления</label>
                             <div class="minlab">c</div><input type="text" name="dateFrom" class="isDatepicker" value="${dateFrom}"><div class="minlab">по</div><input type="text" name="dateTo" class="isDatepicker" value="${dateTo}">
                         </div>
                     </div>
-
+                        
                     <div class="boxtoinput">
                         <div class="num">7</div>
                         <div class="toin">
-                            <label for="catId">Выбор категории для объявления</label>
+                            <label for="catId">телефон</label>
+                            <input class="form-control" name="phone" id="price" type="text" value="${phone}">
+                        </div>
+                    </div>
+
+                        <div class="boxtoinput">
+                            <div class="num">8</div>
+                            <div class="toin">
+                                <label>email</label>
+                                <input name="email" type="email" value="${email}">
+                            </div>
+                        </div>
+                            
+                            <div class="boxtoinput">
+                        <div class="num">9</div>
+                        <div class="toin">
+                            <label for="catId">выбор категории для объявления</label>
                             <select class="categoryChanger" name="catId">
-                                <option value="">Не выбрана</option>
+                                <option value="0">Не выбрана</option>
                                 <c:forEach var="cat" items="${catList}">
                                     <option value="${cat.id}">
                                         ${cat.getPrefix()}${cat.name}
@@ -456,18 +472,7 @@
                             </select>
                         </div>
                     </div>
-
-                    <c:set var="nextNum" value="8"/>
-                    <c:if test="${empty userId}">
-                        <div class="boxtoinput">
-                            <div class="num">${nextNum}</div>
-                            <c:set var="nextNum" value="${nextNum+1}"/>
-                            <div class="toin">
-                                <label>email</label>
-                                <input name="email" type="email" value="${email}">
-                            </div>
-                        </div>
-                    </c:if>
+                            
                     <div id="boxforparams" >
 
                     </div>
@@ -877,7 +882,7 @@
                     <c:if test="${!empty catParamsMap.get(catId)}">
 
                         <div class="">
-                            <div class="num">${nextNum}</div>
+                            <div class="num">10</div>
                             <div class="toin">
                                 <label id="boxforparamslabel">Параметры</label>
 
