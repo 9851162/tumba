@@ -276,7 +276,7 @@
                                         </div>
                                         <div class="col2">
                                             
-                                            <div class="price"><fmt:formatNumber type="currency" value="${ad.price}"/></div>
+                                            <div class="price"><fmt:formatNumber value="${ad.price}"/></div>
                                             <a href="#" class="aoo"><div class="btnoo">оценить объявление</div></a>
 
 
