@@ -673,6 +673,7 @@ public class AdService extends PrimService {
                 //if(cat!=null){
                 //addError("что-то не так");
                 ad.setEmail(email);
+                ad.setPhone(phone);
                 ad.setDateFrom(dateFrom);
                 ad.setDateTo(dateTo);
                 ad.setDescription(description);
