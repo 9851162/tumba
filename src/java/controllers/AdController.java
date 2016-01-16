@@ -318,7 +318,7 @@ public class AdController extends WebController {
             /*@RequestParam(value = "catId", required = false) Long catId,*/
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
-            @RequestParam(value = "locIds", required = false) Long locIds[],
+            @RequestParam(value = "localIds", required = false) Long localIds[],
             /*@RequestParam(value = "previews", required = false) MultipartFile previews[],
              @RequestParam(value = "regionId", required = false) Long regionId,*/
             RedirectAttributes ras) throws Exception {
@@ -327,7 +327,7 @@ public class AdController extends WebController {
         Ad ad = adService.getAd(adId);
 
         if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
-            adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,locIds,email,phone);
+            adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone);
         }
 
         ras.addAttribute("errors", adService.getErrors());
