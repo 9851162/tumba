@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Locality;
+import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,13 @@ public class LocalityDao extends Dao<Locality>  {
         query.setParameter("name", name);
         query.setParameter("stateId", stateId);
         return query.list().isEmpty();
+    }
+    
+    public List<Locality>getLocs(Long locIds[]){
+        String hql = "from Locality where id in (:locIds)";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameterList("locIds", locIds);
+        return query.list();
     }
     
 }

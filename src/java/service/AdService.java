@@ -656,25 +656,33 @@ public class AdService extends PrimService {
         return numVal;
     }
 
-    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo) {
+    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo,Long locIds[],String email,String phone) {
         if (adId != null) {
             Ad ad = adDao.find(adId);
             //Category cat = catDao.find(catId);
             //Region r = 
             if (ad != null) {
+                PhoneEditor phe = new PhoneEditor();
+                phone = phe.getPhone(phone);
+                addError(phe.error);
+                List<Locality>prelocs = new ArrayList();
+                if(locIds!=null){
+                    prelocs=locDao.getLocs(locIds);
+                }
+                Set<Locality>locs = new HashSet(prelocs);
                 //if(cat!=null){
                 //addError("что-то не так");
+                ad.setEmail(email);
                 ad.setDateFrom(dateFrom);
                 ad.setDateTo(dateTo);
                 ad.setDescription(description);
                 ad.setName(shortName);
                 ad.setPrice(getNumFromString(price));
+                ad.setLocalities(locs);
                 //ad.setCat(cat);
                 if (validate(ad) && getErrors().isEmpty()) {
                     adDao.save(ad);
-                }/*else{
-                 addError("не получается");
-                 }*/
+                }
 
                 //}
 
@@ -747,6 +755,8 @@ public class AdService extends PrimService {
          }*/
         return res;
     }
+    
+   
 
     /*public List<String>getPreviews(Long adId){
      List<String>res = new ArrayList();

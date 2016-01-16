@@ -283,9 +283,8 @@
                                             <div class="minmenu">
                                                 <div style="width: 100%;height: 28px;">&nbsp;
                                                 <c:if test="${ad.status==0}">
-                                                    <c:if test="${!empty userAds&&!empty userAds.get(ad.id)}">
+                                                    <c:if test="${role=='admin'||(!empty userAds&&!empty userAds.get(ad.id))}">
                                                         <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-chen adChanger">изменить</a>
-                                                        
                                                     </c:if>
                                                         <c:if test="${(!empty userAds&&!empty userAds.get(ad.id))||role=='admin'}">
                                                             <a class="btn-del" href="<c:url value="../Ad/delete?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">удалить</a>
@@ -736,6 +735,45 @@
                             <input class="form-control" name="price" id="price" type="text" value="">
                         </div>
                     </div>
+                    
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <label for="catId">телефон</label>
+                            <input class="form-control" name="phone" id="price" type="text" value="">
+                        </div>
+                    </div>
+
+                        <div class="boxtoinput">
+                            <div class="toin">
+                                <label>email</label>
+                                <input name="email" type="email" value="">
+                            </div>
+                        </div>
+                    
+                    <div>        
+                    <ul>
+                                <c:forEach var="state" items="${states}">
+                                    <c:set var="stateInReg" value=""/>
+                                    <c:set var="checkedLocksInReg" value="0"/>
+                                    <c:if test="${!empty statesInRegMap.get(state.id)}">
+                                        <c:set var="stateInReg" value="checked"/>
+                                        <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
+                                    </c:if>
+                                    <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="show" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="show" class="opener" style="cursor: pointer;">${state.name} (${checkedLocksInReg}/${state.getLocalities().size()})</label></li>
+                                        <c:if test="${!empty state.localities}">
+                                        <ul>
+                                            <c:forEach var="loc" items="${state.localities}">
+                                                <c:set var="locInReg" value=""/>
+                                                <c:if test="${!empty locsInRegMap.get(loc.id)}">
+                                                    <c:set var="locInReg" value="checked"/>
+                                                </c:if>
+                                                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-method="show" data-state-id="${state.id}"><input style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-method="show" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                                                    </c:forEach>
+                                        </ul>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+            </div>
 
                     <!--<div class="boxtoinput">
                         <div class="num">5</div>
