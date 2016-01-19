@@ -297,8 +297,8 @@ public class AdController extends WebController {
                 res.addData("price", ad.getPrice());
                 res.addData("dateFrom", DateAdapter.formatByDate(ad.getDateFrom(), DateAdapter.SMALL_FORMAT));
                 res.addData("dateTo", DateAdapter.formatByDate(ad.getDateTo(), DateAdapter.SMALL_FORMAT));
-                res.addData("locsInReg4ShowMap", locsInReg4ShowMap);
-                res.addData("statesInReg4ShowMap", statesInReg4ShowMap);
+                res.addData("locsInReg4ChAd", locsInReg4ShowMap);
+                res.addData("statesInReg4ChAd", statesInReg4ShowMap);
             }
         }
         return res;
