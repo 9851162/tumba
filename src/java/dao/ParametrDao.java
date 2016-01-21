@@ -79,8 +79,8 @@ public class ParametrDao  extends Dao<Parametr>  {
     public List<Object[]>getParamsAndNeedsFromCat(Long catId){
         String sql = "select p.*,l.req_type from param_category_link l left join parametr p on l.parametr_id=p.parametr_id where l.category_id=:catId";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
-        query.addScalar("req_type",StandardBasicTypes.INTEGER);
         query.addEntity("p",Parametr.class);
+        query.addScalar("req_type",StandardBasicTypes.INTEGER);
         query.setParameter("catId", catId);
         return query.list();
     }

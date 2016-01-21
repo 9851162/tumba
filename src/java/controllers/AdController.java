@@ -301,6 +301,7 @@ public class AdController extends WebController {
                 res.addData("dateTo", DateAdapter.formatByDate(ad.getDateTo(), DateAdapter.SMALL_FORMAT));
                 res.addData("locsInReg4ChAd", locsInReg4ShowMap);
                 res.addData("statesInReg4ChAd", statesInReg4ShowMap);
+                res.addData("params", catService.getParamsForDraw(ad.getCat().getId()));
             }
         }
         return res;
