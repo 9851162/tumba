@@ -290,6 +290,8 @@ public class AdController extends WebController {
                 res.setStatus(Boolean.FALSE);
             }
             if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
+                res.addData("params","");
+                res.addData("catId", ad.getCat().getId());
                 res.addData("shortName", ad.getName());
                 res.addData("description", ad.getDescription());
                 res.addData("email", ad.getEmail());
@@ -309,6 +311,7 @@ public class AdController extends WebController {
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
             @RequestParam(value = "wish", required = false) String wish,
+            @RequestParam(value = "formReady", required = false) String formReady,
             @RequestParam(value = "action", required = false) String action,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String description,
@@ -322,14 +325,16 @@ public class AdController extends WebController {
             /*@RequestParam(value = "previews", required = false) MultipartFile previews[],
              @RequestParam(value = "regionId", required = false) Long regionId,*/
             RedirectAttributes ras) throws Exception {
+        
+        if(formReady.equals("ready")){
 
-        User u = authManager.getCurrentUser();
-        Ad ad = adService.getAd(adId);
+            User u = authManager.getCurrentUser();
+            Ad ad = adService.getAd(adId);
 
-        if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
-            adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone);
+            if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
+                adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone);
+            }
         }
-
         ras.addAttribute("errors", adService.getErrors());
         ras.addAttribute("wish", wish);
         ras.addAttribute("action", action);

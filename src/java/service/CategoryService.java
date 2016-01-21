@@ -343,26 +343,6 @@ public class CategoryService extends PrimService {
         }
     }
 
-    public HashMap<Long, List<Parametr>> getCatIdParamsMap() {
-        HashMap<Long, List<Parametr>> res = new HashMap();
-        HashMap<Long, Parametr> paramMap = getParamsMap();
-        for (Category c : getCatList()) {
-            res.put(c.getId(), new ArrayList());
-        }
-        for (Object[] o : paramDao.getCatsParamsAsObjects()) {
-            Long catId = ((BigInteger) o[0]).longValue();
-            Long paramId = ((BigInteger) o[1]).longValue();
-            Parametr p = paramMap.get(paramId);
-            List<Parametr> params = res.get(catId);
-            if (params == null) {
-                params = new ArrayList();
-            }
-            params.add(p);
-            res.put(catId, params);
-        }
-        return res;
-    }
-
     public void addParamOption(Long paramId, String optName) {
         Parametr p = paramDao.find(paramId);
         if (p.getParamType().equals(Parametr.SELECTING) || p.getParamType().equals(Parametr.MULTISELECTING)) {
@@ -496,6 +476,121 @@ public class CategoryService extends PrimService {
                 }
             }
         }
+        return res;
+    }
+
+    public HashMap<Long, List<Parametr>> getCatIdParamsMap() {
+        HashMap<Long, List<Parametr>> res = new HashMap();
+        HashMap<Long, Parametr> paramMap = getParamsMap();
+        for (Category c : getCatList()) {
+            res.put(c.getId(), new ArrayList());
+        }
+        for (Object[] o : paramDao.getCatsParamsAsObjects()) {
+            Long catId = ((BigInteger) o[0]).longValue();
+            Long paramId = ((BigInteger) o[1]).longValue();
+            Parametr p = paramMap.get(paramId);
+            List<Parametr> params = res.get(catId);
+            if (params == null) {
+                params = new ArrayList();
+            }
+            params.add(p);
+            res.put(catId, params);
+        }
+        return res;
+    }
+    
+    public List<HashMap<String,Object>> getParamsForDraw(Long catId){
+        List<HashMap<String,Object>>res=new ArrayList();
+        
+        List<Object[]>rawParamsAndNeeds=paramDao.getParamsAndNeedsFromCat(catId);
+        List<HashMap<String,Object>>reqBool=new ArrayList();
+        List<HashMap<String,Object>>bool=new ArrayList();
+        List<HashMap<String,Object>>reqStr=new ArrayList();
+        List<HashMap<String,Object>>str=new ArrayList();
+        List<HashMap<String,Object>>reqNum=new ArrayList();
+        List<HashMap<String,Object>>num=new ArrayList();
+        List<HashMap<String,Object>>reqDate=new ArrayList();
+        List<HashMap<String,Object>>date=new ArrayList();
+        List<HashMap<String,Object>>reqSel=new ArrayList();
+        List<HashMap<String,Object>>sel=new ArrayList();
+        List<HashMap<String,Object>>reqMsel=new ArrayList();
+        List<HashMap<String,Object>>msel=new ArrayList();
+        for(Object[] o:rawParamsAndNeeds){
+            Parametr p = (Parametr)o[0];
+            Integer req = (Integer)o[1];
+            
+            HashMap<String,Object>param=new HashMap();
+            param.put("name", p.getName());
+            param.put("id", p.getId());
+            param.put("req", req);
+            param.put("type", p.getParamType());
+            
+            if(Objects.equals(p.getParamType(), Parametr.BOOL)){
+                if(1==req){
+                    reqBool.add(param);
+                }else{
+                    bool.add(param);
+                }
+            }else if(Objects.equals(p.getParamType(), Parametr.TEXT)){
+                if(1==req){
+                    reqStr.add(param);
+                }else{
+                    str.add(param);
+                }
+            }else if(Objects.equals(p.getParamType(), Parametr.NUM)){
+                if(1==req){
+                    reqNum.add(param);
+                }else{
+                    num.add(param);
+                }
+            }else if(Objects.equals(p.getParamType(), Parametr.DATE)){
+                if(1==req){
+                    reqDate.add(param);
+                }else{
+                    date.add(param);
+                }
+            }else if(Objects.equals(p.getParamType(), Parametr.SELECTING)){
+                List<ParametrSelOption>opts=p.getOptions();
+                if(!opts.isEmpty()){
+                    LinkedHashMap<Long,String>optMap=new LinkedHashMap();
+                    for(ParametrSelOption opt:opts){
+                        optMap.put(opt.getId(), opt.getName());
+                    }
+                    param.put("options",optMap);
+                    if(1==req){
+                        reqSel.add(param);
+                    }else{
+                        sel.add(param);
+                    }
+                }
+            }else if(Objects.equals(p.getParamType(), Parametr.MULTISELECTING)){
+                List<ParametrSelOption>opts=p.getOptions();
+                if(!opts.isEmpty()){
+                    LinkedHashMap<Long,String>optMap=new LinkedHashMap();
+                    for(ParametrSelOption opt:opts){
+                        optMap.put(opt.getId(), opt.getName());
+                    }
+                    param.put("options",optMap);
+                    if(1==req){
+                        reqMsel.add(param);
+                    }else{
+                        msel.add(param);
+                    }
+                }
+            }
+        }
+        res.addAll(reqBool);
+        res.addAll(bool);
+        res.addAll(reqStr);
+        res.addAll(str);
+        res.addAll(reqNum);
+        res.addAll(num);
+        res.addAll(reqDate);
+        res.addAll(date);
+        res.addAll(reqSel);
+        res.addAll(sel);
+        res.addAll(reqMsel);
+        res.addAll(msel);
         return res;
     }
 

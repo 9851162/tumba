@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -64,6 +65,22 @@ public class ParametrDao  extends Dao<Parametr>  {
         String sql = "select p.* from param_category_link l left join parametr p on l.parametr_id=p.parametr_id where l.category_id=:catId";
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
         query.addEntity(Parametr.class);
+        query.setParameter("catId", catId);
+        return query.list();
+    }
+    
+    /*public List<Object[]>getParamsAndNeedsAsScalarsFromCat(Long catId){
+        String sql = "select p.parametr_id,p.name,p.param_type,l.req_type from param_category_link l left join parametr p on l.parametr_id=p.parametr_id where l.category_id=:catId";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("catId", catId);
+        return query.list();
+    }*/
+    
+    public List<Object[]>getParamsAndNeedsFromCat(Long catId){
+        String sql = "select p.*,l.req_type from param_category_link l left join parametr p on l.parametr_id=p.parametr_id where l.category_id=:catId";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+        query.addScalar("req_type",StandardBasicTypes.INTEGER);
+        query.addEntity("p",Parametr.class);
         query.setParameter("catId", catId);
         return query.list();
     }

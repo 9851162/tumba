@@ -113,6 +113,7 @@ $(document).ready(function () {
        var method = 'showAd4Ch';
        clearCheckBoxes(method);
        var adId = $(event.target.closest('a')).attr('data-id');
+       $('#changeAdForm').find('input[name=formReady]').val('nope');
        $('#changeAdForm').find('button[type=submit]').prop('disabled','disabled');
        $.ajax({
            url: "../Ad/getAd?adId=" + adId,
@@ -120,11 +121,12 @@ $(document).ready(function () {
            cache: false,
            success: function (json) {
                 if (json['status'] == true) {
-                    //changebleElem.html(name);
-                    //alert(json['data'].shortName);
-                    var s = "";
                     $.each(json['data'],function(key,value){
-                        if(key=='description'){
+                        if(key=='catId'){
+                            $('#changeAdForm').find('select[name=catId][data-method=changeAd] [value='+value+']').attr("selected", "selected");
+                        }else if(key=='params'){
+                            
+                        }else if(key=='description'){
                             $('#changeAdForm').find('[name='+key+']').text(value);
                         }else if(key=='locsInReg4ChAd'){
                             $.each(value,function(key1,value1){
@@ -146,15 +148,22 @@ $(document).ready(function () {
                     $('#changeAdForm').find('[name=dateTo]').attr('value',json['data'].shortName);*/
                     $('#changeAdForm').find('[name=adId]').val(adId);
                     $('#changeAdForm').find('button[type=submit]').prop('disabled','');
+                    $('#changeAdForm').find('input[name=formReady]').val('ready');
                 }
                 setOpacity(method);
             }
        });
     });
     
+    function drawParams(catId){
+        
+    }
+    
     function clearCheckBoxes(method){
         $('input[type=checkbox][data-method='+method+']').prop('checked', false);
     }
+    
+    
     
     $('.allRegionsSelector').on('change', function () {
         var method = $(this).attr('data-method');

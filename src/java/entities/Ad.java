@@ -107,7 +107,8 @@ public class Ad extends PrimEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User buyer;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    //TO DO LAzy. pridumat' kak sdelat. esli prosto lazy, to posle 1 vizova getlocs, locs obnulyautsya
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ads_at_locals",
             joinColumns = @JoinColumn(name = "ad_id", referencedColumnName = "ad_id"),
             inverseJoinColumns = @JoinColumn(name = "locality_id", referencedColumnName = "locality_id"))

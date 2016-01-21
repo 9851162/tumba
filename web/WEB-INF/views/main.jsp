@@ -697,7 +697,6 @@
                 <form  method="post" action="<c:url value="../Ad/changeAd" />">
 
                     <div class="boxtoinput">
-                        <!--<div class="num">1</div>-->
                         <div class="toin">
                             <label>Краткое название товара или услуги</label>
                             <div class="minopright">до 30 символов</div>
@@ -706,7 +705,6 @@
                     </div>
 
                     <div class="boxtoinput">
-                        <!--<div class="num">2</div>-->
                         <div class="toin">
                             <label>Описание</label>
                             <div class="minopright">до 500 символов</div>
@@ -714,22 +712,7 @@
                         </div>
                     </div>
 
-                    <!--<div class="boxtoinput">
-                        <div class="num">3</div>
-                        <div class="toin">
-                            <label>Добавление фото</label>
-                            <div class="form-group">
-                                <div class="file_upload">
-                                    <button type="button"></button>
-                                    <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
-                                </div>
-                                <span class='label label-info' id="upload-file-info" ></span>
-                            </div>
-                        </div>
-                    </div>-->
-
                     <div class="boxtoinput">
-                        <!--<div class="num">4</div>-->
                         <div class="toin">
                             <label for="price">Цена</label>
                             <input class="form-control" name="price" id="price" type="text" value="">
@@ -766,61 +749,33 @@
                         </ul>
                     </div>
 
-
-                    <!--<div class="boxtoinput">
-                        <div class="num">5</div>
-                        <div class="toin">
-                            <label>Регионы</label>
-                            <select name="regionId">
-                                <option value="0">вся Россия</option>
-                    <c:forEach var="region" items="${availableRegions}">
-                        <option value="${region.id}">${region.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-        </div>-->
-
                     <div class="boxtoinput">
-                        <!--<div class="num">6</div>-->
                         <div class="toin todata">
-                            <label>Выбор даты для размещения объявления</label>
+                            <label>даты для размещения</label>
                             <div class="minlab">c</div><input type="text" name="dateFrom" class="isDatepicker" value=""><div class="minlab">по</div><input type="text" name="dateTo" class="isDatepicker" value="">
                         </div>
                     </div>
-
-                    <!--<div class="boxtoinput">
-                        <div class="num">7</div>
-                        <div class="toin">
-                            <label for="catId">Выбор категории для объявления</label>
-                            <select class="categoryChanger" name="catId">
-                                <option value="">Не выбрана</option>
-                    <c:forEach var="cat" items="${catList}">
-                        <c:set var="prefix" value="${cat.getPrefix()}"/>
-                        <option value="${cat.id}">
-                        ${prefix}${cat.name}
-                    </option>
-                    </c:forEach>
-                </select>
-            </div>
-        </div>-->
-
-                    <!--<c:set var="nextNum" value="8"/>
-                    <c:if test="${empty userId}">
-                        <div class="boxtoinput">
-                            <div class="num">${nextNum}</div>
-                        <c:set var="nextNum" value="${nextNum+1}"/>
-                        <div class="toin">
-                            <label>email</label>
-                            <input name="email" type="email" value="${email}">
-                        </div>
-                    </div>
-                    </c:if>
-                    <div id="boxforparams" >
-
-                    </div>-->
                     <input type="hidden" name="adId" value="">
+                    <input type="hidden" name="formReady" value="nope">
                     <input type="hidden" name="action" value="${action}">
                     <input type="hidden" name="wish" value="${wish}">
+                    
+                    <div class="boxtoinput">
+                        <div class="toin">
+                            <label for="catId">категория объявления</label>
+                            <select class="categoryChChanger" data-method="changeAd" name="catId">
+                                <c:forEach var="cat" items="${catList}">
+                                    <option value="${cat.id}">
+                                        ${cat.getPrefix()}${cat.name}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="boxForChangeAdParams" >
+
+                    </div>
+                    
                     <div class="form-group">
                         <button type="submit" class="btn" style="margin-top: 10px;">сохранить</button>
                     </div>
@@ -914,7 +869,7 @@
                         <div class="">
                             <div class="num">10</div>
                             <div class="toin">
-                                <label id="boxforparamslabel">Параметры</label>
+                                <label id="boxforparamslabel">параметры</label>
 
 
                                 <c:forEach var="parametr" items="${catParamsMap.get(catId)}">
