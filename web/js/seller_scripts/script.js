@@ -125,7 +125,19 @@ $(document).ready(function () {
                         if(key=='catId'){
                             $('#changeAdForm').find('select[name=catId][data-method=changeAd] [value='+value+']').attr("selected", "selected");
                         }else if(key=='params'){
-                            
+                            var paramArea = '<div class="toin">';
+                            paramArea+='<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
+                            $.each(value,function(){
+                                var param = this;
+                                var val = param.val;
+                                if(val==undefined){
+                                    val='';
+                                }
+                                paramArea+='<label>'+param.name+'<input type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
+                                paramArea+='<input type="hidden" name="'+param.valtype+'Ids" value='+param.id+'><br>';
+                            });
+                            paramArea += '</div>';
+                            $('#changeAdForm').find('#boxForChangeAdParams').html(paramArea);
                         }else if(key=='description'){
                             $('#changeAdForm').find('[name='+key+']').text(value);
                         }else if(key=='locsInReg4ChAd'){

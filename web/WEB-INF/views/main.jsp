@@ -869,7 +869,7 @@
                         <div class="">
                             <div class="num">10</div>
                             <div class="toin">
-                                <label id="boxforparamslabel">параметры</label>
+                                <label id="boxforparamslabel" style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label>
 
 
                                 <c:forEach var="parametr" items="${catParamsMap.get(catId)}">

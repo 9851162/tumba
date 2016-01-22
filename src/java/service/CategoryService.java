@@ -558,13 +558,13 @@ public class CategoryService extends PrimService {
             
             Long pid = p.getId();
             
-            HashMap<String,Object>param=new HashMap();
-            param.put("name", p.getName());
+            LinkedHashMap<String,Object>param=new LinkedHashMap();
             param.put("id", pid);
+            param.put("name", p.getName());
             param.put("req", req);
-            param.put("type", p.getParamTypeName());
             
             if(Objects.equals(p.getParamType(), Parametr.BOOL)){
+                param.put("valtype","boolean");
                 if(boolMap.get(pid)!=null){
                     param.put("val", (Long)boolMap.get(pid));
                 }
@@ -574,6 +574,7 @@ public class CategoryService extends PrimService {
                     bool.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.TEXT)){
+                param.put("valtype","string");
                 if(strMap.get(pid)!=null){
                     param.put("val", (String)strMap.get(pid));
                 }
@@ -583,6 +584,7 @@ public class CategoryService extends PrimService {
                     str.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.NUM)){
+                param.put("valtype","num");
                 if(numMap.get(pid)!=null){
                     param.put("val", (Double)numMap.get(pid));
                 }
@@ -592,6 +594,7 @@ public class CategoryService extends PrimService {
                     num.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.DATE)){
+                param.put("valtype","date");
                 if(dateMap.get(pid)!=null){
                     param.put("val", (Date)dateMap.get(pid));
                 }
@@ -601,11 +604,9 @@ public class CategoryService extends PrimService {
                     date.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.SELECTING)){
+                param.put("valtype","sel");
                 List<ParametrSelOption>opts=p.getOptions();
                 if(!opts.isEmpty()){
-                    if(selMap.get(pid)!=null){
-                        param.put("val", (Long)selMap.get(pid));
-                    }
                     LinkedHashMap<Long,String>optMap=new LinkedHashMap();
                     for(ParametrSelOption opt:opts){
                         optMap.put(opt.getId(), opt.getName());
@@ -616,13 +617,14 @@ public class CategoryService extends PrimService {
                     }else{
                         sel.add(param);
                     }
+                    if(selMap.get(pid)!=null){
+                        param.put("val", (Long)selMap.get(pid));
+                    }
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.MULTISELECTING)){
+                param.put("valtype","multy");
                 List<ParametrSelOption>opts=p.getOptions();
                 if(!opts.isEmpty()){
-                    if(mselMap.get(pid)!=null){
-                        param.put("val", (HashMap<Long,Object>)mselMap.get(pid));
-                    }
                     LinkedHashMap<Long,String>optMap=new LinkedHashMap();
                     for(ParametrSelOption opt:opts){
                         optMap.put(opt.getId(), opt.getName());
@@ -632,6 +634,9 @@ public class CategoryService extends PrimService {
                         reqMsel.add(param);
                     }else{
                         msel.add(param);
+                    }
+                    if(mselMap.get(pid)!=null){
+                        param.put("val", (HashMap<Long,Object>)mselMap.get(pid));
                     }
                 }
             }

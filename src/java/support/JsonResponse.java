@@ -6,8 +6,8 @@
 
 package support;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class JsonResponse {
     private Boolean status = null;
     private String message = "";
-    private HashMap<String,Object> data = new HashMap();
+    private LinkedHashMap<String,Object> data = new LinkedHashMap();
     
     public static JsonResponse getInstance(){
         return new JsonResponse();
@@ -46,7 +46,7 @@ public class JsonResponse {
         return data;
     }
 
-    public void setData(HashMap<String,Object> data) {
+    public void setData(LinkedHashMap<String,Object> data) {
         this.data = data;
     }
     
