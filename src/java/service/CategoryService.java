@@ -271,6 +271,7 @@ public class CategoryService extends PrimService {
                     Parametr p = paramDao.find(paramId);
                     ParamCategoryLink link = new ParamCategoryLink();
                     link.setParam(p);
+                    link.setParamType(p.getParamType());
                     link.setCat(c);
                     if (req != null) {
                         link.setReq();
@@ -523,7 +524,7 @@ public class CategoryService extends PrimService {
                 Double dval = v.getNumVal();
                 numMap.put(pid,dval);
             }else if(Objects.equals(v.getParamType(), Parametr.DATE)){
-                Date dval = v.getDateVal();
+                String dval = v.getStringVal();
                 dateMap.put(pid,dval);
             }else if(Objects.equals(v.getParamType(), Parametr.SELECTING)){
                 Long selval = v.getSelectVal();
@@ -596,7 +597,7 @@ public class CategoryService extends PrimService {
             }else if(Objects.equals(p.getParamType(), Parametr.DATE)){
                 param.put("valtype","date");
                 if(dateMap.get(pid)!=null){
-                    param.put("val", (Date)dateMap.get(pid));
+                    param.put("val", (String)dateMap.get(pid));
                 }
                 if(1==req){
                     reqDate.add(param);

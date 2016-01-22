@@ -129,11 +129,63 @@ $(document).ready(function () {
                             paramArea+='<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
                             $.each(value,function(){
                                 var param = this;
+                                var type = param.valtype;
                                 var val = param.val;
-                                if(val==undefined){
-                                    val='';
+                                var req = param.req;
+                                if(type=="boolean"){
+                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
+                                    if(req==0){
+                                        paramArea+='<option>не выбрано</option>';
+                                    }
+                                    paramArea+='<option';
+                                    if(val==1){paramArea+=' selected';}
+                                    paramArea+=' value=1>да</option>';
+                                    paramArea+='<option';
+                                    if(val==0){paramArea+=' selected';}
+                                    paramArea+=' value=0>нет</option>';
+                                    paramArea+='</select></label>';
+                                }else if(type=="string"||type=="num"){
+                                    if(val==undefined){
+                                        val='';
+                                    }
+                                    paramArea+='<label>'+param.name+'<input type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
+                                }else if(type=="date"){
+                                    if(val==undefined){
+                                        val='';
+                                    }
+                                    paramArea+='<label>'+param.name+'<input class="adChangeDate" type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
+                                }else if(type=="sel"){
+                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
+                                    if(req==0){
+                                        paramArea+='<option>не выбрано</option>';
+                                    }
+                                    var opts = param.options;
+                                    $.each(opts,function(oid,oname){
+                                        var selected="";
+                                        if(oid==val){
+                                            selected="selected";
+                                        }
+                                        paramArea+='<option '+selected+' value='+oid+'>'+oname+'</option>';
+                                    });
+                                    paramArea+='</select></label>';
+                                }else if(type=="multy"){
+                                    var opts = param.options;
+                                    var size = Object.keys(opts).length;
+                                    if(size==undefined||size>5){
+                                        size=5;
+                                    }
+                                    paramArea+='<label>'+param.name+'<select size='+size+' multiple name="'+param.valtype+'Vals">';
+                                    
+                                    $.each(opts,function(oid,oname){
+                                        var selected="";
+                                        if(val[oid]!=undefined){
+                                            selected="selected";
+                                        }
+                                        paramArea+='<option '+selected+' value='+oid+'>'+oname+'</option>';
+                                    });
+                                    
+                                    paramArea+='</select></label>';
                                 }
-                                paramArea+='<label>'+param.name+'<input type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
                                 paramArea+='<input type="hidden" name="'+param.valtype+'Ids" value='+param.id+'><br>';
                             });
                             paramArea += '</div>';
@@ -163,6 +215,11 @@ $(document).ready(function () {
                     $('#changeAdForm').find('input[name=formReady]').val('ready');
                 }
                 setOpacity(method);
+                $('#changeAdForm').on('focus', '.adChangeDate', function () {
+                    $(this).datepicker({
+                        dateFormat: "dd.mm.yy"
+                    });
+                });
             }
        });
     });
