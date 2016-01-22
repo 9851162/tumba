@@ -96,6 +96,25 @@ public class Parametr extends PrimEntity {
     public Integer getParamType() {
         return paramType;
     }
+    
+    public String getParamTypeName() {
+        if(paramType!=null){
+            if(paramType==TEXT){
+                return "text";
+            }else if(paramType==NUM){
+                return "numeric";
+            }else if(paramType==SELECTING){
+                return "select";
+            }else if(paramType==MULTISELECTING){
+                return "multipleselect";
+            }else if(paramType==BOOL){
+                return "bool";
+            }else if(paramType==DATE){
+                return "date";
+            }
+        }
+        return null;
+    }
 
     public void setParamType(Integer paramType) {
         this.paramType = paramType;

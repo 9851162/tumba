@@ -290,7 +290,6 @@ public class AdController extends WebController {
                 res.setStatus(Boolean.FALSE);
             }
             if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
-                res.addData("params","");
                 res.addData("catId", ad.getCat().getId());
                 res.addData("shortName", ad.getName());
                 res.addData("description", ad.getDescription());
@@ -301,7 +300,7 @@ public class AdController extends WebController {
                 res.addData("dateTo", DateAdapter.formatByDate(ad.getDateTo(), DateAdapter.SMALL_FORMAT));
                 res.addData("locsInReg4ChAd", locsInReg4ShowMap);
                 res.addData("statesInReg4ChAd", statesInReg4ShowMap);
-                res.addData("params", catService.getParamsForDraw(ad.getCat().getId()));
+                res.addData("params", catService.getParamsForDraw(ad));
             }
         }
         return res;

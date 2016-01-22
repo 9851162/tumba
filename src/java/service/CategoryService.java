@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -499,8 +500,44 @@ public class CategoryService extends PrimService {
         return res;
     }
     
-    public List<HashMap<String,Object>> getParamsForDraw(Long catId){
+    public List<HashMap<String,Object>> getParamsForDraw(Ad ad){
+        Long catId = ad.getCat().getId();
         List<HashMap<String,Object>>res=new ArrayList();
+        
+        Set<ParametrValue>vals = ad.getValues();
+        HashMap<Long,Object>boolMap=new HashMap();
+        HashMap<Long,Object>strMap=new HashMap();
+        HashMap<Long,Object>numMap=new HashMap();
+        HashMap<Long,Object>dateMap=new HashMap();
+        HashMap<Long,Object>selMap=new HashMap();
+        HashMap<Long,Object>mselMap=new HashMap();
+        for(ParametrValue v:vals){
+            Long pid = v.getParametr().getId();
+            if(Objects.equals(v.getParamType(), Parametr.BOOL)){
+                Long bval = v.getSelectVal();
+                boolMap.put(pid, bval);
+            }else if(Objects.equals(v.getParamType(), Parametr.TEXT)){
+                String sval = v.getStringVal();
+                strMap.put(pid,sval);
+            }else if(Objects.equals(v.getParamType(), Parametr.NUM)){
+                Double dval = v.getNumVal();
+                numMap.put(pid,dval);
+            }else if(Objects.equals(v.getParamType(), Parametr.DATE)){
+                Date dval = v.getDateVal();
+                dateMap.put(pid,dval);
+            }else if(Objects.equals(v.getParamType(), Parametr.SELECTING)){
+                Long selval = v.getSelectVal();
+                selMap.put(pid,selval);
+            }else if(Objects.equals(v.getParamType(), Parametr.MULTISELECTING)){
+                HashMap<Long,Object>multivals=new HashMap();
+                Object o = mselMap.get(pid);
+                if(o!=null){
+                    multivals=(HashMap<Long,Object>)o;
+                }
+                multivals.put(v.getSelectVal(),v.getSelectVal());
+                mselMap.put(pid, multivals);
+            }
+        }
         
         List<Object[]>rawParamsAndNeeds=paramDao.getParamsAndNeedsFromCat(catId);
         List<HashMap<String,Object>>reqBool=new ArrayList();
@@ -519,31 +556,45 @@ public class CategoryService extends PrimService {
             Parametr p = (Parametr)o[0];
             Integer req = (Integer)o[1];
             
+            Long pid = p.getId();
+            
             HashMap<String,Object>param=new HashMap();
             param.put("name", p.getName());
-            param.put("id", p.getId());
+            param.put("id", pid);
             param.put("req", req);
-            param.put("type", p.getParamType());
+            param.put("type", p.getParamTypeName());
             
             if(Objects.equals(p.getParamType(), Parametr.BOOL)){
+                if(boolMap.get(pid)!=null){
+                    param.put("val", (Long)boolMap.get(pid));
+                }
                 if(1==req){
                     reqBool.add(param);
                 }else{
                     bool.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.TEXT)){
+                if(strMap.get(pid)!=null){
+                    param.put("val", (String)strMap.get(pid));
+                }
                 if(1==req){
                     reqStr.add(param);
                 }else{
                     str.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.NUM)){
+                if(numMap.get(pid)!=null){
+                    param.put("val", (Double)numMap.get(pid));
+                }
                 if(1==req){
                     reqNum.add(param);
                 }else{
                     num.add(param);
                 }
             }else if(Objects.equals(p.getParamType(), Parametr.DATE)){
+                if(dateMap.get(pid)!=null){
+                    param.put("val", (Date)dateMap.get(pid));
+                }
                 if(1==req){
                     reqDate.add(param);
                 }else{
@@ -552,6 +603,9 @@ public class CategoryService extends PrimService {
             }else if(Objects.equals(p.getParamType(), Parametr.SELECTING)){
                 List<ParametrSelOption>opts=p.getOptions();
                 if(!opts.isEmpty()){
+                    if(selMap.get(pid)!=null){
+                        param.put("val", (Long)selMap.get(pid));
+                    }
                     LinkedHashMap<Long,String>optMap=new LinkedHashMap();
                     for(ParametrSelOption opt:opts){
                         optMap.put(opt.getId(), opt.getName());
@@ -566,6 +620,9 @@ public class CategoryService extends PrimService {
             }else if(Objects.equals(p.getParamType(), Parametr.MULTISELECTING)){
                 List<ParametrSelOption>opts=p.getOptions();
                 if(!opts.isEmpty()){
+                    if(mselMap.get(pid)!=null){
+                        param.put("val", (HashMap<Long,Object>)mselMap.get(pid));
+                    }
                     LinkedHashMap<Long,String>optMap=new LinkedHashMap();
                     for(ParametrSelOption opt:opts){
                         optMap.put(opt.getId(), opt.getName());
