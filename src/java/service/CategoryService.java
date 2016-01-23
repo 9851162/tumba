@@ -501,8 +501,7 @@ public class CategoryService extends PrimService {
         return res;
     }
     
-    public List<HashMap<String,Object>> getParamsForDraw(Ad ad){
-        Long catId = ad.getCat().getId();
+    public List<HashMap<String,Object>> getParamsForDraw(Ad ad,Long catId){
         List<HashMap<String,Object>>res=new ArrayList();
         
         Set<ParametrValue>vals = ad.getValues();

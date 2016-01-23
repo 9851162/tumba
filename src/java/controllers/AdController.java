@@ -300,9 +300,27 @@ public class AdController extends WebController {
                 res.addData("dateTo", DateAdapter.formatByDate(ad.getDateTo(), DateAdapter.SMALL_FORMAT));
                 res.addData("locsInReg4ChAd", locsInReg4ShowMap);
                 res.addData("statesInReg4ChAd", statesInReg4ShowMap);
-                res.addData("params", catService.getParamsForDraw(ad));
+                res.addData("params", catService.getParamsForDraw(ad,ad.getCat().getId()));
             }
         }
+        return res;
+    }
+    
+    @RequestMapping("/getAdParams")
+    @ResponseBody
+    public JsonResponse getAdParamsChange(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "adId", required = false) Long adId,
+            @RequestParam(value = "catId", required = false) Long catId,
+            RedirectAttributes ras) throws Exception {
+        User u = authManager.getCurrentUser();
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        Ad ad = adService.getAd(adId);
+        if (ad!=null&&u!=null&&(ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN))) {
+            res.addData("params", catService.getParamsForDraw(ad,catId));
+        }
+        
         return res;
     }
 
@@ -318,10 +336,22 @@ public class AdController extends WebController {
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "email", required = false) String email,
-            /*@RequestParam(value = "catId", required = false) Long catId,*/
+            @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
+            @RequestParam(value = "booleanVals", required = false) String booleanVals[],
+            @RequestParam(value = "stringIds", required = false) Long stringIds[],
+            @RequestParam(value = "stringVals", required = false) String stringVals[],
+            @RequestParam(value = "numIds", required = false) Long numIds[],
+            @RequestParam(value = "numVals", required = false) String numVals[],
+            @RequestParam(value = "dateIds", required = false) Long dateIds[],
+            @RequestParam(value = "dateVals", required = false) Date dateVals[],
+            @RequestParam(value = "selIds", required = false) Long selIds[],
+            @RequestParam(value = "selVals", required = false) Long selVals[],
+            @RequestParam(value = "multyIds", required = false) Long multyIds[],
+            @RequestParam(value = "multyVals", required = false) String multyVals[],
             /*@RequestParam(value = "previews", required = false) MultipartFile previews[],
              @RequestParam(value = "regionId", required = false) Long regionId,*/
             RedirectAttributes ras) throws Exception {
@@ -332,7 +362,8 @@ public class AdController extends WebController {
             Ad ad = adService.getAd(adId);
 
             if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
-                adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone);
+                adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone,catId,
+                booleanIds, booleanVals,stringIds, stringVals, numIds, numVals, dateIds, dateVals, selIds, selVals, multyIds, multyVals);
             }
         }
         ras.addAttribute("errors", adService.getErrors());

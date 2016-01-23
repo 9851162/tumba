@@ -656,10 +656,12 @@ public class AdService extends PrimService {
         return numVal;
     }
 
-    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo,Long locIds[],String email,String phone) {
+    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo,Long locIds[],String email,String phone,Long catId,
+            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
+            Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if (adId != null) {
             Ad ad = adDao.find(adId);
-            //Category cat = catDao.find(catId);
+            Category cat = catDao.find(catId);
             //Region r = 
             if (ad != null) {
                 PhoneEditor phe = new PhoneEditor();
@@ -670,22 +672,20 @@ public class AdService extends PrimService {
                     prelocs=locDao.getLocs(locIds);
                 }
                 Set<Locality>locs = new HashSet(prelocs);
-                //if(cat!=null){
-                //addError("что-то не так");
-                ad.setEmail(email);
-                ad.setPhone(phone);
-                ad.setDateFrom(dateFrom);
-                ad.setDateTo(dateTo);
-                ad.setDescription(description);
-                ad.setName(shortName);
-                ad.setPrice(getNumFromString(price));
-                ad.setLocalities(locs);
-                //ad.setCat(cat);
-                if (validate(ad) && getErrors().isEmpty()) {
-                    adDao.save(ad);
+                if(cat!=null){
+                    ad.setEmail(email);
+                    ad.setPhone(phone);
+                    ad.setDateFrom(dateFrom);
+                    ad.setDateTo(dateTo);
+                    ad.setDescription(description);
+                    ad.setName(shortName);
+                    ad.setPrice(getNumFromString(price));
+                    ad.setLocalities(locs);
+                    ad.setCat(cat);
+                    if (validate(ad) && getErrors().isEmpty()) {
+                        adDao.save(ad);
+                    }
                 }
-
-                //}
 
             }
         }
