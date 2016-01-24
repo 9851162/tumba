@@ -227,6 +227,7 @@ $(document).ready(function () {
     $('#changeAdForm').on('change', 'select[name=catId]', function () {
         var catId = $(this).val();
         var adId = $('#changeAdForm input[name=adId]').val();
+        $('#changeAdForm').find('input[name=formReady]').val('nope');
         $.ajax({
            url: "../Ad/getAdParams?adId=" + adId + "&catId="+catId,
            dataType: "json",
@@ -300,6 +301,7 @@ $(document).ready(function () {
                             });
                             paramArea += '</div>';
                             $('#changeAdForm').find('#boxForChangeAdParams').html(paramArea);
+                            $('#changeAdForm').find('input[name=formReady]').val('ready');
                         }
                     });
                 }
