@@ -92,8 +92,6 @@ public class AdService extends PrimService {
             if (cat != null) {
                 if (isAutherized||(!isAutherized&&email!=null&&!email.equals(""))) {
 
-                    List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
-                    
                     PhoneEditor phe = new PhoneEditor();
                     phone = phe.getPhone(phone);
                     addError(phe.error);
@@ -144,6 +142,7 @@ public class AdService extends PrimService {
                     if (validate(ad) && getErrors().isEmpty()) {
                         adDao.save(ad);
 
+                        List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
                         List<Parametr> catParams = paramDao.getParamsFromCat(catId);
                         int i = 0;
                         ArrayList<String> paramValsErrs = new ArrayList();
@@ -153,7 +152,6 @@ public class AdService extends PrimService {
                         ArrayList<ParametrValue> list4Save = new ArrayList();
 
                         //не трогаем в плане рек не рек
-                        //if (booleanVals != null && booleanVals.length > 0) {
                         if (booleanIds != null) {
                             if (booleanVals == null) {
                                 booleanVals = new String[booleanIds.length];
@@ -180,7 +178,6 @@ public class AdService extends PrimService {
                                 i++;
                             }
                         }
-                        //}
 
                         if (stringVals != null && stringVals.length > 0) {
                             i = 0;
@@ -683,7 +680,196 @@ public class AdService extends PrimService {
                     ad.setLocalities(locs);
                     ad.setCat(cat);
                     if (validate(ad) && getErrors().isEmpty()) {
-                        adDao.save(ad);
+                        Set<ParametrValue>oldVals = ad.getValues();
+                        List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
+                        List<Parametr> catParams = paramDao.getParamsFromCat(catId);
+                        int i = 0;
+                        ArrayList<String> paramValsErrs = new ArrayList();
+                        //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
+                        ArrayList<ParametrValue> newVals = new ArrayList();
+                        
+                        //не трогаем в плане рек не рек
+                        if (booleanIds != null) {
+                            if (booleanVals == null) {
+                                booleanVals = new String[booleanIds.length];
+                            }
+                            while (i < booleanIds.length) {
+                                Parametr p = paramDao.find(booleanIds[i]);
+                                if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
+                                    Long val = ParametrValue.NO;
+                                    String sval = "нет";
+                                    if (booleanVals[i] != null) {
+                                        val = ParametrValue.YES;
+                                        sval = "да";
+                                    }
+                                    ParametrValue pv = new ParametrValue();
+                                    pv.setAd(ad);
+                                    pv.setParametr(p);
+                                    pv.setSelectVal(val);
+                                    pv.setStringVal(sval);
+                                    if (validate(pv)) {
+                                        newVals.add(pv);
+                                    }
+
+                                }
+                                i++;
+                            }
+                        }
+
+                        if (stringVals != null && stringVals.length > 0) {
+                            i = 0;
+                            while (i < stringIds.length) {
+                                Long paramId = stringIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.TEXT == p.getParamType()) {
+                                    String val = stringVals[i];
+                                    if (val != null && !val.equals("")) {
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setStringVal(val);
+                                        if (validate(pv)) {
+                                            newVals.add(pv);
+                                        }
+
+                                    }
+                                }
+                                i++;
+                            }
+                        }
+
+                        if (snumVals != null && snumVals.length > 0) {
+                            i = 0;
+                            while (i < numIds.length) {
+                                Long paramId = numIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
+                                    String sval = snumVals[i];
+                                    if (sval != null && !sval.equals("")) {
+                                        Double val = getNumFromString(sval);
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setNumVal(val);
+                                        pv.setStringVal(StringAdapter.getString(val));
+                                        if (validate(pv)) {
+                                            newVals.add(pv);
+                                        }
+
+                                    }
+                                }
+                                i++;
+                            }
+                            //???????TO DO check?delete?
+                            if (!getErrors().isEmpty()) {
+                                for (String e : getErrors()) {
+                                    paramValsErrs.add(e);
+                                }
+                            }
+                        }
+
+                        if (dateVals != null && dateVals.length > 0) {
+                            i = 0;
+                            while (i < dateIds.length) {
+                                Long paramId = dateIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.DATE == p.getParamType()) {
+                                    Date val = dateVals[i];
+                                    if (val != null) {
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setDateVal(val);
+                                        pv.setStringVal(DateAdapter.formatByDate(val, DateAdapter.SMALL_FORMAT));
+                                        if (validate(pv)) {
+                                            newVals.add(pv);
+                                        }
+
+                                    }
+                                }
+                                i++;
+                            }
+                        }
+
+                        if (selVals != null && selVals.length > 0) {
+                            i = 0;
+
+                            while (i < selIds.length) {
+                                Long paramId = selIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.SELECTING == p.getParamType()) {
+                                    Long val = selVals[i];
+                                    if (val != null && !val.equals(0L)) {
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setSelectVal(val);
+                                        pv.setStringVal(paramSelDao.find(val).getName());
+                                        if (validate(pv)) {
+                                            newVals.add(pv);
+                                        }
+
+                                    }
+                                }
+                                i++;
+                            }
+                        }
+
+                        //вытягивание значений мультиселекта
+                        //TO DO более тщательную валидацию и обработку ошибок мб(??)
+                        if (multyVals != null && multyVals.length > 0) {
+                            for (String rawVal : multyVals) {
+                                String idValArr[] = rawVal.split("_");
+                                if (idValArr.length == 2) {
+                                    String strId = idValArr[0];
+                                    String strVal = idValArr[1];
+                                    Long paramId = Long.valueOf(strId);
+                                    Long val = Long.valueOf(strVal);
+                                    Parametr p = paramDao.find(paramId);
+                                    if (catParams.contains(p) && Parametr.MULTISELECTING == p.getParamType()) {
+                                        if (reqParamIds.contains(paramId) && val != null) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        ParametrValue pv = new ParametrValue();
+                                        pv.setAd(ad);
+                                        pv.setParametr(p);
+                                        pv.setSelectVal(val);
+                                        pv.setStringVal(paramSelDao.find(val).getName());
+                                        if (validate(pv)) {
+                                            newVals.add(pv);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!reqParamIds.isEmpty() || !paramValsErrs.isEmpty()) {
+                            for (Long id : reqParamIds) {
+                                addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
+                            }
+                        }else{
+                            adDao.save(ad);
+                            for (ParametrValue pv : oldVals) {
+                                paramValueDao.delete(pv);
+                            }
+                            for (ParametrValue pv : newVals) {
+                                paramValueDao.save(pv);
+                            }
+                        }
+                        
                     }
                 }
 

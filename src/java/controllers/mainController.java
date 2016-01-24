@@ -177,7 +177,7 @@ public class mainController extends WebController {
             comparingMap.put(ad.getId(), ad);
         }
 
-        List<Ad> ads = new ArrayList();
+        List<Ad> ads;
 
         if (action.equals(CHOSENACTIONNAME)) {
             if (userId != null) {

@@ -308,7 +308,7 @@ public class AdController extends WebController {
     
     @RequestMapping("/getAdParams")
     @ResponseBody
-    public JsonResponse getAdParamsChange(Map<String, Object> model,
+    public JsonResponse getAdParams(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "adId", required = false) Long adId,
             @RequestParam(value = "catId", required = false) Long catId,
@@ -340,6 +340,7 @@ public class AdController extends WebController {
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "localIds", required = false) Long localIds[],
+            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) String booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
