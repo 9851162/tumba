@@ -69,7 +69,7 @@
           </div>
         </div>
         <div class="toobnov">
-          <a href="#modal1" class="open_modal" style="display: block;margin-left: 40px;height: 73px;">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
+          <a href="#createAd" class="open_modal" style="display: block;margin-left: 40px;height: 73px;">НОВОЕ<br> ОБЪЯВЛЕНИЕ</a>
         </div>
       </div>
 
@@ -351,9 +351,9 @@
         <div class="tofotmin"><a href="#">о компании</a></div>
         <div class="tofotmin"></div>
       </footer>
-      <div id="modal1" class="modal_form modal_div">
+      <div id="createAd" class="modal_form modal_div">
         <div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
-        <form  method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
+        <form method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
 
           <div class="boxtoinput">
             <div class="num">1</div>
@@ -402,8 +402,12 @@
               <c:if test="${role=='admin'||role=='user'}">
                   <select name="regionId">
                     <option value="0">вся Россия</option>
-                    <c:forEach var="region" items="${availableRegions}">
-                        <option value="${region.id}">${region.name}</option>
+                    <c:forEach var="aregion" items="${availableRegions}">
+                        <c:set var="selectedAreg" value=""/>
+                        <c:if test="${aregion.id==region.id}">
+                            <c:set var="selectedAreg" value="selected"/>
+                        </c:if>
+                        <option ${selectedAreg} value="${aregion.id}">${aregion.name}</option>
                     </c:forEach>
                   </select>
               </c:if>
@@ -419,7 +423,7 @@
                         <c:set var="stateInReg" value="checked"/>
                         <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
                     </c:if>
-                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input id="${state.id}" class="stateSelector" data-method="newAd" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="newAd" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount"  id="${state.id}" data-method="newAd">${checkedLocksInReg}</span>/<span data-method="newAd" class="locsAmount">${state.getLocalities().size()})</span></label></li>
+                <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input id="${state.id}" class="stateSelector" data-method="newAd" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="newAd" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" data-state-id="${state.id}" data-method="newAd">${checkedLocksInReg}</span>/<span data-state-id="${state.id}" data-method="newAd" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
                   <c:if test="${!empty state.localities}">
                   <ul>
                     <c:forEach var="loc" items="${state.localities}">
@@ -477,6 +481,7 @@
 
           </div>
           <div class="form-group">
+            <input type="hidden" name=formReady value="ready"/>
             <button type="submit" style="margin-top:10px;" class="btn btn-primary">Добавить</button>
           </div>
         </form>
@@ -633,7 +638,7 @@
                           <c:set var="stateInReg" value="checked"/>
                           <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
                       </c:if>
-                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="show" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="show" class="opener" style="cursor: pointer;">${state.name} (${checkedLocksInReg}/${state.getLocalities().size()})</label></li>
+                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input disabled id="${state.id}" class="stateSelector" data-method="show" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="show" class="opener" style="cursor: pointer;">${state.name} (${checkedLocksInReg}/${state.getLocalities().size()})</label></li>
                         <c:if test="${!empty state.localities}">
                         <ul>
                           <c:forEach var="loc" items="${state.localities}">
@@ -641,7 +646,7 @@
                               <c:if test="${!empty locsInRegMap.get(loc.id)}">
                                   <c:set var="locInReg" value="checked"/>
                               </c:if>
-                              <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-method="show" data-state-id="${state.id}"><input disabled style="width: initial;cursor: pointer;" name="localIds" id="${loc.id}" class="locSelector" data-method="show" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
+                              <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-method="show" data-state-id="${state.id}"><input disabled name="localIds" id="${loc.id}" class="locSelector" data-method="show" data-state-id="${state.id}" type="checkbox" ${locInReg} value="${loc.id}">${loc.name}</label></li>
                                 </c:forEach>
                         </ul>
                       </c:if>
@@ -668,7 +673,7 @@
                               <c:set var="stateInReg" value="checked"/>
                               <c:set var="checkedLocksInReg" value="${statesInRegMap.get(state.id)}"/>
                           </c:if>
-                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount"  id="${state.id}" data-method="set">${checkedLocksInReg}</span>/<span data-method="set" class="locsAmount">${state.getLocalities().size()})</span></label></li>
+                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" class="stateSelector" data-method="set" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" data-state-id="${state.id}" data-method="set">${checkedLocksInReg}</span>/<span data-method="set" data-state-id="${state.id}" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
                         <c:if test="${!empty state.localities}">
                         <ul>
                           <c:forEach var="loc" items="${state.localities}">
@@ -739,7 +744,7 @@
             <ul>
               <c:forEach var="state" items="${states}">
                   <c:if test="${!empty state.localities}">
-                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input id="${state.id}" class="stateSelector" data-method="showAd4Ch" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" data-method="showAd4Ch" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" data-method="showAd4Ch" id="${state.id}">0</span>/<span data-method="showAd4Ch" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
+                      <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input id="${state.id}" class="stateSelector" data-method="showAd4Ch" name="stateIds" type="checkbox" value="${state.id}"><label id="${state.id}" data-method="showAd4Ch" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" data-method="showAd4Ch"  data-state-id="${state.id}">0</span>/<span data-method="showAd4Ch" data-state-id="${state.id}" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
                       <ul>
                         <c:forEach var="loc" items="${state.localities}">
                             <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><label style="cursor: pointer;" class="locLabel" data-method="showAd4Ch" data-state-id="${state.id}"><input name="localIds" id="${loc.id}" class="locSelector" data-method="showAd4Ch" data-state-id="${state.id}" type="checkbox" value="${loc.id}">${loc.name}</label></li>

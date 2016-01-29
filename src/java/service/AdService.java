@@ -128,12 +128,10 @@ public class AdService extends PrimService {
                      locals.addAll(region.getLocalities());
                      }
                      }*/
-                    //???
-                    if (localIds != null) {
-                        for (Long id : localIds) {
-                            Locality l = locDao.find(id);
-                            locals.add(l);
-                        }
+                    if (localIds != null&&localIds.length>0) {
+                        locals.addAll(locDao.getLocs(localIds));
+                    }else{
+                        addError("необходимо выбрать хотя бы один город");
                     }
                     ad.setLocalities(locals);
                     ad.setName(name);

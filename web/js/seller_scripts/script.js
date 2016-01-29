@@ -214,7 +214,7 @@ $(document).ready(function () {
                     $('#changeAdForm').find('button[type=submit]').prop('disabled','');
                     $('#changeAdForm').find('input[name=formReady]').val('ready');
                 }
-                setOpacity(method);
+                setOpacityAndAllRegSelector(method);
                 $('#changeAdForm').on('focus', '.adChangeDate', function () {
                     $(this).datepicker({
                         dateFormat: "dd.mm.yy"
@@ -329,15 +329,15 @@ $(document).ready(function () {
             $('.checkedLocsCount[data-method=' + method + ']').html(0);
         //odevanie
         }else{
-            $('.stateSelector[data-method=' + method + ']').each(function(id,el){
+            $('.stateSelector[data-method=' + method + ']').each(function(key,el){
                 var id = $(el).attr('id');
                 var count = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
-                $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
+                $('.checkedLocsCount[data-state-id='+id+'][data-method=' + method + ']').html(count);
             });
             //показать все
             $('.locLabel[data-method=' + method + ']').removeClass('hidden');
         }
-        setOpacity(method);
+        setOpacityAndAllRegSelector(method);
     });
 
     $('.stateSelector').on('change', function () {
@@ -345,25 +345,11 @@ $(document).ready(function () {
         var id = $(this).attr('id');
         //odevanie locs
         $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
-        //var countChange = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
-        //var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
         var count=0;
         //snyatie
         if (!$(this).prop('checked')) {
-            //$('.allRegionsSelector[data-method=' + method + ']').prop('checked', this.checked);
-            //count = count-countChange;
         //odevanie
         } else {
-            /*var allChecked = true;
-            $('.stateSelector[data-method=' + method + ']').each(function () {
-                if (!$(this).prop('checked')) {
-                    allChecked = false;
-                }
-            });
-            if (allChecked) {
-                $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
-            }*/
-            //count = count+countChange;
             count=$('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
         }
         var checkedLocsLength = $('.locSelector[data-method=' + method + ']:checked').length;
@@ -372,14 +358,14 @@ $(document).ready(function () {
         }else{
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
         }
-        $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
-        setOpacity(method);
+        $('.checkedLocsCount[data-state-id='+id+'][data-method=' + method + ']').html(count);
+        setOpacityAndAllRegSelector(method);
     });
     
     $('.locSelector').on('change', function () {
         var method = $(this).attr('data-method');
-        var id = $(this).attr('data-state-id');
-        var count = parseInt($('.checkedLocsCount[id='+id+'][data-method=' + method + ']').text());
+        var stateId = $(this).attr('data-state-id');
+        var count = parseInt($('.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').text());
         //снятие
         if (!$(this).prop('checked')) {
             count=count-1;
@@ -395,13 +381,13 @@ $(document).ready(function () {
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
         }
         
-        $('.checkedLocsCount[id='+id+'][data-method=' + method + ']').html(count);
+        $('.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').html(count);
         if(count==0){
-            $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', false);
+            $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', false);
         }else{
-            $('.stateSelector[id=' + id + '][data-method=' + method + ']').prop('checked', true);
+            $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', true);
         }
-        setOpacity(method);
+        setOpacityAndAllRegSelector(method);
     });
 
     $(".opener").on('click', function () {
@@ -421,7 +407,7 @@ $(document).ready(function () {
         }
     });
     
-    function setOpacity(method){
+    function setOpacityAndAllRegSelector(method){
         $('.stateSelector[data-method=' + method + ']').each(function(){
             var checkedLocs = parseInt($(this).siblings('.opener').find('.checkedLocsCount').text());
             var stateLocs = parseInt($(this).siblings('.opener').find('.locsAmount').text());
@@ -434,11 +420,58 @@ $(document).ready(function () {
         var allRegsSelector = $('.allRegionsSelector[data-method=' + method + ']')
         var checkedLocs = $('.locSelector[data-method=' + method + ']:checked').length;
         var allLocs = $('.locSelector[data-method=' + method + ']').length;
+        if(checkedLocs>0){
+            allRegsSelector.prop('checked', true);
+        }else{
+            allRegsSelector.prop('checked', false);
+        }
         if(checkedLocs==0||checkedLocs==allLocs){
             allRegsSelector.removeClass('semichecked');
         }else{
             allRegsSelector.addClass('semichecked');
         }
     }
+    
+    $('form[action="../Ad/add"] select[name=regionId]').on('change',function(){
+        var regId = $('form[action="../Ad/add"] select[name=regionId]').val();
+        $('form[action="../Ad/add"]').find('input[name=formReady]').val('nope');
+        $.ajax({
+           url: "../Regions/getReg?regId=" + regId,
+           dataType: "json",
+           cache: false,
+           success: function (json) {
+                var method = "newAd";
+                $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
+                $('.stateSelector[data-method=' + method + ']').prop('checked', false);
+                $('.locSelector[data-method=' + method + ']').prop('checked', false);
+                if (json['status'] == true) {
+                    $.each(json['data'],function(key,value){
+                        if(key=='locIds'){
+                            $.each(value,function(key1,locId){
+                                $('.locSelector[data-method=' + method + '][id='+locId+']').prop('checked', true);
+                            });
+                            setAmountsAndStates(method);
+                            setOpacityAndAllRegSelector(method);
+                            $('form[action="../Ad/add"]').find('input[name=formReady]').val('ready');
+                        }
+                    });
+                }
+           }
+        });
+    });
+    
+    function setAmountsAndStates(method){
+        var states = $('.stateSelector[data-method=' + method + ']');
+        $.each(states,function(){
+            var stateId = this.id;
+            var locsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id='+ stateId +']').length;
+            var checkedLocsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id='+ stateId +']:checked').length;
+            $('span.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').text(checkedLocsInStateAmount);
+            $('span.locsAmount[data-state-id='+stateId+'][data-method=' + method + ']').text(locsInStateAmount);
+            if(checkedLocsInStateAmount>0){
+                $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', true);
+            }
+        });
+    }
 
-})
+});

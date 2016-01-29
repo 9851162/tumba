@@ -410,7 +410,7 @@
                                             <c:if test="${!empty statesInRegMap.get(state.id)}">
                                                 <c:set var="stateInReg" value="checked"/>
                                             </c:if>
-                                            <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" data-method="set" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" id="${state.id}" data-method="set">0</span>${state.getLocalities().size()})</label></li>
+                                            <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="width: initial;cursor: pointer;" id="${state.id}" data-method="set" class="stateSelector" name="stateIds" type="checkbox" ${stateInReg} value="${state.id}"><label id="${state.id}" data-method="set" class="opener" style="cursor: pointer;">${state.name} (<span class="checkedLocsCount" data-state-id="${state.id}" data-method="set">0</span>/<span data-method="showAd4Ch" data-state-id="${state.id}" class="locsAmount">${state.getLocalities().size()}</span>)</label></li>
                                             <c:if test="${!empty state.localities}">
                                                 <ul>
                                                     <c:forEach var="loc" items="${state.localities}">

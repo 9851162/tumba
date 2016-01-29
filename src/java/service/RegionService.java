@@ -276,6 +276,14 @@ public class RegionService extends PrimService {
     public Region getRegion(Long regionId) {
         return regDao.find(regionId);
     }
+    
+    public List<Long> getLocalIds(Long regId,User user) {
+        if(regId!=null&&regId!=0){
+            return locDao.getLocIds(regId, user.getId());
+        }else{
+            return locDao.getAllLocIds();
+        }
+    }
 
     public Long addRegion(User u, Region r) {
         Long id = null;

@@ -6,6 +6,7 @@
 package controllers;
 
 import controllers.parent.WebController;
+import entities.Ad;
 import entities.Region;
 import entities.User;
 import java.util.ArrayList;
@@ -15,8 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.RegionService;
+import support.JsonResponse;
 
 /**
  *
@@ -59,8 +63,28 @@ public class RegionController extends WebController {
         model.put("states",regionService.getNotEmptyStates());
         model.put(ERRORS_LIST_NAME,errors);
         
-        
         return "region4Users";
+    }
+    
+    @RequestMapping("/getReg")
+    @ResponseBody
+    public JsonResponse getRegion(Map<String, Object> model,
+            HttpServletRequest request,
+            @RequestParam(value = "regId", required = false) Long regId,
+            RedirectAttributes ras) throws Exception {
+        User u = authManager.getCurrentUser();
+        JsonResponse res = new JsonResponse();
+        res.setStatus(Boolean.TRUE);
+        if (regId!=null&&u!=null) {
+            List<Long>locIds = regionService.getLocalIds(regId, u);
+            res.addData("locIds", locIds);
+            if(!regionService.getErrors().isEmpty()){
+                res.setStatus(Boolean.FALSE);
+                res.setMessage(regionService.getErrorsAsString());
+            }
+        }
+        
+        return res;
     }
     
 }

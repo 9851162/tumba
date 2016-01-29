@@ -38,4 +38,18 @@ public class LocalityDao extends Dao<Locality>  {
         return query.list();
     }
     
+    public List<Long>getAllLocIds(){
+        String hql = "select id from Locality";
+        Query query = getCurrentSession().createQuery(hql);
+        return query.list();
+    }
+    
+    public List<Long>getLocIds(Long regId,Long userId){
+        String sql = "select locality_id from locals_at_region where region_id=:regId and exists (select region_id from region where region_id=:regId and user_id=:userId)";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("regId", regId);
+        query.setParameter("userId", userId);
+        return query.list();
+    }
+    
 }

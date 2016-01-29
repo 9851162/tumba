@@ -7,6 +7,7 @@ package dao;
 
 import dao.parent.Dao;
 import entities.Region;
+import entities.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,14 @@ public class RegionDao extends Dao<Region>  {
         Query query = getCurrentSession().createSQLQuery(sql);
         query.setParameter("userId", userId);
         return query.executeUpdate();
+    }
+    
+    public Region getRegion(Long regId,User user){
+        String hql = "from Region where id=:regId and user=:user";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setEntity("user", user);
+        query.setParameter("regId", regId);
+        return (Region)query.uniqueResult();
     }
     
 }
