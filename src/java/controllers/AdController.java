@@ -57,7 +57,7 @@ public class AdController extends WebController {
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
             @RequestParam(value = "previews", required = false) MultipartFile previews[],
-            @RequestParam(value = "regionId", required = false) Long regionId,
+            //@RequestParam(value = "regionId", required = false) Long regionId,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) String booleanVals[],
@@ -71,7 +71,7 @@ public class AdController extends WebController {
             @RequestParam(value = "selVals", required = false) Long selVals[],
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
-            //@RequestParam(value = "localIds", required = false) Long localIds[],
+            @RequestParam(value = "localIds", required = false) Long localIds[],
 
             RedirectAttributes ras) throws Exception {
         ArrayList<String> errors = new ArrayList();
@@ -91,17 +91,17 @@ public class AdController extends WebController {
         }
 
         Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
-        if (regionId != null) {
+        /*if (regionId != null) {
             if (regionId.equals(0L)) {
                 region.setAllRussia(Boolean.TRUE);
             } else {
                 region = regionService.getRegion(regionId);
             }
-        }
+        }*/
         //Long localIds[] = regionService.getLocIds(regionId,region);
 
         adService.create(isAutherized, catId, email, phone, price, previews, shortName, description, booleanIds, booleanVals,
-                stringIds, stringVals, numIds, numVals, dateIds, dateVals, selIds, selVals, multyIds, multyVals, dateFrom, dateTo, region);
+                stringIds, stringVals, numIds, numVals, dateIds, dateVals, selIds, selVals, multyIds, multyVals, dateFrom, dateTo, localIds);
 
         errors.addAll(regionService.getErrors());
         errors.addAll(adService.getErrors());

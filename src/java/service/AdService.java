@@ -82,22 +82,22 @@ public class AdService extends PrimService {
     @Autowired
     LocalityDao locDao;
 
-    public void create(Boolean isAutherized,Long catId, String email,String phone, String price, MultipartFile previews[], String name, String desc,
+    public void create(Boolean isAutherized, Long catId, String email, String phone, String price, MultipartFile previews[], String name, String desc,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[],
-            Date dateFrom, Date dateTo, Region region) throws IOException {
+            Date dateFrom, Date dateTo, Long localIds[]) throws IOException {
         Boolean newUser = false;
         if (catId != null) {
             Category cat = catDao.find(catId);
             if (cat != null) {
-                if (isAutherized||(!isAutherized&&email!=null&&!email.equals(""))) {
+                if (isAutherized || (!isAutherized && email != null && !email.equals(""))) {
 
                     PhoneEditor phe = new PhoneEditor();
                     phone = phe.getPhone(phone);
                     addError(phe.error);
-                    
+
                     User user = userService.getUserByMail(email);
-                    if (!isAutherized&&user==null) {
+                    if (!isAutherized && user == null) {
                         user = userService.registerStandardUser(email);
                         newUser = true;
                         List<String> userErrors = userService.getErrors();
@@ -121,19 +121,20 @@ public class AdService extends PrimService {
                     ad.setCat(cat);
 
                     Set<Locality> locals = new HashSet();
-                    if (region != null) {
-                        if (region.isAllRussia()) {
-                            locals.addAll(locDao.getAll());
-                        } else {
-                            locals.addAll(region.getLocalities());
-                        }
-                    }
-                    /*if(localIds!=null){
-                     for(Long id:localIds){
-                     Locality l = locDao.find(id);
-                     locals.add(l);
+                    /*if (region != null) {
+                     if (region.isAllRussia()) {
+                     locals.addAll(locDao.getAll());
+                     } else {
+                     locals.addAll(region.getLocalities());
                      }
                      }*/
+                    //???
+                    if (localIds != null) {
+                        for (Long id : localIds) {
+                            Locality l = locDao.find(id);
+                            locals.add(l);
+                        }
+                    }
                     ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
@@ -388,7 +389,7 @@ public class AdService extends PrimService {
                      addError("user:" + user.getId() + " " + user.getName());
                      }*/
 
-                }else{
+                } else {
                     addError("для подачи объявления без авторизации необходимо указать email");
                 }
             } else {
@@ -653,7 +654,7 @@ public class AdService extends PrimService {
         return numVal;
     }
 
-    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo,Long locIds[],String email,String phone,Long catId,
+    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo, Long locIds[], String email, String phone, Long catId,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if (adId != null) {
@@ -664,12 +665,12 @@ public class AdService extends PrimService {
                 PhoneEditor phe = new PhoneEditor();
                 phone = phe.getPhone(phone);
                 addError(phe.error);
-                List<Locality>prelocs = new ArrayList();
-                if(locIds!=null){
-                    prelocs=locDao.getLocs(locIds);
+                List<Locality> prelocs = new ArrayList();
+                if (locIds != null) {
+                    prelocs = locDao.getLocs(locIds);
                 }
-                Set<Locality>locs = new HashSet(prelocs);
-                if(cat!=null){
+                Set<Locality> locs = new HashSet(prelocs);
+                if (cat != null) {
                     ad.setEmail(email);
                     ad.setPhone(phone);
                     ad.setDateFrom(dateFrom);
@@ -680,14 +681,14 @@ public class AdService extends PrimService {
                     ad.setLocalities(locs);
                     ad.setCat(cat);
                     if (validate(ad) && getErrors().isEmpty()) {
-                        Set<ParametrValue>oldVals = ad.getValues();
+                        Set<ParametrValue> oldVals = ad.getValues();
                         List<Long> reqParamIds = catDao.getRequiredParamsIds(catId);
                         List<Parametr> catParams = paramDao.getParamsFromCat(catId);
                         int i = 0;
                         ArrayList<String> paramValsErrs = new ArrayList();
                         //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
                         ArrayList<ParametrValue> newVals = new ArrayList();
-                        
+
                         //не трогаем в плане рек не рек
                         if (booleanIds != null) {
                             if (booleanVals == null) {
@@ -855,12 +856,12 @@ public class AdService extends PrimService {
                                 }
                             }
                         }
-                        
+
                         if (!reqParamIds.isEmpty() || !paramValsErrs.isEmpty()) {
                             for (Long id : reqParamIds) {
                                 addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
                             }
-                        }else{
+                        } else {
                             adDao.save(ad);
                             for (ParametrValue pv : oldVals) {
                                 paramValueDao.delete(pv);
@@ -869,7 +870,7 @@ public class AdService extends PrimService {
                                 paramValueDao.save(pv);
                             }
                         }
-                        
+
                     }
                 }
 
@@ -942,8 +943,6 @@ public class AdService extends PrimService {
          }*/
         return res;
     }
-    
-   
 
     /*public List<String>getPreviews(Long adId){
      List<String>res = new ArrayList();
