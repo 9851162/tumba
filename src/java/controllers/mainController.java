@@ -52,10 +52,13 @@ public class mainController extends WebController {
     public static String PURCHASESACTIONNAME = "purchases";
     public static String SALESACTIONNAME = "sales";
     public static String CHOSENACTIONNAME = "chosen";
+    public static String MESSAGESACTIONNAME = "messages";
+    public static String REGIONSACTIONNAME = "regions";
 
     @RequestMapping("/")
     public String getMain(Map<String, Object> model,
             HttpServletRequest request,
+            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
             @RequestParam(value = "shortName", required = false) String shortName,
             @RequestParam(value = "description", required = false) String desc,
             @RequestParam(value = "price", required = false) String price,
@@ -205,6 +208,33 @@ public class mainController extends WebController {
             Ad ad = adService.getAd(adId);
             ads = new ArrayList();
             ads.add(ad);
+        } else if (action.equals(REGIONSACTIONNAME)) {
+            ads = new ArrayList();
+            Region regionForShow = new Region();
+            if (regionForShowId != null) {
+                regionForShow = regionService.getRegion(regionForShowId);
+                if (regionForShow != null) {
+                    model.put("regionForShow", regionForShow);
+                    HashMap<Long, Long> locsInReg4ShowMap = new HashMap();
+                    HashMap<Long, Integer> statesInReg4ShowMap = new HashMap();
+
+                    for (Locality l : regionForShow.getLocalities()) {
+                        locsInReg4ShowMap.put(l.getId(), l.getId());
+                        Long StateId = l.getState().getId();
+                        Integer locksInState = statesInReg4ShowMap.get(StateId);
+                        if (locksInState == null) {
+                            locksInState = 0;
+                        }
+                        statesInReg4ShowMap.put(StateId, ++locksInState);
+                    }
+                    model.put("locsInReg4ShowMap", locsInReg4ShowMap);
+                    model.put("statesInReg4ShowMap", statesInReg4ShowMap);
+                }
+            }
+
+            ers.addAll(adService.getErrors());
+            ers.addAll(catService.getErrors());
+            
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
@@ -532,7 +562,7 @@ public class mainController extends WebController {
         return "redirect:/Main/regions";
     }
 
-    @RequestMapping("/regions")
+    /*@RequestMapping("/regions")
     public String showRegions(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
@@ -634,7 +664,7 @@ public class mainController extends WebController {
 
         }
         return "regions4Users";
-    }
+    }*/
 
     @RequestMapping("/changeRegionStructure")
     public String changeRegionStructure(Map<String, Object> model,
