@@ -29,43 +29,43 @@ import support.JsonResponse;
 @RequestMapping("/Regions")
 @Controller
 public class RegionController extends WebController {
-    
+
     @Autowired
     private RegionService regionService;
-    
+
     @RequestMapping("/select")
     public String showRegions(Map<String, Object> model,
             HttpServletRequest request,
             RedirectAttributes ras) throws Exception {
-        List<String>errors = (List<String>)model.get(ERRORS_LIST_NAME);
-        if(errors==null){
-            errors=new ArrayList();
+        List<String> errors = (List<String>) model.get(ERRORS_LIST_NAME);
+        if (errors == null) {
+            errors = new ArrayList();
         }
-        
-        Region region = (Region)request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+
+        Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
         User u = authManager.getCurrentUser();
         Long userId = null;
         if (u != null) {
             userId = u.getId();
-            if(u.isHomeSet()){
+            if (u.isHomeSet()) {
                 model.put("homeSet", u.getHomeSet());
             }
         }
-        
-        if(region==null){
-            region=regionService.getDefaultRegion(userId);
+
+        if (region == null) {
+            region = regionService.getDefaultRegion(userId);
             request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
         }
         errors.addAll(regionService.getErrors());
-        
-        List<Region> availableRegions = regionService.getAvailableRegions(region,u);
+
+        List<Region> availableRegions = regionService.getAvailableRegions(region, u);
         model.put("availableRegions", availableRegions);
-        model.put("states",regionService.getNotEmptyStates());
-        model.put(ERRORS_LIST_NAME,errors);
-        
+        model.put("states", regionService.getNotEmptyStates());
+        model.put(ERRORS_LIST_NAME, errors);
+
         return "region4Users";
     }
-    
+
     @RequestMapping("/getReg")
     @ResponseBody
     public JsonResponse getRegion(Map<String, Object> model,
@@ -75,16 +75,16 @@ public class RegionController extends WebController {
         User u = authManager.getCurrentUser();
         JsonResponse res = new JsonResponse();
         res.setStatus(Boolean.TRUE);
-        if (regId!=null&&u!=null) {
-            List<Long>locIds = regionService.getLocalIds(regId, u);
+        if (regId != null && u != null) {
+            List<Long> locIds = regionService.getLocalIds(regId, u);
             res.addData("locIds", locIds);
-            if(!regionService.getErrors().isEmpty()){
+            if (!regionService.getErrors().isEmpty()) {
                 res.setStatus(Boolean.FALSE);
                 res.setMessage(regionService.getErrorsAsString());
             }
         }
-        
+
         return res;
     }
-    
+
 }

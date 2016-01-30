@@ -5,7 +5,6 @@
  */
 package controllers;
 
-
 import controllers.parent.WebController;
 import entities.Ad;
 import entities.Locality;
@@ -68,7 +67,6 @@ public class mainController extends WebController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "order", required = false) String order,
-            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
@@ -204,7 +202,7 @@ public class mainController extends WebController {
                         stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds, dateValsFrom,
                         dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
             }
-        } else if (action.equals(ONEITEMACTIONNAME)&&adId!=null) {
+        } else if (action.equals(ONEITEMACTIONNAME) && adId != null) {
             Ad ad = adService.getAd(adId);
             ads = new ArrayList();
             ads.add(ad);
@@ -234,18 +232,17 @@ public class mainController extends WebController {
 
             ers.addAll(adService.getErrors());
             ers.addAll(catService.getErrors());
-            
+
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
                     dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
             /*if (wish != null && !wish.equals("") && catIds.isEmpty()) {
-                model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numVals, numConditions, dateIds,
-                        dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
-            }*/
-
+             model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+             stringIds, stringVals, numIds, numVals, numConditions, dateIds,
+             dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
+             }*/
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
         if (u == null && !region.isAllRussia()) {
@@ -280,11 +277,11 @@ public class mainController extends WebController {
         if (price != null) {
             model.put("price", price);
         }
-        if((phone==null||phone.equals(""))&&u!=null){
-            phone=u.getPhone();
+        if ((phone == null || phone.equals("")) && u != null) {
+            phone = u.getPhone();
         }
-        if((email==null||email.equals(""))&&u!=null){
-            email=u.getEmail();
+        if ((email == null || email.equals("")) && u != null) {
+            email = u.getEmail();
         }
         model.put("dateFrom", DateAdapter.formatByDate(dateFrom, DateAdapter.SMALL_FORMAT));
         model.put("dateTo", DateAdapter.formatByDate(dateTo, DateAdapter.SMALL_FORMAT));
@@ -563,109 +560,108 @@ public class mainController extends WebController {
     }
 
     /*@RequestMapping("/regions")
-    public String showRegions(Map<String, Object> model,
-            HttpServletRequest request,
-            @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
-            @RequestParam(value = "wish", required = false) String wish,
-            RedirectAttributes ras) throws Exception {
-        List<String> errors = new ArrayList();
-        User user = authManager.getCurrentUser();
+     public String showRegions(Map<String, Object> model,
+     HttpServletRequest request,
+     @RequestParam(value = "regionForShowId", required = false) Long regionForShowId,
+     @RequestParam(value = "wish", required = false) String wish,
+     RedirectAttributes ras) throws Exception {
+     List<String> errors = new ArrayList();
+     User user = authManager.getCurrentUser();
 
-        if (user != null) {
+     if (user != null) {
 
-            //to do получение региона по юзеру и рег ид, а не только по рег ид
-            //Смысл state в регионе вообще следовало бы переделать.
-            Region regionForShow = new Region();
-            if (regionForShowId != null) {
-                regionForShow = regionService.getRegion(regionForShowId);
-                if (regionForShow != null) {
-                    model.put("regionForShow", regionForShow);
-                    HashMap<Long, Long> locsInReg4ShowMap = new HashMap();
-                    HashMap<Long, Integer> statesInReg4ShowMap = new HashMap();
+     //to do получение региона по юзеру и рег ид, а не только по рег ид
+     //Смысл state в регионе вообще следовало бы переделать.
+     Region regionForShow = new Region();
+     if (regionForShowId != null) {
+     regionForShow = regionService.getRegion(regionForShowId);
+     if (regionForShow != null) {
+     model.put("regionForShow", regionForShow);
+     HashMap<Long, Long> locsInReg4ShowMap = new HashMap();
+     HashMap<Long, Integer> statesInReg4ShowMap = new HashMap();
 
-                    for (Locality l : regionForShow.getLocalities()) {
-                        locsInReg4ShowMap.put(l.getId(), l.getId());
-                        Long StateId = l.getState().getId();
-                        Integer locksInState = statesInReg4ShowMap.get(StateId);
-                        if (locksInState == null) {
-                            locksInState = 0;
-                        }
-                        statesInReg4ShowMap.put(StateId, ++locksInState);
-                    }
-                    model.put("locsInReg4ShowMap", locsInReg4ShowMap);
-                    model.put("statesInReg4ShowMap", statesInReg4ShowMap);
-                }
-            }
+     for (Locality l : regionForShow.getLocalities()) {
+     locsInReg4ShowMap.put(l.getId(), l.getId());
+     Long StateId = l.getState().getId();
+     Integer locksInState = statesInReg4ShowMap.get(StateId);
+     if (locksInState == null) {
+     locksInState = 0;
+     }
+     statesInReg4ShowMap.put(StateId, ++locksInState);
+     }
+     model.put("locsInReg4ShowMap", locsInReg4ShowMap);
+     model.put("statesInReg4ShowMap", statesInReg4ShowMap);
+     }
+     }
 
-            List<String> ers = (List) model.get(ERRORS_LIST_NAME);
-            if (ers == null) {
-                ers = new ArrayList();
-            }
-            Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
-            //установка региона, если нет еще
-            if (region == null) {
-                region = regionService.getDefaultRegion(user.getId());
-                request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
-            }
-            HashMap<Long, Long> locsInRegMap = new HashMap();
-            HashMap<Long, Integer> statesInRegMap = new HashMap();
+     List<String> ers = (List) model.get(ERRORS_LIST_NAME);
+     if (ers == null) {
+     ers = new ArrayList();
+     }
+     Region region = (Region) request.getSession().getAttribute(MOUNTED_REGION_SESSION_NAME);
+     //установка региона, если нет еще
+     if (region == null) {
+     region = regionService.getDefaultRegion(user.getId());
+     request.getSession().setAttribute(MOUNTED_REGION_SESSION_NAME, region);
+     }
+     HashMap<Long, Long> locsInRegMap = new HashMap();
+     HashMap<Long, Integer> statesInRegMap = new HashMap();
 
-            for (Locality l : region.getLocalities()) {
-                locsInRegMap.put(l.getId(), l.getId());
-                Long StateId = l.getState().getId();
-                Integer locksInState = statesInRegMap.get(StateId);
-                if (locksInState == null) {
-                    locksInState = 0;
-                }
-                statesInRegMap.put(StateId, ++locksInState);
-            }
-            model.put("locsInRegMap", locsInRegMap);
-            model.put("statesInRegMap", statesInRegMap);
+     for (Locality l : region.getLocalities()) {
+     locsInRegMap.put(l.getId(), l.getId());
+     Long StateId = l.getState().getId();
+     Integer locksInState = statesInRegMap.get(StateId);
+     if (locksInState == null) {
+     locksInState = 0;
+     }
+     statesInRegMap.put(StateId, ++locksInState);
+     }
+     model.put("locsInRegMap", locsInRegMap);
+     model.put("statesInRegMap", statesInRegMap);
 
-            if (user.isHomeSet()) {
-                model.put("homeSet", user.getHomeSet());
-            }
+     if (user.isHomeSet()) {
+     model.put("homeSet", user.getHomeSet());
+     }
 
-            List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
-            if (catIds == null) {
-                catIds = new ArrayList();
-            }
-            model.put("states", regionService.getNotEmptyStates());
-            model.put("selectedCats", catService.getSelectedCats(catIds));
-            model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
+     List<Long> catIds = (List<Long>) request.getSession().getAttribute(CATEGORY_SEARCH_LIST_SESSION_NAME);
+     if (catIds == null) {
+     catIds = new ArrayList();
+     }
+     model.put("states", regionService.getNotEmptyStates());
+     model.put("selectedCats", catService.getSelectedCats(catIds));
+     model.put("notSelectedCats", catService.getNotSelectedCats(catIds));
 
-            HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(user.getId());
-            List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
-            if (compAds == null) {
-                compAds = new ArrayList();
-            }
+     HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(user.getId());
+     List<Ad> compAds = (List) request.getSession().getAttribute(COMPARISON);
+     if (compAds == null) {
+     compAds = new ArrayList();
+     }
 
-            List<Ad> mySales = adService.getSales(user.getId());
-            List<Ad> myPurchases = adService.getPurchases(user.getId());
-            List<Region> availableRegions = regionService.getAvailableRegions(region, user);
+     List<Ad> mySales = adService.getSales(user.getId());
+     List<Ad> myPurchases = adService.getPurchases(user.getId());
+     List<Region> availableRegions = regionService.getAvailableRegions(region, user);
 
-            model.put("catList", catService.getCatList());
-            model.put("catMap", catService.getCatMap());
-            model.put("catParamsMap", catService.getCatIdParamsMap());
-            model.put("wish", wish);
+     model.put("catList", catService.getCatList());
+     model.put("catMap", catService.getCatMap());
+     model.put("catParamsMap", catService.getCatIdParamsMap());
+     model.put("wish", wish);
 
-            model.put("chosenCount", chosenMap.size());
-            model.put("compareCount", compAds.size());
-            model.put("availableRegions", availableRegions);
-            model.put("regionSet", region.getId());
+     model.put("chosenCount", chosenMap.size());
+     model.put("compareCount", compAds.size());
+     model.put("availableRegions", availableRegions);
+     model.put("regionSet", region.getId());
 
-            //to do srazu polu4enie 4isla iz bazi
-            model.put("mySellCount", mySales.size());
-            model.put("myBuyCount", myPurchases.size());
+     //to do srazu polu4enie 4isla iz bazi
+     model.put("mySellCount", mySales.size());
+     model.put("myBuyCount", myPurchases.size());
 
-            ers.addAll(adService.getErrors());
-            ers.addAll(catService.getErrors());
-            model.put(ERRORS_LIST_NAME, ers);
+     ers.addAll(adService.getErrors());
+     ers.addAll(catService.getErrors());
+     model.put(ERRORS_LIST_NAME, ers);
 
-        }
-        return "regions4Users";
-    }*/
-
+     }
+     return "regions4Users";
+     }*/
     @RequestMapping("/changeRegionStructure")
     public String changeRegionStructure(Map<String, Object> model,
             HttpServletRequest request,
