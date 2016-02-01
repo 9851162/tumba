@@ -63,6 +63,7 @@ public class MessageService extends PrimService {
                 msg.setSender(sender);
                 msg.setReceiver(ad.getAuthor());
                 msg.setAd(ad);
+                msg.setNewOne(Message.NEW);
                 msg.setText(text.substring(firstSymbol, lastSymbol));
                 if (validate(msg)) {
                     msgDao.save(msg);
@@ -92,9 +93,27 @@ public class MessageService extends PrimService {
     
     public Message getMsg(Long receiverId,Long msgId){
         if(msgId!=null&&receiverId!=null){
-            return msgDao.getMsg(receiverId,msgId);
+            Message msg = msgDao.getMsg(receiverId,msgId);
+            if(msg!=null){
+                if(msg.isNewOne()){
+                    msg.setNewOne(Message.OLD);
+                    msgDao.save(msg);
+                }
+                return msg;
+            }
         }
         return null;
+    }
+    
+    public String getNewMsgCount(Long receiverId){
+        String res = "";
+        if(receiverId!=null){
+            Integer count = msgDao.getNewMsgCount(receiverId);
+            if(count!=null&&!count.equals(0)){
+                res = "+"+count;
+            }
+        }
+        return res;
     }
 
 }

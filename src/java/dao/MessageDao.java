@@ -46,4 +46,12 @@ public class MessageDao extends Dao<Message> {
         return (Message)query.uniqueResult();
     }
     
+    public Integer getNewMsgCount(Long receiverId){
+        String hql = "select count(id) from Message where receiver.id=:receiverId and newOne=1";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter("receiverId", receiverId);
+        //query.setParameter("new", Message.NEW);
+        return ((Long)query.uniqueResult()).intValue();
+    }
+    
 }

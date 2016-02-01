@@ -7,6 +7,7 @@ package entities;
 
 import entities.parent.PrimEntity;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,6 +30,9 @@ import org.hibernate.validator.constraints.Length;
 @Table(name = "message")
 public class Message extends PrimEntity {
     
+    public static final Integer NEW = 1;
+    public static final Integer OLD = 0;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
@@ -37,6 +41,9 @@ public class Message extends PrimEntity {
     @Column(name = "insert_date")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date insertDate;
+    
+    @Column(name = "new")
+    private Integer newOne;
     
     @JoinColumn(name = "sender_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -126,6 +133,14 @@ public class Message extends PrimEntity {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Boolean isNewOne() {
+        return Objects.equals(NEW, newOne);
+    }
+
+    public void setNewOne(Integer newOne) {
+        this.newOne = newOne;
     }
     
     

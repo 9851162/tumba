@@ -48,7 +48,7 @@ public class mainController extends WebController {
     @Autowired
     private RegionService regionService;
     @Autowired
-    private MessageService messageService;
+    private MessageService msgService;
 
     public static String MAINACTIONNAME = "main";
     public static String ONEITEMACTIONNAME = "showoneitem";
@@ -209,13 +209,13 @@ public class mainController extends WebController {
             ads.add(ad);
         } else if (action.equals(MESSAGESACTIONNAME)) {
             if(userId!=null){
-                List<Message>messages = messageService.getInbox(userId);
+                List<Message>messages = msgService.getInbox(userId);
                 model.put("inboxMessages",messages);
                 model.put("msgCount",messages.size());
             }
         } else if (action.equals(ONEMESSAGEACTIONNAME)) {
             if(userId!=null&&msgId!=null){
-                Message msg = messageService.getMsg(userId,msgId);
+                Message msg = msgService.getMsg(userId,msgId);
                 Integer msgCount = 0;
                 if (msg!=null){
                     model.put("inboxMessage",msg);
@@ -309,6 +309,8 @@ public class mainController extends WebController {
         model.put("wish", wish);
         model.put("order", order);
         model.put("action", action);
+        
+        model.put("myNewMsgCount",msgService.getNewMsgCount(userId));
 
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());

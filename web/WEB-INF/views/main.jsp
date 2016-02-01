@@ -199,7 +199,7 @@
                 <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
                 <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
                         <c:if test="${role=='user'||role=='admin'}">
-                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=messages" />"><div class="menuitem">Сообщения<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=messages" />"><div class="menuitem">Сообщения ${myNewMsgCount}<img src="../img/strright.png"></div></a>
                         </c:if>
 
             </div>
