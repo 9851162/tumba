@@ -178,8 +178,10 @@ $(document).ready(function () {
                                     
                                     $.each(opts,function(oid,oname){
                                         var selected="";
-                                        if(val[oid]!=undefined){
-                                            selected="selected";
+                                        if(val!=undefined){
+                                            if(val[oid]!=undefined){
+                                                selected="selected";
+                                            }
                                         }
                                         paramArea+='<option '+selected+' value='+param.id+'_'+oid+'>'+oname+'</option>';
                                     });
@@ -210,7 +212,7 @@ $(document).ready(function () {
                     $('#changeAdForm').find('[name=price]').attr('value',json['data'].price);
                     $('#changeAdForm').find('[name=dateFrom]').attr('value',json['data'].shortName);
                     $('#changeAdForm').find('[name=dateTo]').attr('value',json['data'].shortName);*/
-                    $('#changeAdForm').find('[name=adId]').val(adId);
+                    $('#changeAdForm').find('input[name=adId]').val(adId);
                     $('#changeAdForm').find('button[type=submit]').prop('disabled','');
                     $('#changeAdForm').find('input[name=formReady]').val('ready');
                 }
