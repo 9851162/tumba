@@ -49,7 +49,7 @@
                         <div class="mess">
                             <form class="otvetform" method="post" action="<c:url value="../Message/send" />">
                                 тема <input style="margin-bottom: 10px;" name="subject" type="text" value="Re (${inboxMessage.getShortSubject()})">
-                                <textarea name="message" placeholder="Нажмите здесь,чтобы ответить..."></textarea>
+                                <textarea name="text" placeholder="Нажмите здесь,чтобы ответить..."></textarea>
                                 <input type="hidden" id="msgIdentifier" name="adId" value="${inboxMessage.ad.id}">
                                 <input class="btnotpravka btn-buy" type="submit" value="Отправить">
                             </form>

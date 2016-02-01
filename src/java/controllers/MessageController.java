@@ -35,7 +35,7 @@ public class MessageController extends WebController {
     public String administrating (Map<String, Object> model,
             @RequestParam(value = "adId", required = false) Long adId,
             @RequestParam(value = "subject", required = false) String subject,
-            @RequestParam(value = "message", required = false) String text,
+            @RequestParam(value = "text", required = false) String text,
             @RequestParam(value = "wish", required = false) String wish,
             HttpServletRequest request,RedirectAttributes ras) throws Exception {
         

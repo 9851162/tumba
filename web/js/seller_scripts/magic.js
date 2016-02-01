@@ -71,4 +71,10 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         $(this).toggleClass("active");
         return false;
     });
+
+    $('.ashow').click(function () {
+        $(this).parent().children('div.abody').toggle('fast');
+        $(this).toggleClass("active");
+        return false;
+    });
 });

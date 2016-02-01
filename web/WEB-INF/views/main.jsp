@@ -204,8 +204,12 @@
 
             </div>
 
-            <c:if test="${empty action||action=='main'||action=='showoneitem'||action=='purchases'||action=='sales'||action=='chosen'}">
+            <c:if test="${empty action||action=='main'||action=='purchases'||action=='sales'||action=='chosen'}">
                 <%@include file="/WEB-INF/views/search.jsp" %>
+            </c:if>
+                        
+            <c:if test="${action=='showoneitem'}">
+                <%@include file="/WEB-INF/views/oneItem.jsp" %>
             </c:if>
 
             <c:if test="${action=='messages'}">
