@@ -89,5 +89,12 @@ public class MessageService extends PrimService {
         addError("ИД пользователя не указан");
         return new ArrayList();
     }
+    
+    public Message getMsg(Long receiverId,Long msgId){
+        if(msgId!=null&&receiverId!=null){
+            return msgDao.getMsg(receiverId,msgId);
+        }
+        return null;
+    }
 
 }

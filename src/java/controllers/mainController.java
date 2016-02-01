@@ -56,6 +56,7 @@ public class mainController extends WebController {
     public static String SALESACTIONNAME = "sales";
     public static String CHOSENACTIONNAME = "chosen";
     public static String MESSAGESACTIONNAME = "messages";
+    public static String ONEMESSAGEACTIONNAME = "showMessage";
     public static String REGIONSACTIONNAME = "regions";
 
     @RequestMapping("/")
@@ -71,6 +72,8 @@ public class mainController extends WebController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "order", required = false) String order,
+            @RequestParam(value = "messageId", required = false) Long msgId,
+            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
@@ -85,6 +88,7 @@ public class mainController extends WebController {
             @RequestParam(value = "selVals", required = false) Long selVals[],
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
+            
             @RequestParam(value = "searchPriceFrom", required = false) String searchPriceFrom,
             @RequestParam(value = "searchPriceTo", required = false) String searchPriceTo,
             @RequestParam(value = "action", required = false) String action,
@@ -208,6 +212,16 @@ public class mainController extends WebController {
                 List<Message>messages = messageService.getInbox(userId);
                 model.put("inboxMessages",messages);
                 model.put("msgCount",messages.size());
+            }
+        } else if (action.equals(ONEMESSAGEACTIONNAME)) {
+            if(userId!=null&&msgId!=null){
+                Message msg = messageService.getMsg(userId,msgId);
+                Integer msgCount = 0;
+                if (msg!=null){
+                    model.put("inboxMessage",msg);
+                    msgCount=1;
+                }
+                model.put("msgCount",msgCount);
             }
         } else if (action.equals(REGIONSACTIONNAME)) {
             Region regionForShow = new Region();

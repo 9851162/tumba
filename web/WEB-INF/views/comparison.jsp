@@ -93,6 +93,9 @@
                         </c:if>
                 <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
                 <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
+                <c:if test="${role=='user'||role=='admin'}">  
+                <a href="<c:url value="../Main/?action=mesasges" />"><div id="ico" class="ico6"><img src="../img/menu6.png"> </div></a>
+                </c:if>
             </div>
             <c:if test="${empty compAds}">
                 <div class="boxtoitem boxtoitembig whitepod" style="padding-left: 20px;">Ooops... Нечего сравнивать, добавьте объявления для сравнения.</div>

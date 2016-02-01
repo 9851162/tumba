@@ -40,7 +40,7 @@
                 </c:if>
                 <c:if test="${!empty inboxMessages}">
                     <c:forEach var="msg" items="${inboxMessages}">
-                        <a href="<c:url value="../Main/?action=${showMessage}&msgId=${msg.id}" />">
+                        <a href="<c:url value="../Main/?action=showMessage&messageId=${msg.id}" />">
                             <table class="onemes">
                                 <tbody><tr>
                                         <td class=" namemes">${msg.sender.name}</td>  
