@@ -8,6 +8,7 @@ package controllers;
 import controllers.parent.WebController;
 import entities.Ad;
 import entities.Locality;
+import entities.Message;
 import entities.Region;
 import entities.User;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import service.AdService;
 import service.CategoryService;
+import service.MessageService;
 import service.RegionService;
 import service.UserService;
 import support.DateAdapter;
@@ -45,6 +47,8 @@ public class mainController extends WebController {
     private CategoryService catService;
     @Autowired
     private RegionService regionService;
+    @Autowired
+    private MessageService messageService;
 
     public static String MAINACTIONNAME = "main";
     public static String ONEITEMACTIONNAME = "showoneitem";
@@ -154,12 +158,6 @@ public class mainController extends WebController {
         }
         model.put("locsInRegMap", locsInRegMap);
         model.put("statesInRegMap", statesInRegMap);
-        /*for(Long id:statesInRegMap.keySet()){
-         ers.add("id:"+id+"-"+statesInRegMap.get(id));
-         }*/
-        /*ers.add("reg1:"+region.getName());
-        
-         ers.add("locIds:"+AdDao.getIdsAsString(AdDao.getLocIds(region)));*/
 
         HashMap<Long, Ad> chosenMap = adService.getChosenAdMap(userId);
         List<Ad> chosenAds = new ArrayList();
@@ -178,7 +176,7 @@ public class mainController extends WebController {
             comparingMap.put(ad.getId(), ad);
         }
 
-        List<Ad> ads;
+        List<Ad> ads = new ArrayList();
 
         if (action.equals(CHOSENACTIONNAME)) {
             if (userId != null) {
@@ -204,10 +202,14 @@ public class mainController extends WebController {
             }
         } else if (action.equals(ONEITEMACTIONNAME) && adId != null) {
             Ad ad = adService.getAd(adId);
-            ads = new ArrayList();
             ads.add(ad);
+        } else if (action.equals(MESSAGESACTIONNAME)) {
+            if(userId!=null){
+                List<Message>messages = messageService.getInbox(userId);
+                model.put("inboxMessages",messages);
+                model.put("msgCount",messages.size());
+            }
         } else if (action.equals(REGIONSACTIONNAME)) {
-            ads = new ArrayList();
             Region regionForShow = new Region();
             if (regionForShowId != null) {
                 regionForShow = regionService.getRegion(regionForShowId);

@@ -23,10 +23,17 @@ public class MessageDao extends Dao<Message> {
         return Message.class;
     }
     
-    public List<Message>getDialog(Long senderId,Long receiverId){
+    /*public List<Message>getDialog(Long senderId,Long receiverId){
         String hql = "from Message where sender.id=:senderId and receiver.id=:receiverId order by insertDate";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("senderId", senderId);
+        query.setParameter("receiverId", receiverId);
+        return query.list();
+    }*/
+    
+    public List<Message>getInbox(Long receiverId){
+        String hql = "from Message where receiver.id=:receiverId order by insertDate";
+        Query query = getCurrentSession().createQuery(hql);
         query.setParameter("receiverId", receiverId);
         return query.list();
     }

@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -64,6 +65,7 @@ public class User extends PrimEntity {
     
     @Column(name = "name")
     @NotNull(message = "Необходимо указать Имя")
+    @Length(max = 51,message="Максимальная длина имени - 50 символов")
     private String name;
     
     @Column(name = "registration_date")

@@ -111,6 +111,18 @@ public class Message extends PrimEntity {
     public String getSubject() {
         return subject;
     }
+    
+    public String getShortSubject(){
+        if(subject==null){
+            return "без темы";
+        }else{
+            if(subject.length()>72){
+                return subject.substring(0, 70)+"...";
+            }else{
+                return subject;
+            }
+        }
+    }
 
     public void setSubject(String subject) {
         this.subject = subject;

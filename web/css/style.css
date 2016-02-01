@@ -317,6 +317,7 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 }
 
 .btn-chen:hover{ background: linear-gradient(#E38916, #E38916) #E38916;}
+
 .price{padding:6px 0;}
 .price label{    color: #b5b5b5;    font-size: 17px;    padding: 7px 10px 9px 20px;}
 .price input{    border: #dfdfdf solid 1px;padding: 8px 10px;}
@@ -326,6 +327,35 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 	.modal_form {	width: 1000px;	 left: 50%; margin-left: -500px; }
 	.toin{    width: 880px;}
 }
+
+/*----------messages-----------*/
+.whiteboxmes{background:white;    margin-left: 5px;    padding: 20px;}
+.whiteboxmes a {color:black;}
+.boxparam{    padding: 3px 0;   float: left;    position: absolute;    left: 390px;}
+.boxparam label{    color: #b5b5b5;    font-size: 17px;    padding: 7px 10px 9px 20px;}
+.boxparam input{    border: #dfdfdf solid 1px;padding: 8px 10px;    width: 80px;}
+.boxparam select{border: #dfdfdf solid 1px;padding: 7px 10px;}
+.fl{ float: left;}
+.backgr{background: #E4E4E4;    padding: 3px;    margin-right: 10px;}
+.title{    font-family: HelveticaNeue;    font-size: 30px;    padding: 4px 0;}
+.namemes{    border-right: 1px solid #BFBFBF;  padding: 0 10px;    width: 140px;}
+.headmes{      border-right: 1px solid #BFBFBF; padding: 0 10px; }
+.timemes{ padding: 0 10px;     width: 140px;    text-align: center;  }
+.linemes{padding: 0 10px;}
+.onemes{background: linear-gradient(to top, #D1D1D1, #E5E5E5);   display: inline-block;    width: 98%;padding: 7px;    margin-bottom: 4px;}
+.fr{float:right;}
+.onemes tbody,.onemes tr{  width: 100%;     display: inline-table; }
+.onemes:hover{    background: linear-gradient(#00D02D, #027700); color:white;}
+.mess{  background:#f1f1f1;padding: 10px;}
+.messicon{width:30px; padding-right:5px;float:left; }
+.messicon img{   height: 21px;    width: initial;}
+.mesname{    width: 100%;    display: inline-block;    margin-bottom: 5px;}
+.mestime{    width: 100%;;    display: inline-block;    margin-bottom: 5px;}
+.btnotpravka{    margin-top: 10px;    float: right;    font-size: 17px;    padding: 5px 55px;}
+.otvetform{  width:100%;  margin: 0 auto;display: inline-block;}
+.otvetform textarea{width:97%;height: 100px;    resize: none;    border: none;    border-radius: 5px;    margin: 0 auto;padding: 10px;float: right;}
+input[type="text"]:focus { outline: none; }
+/*----------enmdmsgs-----------*/
 
 .file_upload{
     

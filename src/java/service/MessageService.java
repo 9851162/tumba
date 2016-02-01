@@ -11,6 +11,7 @@ import entities.Message;
 import entities.User;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,8 +78,16 @@ public class MessageService extends PrimService {
         }
     }
     
-    public List<Message>getDialog(Long senderId,Long recieverId){
+    /*public List<Message>getDialog(Long senderId,Long recieverId){
         return msgDao.getDialog(senderId,recieverId);
+    }*/
+    
+    public List<Message>getInbox(Long receiverId){
+        if(receiverId!=null){
+            return msgDao.getInbox(receiverId);
+        }
+        addError("ИД пользователя не указан");
+        return new ArrayList();
     }
 
 }
