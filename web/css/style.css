@@ -331,7 +331,7 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 /*----------messages-----------*/
 .whiteboxmes{background:white;    margin-left: 5px;    padding: 20px;}
 .whiteboxmes a {color:black;}
-.boxparam{    padding: 3px 0;   float: left;    position: absolute;    left: 390px;}
+.boxparam{    padding: 3px 0;   float: left;    /*position: absolute;    left: 390px;*/}
 .boxparam label{    color: #b5b5b5;    font-size: 17px;    padding: 7px 10px 9px 20px;}
 .boxparam input{    border: #dfdfdf solid 1px;padding: 8px 10px;    width: 80px;}
 .boxparam select{border: #dfdfdf solid 1px;padding: 7px 10px;}
