@@ -670,6 +670,14 @@ td {
     background-color:transparent;
 }
 
+
+.todo-btn{
+    float:right;
+    margin-right:2px;
+    margin-left:2px;
+}
+
+
 /*.btn-buy {
     border: 2px solid red;
     padding: 5px;
