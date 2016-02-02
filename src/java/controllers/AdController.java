@@ -337,6 +337,7 @@ public class AdController extends WebController {
             @RequestParam(value = "price", required = false) String price,
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "status", required = false) Integer status,
             @RequestParam(value = "catId", required = false) Long catId,
             @RequestParam(value = "dateFrom", required = false) Date dateFrom,
             @RequestParam(value = "dateTo", required = false) Date dateTo,
@@ -362,9 +363,12 @@ public class AdController extends WebController {
 
             User u = authManager.getCurrentUser();
             Ad ad = adService.getAd(adId);
+            if(!u.getUserRole().equals(User.ROLEADMIN)){
+                status=ad.getStatus();
+            }
 
             if (ad.getAuthor().getId().equals(u.getId()) || u.getUserRole().equals(User.ROLEADMIN)) {
-                adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,localIds,email,phone,catId,
+                adService.changeAd(adId, shortName, description, price, dateFrom, dateTo,status,localIds,email,phone,catId,
                 booleanIds, booleanVals,stringIds, stringVals, numIds, numVals, dateIds, dateVals, selIds, selVals, multyIds, multyVals);
             }
         }

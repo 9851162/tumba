@@ -653,7 +653,7 @@ public class AdService extends PrimService {
         return numVal;
     }
 
-    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo, Long locIds[], String email, String phone, Long catId,
+    public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo, Integer status, Long locIds[], String email, String phone, Long catId,
             Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if (adId != null) {
