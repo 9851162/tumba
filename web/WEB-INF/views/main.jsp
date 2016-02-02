@@ -638,6 +638,20 @@
                             <input name="email" type="email" value="">
                         </div>
                     </div>
+                    
+                    <c:if test="${role=='admin'&&ad.status!=0}">
+                        <div class="boxtoinput">
+                        <div class="toin">
+                            <label>статус</label>
+                            <select name="status">
+                                <option value="1">ожидание</option>
+                                <option value="2">оплачено</option>
+                                <option value="3">доставлено</option>
+                            </select>
+                        </div>
+                    </div>
+                            
+                    </c:if>
 
                     <div class="toin">
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">регион продажи</label>

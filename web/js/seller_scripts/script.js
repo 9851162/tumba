@@ -203,6 +203,8 @@ $(document).ready(function () {
                                 $('#changeAdForm').find('#'+key1+'[type=checkbox][data-method=showAd4Ch][name=stateIds]').prop('checked', true);
                                 $('#changeAdForm').find('#'+key1+'.checkedLocsCount[data-method=showAd4Ch]').text(value1);
                             });
+                        }else if(key=='status'){
+                            $('#changeAdForm').find('[name='+key+']').val(value);
                         }else{
                             $('#changeAdForm').find('[name='+key+']').attr('value',value);
                         }

@@ -89,18 +89,7 @@
                                             <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-chen adChanger todo-btn">Изменить</a>
                                         </c:if>
                                         <a class="btn-buy todo-btn" href="<c:url value="../Ad/buy?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">Купить</a>  
-                                        
-                                    <c:if test="${role=='admin'&&ad.status!=0}">
-                                        <form style="float: right;" action="<c:url value="../Ad/changeStatus" />">
-                                            <input type="hidden" name="wish" value="${wish}">
-                                            <input type="hidden" name="adId" value="${ad.id}">
-                                            <select name="status">
-                                                <option value="2">Оплачено</option>
-                                                <option value="3">Доставлено</option>
-                                            </select>
-                                            <input type="submit" class="btn-chen" value="установить">
-                                        </form>
-                                    </c:if>
+                                      
                                 </div>
 
                                 <div class="minmenu">

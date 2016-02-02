@@ -72,7 +72,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
         return false;
     });
 
-    $('.ashow').click(function () {
+    $('body').on('click','.ashow',function () {
         $(this).parent().children('div.abody').toggle('fast');
         $(this).toggleClass("active");
         return false;
