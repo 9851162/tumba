@@ -536,6 +536,7 @@ public class AdService extends PrimService {
                 adDao.clearIps(adId);
                 adDao.clearLocs(adId);
                 adDao.clearChosens(adId);
+                adDao.deleteRelatedMsgs(adId);
                 adDao.delete(ad);
             } else {
                 addError("Объявление не найдено по указанному ИД: " + adId + "; ");

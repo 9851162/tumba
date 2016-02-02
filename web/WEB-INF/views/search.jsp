@@ -82,22 +82,14 @@
 
                                 <div class="formtodo">
 
-                                    <c:if test="${ad.status==0}">
-                                        <c:if test="${(!empty userAds&&!empty userAds.get(ad.id))||role=='admin'}">
+                                        <c:if test="${(!empty userAds&&!empty userAds.get(ad.id)&&ad.status==0)||role=='admin'}">
                                             <a class="btn-del todo-btn" href="<c:url value="../Ad/delete?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">Удалить</a>
                                         </c:if>
-                                        <c:if test="${role=='admin'||(!empty userAds&&!empty userAds.get(ad.id))}">
+                                        <c:if test="${role=='admin'||(!empty userAds&&!empty userAds.get(ad.id)&&ad.status==0)}">
                                             <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-chen adChanger todo-btn">Изменить</a>
                                         </c:if>
                                         <a class="btn-buy todo-btn" href="<c:url value="../Ad/buy?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">Купить</a>  
                                         
-                                          
-                                        <!--<form style="float: right;" action="<c:url value="../Ad/buy" />">
-                                            <input type="hidden" name="wish" value="${wish}">
-                                            <input type="hidden" name="adId" value="${ad.id}">
-                                            <input type="submit" class="btn-buy" value="купить">
-                                        </form>-->
-                                    </c:if>
                                     <c:if test="${role=='admin'&&ad.status!=0}">
                                         <form style="float: right;" action="<c:url value="../Ad/changeStatus" />">
                                             <input type="hidden" name="wish" value="${wish}">

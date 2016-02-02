@@ -731,5 +731,12 @@ public class AdDao extends Dao<Ad> {
         query.setParameter("adId", adId);
         return query.executeUpdate();
     }
+    
+    public Integer deleteRelatedMsgs(Long adId){
+        String sql = "delete from message where ad_id=:adId";
+        Query query = getCurrentSession().createSQLQuery(sql);
+        query.setParameter("adId", adId);
+        return query.executeUpdate();
+    }
 
 }
