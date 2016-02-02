@@ -14,7 +14,7 @@
 			</div>
                         <div class="toavatar">
 				<div id="user_head">
-                                        <div class="options" id="user_role">пользователь</div>
+                                        <!--<div class="options" id="user_role">пользователь</div>-->
 					<div id="user_name">${userName}</div>
 					<div class="options"><a href="<c:url value='../User/me'/>">настройки</a></div>
                                         <div class="options" id="logout" style="position: absolute;z-index: 2;"><a href="../logout">выйти</a></div>

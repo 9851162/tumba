@@ -13,7 +13,7 @@
 			</div>
                         <div class="toavatar">
 				<div id="user_head">
-                                        <div class="options" id="user_role">администратор</div>
+                                        <!--<div class="options" id="user_role">администратор</div>-->
 					<div id="user_name">${userName}</div>
                                         <div class="options"><a href="<c:url value='../User/me'/>">настройки</a></div>
                                         <div class="options"><a href="../Admin/administrating">управление</a></div>
