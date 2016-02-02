@@ -678,6 +678,7 @@ public class AdService extends PrimService {
                     ad.setName(shortName);
                     ad.setPrice(getNumFromString(price));
                     ad.setLocalities(locs);
+                    ad.setStatus(status);
                     ad.setCat(cat);
                     if (validate(ad) && getErrors().isEmpty()) {
                         Set<ParametrValue> oldVals = ad.getValues();
