@@ -299,7 +299,8 @@ form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: Helv
 }
 .btn-del:hover{ background: linear-gradient(#A72D09, #A72D09) #A72D09;}
 .btn-chen {
-
+    margin-left: 2px;
+    margin-right: 2px;
 	    display: inline-block;
     color: white;
     text-decoration: none;
@@ -673,8 +674,9 @@ td {
 
 .todo-btn{
     float:right;
-    margin-right:2px;
-    margin-left:2px;
+    /*margin-right:2px;
+    margin-left:2px;*/
+    font: bold 13px Arial;
 }
 
 
