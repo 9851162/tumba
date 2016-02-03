@@ -102,7 +102,7 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
     $('input[type=file][name=previews]').on('change',function(){
         var newFiles = $(this)[0].files; // массив с выбранными файлами
  
-        for (var i = 0; i < newFiles.length; i++) {
+        /*for (var i = 0; i < newFiles.length; i++) {
  
             var file = newFiles[i];
  
@@ -125,9 +125,17 @@ $(document).ready(function () { // зaпускaем скрипт пoсле зaг
  
         $(this).val('');
         processQueue(); // запускаем процесс создания миниатюр
+        */
         
+        var list =""
+        for (var i = 0; i < newFiles.length; i++) {
+            var file = newFiles[i];
+            list+=file.name+"<br>";
+        }
+        $("#upload-file-info").html(list);
         
         //$("#upload-file-info").html($(this).val());
+        //alert(newFiles);
     });
     
     // Валидация выбранного файла (формат, размер)

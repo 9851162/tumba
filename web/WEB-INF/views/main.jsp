@@ -291,7 +291,7 @@
                                     <ul id="preview-photo">
                                     </ul>
                                 </div>
-                                <!--<span class='label label-info' id="upload-file-info" ></span>-->
+                                <span class='label label-info' id="upload-file-info" ></span>
                             </div>
                         </div>
                     </div>
