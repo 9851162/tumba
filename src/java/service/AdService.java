@@ -340,7 +340,7 @@ public class AdService extends PrimService {
                             file.mkdirs();
                             if (previews != null && previews.length > 0) {
                                 i = 0;
-                                while (i < 7 && i < previews.length) {
+                                while (i < 10 && i < previews.length) {
                                     MultipartFile prev = previews[i];
                                     if (prev != null && 0L < prev.getSize()) {
                                         if (prev.getSize() <= (long) 3 * 1024 * 1024) {

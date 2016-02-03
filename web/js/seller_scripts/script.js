@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    
-    $('#avatarSubmitter').on('mouseover',function(){
-        $('#avatarSubmitterButton').attr('style','color: #fff;background-color: #3276b1;border-color: #285e8e;');
+
+    $('#avatarSubmitter').on('mouseover', function () {
+        $('#avatarSubmitterButton').attr('style', 'color: #fff;background-color: #3276b1;border-color: #285e8e;');
     });
-    $('#avatarSubmitter').on('mouseout',function(){
-        $('#avatarSubmitterButton').attr('style','');
+    $('#avatarSubmitter').on('mouseout', function () {
+        $('#avatarSubmitterButton').attr('style', '');
     });
 
-    $('body').on('click','.messageSender', function () {
+    $('body').on('click', '.messageSender', function () {
         var adId = $(this).attr('data-ad-id');
         $('#msgIdentifier').val(adId);
     });
@@ -108,114 +108,151 @@ $(document).ready(function () {
             }
         });
     }
-    
-    $('body').on('click','.adChanger',function(event){
-       var method = 'showAd4Ch';
-       clearCheckBoxes(method);
-       var adId = $(event.target.closest('a')).attr('data-id');
-       $('#changeAdForm').find('input[name=formReady]').val('nope');
-       $('#changeAdForm').find('button[type=submit]').prop('disabled','disabled');
-       $.ajax({
-           url: "../Ad/getAd?adId=" + adId,
-           dataType: "json",
-           cache: false,
-           success: function (json) {
+
+    $('body').on('click', '.adChanger', function (event) {
+        var method = 'showAd4Ch';
+        clearCheckBoxes(method);
+        var adId = $(event.target.closest('a')).attr('data-id');
+        $('#changeAdForm').find('input[name=formReady]').val('nope');
+        $('#changeAdForm').find('button[type=submit]').prop('disabled', 'disabled');
+        $.ajax({
+            url: "../Ad/getAd?adId=" + adId,
+            dataType: "json",
+            cache: false,
+            success: function (json) {
                 if (json['status'] == true) {
-                    $.each(json['data'],function(key,value){
-                        if(key=='catId'){
-                            $('#changeAdForm').find('select[name=catId][data-method=changeAd] [value='+value+']').attr("selected", "selected");
-                        }else if(key=='params'){
+                    $.each(json['data'], function (key, value) {
+                        if (key == 'catId') {
+                            $('#changeAdForm').find('select[name=catId][data-method=changeAd] [value=' + value + ']').attr("selected", "selected");
+                        } else if (key == 'params') {
                             var paramArea = '<div class="toin">';
-                            paramArea+='<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
-                            $.each(value,function(){
+                            paramArea += '<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
+                            $.each(value, function () {
                                 var param = this;
                                 var type = param.valtype;
                                 var val = param.val;
                                 var req = param.req;
-                                if(type=="boolean"){
-                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
-                                    if(req==0){
-                                        paramArea+='<option>не выбрано</option>';
+                                if (type == "boolean") {
+                                    paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
+                                    if (req == 0) {
+                                        paramArea += '<option>не выбрано</option>';
                                     }
-                                    paramArea+='<option';
-                                    if(val==1){paramArea+=' selected';}
-                                    paramArea+=' value=1>да</option>';
-                                    paramArea+='<option';
-                                    if(val==0){paramArea+=' selected';}
-                                    paramArea+=' value=0>нет</option>';
-                                    paramArea+='</select></label>';
-                                }else if(type=="string"||type=="num"){
-                                    if(val==undefined){
-                                        val='';
+                                    paramArea += '<option';
+                                    if (val == 1) {
+                                        paramArea += ' selected';
                                     }
-                                    paramArea+='<label>'+param.name+'<input type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
-                                }else if(type=="date"){
-                                    if(val==undefined){
-                                        val='';
+                                    paramArea += ' value=1>да</option>';
+                                    paramArea += '<option';
+                                    if (val == 0) {
+                                        paramArea += ' selected';
                                     }
-                                    paramArea+='<label>'+param.name+'<input class="adChangeDate" type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
-                                }else if(type=="sel"){
-                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
-                                    if(req==0){
-                                        paramArea+='<option>не выбрано</option>';
+                                    paramArea += ' value=0>нет</option>';
+                                    paramArea += '</select></label>';
+                                } else if (type == "string" || type == "num") {
+                                    if (val == undefined) {
+                                        val = '';
+                                    }
+                                    paramArea += '<label>' + param.name + '<input type="text" name="' + param.valtype + 'Vals" placeholder=' + param.name + ' value=' + val + '></label>';
+                                } else if (type == "date") {
+                                    if (val == undefined) {
+                                        val = '';
+                                    }
+                                    paramArea += '<label>' + param.name + '<input class="adChangeDate" type="text" name="' + param.valtype + 'Vals" placeholder=' + param.name + ' value=' + val + '></label>';
+                                } else if (type == "sel") {
+                                    paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
+                                    if (req == 0) {
+                                        paramArea += '<option>не выбрано</option>';
                                     }
                                     var opts = param.options;
-                                    $.each(opts,function(oid,oname){
-                                        var selected="";
-                                        if(oid==val){
-                                            selected="selected";
+                                    $.each(opts, function (oid, oname) {
+                                        var selected = "";
+                                        if (oid == val) {
+                                            selected = "selected";
                                         }
-                                        paramArea+='<option '+selected+' value='+oid+'>'+oname+'</option>';
+                                        paramArea += '<option ' + selected + ' value=' + oid + '>' + oname + '</option>';
                                     });
-                                    paramArea+='</select></label>';
-                                }else if(type=="multy"){
+                                    paramArea += '</select></label>';
+                                } else if (type == "multy") {
                                     var opts = param.options;
                                     var size = Object.keys(opts).length;
-                                    if(size==undefined||size>5){
-                                        size=5;
+                                    if (size == undefined || size > 5) {
+                                        size = 5;
                                     }
-                                    paramArea+='<label>'+param.name+'<select size='+size+' multiple name="'+param.valtype+'Vals">';
-                                    
-                                    $.each(opts,function(oid,oname){
-                                        var selected="";
-                                        if(val!=undefined){
-                                            if(val[oid]!=undefined){
-                                                selected="selected";
+                                    paramArea += '<label>' + param.name + '<select size=' + size + ' multiple name="' + param.valtype + 'Vals">';
+
+                                    $.each(opts, function (oid, oname) {
+                                        var selected = "";
+                                        if (val != undefined) {
+                                            if (val[oid] != undefined) {
+                                                selected = "selected";
                                             }
                                         }
-                                        paramArea+='<option '+selected+' value='+param.id+'_'+oid+'>'+oname+'</option>';
+                                        paramArea += '<option ' + selected + ' value=' + param.id + '_' + oid + '>' + oname + '</option>';
                                     });
-                                    
-                                    paramArea+='</select></label>';
+
+                                    paramArea += '</select></label>';
                                 }
-                                paramArea+='<input type="hidden" name="'+param.valtype+'Ids" value='+param.id+'><br>';
+                                paramArea += '<input type="hidden" name="' + param.valtype + 'Ids" value=' + param.id + '><br>';
                             });
                             paramArea += '</div>';
                             $('#changeAdForm').find('#boxForChangeAdParams').html(paramArea);
-                        }else if(key=='description'){
-                            $('#changeAdForm').find('[name='+key+']').text(value);
-                        }else if(key=='locsInReg4ChAd'){
-                            $.each(value,function(key1,value1){
-                                $('#changeAdForm').find('#'+key1+'[type=checkbox][data-method=showAd4Ch][name=localIds]').prop('checked', true);
+                        } else if (key == 'description') {
+                            $('#changeAdForm').find('[name=' + key + ']').text(value);
+                        } else if (key == 'locsInReg4ChAd') {
+                            $.each(value, function (key1, value1) {
+                                $('#changeAdForm').find('#' + key1 + '[type=checkbox][data-method=showAd4Ch][name=localIds]').prop('checked', true);
                             });
-                        }else if(key=='statesInReg4ChAd'){
-                            $.each(value,function(key1,value1){
-                                $('#changeAdForm').find('#'+key1+'[type=checkbox][data-method=showAd4Ch][name=stateIds]').prop('checked', true);
-                                $('#changeAdForm').find('#'+key1+'.checkedLocsCount[data-method=showAd4Ch]').text(value1);
+                        } else if (key == 'statesInReg4ChAd') {
+                            $.each(value, function (key1, value1) {
+                                $('#changeAdForm').find('#' + key1 + '[type=checkbox][data-method=showAd4Ch][name=stateIds]').prop('checked', true);
+                                $('#changeAdForm').find('#' + key1 + '.checkedLocsCount[data-method=showAd4Ch]').text(value1);
                             });
-                        }else if(key=='status'){
-                            $('#changeAdForm').find('[name='+key+']').val(value);
-                        }else{
-                            $('#changeAdForm').find('[name='+key+']').attr('value',value);
+                        } else if (key == 'status') {
+                            if (value != undefined) {
+                                var statusSelect = '<div class="toin"><label>статус</label><select name="status">';
+                                statusSelect += '<option';
+                                if (value == 1) {
+                                    statusSelect += ' selected';
+                                }
+                                statusSelect += ' value="1">ожидание</option>';
+                                statusSelect += '<option';
+                                if (value == 2) {
+                                    statusSelect += ' selected';
+                                }
+                                statusSelect += ' value="2">оплачено</option>';
+                                statusSelect += '<option';
+                                if (value == 3) {
+                                    statusSelect += ' selected';
+                                }
+                                statusSelect += ' value="3">доставлено</option>';
+                                statusSelect += '</select></div>';
+                                $('#changeAdForm').find('[id=statusdiv]').html(statusSelect);
+                            }
+                            /*<c:if test="${role=='admin'&&ad.status!=0}">
+                             <div class="boxtoinput">
+                             <div class="toin">
+                             <label>статус</label>
+                             <select name="status">
+                             <option value="1">ожидание</option>
+                             <option value="2">оплачено</option>
+                             <option value="3">доставлено</option>
+                             </select>
+                             </div>
+                             </div>
+                             
+                             </c:if>*/
+
+                        } else {
+                            $('#changeAdForm').find('[name=' + key + ']').attr('value', value);
                         }
                     });
                     /*$('#changeAdForm').find('[name=shortName]').attr('value',json['data'].shortName);
-                    $('#changeAdForm').find('[name=description]').text(json['data'].description);
-                    $('#changeAdForm').find('[name=price]').attr('value',json['data'].price);
-                    $('#changeAdForm').find('[name=dateFrom]').attr('value',json['data'].shortName);
-                    $('#changeAdForm').find('[name=dateTo]').attr('value',json['data'].shortName);*/
+                     $('#changeAdForm').find('[name=description]').text(json['data'].description);
+                     $('#changeAdForm').find('[name=price]').attr('value',json['data'].price);
+                     $('#changeAdForm').find('[name=dateFrom]').attr('value',json['data'].shortName);
+                     $('#changeAdForm').find('[name=dateTo]').attr('value',json['data'].shortName);*/
                     $('#changeAdForm').find('input[name=adId]').val(adId);
-                    $('#changeAdForm').find('button[type=submit]').prop('disabled','');
+                    $('#changeAdForm').find('button[type=submit]').prop('disabled', '');
                     $('#changeAdForm').find('input[name=formReady]').val('ready');
                 }
                 setOpacityAndAllRegSelector(method);
@@ -225,83 +262,87 @@ $(document).ready(function () {
                     });
                 });
             }
-       });
+        });
     });
-    
+
     $('#changeAdForm').on('change', 'select[name=catId]', function () {
         var catId = $(this).val();
         var adId = $('#changeAdForm input[name=adId]').val();
         $('#changeAdForm').find('input[name=formReady]').val('nope');
         $.ajax({
-           url: "../Ad/getAdParams?adId=" + adId + "&catId="+catId,
-           dataType: "json",
-           cache: false,
-           success: function (json) {
+            url: "../Ad/getAdParams?adId=" + adId + "&catId=" + catId,
+            dataType: "json",
+            cache: false,
+            success: function (json) {
                 if (json['status'] == true) {
-                    $.each(json['data'],function(key,value){
-                        if(key=='params'){
+                    $.each(json['data'], function (key, value) {
+                        if (key == 'params') {
                             var paramArea = '<div class="toin">';
-                            paramArea+='<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
-                            $.each(value,function(){
+                            paramArea += '<label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">параметры</label><br>';
+                            $.each(value, function () {
                                 var param = this;
                                 var type = param.valtype;
                                 var val = param.val;
                                 var req = param.req;
-                                if(type=="boolean"){
-                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
-                                    if(req==0){
-                                        paramArea+='<option>не выбрано</option>';
+                                if (type == "boolean") {
+                                    paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
+                                    if (req == 0) {
+                                        paramArea += '<option>не выбрано</option>';
                                     }
-                                    paramArea+='<option';
-                                    if(val==1){paramArea+=' selected';}
-                                    paramArea+=' value=1>да</option>';
-                                    paramArea+='<option';
-                                    if(val==0){paramArea+=' selected';}
-                                    paramArea+=' value=0>нет</option>';
-                                    paramArea+='</select></label>';
-                                }else if(type=="string"||type=="num"){
-                                    if(val==undefined){
-                                        val='';
+                                    paramArea += '<option';
+                                    if (val == 1) {
+                                        paramArea += ' selected';
                                     }
-                                    paramArea+='<label>'+param.name+'<input type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
-                                }else if(type=="date"){
-                                    if(val==undefined){
-                                        val='';
+                                    paramArea += ' value=1>да</option>';
+                                    paramArea += '<option';
+                                    if (val == 0) {
+                                        paramArea += ' selected';
                                     }
-                                    paramArea+='<label>'+param.name+'<input class="adChangeDate" type="text" name="'+param.valtype+'Vals" placeholder='+param.name+' value='+val+'></label>';
-                                }else if(type=="sel"){
-                                    paramArea+='<label>'+param.name+'<select name="'+param.valtype+'Vals">';
-                                    if(req==0){
-                                        paramArea+='<option>не выбрано</option>';
+                                    paramArea += ' value=0>нет</option>';
+                                    paramArea += '</select></label>';
+                                } else if (type == "string" || type == "num") {
+                                    if (val == undefined) {
+                                        val = '';
+                                    }
+                                    paramArea += '<label>' + param.name + '<input type="text" name="' + param.valtype + 'Vals" placeholder=' + param.name + ' value=' + val + '></label>';
+                                } else if (type == "date") {
+                                    if (val == undefined) {
+                                        val = '';
+                                    }
+                                    paramArea += '<label>' + param.name + '<input class="adChangeDate" type="text" name="' + param.valtype + 'Vals" placeholder=' + param.name + ' value=' + val + '></label>';
+                                } else if (type == "sel") {
+                                    paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
+                                    if (req == 0) {
+                                        paramArea += '<option>не выбрано</option>';
                                     }
                                     var opts = param.options;
-                                    $.each(opts,function(oid,oname){
-                                        var selected="";
-                                        if(oid==val){
-                                            selected="selected";
+                                    $.each(opts, function (oid, oname) {
+                                        var selected = "";
+                                        if (oid == val) {
+                                            selected = "selected";
                                         }
-                                        paramArea+='<option '+selected+' value='+oid+'>'+oname+'</option>';
+                                        paramArea += '<option ' + selected + ' value=' + oid + '>' + oname + '</option>';
                                     });
-                                    paramArea+='</select></label>';
-                                }else if(type=="multy"){
+                                    paramArea += '</select></label>';
+                                } else if (type == "multy") {
                                     var opts = param.options;
                                     var size = Object.keys(opts).length;
-                                    if(size==undefined||size>5){
-                                        size=5;
+                                    if (size == undefined || size > 5) {
+                                        size = 5;
                                     }
-                                    paramArea+='<label>'+param.name+'<select size='+size+' multiple name="'+param.valtype+'Vals">';
-                                    
-                                    $.each(opts,function(oid,oname){
-                                        var selected="";
-                                        if(val[oid]!=undefined){
-                                            selected="selected";
+                                    paramArea += '<label>' + param.name + '<select size=' + size + ' multiple name="' + param.valtype + 'Vals">';
+
+                                    $.each(opts, function (oid, oname) {
+                                        var selected = "";
+                                        if (val[oid] != undefined) {
+                                            selected = "selected";
                                         }
-                                        paramArea+='<option '+selected+' value='+param.id+'_'+oid+'>'+oname+'</option>';
+                                        paramArea += '<option ' + selected + ' value=' + param.id + '_' + oid + '>' + oname + '</option>';
                                     });
-                                    
-                                    paramArea+='</select></label>';
+
+                                    paramArea += '</select></label>';
                                 }
-                                paramArea+='<input type="hidden" name="'+param.valtype+'Ids" value='+param.id+'><br>';
+                                paramArea += '<input type="hidden" name="' + param.valtype + 'Ids" value=' + param.id + '><br>';
                             });
                             paramArea += '</div>';
                             $('#changeAdForm').find('#boxForChangeAdParams').html(paramArea);
@@ -309,7 +350,7 @@ $(document).ready(function () {
                         }
                     });
                 }
-           }
+            }
         });
         $('#changeAdForm').on('focus', '.adChangeDate', function () {
             $(this).datepicker({
@@ -317,13 +358,13 @@ $(document).ready(function () {
             });
         });
     });
-    
-    function clearCheckBoxes(method){
-        $('input[type=checkbox][data-method='+method+']').prop('checked', false);
+
+    function clearCheckBoxes(method) {
+        $('input[type=checkbox][data-method=' + method + ']').prop('checked', false);
     }
-    
-    
-    
+
+
+
     $('.allRegionsSelector').on('change', function () {
         var method = $(this).attr('data-method');
         $('.stateSelector[data-method=' + method + ']').prop('checked', this.checked);
@@ -331,12 +372,12 @@ $(document).ready(function () {
         //snyatie
         if (!$(this).prop('checked')) {
             $('.checkedLocsCount[data-method=' + method + ']').html(0);
-        //odevanie
-        }else{
-            $('.stateSelector[data-method=' + method + ']').each(function(key,el){
+            //odevanie
+        } else {
+            $('.stateSelector[data-method=' + method + ']').each(function (key, el) {
                 var id = $(el).attr('id');
                 var count = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
-                $('.checkedLocsCount[data-state-id='+id+'][data-method=' + method + ']').html(count);
+                $('.checkedLocsCount[data-state-id=' + id + '][data-method=' + method + ']').html(count);
             });
             //показать все
             $('.locLabel[data-method=' + method + ']').removeClass('hidden');
@@ -349,46 +390,46 @@ $(document).ready(function () {
         var id = $(this).attr('id');
         //odevanie locs
         $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').prop('checked', this.checked);
-        var count=0;
+        var count = 0;
         //snyatie
         if (!$(this).prop('checked')) {
-        //odevanie
+            //odevanie
         } else {
-            count=$('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
+            count = $('.locSelector[data-state-id=' + id + '][data-method=' + method + ']').length;
         }
         var checkedLocsLength = $('.locSelector[data-method=' + method + ']:checked').length;
-        if(checkedLocsLength==0){
+        if (checkedLocsLength == 0) {
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
-        }else{
+        } else {
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
         }
-        $('.checkedLocsCount[data-state-id='+id+'][data-method=' + method + ']').html(count);
+        $('.checkedLocsCount[data-state-id=' + id + '][data-method=' + method + ']').html(count);
         setOpacityAndAllRegSelector(method);
     });
-    
+
     $('.locSelector').on('change', function () {
         var method = $(this).attr('data-method');
         var stateId = $(this).attr('data-state-id');
-        var count = parseInt($('.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').text());
+        var count = parseInt($('.checkedLocsCount[data-state-id=' + stateId + '][data-method=' + method + ']').text());
         //снятие
         if (!$(this).prop('checked')) {
-            count=count-1;
-        //одевание
+            count = count - 1;
+            //одевание
         } else {
-            count=count+1;
+            count = count + 1;
         }
-        
+
         var checkedLocsLength = $('.locSelector[data-method=' + method + ']:checked').length;
-        if(checkedLocsLength==0){
+        if (checkedLocsLength == 0) {
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
-        }else{
+        } else {
             $('.allRegionsSelector[data-method=' + method + ']').prop('checked', true);
         }
-        
-        $('.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').html(count);
-        if(count==0){
+
+        $('.checkedLocsCount[data-state-id=' + stateId + '][data-method=' + method + ']').html(count);
+        if (count == 0) {
             $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', false);
-        }else{
+        } else {
             $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', true);
         }
         setOpacityAndAllRegSelector(method);
@@ -399,60 +440,60 @@ $(document).ready(function () {
         var stateId = $(this).attr('id');
         $('.locLabel[data-state-id=' + stateId + '][data-method=' + method + ']').toggleClass('hidden');
     });
-    
+
     $(".allRegionsOpener").on('click', function () {
         var method = $(this).attr('data-method');
         //var allLocs = $('.locLabel[data-method=' + method + ']').length;
         var hiddenLocs = $('.locLabel.hidden[data-method=' + method + ']').length;
-        if(hiddenLocs==0){
+        if (hiddenLocs == 0) {
             $('.locLabel[data-method=' + method + ']').addClass('hidden');
-        }else{
+        } else {
             $('.locLabel[data-method=' + method + ']').removeClass('hidden');
         }
     });
-    
-    function setOpacityAndAllRegSelector(method){
-        $('.stateSelector[data-method=' + method + ']').each(function(){
+
+    function setOpacityAndAllRegSelector(method) {
+        $('.stateSelector[data-method=' + method + ']').each(function () {
             var checkedLocs = parseInt($(this).siblings('.opener').find('.checkedLocsCount').text());
             var stateLocs = parseInt($(this).siblings('.opener').find('.locsAmount').text());
-            if(checkedLocs==stateLocs||checkedLocs==0){
+            if (checkedLocs == stateLocs || checkedLocs == 0) {
                 $(this).removeClass('semichecked');
-            }else{
+            } else {
                 $(this).addClass('semichecked');
             }
         });
         var allRegsSelector = $('.allRegionsSelector[data-method=' + method + ']')
         var checkedLocs = $('.locSelector[data-method=' + method + ']:checked').length;
         var allLocs = $('.locSelector[data-method=' + method + ']').length;
-        if(checkedLocs>0){
+        if (checkedLocs > 0) {
             allRegsSelector.prop('checked', true);
-        }else{
+        } else {
             allRegsSelector.prop('checked', false);
         }
-        if(checkedLocs==0||checkedLocs==allLocs){
+        if (checkedLocs == 0 || checkedLocs == allLocs) {
             allRegsSelector.removeClass('semichecked');
-        }else{
+        } else {
             allRegsSelector.addClass('semichecked');
         }
     }
-    
-    $('form[action="../Ad/add"] select[name=regionId]').on('change',function(){
+
+    $('form[action="../Ad/add"] select[name=regionId]').on('change', function () {
         var regId = $('form[action="../Ad/add"] select[name=regionId]').val();
         $('form[action="../Ad/add"]').find('input[name=formReady]').val('nope');
         $.ajax({
-           url: "../Regions/getReg?regId=" + regId,
-           dataType: "json",
-           cache: false,
-           success: function (json) {
+            url: "../Regions/getReg?regId=" + regId,
+            dataType: "json",
+            cache: false,
+            success: function (json) {
                 var method = "newAd";
                 $('.allRegionsSelector[data-method=' + method + ']').prop('checked', false);
                 $('.stateSelector[data-method=' + method + ']').prop('checked', false);
                 $('.locSelector[data-method=' + method + ']').prop('checked', false);
                 if (json['status'] == true) {
-                    $.each(json['data'],function(key,value){
-                        if(key=='locIds'){
-                            $.each(value,function(key1,locId){
-                                $('.locSelector[data-method=' + method + '][id='+locId+']').prop('checked', true);
+                    $.each(json['data'], function (key, value) {
+                        if (key == 'locIds') {
+                            $.each(value, function (key1, locId) {
+                                $('.locSelector[data-method=' + method + '][id=' + locId + ']').prop('checked', true);
                             });
                             setAmountsAndStates(method);
                             setOpacityAndAllRegSelector(method);
@@ -460,19 +501,19 @@ $(document).ready(function () {
                         }
                     });
                 }
-           }
+            }
         });
     });
-    
-    function setAmountsAndStates(method){
+
+    function setAmountsAndStates(method) {
         var states = $('.stateSelector[data-method=' + method + ']');
-        $.each(states,function(){
+        $.each(states, function () {
             var stateId = this.id;
-            var locsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id='+ stateId +']').length;
-            var checkedLocsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id='+ stateId +']:checked').length;
-            $('span.checkedLocsCount[data-state-id='+stateId+'][data-method=' + method + ']').text(checkedLocsInStateAmount);
-            $('span.locsAmount[data-state-id='+stateId+'][data-method=' + method + ']').text(locsInStateAmount);
-            if(checkedLocsInStateAmount>0){
+            var locsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id=' + stateId + ']').length;
+            var checkedLocsInStateAmount = $('.locSelector[data-method=' + method + '][data-state-id=' + stateId + ']:checked').length;
+            $('span.checkedLocsCount[data-state-id=' + stateId + '][data-method=' + method + ']').text(checkedLocsInStateAmount);
+            $('span.locsAmount[data-state-id=' + stateId + '][data-method=' + method + ']').text(locsInStateAmount);
+            if (checkedLocsInStateAmount > 0) {
                 $('.stateSelector[id=' + stateId + '][data-method=' + method + ']').prop('checked', true);
             }
         });

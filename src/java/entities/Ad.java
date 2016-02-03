@@ -311,7 +311,7 @@ public class Ad extends PrimEntity {
     public List<String> getPreviewpaths() {
         List<String> res = new ArrayList();
         int i = 0;
-        while (i < 7) {
+        while (i < 10) {
             File f = new File("/usr/local/seller/preview/" + this.id + "/" + i);
             if (f.exists()) {
                 res.add("../imgs/" + this.id + "/" + (i++));

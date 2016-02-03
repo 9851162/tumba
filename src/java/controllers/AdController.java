@@ -293,7 +293,9 @@ public class AdController extends WebController {
                 res.addData("catId", ad.getCat().getId());
                 res.addData("shortName", ad.getName());
                 res.addData("description", ad.getDescription());
-                res.addData("status", ad.getStatus());
+                if(u.getUserRole().equals(User.ROLEADMIN)&&0!=ad.getStatus()){
+                    res.addData("status", ad.getStatus());
+                }
                 res.addData("email", ad.getEmail());
                 res.addData("phone", ad.getPhone());
                 res.addData("price", ad.getPrice());

@@ -285,9 +285,13 @@
                             <div class="form-group">
                                 <div class="file_upload">
                                     <button type="button"></button>
-                                    <input type="file" multiple name="previews" onchange='$("#upload-file-info").html($(this).val());'>
+                                    <input type="file" multiple name="previews">
                                 </div>
-                                <span class='label label-info' id="upload-file-info" ></span>
+                                <div>
+                                    <ul id="preview-photo">
+                                    </ul>
+                                </div>
+                                <!--<span class='label label-info' id="upload-file-info" ></span>-->
                             </div>
                         </div>
                     </div>
@@ -644,19 +648,7 @@
                         </div>
                     </div>
                     
-                    <c:if test="${role=='admin'&&ad.status!=0}">
-                        <div class="boxtoinput">
-                        <div class="toin">
-                            <label>статус</label>
-                            <select name="status">
-                                <option value="1">ожидание</option>
-                                <option value="2">оплачено</option>
-                                <option value="3">доставлено</option>
-                            </select>
-                        </div>
-                    </div>
-                            
-                    </c:if>
+                    <div id="statusdiv" class="boxtoinput"></div>
 
                     <div class="toin">
                         <label style="padding-bottom: 3px;font-family: HelveticaNeueThin;font-size: 30px;display: block;width: 100%;">регион продажи</label>

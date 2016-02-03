@@ -757,3 +757,10 @@ td {
 .lock {
     overflow: hidden;
 }
+
+#preview-photo li{
+    list-style: none;
+    width: 150px;
+    float: left;
+    margin: 10px;
+}
