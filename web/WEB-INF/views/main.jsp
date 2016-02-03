@@ -251,7 +251,12 @@
                 <div class="tofotmin"><a href="#">о компании</a></div>
                 <div class="tofotmin"></div>
             </footer>
-            <div id="createAd" class="modal_form modal_div">
+            
+
+        </div>
+
+            <div id="overlay">
+                <div id="createAd" class="modal_form modal_div">
                 <div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
                 <form method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
 
@@ -702,7 +707,28 @@
                 </form>
             </div>
 
-            <div id="modalalert" class="modal_form modal_div">
+            
+
+            <div id="modalerror" class="modal_form modal_div">
+                <div class="nameform">Ошибки</div>
+                <%@include file="/WEB-INF/jsp/error.jsp" %>
+            </div>
+
+            <div id="modalmessage" class="modal_form modal_div">
+                <div class="nameform">Сообщение</div>
+                <c:if test="${! empty messages}">
+                    <center>
+                        <div class="" >
+                            <c:forEach items="${messages}" var="msg" >
+                                <p>${msg}</p>
+                            </c:forEach>
+                        </div>
+                    </center>
+                </c:if>
+            </div>
+                
+                
+                <div id="modalalert" class="modal_form modal_div">
                 <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">
@@ -723,28 +749,7 @@
                     </div>
                 </form>
             </div>
-
-            <div id="modalerror" class="modal_form modal_div">
-                <div class="nameform">Ошибки</div>
-                <%@include file="/WEB-INF/jsp/error.jsp" %>
             </div>
-
-            <div id="modalmessage" class="modal_form modal_div">
-                <div class="nameform">Сообщение</div>
-                <c:if test="${! empty messages}">
-                    <center>
-                        <div class="" >
-                            <c:forEach items="${messages}" var="msg" >
-                                <p>${msg}</p>
-                            </c:forEach>
-                        </div>
-                    </center>
-                </c:if>
-            </div>
-
-        </div>
-
-        <div id="overlay"></div>
 
         <c:if test="${param.auth==false}">
             <script>
