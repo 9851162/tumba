@@ -145,7 +145,9 @@ public class AdDao extends Dao<Ad> {
      return query.list();
      }*/
     
-    public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
+    
+    
+   /* public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
             List<Long> numIds, List<Double> numVals, List<Integer> numConditions, List<Long> dateIds,
             List<Date> dateVals, List<Integer> dateConditions,Long selIds[], Long selVals[], String multyVals[]){
@@ -177,9 +179,8 @@ public class AdDao extends Dao<Ad> {
             sql += " and ad.ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
         }
 
-        /**
-         * Условия для параметров*
-         */
+        
+        
         Integer paramsCount = 0;
         Boolean queryWithParams = false;
         if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
@@ -269,9 +270,10 @@ public class AdDao extends Dao<Ad> {
         }
 
         sql+=") sel left join category c on sel.category_id=c.category_id group by sel.category_id order by cc desc";
-        /**
-         * \Условия для параметров*
-         */
+        
+        
+        
+        
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -307,6 +309,243 @@ public class AdDao extends Dao<Ad> {
                 query.setParameter("dateId"+i, dateIds.get(i));
                 //query.setParameter("dateCondition"+i, getStringCondition(dateConditions.get(i)));
                 query.setParameter("dateVal"+i, dateVals.get(i));
+                i++;
+            }
+        }
+        if (queryWithParams) {
+            query.setParameter("paramsCount", paramsCount);
+        }
+        query.setParameter("now", new Date());
+        if (region != null && !region.isAllRussia()) {
+            query.setParameterList("localIds", getLocIds(region));
+        }
+        List<Object[]>rawRes=query.list();
+        LinkedHashMap<String,Integer>res = new LinkedHashMap();
+        if(!rawRes.isEmpty()){
+            for(Object[]o:rawRes){
+                String catName=(String)o[0];
+                Integer count=((BigInteger)o[1]).intValue();
+                if(0!=count){
+                    res.put(catName,count);
+                }
+            }
+        }
+        return res;
+    }*/
+    
+    public LinkedHashMap<String,Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
+            Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
+            List<BilateralCondition>numVals, List<BilateralCondition> dateVals,
+            Long selIds[], Long selVals[], String multyVals[],Double priceFrom,Double priceTo){
+        String sql = "select c.name,count(sel.ad_id) cc from (select ad.ad_id,ad.category_id from ad where ad.date_from<:now and :now<ad.date_to";
+        if (wish == null) {
+            wish = "";
+        }
+        List<String> splitted = splitted(wish);
+        if (!splitted.isEmpty()) {
+            sql += " and (1!=1";
+            for (String st : splitted) {
+                sql += " or (ad.name like :wish" + splitted.indexOf(st) + ")";
+            }
+            for (String st : splitted) {
+                sql += " or (ad.description like :wish" + splitted.indexOf(st) + ")";
+            }
+            sql += ")";
+        }
+
+        if (!catIds.isEmpty()) {
+            sql += " and (1!=1";
+            for (Long id : catIds) {
+                sql += " or ad.category_id=:catId" + catIds.indexOf(id);
+            }
+            sql += ")";
+        }
+
+        if (region != null && !region.isAllRussia()) {
+            sql += " and ad.ad_id in (select ad_id from ads_at_locals where locality_id in (:localIds))";
+        }
+
+        /**
+         * Условия для параметров*
+         */
+        
+        if(priceFrom!=null){
+            sql+=" and ad.price>=:priceFrom";
+        }
+        if(priceTo!=null){
+            sql+=" and ad.price<=:priceTo";
+        }
+        Integer paramsCount = 0;
+        Boolean queryWithParams = false;
+        if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
+                || (numVals != null && !numVals.isEmpty()) || (dateVals != null && !dateVals.isEmpty())
+                || (selVals != null && selVals.length > 0) || (multyVals != null && multyVals.length > 0)) {
+
+            queryWithParams = true;
+            sql += " and exists(select 1 from (select count(pv.ad_id) cnt,pv.ad_id id from parametr_value pv where (1!=1)";
+            int i = 0;
+
+            if (booleanVals != null && booleanVals.length > 0) {
+                i = 0;
+                while (i < booleanIds.length) {
+                    Long paramId = booleanIds[i];
+                    Long val = booleanVals[i];
+                    if (val != null) {
+                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                        paramsCount++;
+                    }
+                    i++;
+                }
+            }
+
+            if (stringVals != null && !stringVals.isEmpty()) {
+                i = 0;
+                for (String val : stringVals) {
+                    sql += " or (parametr_id=:stringId" + i + " and string_value like '%:stringVal" + i + "%')";
+                    paramsCount++;
+                    i++;
+                }
+
+            }
+
+            if (numVals != null && !numVals.isEmpty()) {
+                i = 0;
+                for (BilateralCondition c : numVals) {
+                    Double numFrom =(Double)c.getFrom();
+                    Double numTo =(Double)c.getTo();
+                    if(numFrom!=null||numTo!=null){
+                        
+                        if(numFrom!=null&&numTo!=null){
+                            sql += " or (parametr_id=:numId" + i + " and number_value >= :numFrom" + i + " and number_value <= :numTo" + i + ")";
+                        }else{
+                            if(numFrom!=null){
+                                sql += " or (parametr_id=:numId" + i + " and number_value >= :numFrom" + i + ")";
+                            }
+                            if(numTo!=null){
+                                sql += " or (parametr_id=:numId" + i + " and number_value <= :numTo" + i + ")";
+                            }
+                        }
+                        paramsCount++;
+                        i++;
+                    }
+                }
+
+            }
+            
+            if (dateVals != null && !dateVals.isEmpty()) {
+                i = 0;
+                for (BilateralCondition c : dateVals) {
+                    Date dateFrom =(Date)c.getFrom();
+                    Date dateTo =(Date)c.getTo();
+                    if(dateFrom!=null||dateTo!=null){
+                        if(dateFrom!=null&&dateTo!=null){
+                            sql += " or (parametr_id=:dateId" + i + " and date_value >= :dateFrom" + i + " and date_value <= :dateTo" + i + ")";
+                        }else{
+                            if(dateFrom!=null){
+                                sql += " or (parametr_id=:dateId" + i + " and date_value >= :dateFrom" + i + ")";
+                            }
+                            if(dateTo!=null){
+                                sql += " or (parametr_id=:dateId" + i + " and date_value <= :dateTo" + i + ")";
+                            }
+                        }
+                        paramsCount++;
+                        i++;
+                    }
+                }
+            }
+
+            if (selVals != null && selVals.length > 0) {
+                i = 0;
+                while (i < selIds.length) {
+                    Long paramId = selIds[i];
+                    Long val = selVals[i];
+                    if (val != null) {
+                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                        paramsCount++;
+                    }
+                    i++;
+                }
+            }
+
+            if (multyVals != null && multyVals.length > 0) {
+
+                for (String rawVal : multyVals) {
+                    String idValArr[] = rawVal.split("_");
+                    if (idValArr.length == 2) {
+                        String strId = idValArr[0];
+                        String strVal = idValArr[1];
+                        Long paramId = Long.valueOf(strId);
+                        Long val = Long.valueOf(strVal);
+                        if (val != null) {
+                            sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                            paramsCount++;
+                        }
+                    }
+                }
+
+            }
+
+            sql += " group by pv.ad_id) as tmp where tmp.cnt=:paramsCount and tmp.id=ad.ad_id)";
+        }
+        /**
+         * \Условия для параметров*
+         */
+        sql+=") sel left join category c on sel.category_id=c.category_id group by sel.category_id order by cc desc";
+        SQLQuery query = getCurrentSession().createSQLQuery(sql);
+
+        if (!splitted.isEmpty()) {
+            for (String st : splitted) {
+                query.setParameter("wish" + splitted.indexOf(st), st);
+            }
+        }
+        if (!catIds.isEmpty()) {
+            for (Long id : catIds) {
+                query.setParameter("catId" + catIds.indexOf(id), id);
+            }
+        }
+        if(priceFrom!=null){
+            query.setParameter("priceFrom", priceFrom);
+        }
+        if(priceTo!=null){
+            query.setParameter("priceTo", priceTo);
+        }
+        if(stringVals!=null&&!stringVals.isEmpty()){
+            int i=0;
+            for(String s:stringVals){
+                query.setParameter("stringId"+i, stringIds.get(i));
+                query.setParameter("stringVal"+i, stringVals.get(i));
+                i++;
+            }
+        }
+        if(numVals!=null&&!numVals.isEmpty()){
+            int i=0;
+            for(BilateralCondition c:numVals){
+                Long id = c.getId();
+                Double numFrom =(Double)c.getFrom();
+                Double numTo =(Double)c.getTo();
+                query.setParameter("numId"+i, id);
+                if(numFrom!=null){
+                    query.setParameter("numFrom"+i, numFrom);
+                }
+                if(numTo!=null){
+                    query.setParameter("numTo"+i, numTo);
+                }
+                i++;
+            }
+        }
+        if(dateVals!=null&&!dateVals.isEmpty()){
+            int i=0;
+            for(BilateralCondition c:dateVals){
+                Long id = c.getId();
+                Date dateFrom =(Date)c.getFrom();
+                Date dateTo =(Date)c.getTo();
+                query.setParameter("dateId"+i, id);
+                if(dateFrom!=null){
+                    query.setParameter("dateFrom"+i, dateFrom);
+                }
+                if(dateTo!=null){
+                    query.setParameter("dateTo"+i, dateTo);
+                }
                 i++;
             }
         }
@@ -432,16 +671,6 @@ public class AdDao extends Dao<Ad> {
                 }
 
             }
-            
-            /*if (numValsTo != null && !numValsTo.isEmpty()) {
-                i = 0;
-                for (Double val : numValsTo) {
-                    sql += " or (parametr_id=:numId" + i + " and number_value <= :numValTo" + i + ")";
-                    paramsCount++;
-                    i++;
-                }
-
-            }*/
             
             if (dateVals != null && !dateVals.isEmpty()) {
                 i = 0;

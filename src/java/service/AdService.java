@@ -398,7 +398,6 @@ public class AdService extends PrimService {
         }
     }
 
-    //TO DO search by wishword upgrade?
     public List<Ad> getAds(String wish, List<Long> catIds, Region region, String order,
             Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
             Long numIds[], String snumValsFrom[], String snumValsTo[], Long dateIds[], String dateValsFrom[], String dateValsTo[],
@@ -524,6 +523,82 @@ public class AdService extends PrimService {
 
     public Ad getAd(Long adId) {
         return adDao.find(adId);
+    }
+    
+    public LinkedHashMap<String, Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
+            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
+            Long numIds[], String snumValsFrom[], String snumValsTo[], Long dateIds[], String dateValsFrom[], String dateValsTo[],
+            Long selIds[], Long selVals[], Long multyIds[], String multyVals[], String stringPriceFrom, String stringPriceTo) {
+        
+        List<Long> stringIdsList = new ArrayList();
+        List<String> stringValsList = new ArrayList();
+        if (stringVals != null && stringVals.length > 0) {
+            int i = 0;
+            for (String s : stringVals) {
+                if (s != null && !s.equals("")) {
+                    stringValsList.add(s);
+                    stringIdsList.add(stringIds[i]);
+                }
+                i++;
+            }
+        }
+        
+        List<BilateralCondition> numVals = new ArrayList();
+        if (snumValsFrom != null && snumValsFrom.length > 0 || snumValsTo != null && snumValsTo.length > 0) {
+            int i = 0;
+
+            while (i < numIds.length) {
+                Double from = null;
+                Double to = null;
+                if (snumValsFrom != null && snumValsFrom.length > 0) {
+                    from = getNumFromString(snumValsFrom[i]);
+                }
+                if (snumValsTo != null && snumValsTo.length > 0) {
+                    to = getNumFromString(snumValsTo[i]);
+                }
+                if (from != null || to != null) {
+                    BilateralCondition c = new BilateralCondition(numIds[i], from, to);
+                    numVals.add(c);
+                }
+                i++;
+            }
+        }
+        
+        List<BilateralCondition> dateVals = new ArrayList();
+        if (dateValsFrom != null && dateValsFrom.length > 0 || dateValsTo != null && dateValsTo.length > 0) {
+            int i = 0;
+
+            while (i < dateIds.length) {
+                Date from = null;
+                Date to = null;
+                if (dateValsFrom != null && dateValsFrom.length > 0) {
+                    from = DateAdapter.getDateFromString(dateValsFrom[i]);
+                }
+                if (dateValsTo != null && dateValsTo.length > 0) {
+                    to = DateAdapter.getDateFromString(dateValsTo[i]);
+                }
+                if (from != null || to != null) {
+                    BilateralCondition c = new BilateralCondition(dateIds[i], from, to);
+                    dateVals.add(c);
+                }
+                i++;
+            }
+        }
+        
+        Double priceFrom = null;
+        if (stringPriceFrom != null && !stringPriceFrom.equals("")) {
+            priceFrom = getNumFromString(stringPriceFrom);
+        }
+        Double priceTo = null;
+        if (stringPriceTo != null && !stringPriceTo.equals("")) {
+            priceTo = getNumFromString(stringPriceTo);
+        }
+        LinkedHashMap<String, Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
+        /*for(String s:res.keySet()){
+         addError(s+":"+res.get(s));
+         }*/
+        return res;
     }
 
     public void delete(Long adId) {
@@ -885,63 +960,6 @@ public class AdService extends PrimService {
             adMap.put(ad.getId(), ad.getId());
         }
         return adMap;
-    }
-
-    public LinkedHashMap<String, Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
-            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
-            Long numIds[], String snumVals[], Integer numConditions[], Long dateIds[], Date dateVals[], Integer dateConditions[],
-            Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
-        List<Long> stringIdsList = new ArrayList();
-        List<String> stringValsList = new ArrayList();
-        if (stringVals != null && stringVals.length > 0) {
-            int i = 0;
-            for (String s : stringVals) {
-                if (s != null && !s.equals("")) {
-                    stringValsList.add(s);
-                    stringIdsList.add(stringIds[i]);
-                }
-                i++;
-            }
-        }
-
-        List<Double> numValsList = new ArrayList();
-        List<Integer> numCondList = new ArrayList();
-        List<Long> numIdsList = new ArrayList();
-        if (snumVals != null && snumVals.length > 0) {
-            int i = 0;
-            for (String s : snumVals) {
-                if (s != null && !s.equals("")) {
-                    Double val = getNumFromString(s);
-                    if (val != null && !val.equals(Double.NaN)) {
-                        numIdsList.add(numIds[i]);
-                        numCondList.add(numConditions[i]);
-                        numValsList.add(val);
-                    }
-                }
-                i++;
-            }
-        }
-
-        List<Long> dateIdsList = new ArrayList();
-        List<Integer> dateCondList = new ArrayList();
-        List<Date> dateValsList = new ArrayList();
-        if (dateVals != null && dateVals.length > 0) {
-            int i = 0;
-            for (Date d : dateVals) {
-                if (d != null) {
-                    dateValsList.add(d);
-                    dateCondList.add(dateConditions[i]);
-                    dateIdsList.add(dateIds[i]);
-                }
-                i++;
-            }
-        }
-        LinkedHashMap<String, Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
-                stringIdsList, stringValsList, numIdsList, numValsList, numCondList, dateIdsList, dateValsList, dateCondList, selIds, selVals, multyVals);
-        /*for(String s:res.keySet()){
-         addError(s+":"+res.get(s));
-         }*/
-        return res;
     }
 
     /*public List<String>getPreviews(Long adId){

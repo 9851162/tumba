@@ -73,7 +73,6 @@ public class mainController extends WebController {
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "order", required = false) String order,
             @RequestParam(value = "messageId", required = false) Long msgId,
-            
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
@@ -88,7 +87,6 @@ public class mainController extends WebController {
             @RequestParam(value = "selVals", required = false) Long selVals[],
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
-            
             @RequestParam(value = "searchPriceFrom", required = false) String searchPriceFrom,
             @RequestParam(value = "searchPriceTo", required = false) String searchPriceTo,
             @RequestParam(value = "action", required = false) String action,
@@ -208,20 +206,20 @@ public class mainController extends WebController {
             Ad ad = adService.getAd(adId);
             ads.add(ad);
         } else if (action.equals(MESSAGESACTIONNAME)) {
-            if(userId!=null){
-                List<Message>messages = msgService.getInbox(userId);
-                model.put("inboxMessages",messages);
-                model.put("msgCount",messages.size());
+            if (userId != null) {
+                List<Message> messages = msgService.getInbox(userId);
+                model.put("inboxMessages", messages);
+                model.put("msgCount", messages.size());
             }
         } else if (action.equals(ONEMESSAGEACTIONNAME)) {
-            if(userId!=null&&msgId!=null){
-                Message msg = msgService.getMsg(userId,msgId);
+            if (userId != null && msgId != null) {
+                Message msg = msgService.getMsg(userId, msgId);
                 Integer msgCount = 0;
-                if (msg!=null){
-                    model.put("inboxMessage",msg);
-                    msgCount=1;
+                if (msg != null) {
+                    model.put("inboxMessage", msg);
+                    msgCount = 1;
                 }
-                model.put("msgCount",msgCount);
+                model.put("msgCount", msgCount);
             }
         } else if (action.equals(REGIONSACTIONNAME)) {
             Region regionForShow = new Region();
@@ -246,19 +244,16 @@ public class mainController extends WebController {
                 }
             }
 
-            ers.addAll(adService.getErrors());
-            ers.addAll(catService.getErrors());
-
         } else {
             ads = adService.getAds(wish, catIds, region, order, booleanIds, booleanVals,
                     stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
                     dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
-            /*if (wish != null && !wish.equals("")) {
-             model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
-             stringIds, stringVals, numIds, numVals, numConditions, dateIds,
-             dateVals, dateConditions, selIds, selVals, multyIds, multyVals));
-             }*/
+            if ((wish != null && !wish.equals(""))||(catIds!=null&&!catIds.isEmpty())) {
+                model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                        stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
+                        dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));
+            }
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);
         if (u == null && !region.isAllRussia()) {
@@ -309,8 +304,8 @@ public class mainController extends WebController {
         model.put("wish", wish);
         model.put("order", order);
         model.put("action", action);
-        
-        model.put("myNewMsgCount",msgService.getNewMsgCount(userId));
+
+        model.put("myNewMsgCount", msgService.getNewMsgCount(userId));
 
         ers.addAll(adService.getErrors());
         ers.addAll(catService.getErrors());
