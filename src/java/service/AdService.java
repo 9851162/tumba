@@ -96,6 +96,10 @@ public class AdService extends PrimService {
                     phone = phe.getPhone(phone);
                     addError(phe.error);
 
+                    if((phone==null||phone.equals(""))&&(email==null||email.equals(""))){
+                        addError("необходимо указать email или телефон в качестве контактов");
+                    }
+                    
                     User user = userService.getUserByMail(email);
                     if (!isAutherized && user == null) {
                         user = userService.registerStandardUser(email);
