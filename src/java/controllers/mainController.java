@@ -477,7 +477,7 @@ public class mainController extends WebController {
      ras.addAttribute("regionForShowId", regId);
      ras.addAttribute("wish", wish);
      ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
-     return "redirect:/Main/regions";
+     return "redirect:/Main/?action=regions";
      }*/
     @RequestMapping("/createRegion")
     public String createRegion(Map<String, Object> model,
@@ -497,7 +497,7 @@ public class mainController extends WebController {
                 Long regId = regionService.addRegion(user, r);
                 ras.addFlashAttribute(ERRORS_LIST_NAME, regionService.getErrors());
                 ras.addAttribute("regionForShowId", regId);
-                return "redirect:/Main/regions";
+                return "redirect:/Main/?action=regions";
             }
         }
         ras.addFlashAttribute(ERRORS_LIST_NAME, regionService.getErrors());
@@ -547,7 +547,7 @@ public class mainController extends WebController {
         ras.addAttribute("regionForShowId", regionForShowId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/regions";
+        return "redirect:/Main/?action=regions";
     }
 
     @RequestMapping("/deleteRegion")
@@ -569,7 +569,7 @@ public class mainController extends WebController {
         ras.addAttribute("regionForShowId", regionForShowId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/regions";
+        return "redirect:/Main/?action=regions";
     }
 
     /*@RequestMapping("/regions")
@@ -696,7 +696,7 @@ public class mainController extends WebController {
         ras.addAttribute("regionForShowId", regionId);
         ras.addAttribute("wish", wish);
         ras.addFlashAttribute("errors", errors);
-        return "redirect:/Main/regions";
+        return "redirect:/Main/?action=regions";
     }
 
     @RequestMapping("/messages")

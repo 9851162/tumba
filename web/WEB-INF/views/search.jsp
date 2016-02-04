@@ -88,8 +88,13 @@
                                         <c:if test="${role=='admin'||(!empty userAds&&!empty userAds.get(ad.id)&&ad.status==0)}">
                                             <a href="#changeAdForm" data-id="${ad.id}" class="open_modal btn-chen adChanger todo-btn">Изменить</a>
                                         </c:if>
-                                        <a class="btn-buy todo-btn" href="<c:url value="../Ad/buy?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">Купить</a>  
-                                      
+                                            
+                                        <c:if test="${(role=='user'||role=='admin')&&ad.status==0}">
+                                        <a class="btn-buy todo-btn" href="<c:url value="../Ad/buy?adId=${ad.id}&wish=${param.wish}&action=${param.action}"/>">Купить</a>
+                                        </c:if>
+                                        <c:if test="${empty role&&ad.status==0}">
+                                        <a href="#modalalert" class="open_modal btn-buy todo-btn" data-ad-id="${ad.id}"><div>Купить</div></a>
+                                        </c:if>      
                                 </div>
 
                                 <div class="minmenu">
