@@ -128,7 +128,7 @@
 
                                     <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
                                         <div class="fl backgr" style="min-width: 250px;"><label style="vertical-align: -webkit-baseline-middle;">${searchParam.name} </label>
-                                                <select form="searchForm" name="selVals" style="float: right;">
+                                                <select form="searchForm" name="selVals" style="float: right;width: 102px;height: 32px;">
                                                     <c:forEach var="opt" items="${searchParam.options}">
                                                         <option value="${opt.id}">${opt.name}</option>
                                                     </c:forEach>
@@ -141,12 +141,12 @@
                                     <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                                         
                                             <div class="fl backgr" style="min-width: 250px;">
-                                                <table style="width:100%;"><tr><td style="text-align:left;"><label style="">${searchParam.name} </label></td>
+                                                <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label style="">${searchParam.name} </label></td>
                                                 <c:set var="searchParamOptionSize" value="5"/>
                                                 <c:if test="${searchParam.options.size()<5}">
                                                     <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
                                                 </c:if>
-                                                <td><select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle; float: right;" name="multyVals">
+                                                <td><select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle; float: right;width: 102px" name="multyVals">
                                                     <c:forEach var="opt" items="${searchParam.options}">
                                                         <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
                                                     </c:forEach>
@@ -158,7 +158,7 @@
 
                                     <c:if test="${searchParam.paramType==5}">
                                         <div class="fl backgr" style="min-width: 250px;"><label style="vertical-align: -webkit-baseline-middle;">${searchParam.name} </label>
-                                                        <select name="booleanVals" form="searchForm" style="float: right;">
+                                                        <select name="booleanVals" form="searchForm" style="float: right;width:102px;height: 32px;">
                                                     <option value="">не выбрано</option>
                                                     <option value="1">да</option>
                                                     <option value="0">нет</option>
