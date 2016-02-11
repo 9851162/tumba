@@ -764,3 +764,11 @@ td {
     float: left;
     margin: 10px;
 }
+
+.searchparamtd{
+        white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 147px;
+    text-align: left;
+}
