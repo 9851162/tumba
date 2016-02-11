@@ -768,7 +768,7 @@ td {
 .searchparamtd{
         white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: clip;
     max-width: 147px;
     text-align: left;
 }
