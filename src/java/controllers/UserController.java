@@ -164,6 +164,7 @@ public class UserController extends WebController {
             }else{
                 ras.addAttribute("email", email);
                 ras.addAttribute("hash", hash);
+                ras.addFlashAttribute(ERRORS_LIST_NAME, errors);
                 return "redirect:/User/passRecovery";
             }
         } else {

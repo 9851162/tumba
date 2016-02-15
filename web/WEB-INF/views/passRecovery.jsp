@@ -30,7 +30,7 @@
                         </div>
                     </form>
                 </c:if>
-                <c:if test="${!empty param.hash}">
+                <c:if test="${!empty param.hash&&!empty param.email}">
                     <form action="<c:url value="../User/passUpdate"/>">
                         <div style="margin-top:10px;width: 100%;">
                             <label>новый пароль:</label>
