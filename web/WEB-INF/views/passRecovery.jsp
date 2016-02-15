@@ -32,21 +32,21 @@
                 </c:if>
                 <c:if test="${!empty param.hash&&!empty param.email}">
                     <form action="<c:url value="../User/passUpdate"/>">
-                        <div style="margin-top:10px;width: 100%;">
-                            <label>новый пароль:</label>
-                            <div style="width: 100%;">
+                        <!--<div style="margin-top:10px;width: 100%;">-->
+                            <label style="width: 100%; margin-top: 10px;">новый пароль:</label>
+                            <div style="width: 100%; margin-top: 10px;">
                                 <input name="password" type="password">
                             </div>
-                            <label>повторно новый пароль:</label>
-                            <div style="width: 100%;">
+                            <label style="width: 100%; margin-top: 10px;">повторно новый пароль:</label>
+                            <div style="width: 100%; margin-top: 10px;">
                                 <input name="checkPassword" type="password">
                             </div>
-                            <div style="width: 100%;">
+                            <div style="width: 100%; margin-top: 10px;">
                                 <input type="hidden" name="hash" value="${param.hash}">
                                 <input type="hidden" name="email" value="${param.email}">
-                                <button style="float:left;" type="submit" class="btn">сохранить</button>
+                                <button type="submit" class="btn">сохранить</button>
                             </div>
-                        </div>
+                        <!--</div>-->
                     </form>
                 </c:if>
             </div>
