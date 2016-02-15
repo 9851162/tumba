@@ -141,7 +141,7 @@ public class UserController extends WebController {
                 errors.add("Не удалось найти пользователя с таким email "+email);
             }
         }
-
+        model.put(ERRORS_LIST_NAME, errors);
         return "passRecovery";
     }
 
