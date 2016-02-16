@@ -93,96 +93,98 @@
                 <c:if test="${!empty advancedSearchParams}">
                     <div id="advancedSearchParamsContainer">
 
-                        
+
                         <div class="boxparam"><div class="fl backgr" style="min-width: 250px;">
-                                        <label style="vertical-align: -webkit-baseline-middle;">цена от </label>
-                                        <input form="searchForm" type="text" name="searchPriceFrom" placeholder="от" style="float: right;">
+                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>цена от </label></td>
+                                        <td><input form="searchForm" type="text" name="searchPriceFrom" placeholder="от" style="float: right;"></td></tr></table>
                             </div></div>
-                                    <div class="boxparam"><div class="fl backgr" style="min-width: 250px;">
-                                        <label style="vertical-align: -webkit-baseline-middle;">цена до </label>
-                                        <input form="searchForm" type="text" name="searchPriceTo" placeholder="до" style="float: right;">
-                                        </div></div>
-                                
+                        <div class="boxparam"><div class="fl backgr" style="min-width: 250px;">
+                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>цена до </label></td>
+                                        <td><input form="searchForm" type="text" name="searchPriceTo" placeholder="до" style="float: right;"></td></tr></table>
+                            </div></div>
 
-                            <c:forEach var="searchParam" items="${advancedSearchParams}">
-                                
-<div class="boxparam">
-                                    <c:if test="${searchParam.paramType==1}">
-                                        <div class="fl backgr" style="min-width: 250px;">
-                                            <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name}</label></td>
-                                                    <td><input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}" style="float: right;"></td></tr></table></div>
-                                            <input form="searchForm" type="hidden" name="stringIds" value="${searchParam.id}">
-                                        </c:if>
 
-                                    <c:if test="${searchParam.paramType==2}">
-                                        
-                                            <div class="fl backgr" style="min-width: 250px;">
-                                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
-                                                        <td><input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="float: right;"></td></tr></table></div>
-                                                </div><div class="boxparam">
-                                            <div class="fl backgr" style="min-width: 250px;">
-                                                <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
-                                                        <td><input form="searchForm" type="text" name="numValsTo" placeholder="до" style="float: right;"></td></tr></table>
-                                            </div>
-                                            <input form="searchForm" type="hidden" name="numIds" value="${searchParam.id}">
-                                        
-                                    </c:if>
+                        <c:forEach var="searchParam" items="${advancedSearchParams}">
+                            <c:if test="${searchParam.paramType==2}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;">
+                                        <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
+                                                <td><input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="float: right;"></td></tr></table></div>
+                                </div><div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;">
+                                        <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
+                                                <td><input form="searchForm" type="text" name="numValsTo" placeholder="до" style="float: right;"></td></tr></table>
+                                    </div>
+                                    <input form="searchForm" type="hidden" name="numIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
 
-                                    <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
-                                                    <td><select form="searchForm" name="selVals" style="float: right;width: 102px;height: 32px;">
-                                                    <c:forEach var="opt" items="${searchParam.options}">
-                                                        <option value="${opt.id}">${opt.name}</option>
-                                                    </c:forEach>
-                                                </select></td></tr></table>
-                                            </div>
-                                            <input form="searchForm" type="hidden" name="selIds" value="${searchParam.id}">
-                                        
-                                    </c:if>
-
-                                    <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
-                                        
-                                            <div class="fl backgr" style="min-width: 250px;">
-                                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label>${searchParam.name} </label></td>
-                                                <c:set var="searchParamOptionSize" value="5"/>
-                                                <c:if test="${searchParam.options.size()<5}">
-                                                    <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
-                                                </c:if>
-                                                <td><select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle; float: right;width: 102px" name="multyVals">
-                                                    <c:forEach var="opt" items="${searchParam.options}">
-                                                        <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
-                                                    </c:forEach>
-                                                </select></td></tr></table>
-                                            </div>
-                                            <input form="searchForm" type="hidden" name="multyIds" value="${searchParam.id}">
-                                        
-                                    </c:if>
-
-                                    <c:if test="${searchParam.paramType==5}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
-                                                    <td><select name="booleanVals" form="searchForm" style="float: right;width:102px;height: 32px;">
-                                                    <option value="">не выбрано</option>
-                                                    <option value="1">да</option>
-                                                    <option value="0">нет</option>
-                                                            </select></td></tr></table>
-                                            </div>
-                                            <input form="searchForm" type="hidden" name="booleanIds" value="${searchParam.id}">
-                                       
-                                    </c:if>
-
-                                    <c:if test="${searchParam.paramType==6}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable"" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
-                                        <td><input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="float: right;"></td></tr></table>
-                                            </div></div><div class="boxparam">
-                                                <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
+                            <c:if test="${searchParam.paramType==6}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable"" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
+                                                <td><input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="float: right;"></td></tr></table>
+                                    </div></div><div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
                                                 <td><input form="searchForm" type="text" name="dateValsTo" class="isDatepicker" placeholder="до" style="float: right;"></td></tr></table>
-                                            </div>
-                                            <input form="searchForm" type="hidden" name="dateIds" value="${searchParam.id}">
-                                        
-                                    </c:if>
-</div>
-                            </c:forEach>
-                      <div class="boxparam" style="float:right;margin-right:70px;margin-top:10px;"><input style="float:right;" form="searchForm" type="submit" name=submit class="btn-buy" value="поиск"/></div>
+                                    </div>
+                                    <input form="searchForm" type="hidden" name="dateIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
+
+                            <c:if test="${searchParam.paramType==1}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;">
+                                        <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name}</label></td>
+                                                <td><input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}" style="float: right;"></td></tr></table></div>
+                                    <input form="searchForm" type="hidden" name="stringIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
+
+                            <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
+                                                <td><select form="searchForm" name="selVals" style="float: right;width: 102px;height: 32px;">
+                                                        <c:forEach var="opt" items="${searchParam.options}">
+                                                            <option value="${opt.id}">${opt.name}</option>
+                                                        </c:forEach>
+                                                    </select></td></tr></table>
+                                    </div>
+                                    <input form="searchForm" type="hidden" name="selIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
+
+                            <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;">
+                                        <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label>${searchParam.name} </label></td>
+                                                    <c:set var="searchParamOptionSize" value="5"/>
+                                                    <c:if test="${searchParam.options.size()<5}">
+                                                        <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
+                                                    </c:if>
+                                                <td><select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle; float: right;width: 102px" name="multyVals">
+                                                        <c:forEach var="opt" items="${searchParam.options}">
+                                                            <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
+                                                        </c:forEach>
+                                                    </select></td></tr></table>
+                                    </div>
+                                    <input form="searchForm" type="hidden" name="multyIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
+
+                            <c:if test="${searchParam.paramType==5}">
+                                <div class="boxparam">
+                                    <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
+                                                <td><select name="booleanVals" form="searchForm" style="float: right;width:102px;height: 32px;">
+                                                        <option value="">не выбрано</option>
+                                                        <option value="1">да</option>
+                                                        <option value="0">нет</option>
+                                                    </select></td></tr></table>
+                                    </div>
+                                    <input form="searchForm" type="hidden" name="booleanIds" value="${searchParam.id}">
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                        <div class="boxparam" style="float:right;margin-right:70px;margin-top:10px;"><input style="float:right;" form="searchForm" type="submit" name=submit class="btn-buy" value="поиск"/></div>
                     </div>
 
                 </c:if>
@@ -253,12 +255,12 @@
                 <div class="tofotmin"><a href="#">о компании</a></div>
                 <div class="tofotmin"></div>
             </footer>
-            
+
 
         </div>
 
-            <div id="overlay">
-                <div id="createAd" class="modal_form modal_div">
+        <div id="overlay">
+            <div id="createAd" class="modal_form modal_div">
                 <div class="nameform">НОВОЕ ОБЪЯВЛЕНИЕ</div>
                 <form method="post" enctype="multipart/form-data" action="<c:url value="../Ad/add" />">
 
@@ -649,7 +651,7 @@
                             <input name="email" type="email" value="">
                         </div>
                     </div>
-                    
+
                     <div id="statusdiv" class="boxtoinput"></div>
 
                     <div class="toin">
@@ -701,7 +703,7 @@
                 </form>
             </div>
 
-            
+
 
             <div id="modalerror" class="modal_form modal_div">
                 <div class="nameform">Ошибки</div>
@@ -720,9 +722,9 @@
                     </center>
                 </c:if>
             </div>
-                
-                
-                <div id="modalalert" class="modal_form modal_div">
+
+
+            <div id="modalalert" class="modal_form modal_div">
                 <div style="text-align: center;" class="toin todata">чтобы использовать данную функцию, необходимо пройти авторизацию</div>
                 <form  method="post" action="../j_spring_security_check" class="login">
                     <div class="boxtoinput">
@@ -743,7 +745,7 @@
                     </div>
                 </form>
             </div>
-            </div>
+        </div>
 
         <c:if test="${param.auth==false}">
             <script>
