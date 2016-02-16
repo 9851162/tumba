@@ -72,7 +72,7 @@ public class Ad extends PrimEntity {
     private Date deliveryDate;
 
     @Column(name = "price")
-    @NotNull(message = "Необходимо добавить цену")
+    @NotNull(message = "Необходимо указать цену числом")
     private Double price;
 
     @Column(name = "show_count")
