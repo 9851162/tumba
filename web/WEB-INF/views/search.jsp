@@ -76,7 +76,7 @@
                             </div>
                             <div class="col2">
                                 <div class="datetov">
-                                    Дата размещения <fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/>
+                                    Дата <fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/>
                                 </div>
                                 <div class="price"><fmt:formatNumber value="${ad.price}"/>руб.</div>
 

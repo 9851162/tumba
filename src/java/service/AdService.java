@@ -724,7 +724,7 @@ public class AdService extends PrimService {
         Double numVal = null;
         if (val != null && !val.equals("")) {
             try {
-                numVal = Double.valueOf(val.replace(",", "."));
+                numVal = Double.valueOf(val.replace(",", ".").replaceAll(" ", ""));
             } catch (Exception e) {
                 addError("Введенное значение " + val + " не является числом");
             }

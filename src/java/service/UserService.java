@@ -60,7 +60,7 @@ public class UserService extends PrimService {
                             u.setActive(User.OFF);
                             u.setHash(AuthManager.md5Custom(Random.getString("qwertyuiopasdfghjklzxcvbnm", 10)));
                             if (validate(u)) {
-                                String text = "Для активации Вашего аккаунта на сайте "+ProjectConstants.projectUrl+" пройдите по ссылке: "+ProjectConstants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
+                                String text = "Для активации Вашего аккаунта на сайте "+ProjectConstants.projectUrl+"/Main пройдите по ссылке: "+ProjectConstants.projectUrl+"/User/activation?email="+u.getEmail()+"&hash="+u.getHash();
                                 userDao.save(u);
                                 mailSender.sendMail(email, text);
                             }
@@ -106,7 +106,7 @@ public class UserService extends PrimService {
     }
 
     public void notifyAboutRegistration(String email) {
-        String text = "Здравствуйте! На нашем сайте "+ProjectConstants.projectUrl+", было подано объявление с указанием этого email."+
+        String text = "Здравствуйте! На нашем сайте "+ProjectConstants.projectUrl+"/Main, было подано объявление с указанием этого email."+
                 " Для Вашего удобства, нами была создана учетная запись для просмотра и управления Вашими объявлениями."+
                 "В качестве логина был использован Ваш email: "+email+", пароль: 0000 "+
                 " Пароль Вы можете изменить в любой момент зайдя на сайт и авторизировавшись в Вашем личном кабинете."+
@@ -224,7 +224,7 @@ public class UserService extends PrimService {
         //обеспечить отправку не чаще, чем раз в 15 минут
         if(u.getMailDate()==null||!c.getTime().before(u.getMailDate())){
             String hash = AuthManager.md5Custom(Random.getString("qwertyuiopasghjklzxcvbnm", 10));
-            String text = "На сайт "+ProjectConstants.projectUrl+" поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
+            String text = "На сайт "+ProjectConstants.projectUrl+"/Main поступил запрос на восстановление пароля. Если Вы хотите сбросить Ваш старый пароль и создать новый, пройдите по ссылке "+
                     ProjectConstants.projectUrl+"/User/passRecovery?email="+u.getEmail()+"&hash="+hash;
             try{
                 mailSender.sendMail(u.getEmail(), text);
