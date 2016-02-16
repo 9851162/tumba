@@ -107,9 +107,9 @@
                         <div class="oneatr firstatr">
 
                         </div>
-                        <c:forEach var="attr" items="${compMap.keySet()}">
+                        <c:forEach var="paramname" items="${compMap.keySet()}">
                             <div class="oneatr">
-                                ${attr.name}
+                                ${paramname}
                             </div>
                         </c:forEach>
                         <!--<div class="oneatr">
@@ -136,9 +136,9 @@
                                             <h3>Товар</h3>
                                             <p>${ad.cat.name}</p>
                                         </div>
-                                        <div class="sravprice">
+                                        <!--<div class="sravprice">
                                             <div class="price"><fmt:formatNumber value="${ad.price}"/></div>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </c:forEach>

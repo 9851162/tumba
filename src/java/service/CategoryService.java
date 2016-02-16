@@ -32,6 +32,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.parent.PrimService;
+import support.StringAdapter;
 
 /**
  *
@@ -254,11 +255,15 @@ public class CategoryService extends PrimService {
     }
 
     public void createParam(String name, Integer paramType) throws Exception {
-        Parametr p = new Parametr();
-        p.setName(name);
-        p.setParamType(paramType);
-        if (validate(p)) {
-            paramDao.save(p);
+        if(!name.equals("цена")){
+            Parametr p = new Parametr();
+            p.setName(name);
+            p.setParamType(paramType);
+            if (validate(p)) {
+                paramDao.save(p);
+            }
+        }else{
+            addError("слово цена является зарезервированным, попробуйте выбрать иное название для параметра");
         }
     }
 
@@ -364,13 +369,16 @@ public class CategoryService extends PrimService {
         optionDao.delete(optionDao.find(paramOptionId));
     }
 
-    public LinkedHashMap<Parametr, String[]> getSortedParamsAndValsForComparison(List<Ad> ads) {
-        LinkedHashMap<Parametr, String[]> res = new LinkedHashMap();
+    public LinkedHashMap<String, String[]> getSortedParamsAndValsForComparison(List<Ad> ads) {
+        LinkedHashMap<String, String[]> res = new LinkedHashMap();
         HashMap<Long, Integer> countMap = new HashMap();
         HashMap<Long, String[]> valMap = new HashMap();
         if (ads != null && !ads.isEmpty()) {
+            String[]priceArray = new String[ads.size()];
             int i = 0;
             for (Ad ad : ads) {
+                //цену сразу добавляем
+                priceArray[i]=StringAdapter.getString(ad.getPrice());
                 Set<Long> paramIds = new HashSet();
                 for (ParametrValue pv : ad.getValues()) {
                     Parametr p = pv.getParametr();
@@ -404,6 +412,9 @@ public class CategoryService extends PrimService {
                 i++;
             }
 
+            //цену добавляем в рез
+            res.put("цена", priceArray);
+            
             List<Object[]> supList4Sort = new ArrayList();
             for (Long pid : countMap.keySet()) {
                 Object[] idCount = new Object[2];
@@ -415,7 +426,7 @@ public class CategoryService extends PrimService {
 
             for (Object[] o : supList4Sort) {
                 Long pid = (Long) o[0];
-                res.put(paramDao.find(pid), valMap.get(pid));
+                res.put(paramDao.find(pid).getName(), valMap.get(pid));
             }
 
         }
