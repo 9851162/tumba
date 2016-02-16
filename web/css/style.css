@@ -87,7 +87,8 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .smal .minmenu a {float:left;    margin-left: 2px;}
 .smal .mintext,.smal .maxtext,.smal .minmenu div  {display:none;}
 .smal .formtodo{display:none;}
-.smal .ashow,.medium .ashow{display:none;}
+.smal .ashow,.medium .ashow,.smal .dateWord{display:none;}
+
 
 /*.medium {       margin: 0 0 5px 5px; width: 745px; height: 382px; position: relative;     border: none; background-color: #fff;display: inline-block; }
 .medium .prewimg > img {    height: 350px;    width: 350px;   position: absolute;}
@@ -138,7 +139,9 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .boxtoitembig .medium .opisanie {    width: 600px;    padding-left: 20px;    padding-right: 20px;}
 .boxtoitembig .medium .price{    margin-top: 0px;     text-align: right; float: none;}
 .boxtoitembig .medium .maxtext {}
-
+.medium .dateWord,.big .dateWord{
+    display: inline;
+}
 /*.big .toramka {    height: 688px;}
 .big .btnoo{background:#00b4ff; color:white;    text-align: center;    padding: 2px;    font-size: 16px;    margin-top: 10px;}
 .big {    width: 745px;  height: 775px;     margin:0 0 5px 5px ; background-color: #fff;	float:left;	  background-color: #fff;    position: relative;}
