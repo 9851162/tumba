@@ -109,7 +109,7 @@
 <div class="boxparam">
                                     <c:if test="${searchParam.paramType==1}">
                                         <div class="fl backgr" style="min-width: 250px;">
-                                            <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name}</label></td>
+                                            <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name}</label></td>
                                                     <td><input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}" style="float: right;"></td></tr></table></div>
                                             <input form="searchForm" type="hidden" name="stringIds" value="${searchParam.id}">
                                         </c:if>
@@ -117,7 +117,7 @@
                                     <c:if test="${searchParam.paramType==2}">
                                         
                                             <div class="fl backgr" style="min-width: 250px;">
-                                                <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
+                                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
                                                         <td><input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="float: right;"></td></tr></table></div>
                                                 </div><div class="boxparam">
                                             <div class="fl backgr" style="min-width: 250px;">
@@ -129,7 +129,7 @@
                                     </c:if>
 
                                     <c:if test="${searchParam.paramType==3&&!empty searchParam.options}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
+                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
                                                     <td><select form="searchForm" name="selVals" style="float: right;width: 102px;height: 32px;">
                                                     <c:forEach var="opt" items="${searchParam.options}">
                                                         <option value="${opt.id}">${opt.name}</option>
@@ -143,7 +143,7 @@
                                     <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
                                         
                                             <div class="fl backgr" style="min-width: 250px;">
-                                                <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label>${searchParam.name} </label></td>
+                                                <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label>${searchParam.name} </label></td>
                                                 <c:set var="searchParamOptionSize" value="5"/>
                                                 <c:if test="${searchParam.options.size()<5}">
                                                     <c:set var="searchParamOptionSize" value="${searchParam.options.size()}"/>
@@ -159,7 +159,7 @@
                                     </c:if>
 
                                     <c:if test="${searchParam.paramType==5}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
+                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
                                                     <td><select name="booleanVals" form="searchForm" style="float: right;width:102px;height: 32px;">
                                                     <option value="">не выбрано</option>
                                                     <option value="1">да</option>
@@ -171,7 +171,7 @@
                                     </c:if>
 
                                     <c:if test="${searchParam.paramType==6}">
-                                        <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
+                                        <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable"" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
                                         <td><input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="float: right;"></td></tr></table>
                                             </div></div><div class="boxparam">
                                                 <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>

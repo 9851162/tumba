@@ -606,13 +606,14 @@ td {
     margin: 3px;
 }
 
-#searchParamTable {
-    float: left;
+.searchParamTable {
+     width:100%;
+     height: 33px;
 }
 
-#searchParamTable td {
+/*#searchParamTable td {
     text-align: left;
-}
+}*/
 
 .semichecked{
     opacity: 0.5;
