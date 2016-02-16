@@ -525,6 +525,7 @@ td {
 .regChosen {
     text-decoration: underline!important; 
     font-weight: bold;
+    font-size: 130% !important;
 }
 
 .btn{

@@ -378,7 +378,8 @@ public class CategoryService extends PrimService {
             int i = 0;
             for (Ad ad : ads) {
                 //цену сразу добавляем
-                priceArray[i]=StringAdapter.getString(ad.getPrice());
+                String price = StringAdapter.getString(ad.getPrice());
+                priceArray[i]=price.substring(0, price.toString().length()-2)+" руб.";
                 Set<Long> paramIds = new HashSet();
                 for (ParametrValue pv : ad.getValues()) {
                     Parametr p = pv.getParametr();
