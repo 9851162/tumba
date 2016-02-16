@@ -75,7 +75,7 @@
 
             <div id="advanced_search">
                 <h1>Расширенный поиск</h1>
-                <div class="cat"><span style="float: left;">категория</span><a href="" class="spoiler_links"><div class="tostrel"></div></a>
+                <div class="cat"><span class="categorySpan">категория</span><a href="" class="spoiler_links"><div class="tostrel"></div></a>
                     <div class="spoiler_body " style="display:none;">
                         <c:forEach var="cat" items="${notSelectedCats}">
                             <div style="cursor: pointer;" value="${cat.id}"><a style="text-decoration: none;color: #00547e;" href="<c:url value="../Main/addCat4Search?catId=${cat.id}&wish=${param.wish}" />">
@@ -182,7 +182,7 @@
                                     </c:if>
 </div>
                             </c:forEach>
-                        
+                      <div class="boxparam" style="float:right;margin-right:70px;margin-top:10px;"><input style="float:right;" form="searchForm" type="submit" name=submit class="btn-buy" value="поиск"/></div>
                     </div>
 
                 </c:if>
