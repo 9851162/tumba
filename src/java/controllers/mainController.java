@@ -101,87 +101,7 @@ public class mainController extends WebController {
         if (action == null) {
             action = MAINACTIONNAME;
         }
-
-        /*HashMap<Long,String>fromValsFiltr=new HashMap();
-         HashMap<Long,String>toValsFiltr=new HashMap();
-         HashMap<Long,String>StringValsFiltr=new HashMap();
-         int i;
-         int size;
-         if(numValsFrom!=null&&numValsFrom.length>0){
-         i=0;
-         size=numValsFrom.length;
-         String val;
-         Long id;
-         while(i<size){
-         val = numValsFrom[i];
-         if(val!=null&&!val.equals("")){
-         id=numIds[i];
-         if(id!=null){
-         fromValsFiltr.put(id,val);
-         }
-         }
-         }
-         }
-         if(numValsTo!=null&&numValsTo.length>0){
-         i=0;
-         size=numValsTo.length;
-         String val;
-         Long id;
-         while(i<size){
-         val = numValsTo[i];
-         if(val!=null&&!val.equals("")){
-         id=numIds[i];
-         if(id!=null){
-         toValsFiltr.put(id,val);
-         }
-         }
-         }
-         }
-         if(dateValsFrom!=null&&dateValsFrom.length>0){
-         i=0;
-         size=dateValsFrom.length;
-         String val;
-         Long id;
-         while(i<size){
-         val = dateValsFrom[i];
-         if(val!=null&&!val.equals("")){
-         id=dateIds[i];
-         if(id!=null){
-         fromValsFiltr.put(id,val);
-         }
-         }
-         }
-         }
-         if(dateValsTo!=null&&dateValsTo.length>0){
-         i=0;
-         size=dateValsTo.length;
-         String val;
-         Long id;
-         while(i<size){
-         val = dateValsTo[i];
-         if(val!=null&&!val.equals("")){
-         id=dateIds[i];
-         if(id!=null){
-         toValsFiltr.put(id,val);
-         }
-         }
-         }
-         }
-         if(stringVals!=null&&stringVals.length>0){
-         i=0;
-         size=stringVals.length;
-         String val;
-         Long id;
-         while(i<size){
-         val = stringVals[i];
-         if(val!=null&&!val.equals("")){
-         id=stringIds[i];
-         if(id!=null){
-         StringValsFiltr.put(id,val);
-         }
-         }
-         }
-         }*/
+        //обработка для расстановки значений фильтра поиска
         HashMap<Long, Object> filtr = new HashMap();
         int i;
         int size;
@@ -294,6 +214,8 @@ public class mainController extends WebController {
                 i++;
             }
         }*/
+        model.put("searchPriceFrom",searchPriceFrom);
+        model.put("searchPriceTo",searchPriceTo);
         model.put("filtr",filtr);
         
 

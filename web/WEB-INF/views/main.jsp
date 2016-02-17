@@ -96,11 +96,11 @@
 
                         <div class="boxparam"><div class="fl backgr" style="min-width: 250px;">
                                 <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>цена от </label></td>
-                                        <td><input form="searchForm" type="text" name="searchPriceFrom" placeholder="от" style="float: right;"></td></tr></table>
+                                        <td><input form="searchForm" type="text" name="searchPriceFrom" placeholder="от" style="float: right;" value="${searchPriceFrom}"></td></tr></table>
                             </div></div>
                         <div class="boxparam"><div class="fl backgr" style="min-width: 250px;">
                                 <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>цена до </label></td>
-                                        <td><input form="searchForm" type="text" name="searchPriceTo" placeholder="до" style="float: right;"></td></tr></table>
+                                        <td><input form="searchForm" type="text" name="searchPriceTo" placeholder="до" style="float: right;" value="${searchPriceTo}"></td></tr></table>
                             </div></div>
 
 
@@ -109,11 +109,11 @@
                                 <div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;">
                                         <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
-                                                <td><input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="float: right;"></td></tr></table></div>
+                                                <td><input form="searchForm" type="text" name="numValsFrom" placeholder="от" style="float: right;" value="${filtr.get(searchParam.id).get("from")}"></td></tr></table></div>
                                 </div><div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;">
                                         <table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
-                                                <td><input form="searchForm" type="text" name="numValsTo" placeholder="до" style="float: right;"></td></tr></table>
+                                                <td><input form="searchForm" type="text" name="numValsTo" placeholder="до" style="float: right;" value="${filtr.get(searchParam.id).get("to")}"></td></tr></table>
                                     </div>
                                     <input form="searchForm" type="hidden" name="numIds" value="${searchParam.id}">
                                 </div>
@@ -122,10 +122,10 @@
                             <c:if test="${searchParam.paramType==6}">
                                 <div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable"" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} от </label></td>
-                                                <td><input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="float: right;"></td></tr></table>
+                                                <td><input form="searchForm" type="text" name="dateValsFrom" class="isDatepicker" placeholder="от" style="float: right;" value="${filtr.get(searchParam.id).get("from")}"></td></tr></table>
                                     </div></div><div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;"><table style="width:100%;" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} до </label></td>
-                                                <td><input form="searchForm" type="text" name="dateValsTo" class="isDatepicker" placeholder="до" style="float: right;"></td></tr></table>
+                                                <td><input form="searchForm" type="text" name="dateValsTo" class="isDatepicker" placeholder="до" style="float: right;" value="${filtr.get(searchParam.id).get("to")}"></td></tr></table>
                                     </div>
                                     <input form="searchForm" type="hidden" name="dateIds" value="${searchParam.id}">
                                 </div>
@@ -135,7 +135,7 @@
                                 <div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;">
                                         <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name}</label></td>
-                                                <td><input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}" style="float: right;"></td></tr></table></div>
+                                                <td><input form="searchForm" type="text" name="stringVals" placeholder="${searchParam.name}" style="float: right;" value="${filtr.get(searchParam.id)}"></td></tr></table></div>
                                     <input form="searchForm" type="hidden" name="stringIds" value="${searchParam.id}">
                                 </div>
                             </c:if>
@@ -144,8 +144,13 @@
                                 <div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
                                                 <td><select form="searchForm" name="selVals" style="float: right;width: 102px;height: 32px;">
+                                                        <option value="">не выбрано</option>
                                                         <c:forEach var="opt" items="${searchParam.options}">
-                                                            <option value="${opt.id}">${opt.name}</option>
+                                                            <c:set var="selectedSearchOpt" value=""/>
+                                                            <c:if test="${!empty filtr.get(searchParam.id)&&opt.id==filtr.get(searchParam.id)}">
+                                                                <c:set var="selectedSearchOpt" value="selected"/>
+                                                            </c:if>
+                                                            <option ${selectedSearchOpt} value="${opt.id}">${opt.name}</option>
                                                         </c:forEach>
                                                     </select></td></tr></table>
                                     </div>
@@ -176,8 +181,8 @@
                                     <div class="fl backgr" style="min-width: 250px;"><table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td class="searchparamtd"><label>${searchParam.name} </label></td>
                                                 <td><select name="booleanVals" form="searchForm" style="float: right;width:102px;height: 32px;">
                                                         <option value="">не выбрано</option>
-                                                        <option value="1">да</option>
-                                                        <option value="0">нет</option>
+                                                        <option <c:if test="${!empty filtr.get(searchParam.id)&&filtr.get(searchParam.id)==1}">selected</c:if> value="1">да</option>
+                                                        <option <c:if test="${!empty filtr.get(searchParam.id)&&filtr.get(searchParam.id)==0}">selected</c:if> value="0">нет</option>
                                                     </select></td></tr></table>
                                     </div>
                                     <input form="searchForm" type="hidden" name="booleanIds" value="${searchParam.id}">

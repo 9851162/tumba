@@ -573,10 +573,14 @@ public class AdDao extends Dao<Ad> {
     public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region, String order,
             Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
             List<BilateralCondition>numVals, List<BilateralCondition> dateVals,
-            Long selIds[], Long selVals[], String multyVals[],Double priceFrom,Double priceTo) {
+            Long selIds[], Long selVals[], String multyVals[],Double priceFrom,Double priceTo) throws Exception {
         if (order == null) {
             order = "show_count desc";
         }
+            
+            String ex = "";
+            
+            
         String sql = "select * from ad where date_from<:now and :now<date_to";
         if (wish == null) {
             wish = "";
@@ -624,19 +628,6 @@ public class AdDao extends Dao<Ad> {
             queryWithParams = true;
             sql += " and exists(select 1 from (select count(pv.ad_id) cnt,pv.ad_id id from parametr_value pv where (1!=1)";
             int i = 0;
-
-            if (booleanVals != null && booleanVals.length > 0) {
-                i = 0;
-                while (i < booleanIds.length) {
-                    Long paramId = booleanIds[i];
-                    Long val = booleanVals[i];
-                    if (val != null) {
-                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
-                        paramsCount++;
-                    }
-                    i++;
-                }
-            }
 
             if (stringVals != null && !stringVals.isEmpty()) {
                 i = 0;
@@ -694,6 +685,19 @@ public class AdDao extends Dao<Ad> {
                 }
             }
 
+            /*if (booleanVals != null && booleanVals.length > 0) {
+                i = 0;
+                while (i < booleanIds.length) {
+                    Long paramId = booleanIds[i];
+                    Long val = booleanVals[i];
+                    if (val != null) {
+                        sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
+                        paramsCount++;
+                    }
+                    i++;
+                }
+            }
+
             if (selVals != null && selVals.length > 0) {
                 i = 0;
                 while (i < selIds.length) {
@@ -702,6 +706,30 @@ public class AdDao extends Dao<Ad> {
                     if (val != null) {
                         sql += " or (parametr_id=" + paramId + " and select_value=" + val + ")";
                         paramsCount++;
+                    }
+                    i++;
+                }
+            }*/
+            
+            if (booleanVals != null && booleanVals.length > 0) {
+                i = 0;
+                for(Long val:booleanVals) {
+                    if (val != null) {
+                        sql += " or (parametr_id=:booleanId" + i + " and select_value=:booleanVal" + i + ")";
+                        paramsCount++;
+                        ex+=i+":"+val+"; ";
+                    }
+                    i++;
+                }
+            }
+
+            if (selVals != null && selVals.length > 0) {
+                i = 0;
+                for(Long val:selVals) {
+                    if (val != null) {
+                        sql += " or (parametr_id=:selId" + i + " and select_value=:selVal" + i + ")";
+                        paramsCount++;
+                        ex+=i+":"+val+"; ";
                     }
                     i++;
                 }
@@ -731,6 +759,7 @@ public class AdDao extends Dao<Ad> {
          * \Условия для параметров*
          */
         sql += " order by status asc," + order;
+        
         SQLQuery query = getCurrentSession().createSQLQuery(sql);
 
         if (!splitted.isEmpty()) {
@@ -757,6 +786,28 @@ public class AdDao extends Dao<Ad> {
                 i++;
             }
         }
+        if(booleanVals!=null&&booleanVals.length>0){
+            int i=0;
+            for(Long v:booleanVals){
+                if(v!=null){
+                    query.setParameter("booleanId"+i, booleanIds[i]);
+                    query.setParameter("booleanVal"+i, booleanVals[i]);
+                }
+                i++;
+            }
+            
+        }
+        if(selVals!=null&&selVals.length>0){
+            int i=0;
+            for(Long v:selVals){
+                if(v!=null){
+                    query.setParameter("booleanId"+i, booleanIds[i]);
+                    query.setParameter("booleanVal"+i, booleanVals[i]);
+                }
+                i++;
+            }
+            
+        }
         if(numVals!=null&&!numVals.isEmpty()){
             int i=0;
             for(BilateralCondition c:numVals){
@@ -773,22 +824,6 @@ public class AdDao extends Dao<Ad> {
                 i++;
             }
         }
-        /*if(numValsFrom!=null&&!numValsFrom.isEmpty()){
-            int i=0;
-            for(Double d:numValsFrom){
-                query.setParameter("numId"+i, numIds.get(i));
-                query.setParameter("numVal"+i, numValsFrom.get(i));
-                i++;
-            }
-        }
-        if(numValsTo!=null&&!numValsTo.isEmpty()){
-            int i=0;
-            for(Double d:numValsTo){
-                query.setParameter("numId"+i, numIds.get(i));
-                query.setParameter("numVal"+i, numValsTo.get(i));
-                i++;
-            }
-        }*/
         if(dateVals!=null&&!dateVals.isEmpty()){
             int i=0;
             for(BilateralCondition c:dateVals){
@@ -805,23 +840,6 @@ public class AdDao extends Dao<Ad> {
                 i++;
             }
         }
-        
-        /*if(dateValsFrom!=null&&!dateValsFrom.isEmpty()){
-            int i=0;
-            for(Date d:dateValsFrom){
-                query.setParameter("dateId"+i, dateIds.get(i));
-                query.setParameter("dateVal"+i, dateValsFrom.get(i));
-                i++;
-            }
-        }
-        if(dateValsTo!=null&&!dateValsTo.isEmpty()){
-            int i=0;
-            for(Date d:dateValsTo){
-                query.setParameter("dateId"+i, dateIds.get(i));
-                query.setParameter("dateVal"+i, dateValsTo.get(i));
-                i++;
-            }
-        }*/
         if (queryWithParams) {
             query.setParameter("paramsCount", paramsCount);
         }
@@ -830,6 +848,10 @@ public class AdDao extends Dao<Ad> {
             query.setParameterList("localIds", getLocIds(region));
         }
         query.addEntity(Ad.class);
+        /*if(1==1){
+            throw new Exception("e="+ex+"; bv:"+booleanVals.length+"; sv:"+selVals.length);
+        }*/
+        //throw new Exception(sql);
         return query.list();
     }
 

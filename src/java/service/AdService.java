@@ -96,10 +96,10 @@ public class AdService extends PrimService {
                     phone = phe.getPhone(phone);
                     addError(phe.error);
 
-                    if((phone==null||phone.equals(""))&&(email==null||email.equals(""))){
+                    if ((phone == null || phone.equals("")) && (email == null || email.equals(""))) {
                         addError("необходимо указать email или телефон в качестве контактов");
                     }
-                    
+
                     User user = userService.getUserByMail(email);
                     if (!isAutherized && user == null) {
                         user = userService.registerStandardUser(email);
@@ -132,15 +132,15 @@ public class AdService extends PrimService {
                      locals.addAll(region.getLocalities());
                      }
                      }*/
-                    if (localIds != null&&localIds.length>0) {
+                    if (localIds != null && localIds.length > 0) {
                         locals.addAll(locDao.getLocs(localIds));
-                    }else{
+                    } else {
                         addError("необходимо выбрать хотя бы один город");
                     }
                     ad.setLocalities(locals);
                     ad.setName(name);
                     ad.setDescription(desc);
-                    ad.setPrice(getNumFromString(price));
+                    ad.setPrice(getNumFromString(price, true));
                     ad.setValues(new HashSet());
                     if (validate(ad) && getErrors().isEmpty()) {
                         adDao.save(ad);
@@ -216,7 +216,7 @@ public class AdService extends PrimService {
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
                                     String sval = snumVals[i];
                                     if (sval != null && !sval.equals("")) {
-                                        Double val = getNumFromString(sval);
+                                        Double val = getNumFromString(sval, true);
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -439,10 +439,10 @@ public class AdService extends PrimService {
                 Double from = null;
                 Double to = null;
                 if (snumValsFrom != null && snumValsFrom.length > 0) {
-                    from = getNumFromString(snumValsFrom[i]);
+                    from = getNumFromString(snumValsFrom[i], true);
                 }
                 if (snumValsTo != null && snumValsTo.length > 0) {
-                    to = getNumFromString(snumValsTo[i]);
+                    to = getNumFromString(snumValsTo[i], true);
                 }
                 if (from != null || to != null) {
                     BilateralCondition c = new BilateralCondition(numIds[i], from, to);
@@ -475,26 +475,64 @@ public class AdService extends PrimService {
 
         Double priceFrom = null;
         if (stringPriceFrom != null && !stringPriceFrom.equals("")) {
-            priceFrom = getNumFromString(stringPriceFrom);
+            priceFrom = getNumFromString(stringPriceFrom, true);
         }
         Double priceTo = null;
         if (stringPriceTo != null && !stringPriceTo.equals("")) {
-            priceTo = getNumFromString(stringPriceTo);
+            priceTo = getNumFromString(stringPriceTo, true);
         }
-        List<Ad> res = adDao.getAdsByWishInNameOrDescription(wish, catIds, region, order, booleanIds, booleanVals,
-                stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
+
+        /*addError("priceFrom= "+StringAdapter.getString(priceFrom));
+         addError("; priceTo= "+StringAdapter.getString(priceTo));
+         addError("; wish="+wish);
+         String bi="";
+         if(booleanIds!=null&&booleanIds.length>0){
+         for(Long id:booleanIds){
+         bi+=id+"; ";
+         }
+         }
+         String bv="";
+         if(booleanVals!=null&&booleanVals.length>0){
+         for(Long v:booleanVals){
+         bv+=v+"; ";
+         }
+         }
+         addError("BI:"+bi);
+         addError("BV:"+bv);
+        
+         String seli="";
+         String selv="";
+         if(selIds!=null&&selIds.length>0){
+         for(Long id:selIds){
+         seli+=id+"; ";
+         }
+         }
+         if(selVals!=null&&selVals.length>0){
+         for(Long v:selVals){
+         selv+=v+"; ";
+         }
+         }
+         addError("SI:"+seli);
+         addError("SV:"+selv);*/
+        List<Ad> res = new ArrayList();
+        try {
+            res = adDao.getAdsByWishInNameOrDescription(wish, catIds, region, order, booleanIds, booleanVals,
+                    stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
+        } catch (Exception e) {
+            addError(StringAdapter.getStackTraceException(e));
+        }
         return res;
     }
 
     public Ad getAd(Long adId) {
         return adDao.find(adId);
     }
-    
+
     public LinkedHashMap<String, Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
             Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
             Long numIds[], String snumValsFrom[], String snumValsTo[], Long dateIds[], String dateValsFrom[], String dateValsTo[],
             Long selIds[], Long selVals[], Long multyIds[], String multyVals[], String stringPriceFrom, String stringPriceTo) {
-        
+
         List<Long> stringIdsList = new ArrayList();
         List<String> stringValsList = new ArrayList();
         if (stringVals != null && stringVals.length > 0) {
@@ -507,7 +545,7 @@ public class AdService extends PrimService {
                 i++;
             }
         }
-        
+
         List<BilateralCondition> numVals = new ArrayList();
         if (snumValsFrom != null && snumValsFrom.length > 0 || snumValsTo != null && snumValsTo.length > 0) {
             int i = 0;
@@ -516,10 +554,10 @@ public class AdService extends PrimService {
                 Double from = null;
                 Double to = null;
                 if (snumValsFrom != null && snumValsFrom.length > 0) {
-                    from = getNumFromString(snumValsFrom[i]);
+                    from = getNumFromString(snumValsFrom[i], false);
                 }
                 if (snumValsTo != null && snumValsTo.length > 0) {
-                    to = getNumFromString(snumValsTo[i]);
+                    to = getNumFromString(snumValsTo[i], false);
                 }
                 if (from != null || to != null) {
                     BilateralCondition c = new BilateralCondition(numIds[i], from, to);
@@ -528,7 +566,7 @@ public class AdService extends PrimService {
                 i++;
             }
         }
-        
+
         List<BilateralCondition> dateVals = new ArrayList();
         if (dateValsFrom != null && dateValsFrom.length > 0 || dateValsTo != null && dateValsTo.length > 0) {
             int i = 0;
@@ -549,14 +587,14 @@ public class AdService extends PrimService {
                 i++;
             }
         }
-        
+
         Double priceFrom = null;
         if (stringPriceFrom != null && !stringPriceFrom.equals("")) {
-            priceFrom = getNumFromString(stringPriceFrom);
+            priceFrom = getNumFromString(stringPriceFrom, false);
         }
         Double priceTo = null;
         if (stringPriceTo != null && !stringPriceTo.equals("")) {
-            priceTo = getNumFromString(stringPriceTo);
+            priceTo = getNumFromString(stringPriceTo, false);
         }
         LinkedHashMap<String, Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                 stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
@@ -681,13 +719,15 @@ public class AdService extends PrimService {
         }
     }
 
-    private Double getNumFromString(String val) {
+    private Double getNumFromString(String val, Boolean throwError) {
         Double numVal = null;
         if (val != null && !val.equals("")) {
             try {
                 numVal = Double.valueOf(val.replace(",", ".").replaceAll(" ", ""));
             } catch (Exception e) {
-                addError("Введенное значение " + val + " не является числом");
+                if (throwError) {
+                    addError("Введенное значение " + val + " не является числом");
+                }
             }
         }
         return numVal;
@@ -716,9 +756,11 @@ public class AdService extends PrimService {
                     ad.setDateTo(dateTo);
                     ad.setDescription(description);
                     ad.setName(shortName);
-                    ad.setPrice(getNumFromString(price));
+                    ad.setPrice(getNumFromString(price, true));
                     ad.setLocalities(locs);
-                    ad.setStatus(status);
+                    if (status != null) {
+                        ad.setStatus(status);
+                    }
                     ad.setCat(cat);
                     if (validate(ad) && getErrors().isEmpty()) {
                         Set<ParametrValue> oldVals = ad.getValues();
@@ -791,7 +833,7 @@ public class AdService extends PrimService {
                                 if (catParams.contains(p) && Parametr.NUM == p.getParamType()) {
                                     String sval = snumVals[i];
                                     if (sval != null && !sval.equals("")) {
-                                        Double val = getNumFromString(sval);
+                                        Double val = getNumFromString(sval, true);
                                         if (reqParamIds.contains(paramId)) {
                                             reqParamIds.remove(paramId);
                                         }
@@ -902,7 +944,7 @@ public class AdService extends PrimService {
                                 addError("необходимо указать значение параметра " + paramDao.find(id).getName() + "; ");
                             }
                         } else {
-                            adDao.save(ad);
+                            adDao.update(ad);
                             for (ParametrValue pv : oldVals) {
                                 paramValueDao.delete(pv);
                             }

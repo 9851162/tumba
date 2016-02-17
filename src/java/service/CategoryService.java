@@ -489,6 +489,7 @@ public class CategoryService extends PrimService {
                 }
             }
         }
+        //Collections.sort(res,new ParamNameComparator());
         return res;
     }
 
@@ -667,6 +668,14 @@ public class CategoryService extends PrimService {
         return res;
     }
 
+    private class ParamNameComparator implements Comparator<Parametr> {
+
+        @Override
+        public int compare(Parametr a, Parametr b) {
+            return a.getName().compareTo(b.getName());
+        }
+    }
+    
     /*public ParametrValue setValue(Parametr p,Object val){
         
      }*/
