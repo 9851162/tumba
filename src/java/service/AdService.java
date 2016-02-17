@@ -434,18 +434,6 @@ public class AdService extends PrimService {
         List<BilateralCondition> numVals = new ArrayList();
         if (snumValsFrom != null && snumValsFrom.length > 0 || snumValsTo != null && snumValsTo.length > 0) {
             int i = 0;
-            /*addError("i="+numIds.length+";f="+snumValsFrom.length+";t="+snumValsTo.length);
-             for(Long id:numIds){
-             addError("i"+(i++)+"="+id);
-             }
-             i = 0;
-             for(String f:snumValsFrom){
-             addError("f"+(i++)+"="+f);
-             }
-             i = 0;
-             for(String t:snumValsTo){
-             addError("t"+(i++)+"="+t);
-             }*/
 
             while (i < numIds.length) {
                 Double from = null;
@@ -464,36 +452,9 @@ public class AdService extends PrimService {
             }
         }
 
-        /*List<Long>dateIdsList=new ArrayList();
-         List<Integer>dateCondList=new ArrayList();
-         List<Date>dateValsList=new ArrayList();
-         if(dateVals!=null&&dateVals.length>0){
-         int i = 0;
-         for(Date d:dateVals){
-         if(d!=null){
-         dateValsList.add(d);
-         dateCondList.add(dateConditions[i]);
-         dateIdsList.add(dateIds[i]);
-         }
-         i++;
-         }
-         }*/
         List<BilateralCondition> dateVals = new ArrayList();
         if (dateValsFrom != null && dateValsFrom.length > 0 || dateValsTo != null && dateValsTo.length > 0) {
             int i = 0;
-            /*addError("i="+dateIds.length+";f="+dateValsFrom.length+";t="+dateValsTo.length);
-            
-             for(Long id:dateIds){
-             addError("i"+(i++)+"="+id);
-             }
-             i = 0;
-             for(Date f:dateValsFrom){
-             addError("f"+(i++)+"="+f);
-             }
-             i = 0;
-             for(Date t:dateValsTo){
-             addError("t"+(i++)+"="+t);
-             }*/
 
             while (i < dateIds.length) {
                 Date from = null;

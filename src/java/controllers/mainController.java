@@ -102,6 +102,201 @@ public class mainController extends WebController {
             action = MAINACTIONNAME;
         }
 
+        /*HashMap<Long,String>fromValsFiltr=new HashMap();
+         HashMap<Long,String>toValsFiltr=new HashMap();
+         HashMap<Long,String>StringValsFiltr=new HashMap();
+         int i;
+         int size;
+         if(numValsFrom!=null&&numValsFrom.length>0){
+         i=0;
+         size=numValsFrom.length;
+         String val;
+         Long id;
+         while(i<size){
+         val = numValsFrom[i];
+         if(val!=null&&!val.equals("")){
+         id=numIds[i];
+         if(id!=null){
+         fromValsFiltr.put(id,val);
+         }
+         }
+         }
+         }
+         if(numValsTo!=null&&numValsTo.length>0){
+         i=0;
+         size=numValsTo.length;
+         String val;
+         Long id;
+         while(i<size){
+         val = numValsTo[i];
+         if(val!=null&&!val.equals("")){
+         id=numIds[i];
+         if(id!=null){
+         toValsFiltr.put(id,val);
+         }
+         }
+         }
+         }
+         if(dateValsFrom!=null&&dateValsFrom.length>0){
+         i=0;
+         size=dateValsFrom.length;
+         String val;
+         Long id;
+         while(i<size){
+         val = dateValsFrom[i];
+         if(val!=null&&!val.equals("")){
+         id=dateIds[i];
+         if(id!=null){
+         fromValsFiltr.put(id,val);
+         }
+         }
+         }
+         }
+         if(dateValsTo!=null&&dateValsTo.length>0){
+         i=0;
+         size=dateValsTo.length;
+         String val;
+         Long id;
+         while(i<size){
+         val = dateValsTo[i];
+         if(val!=null&&!val.equals("")){
+         id=dateIds[i];
+         if(id!=null){
+         toValsFiltr.put(id,val);
+         }
+         }
+         }
+         }
+         if(stringVals!=null&&stringVals.length>0){
+         i=0;
+         size=stringVals.length;
+         String val;
+         Long id;
+         while(i<size){
+         val = stringVals[i];
+         if(val!=null&&!val.equals("")){
+         id=stringIds[i];
+         if(id!=null){
+         StringValsFiltr.put(id,val);
+         }
+         }
+         }
+         }*/
+        HashMap<Long, Object> filtr = new HashMap();
+        int i;
+        int size;
+        HashMap<String,String>filtrVal;
+        if (numIds != null && numIds.length > 0) {
+            i = 0;
+            size = numIds.length;
+            while (i < size) {
+                Long id = numIds[i];
+                filtrVal = new HashMap();
+                String vFrom="";
+                String vTo="";
+                if (id != null) {
+                    if (numValsFrom != null && numValsFrom.length > 0) {
+                        vFrom=numValsFrom[i];
+                    }
+                    if (numValsTo != null && numValsTo.length > 0) {
+                        vTo=numValsTo[i];
+                    }
+                }
+                filtrVal.put("from", vFrom);
+                filtrVal.put("to", vTo);
+                filtr.put(id,filtrVal);
+                i++;
+            }
+        }
+        if (dateIds != null && dateIds.length > 0) {
+            i = 0;
+            size = dateIds.length;
+            while (i < size) {
+                Long id = dateIds[i];
+                filtrVal = new HashMap();
+                String vFrom="";
+                String vTo="";
+                if (id != null) {
+                    if (dateValsFrom != null && dateValsFrom.length > 0) {
+                        vFrom=dateValsFrom[i];
+                    }
+                    if (dateValsTo != null && dateValsTo.length > 0) {
+                        vTo=dateValsTo[i];
+                    }
+                }
+                filtrVal.put("from", vFrom);
+                filtrVal.put("to", vTo);
+                filtr.put(id,filtrVal);
+                i++;
+            }
+        }
+        if (stringVals != null && stringVals.length > 0) {
+            i = 0;
+            size = stringVals.length;
+            String val;
+            Long id;
+            while (i < size) {
+                val = stringVals[i];
+                if (val != null && !val.equals("")) {
+                    id = stringIds[i];
+                    if (id != null) {
+                        filtr.put(id, val);
+                    }
+                }
+                i++;
+            }
+        }
+        if(booleanVals!=null&&booleanVals.length>0){
+            i = 0;
+            size = booleanVals.length;
+            Long val;
+            Long id;
+            while (i < size) {
+                val = booleanVals[i];
+                if (val != null) {
+                    id = booleanIds[i];
+                    if (id != null) {
+                        filtr.put(id, val);
+                    }
+                }
+                i++;
+            }
+        }
+        if(selVals!=null&&selVals.length>0){
+            i = 0;
+            size = selVals.length;
+            Long val;
+            Long id;
+            while (i < size) {
+                val = selVals[i];
+                if (val != null) {
+                    id = selIds[i];
+                    if (id != null) {
+                        filtr.put(id, val);
+                    }
+                }
+                i++;
+            }
+        }
+        /*if(multyIds!=null&&multyIds.length>0){
+            i = 0;
+            size = multyVals.length;
+            Long val;
+            Long id;
+            while (i < size) {
+                val = selVals[i];
+                if (val != null) {
+                    id = selIds[i];
+                    if (id != null) {
+                        filtr.put(id, val);
+                    }
+                }
+                i++;
+            }
+        }*/
+        model.put("filtr",filtr);
+        
+
         if (dateFrom == null) {
             dateFrom = (Date) model.get("dateFrom");
             if (dateFrom != null) {
@@ -249,7 +444,7 @@ public class mainController extends WebController {
                     stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
                     dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
-            if ((wish != null && !wish.equals(""))||(catIds!=null&&!catIds.isEmpty())) {
+            if ((wish != null && !wish.equals("")) || (catIds != null && !catIds.isEmpty())) {
                 model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                         stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
                         dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));
