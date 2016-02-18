@@ -527,6 +527,7 @@ td {
     font-weight: bold;
     font-size: 130% !important;
     padding-right: 29px !important;
+    padding-top: 0 !important;
 }
 
 .btn{
