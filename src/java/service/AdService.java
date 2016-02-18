@@ -651,9 +651,9 @@ public class AdService extends PrimService {
     }
 
     public LinkedHashMap<String, Integer> getCatsWithCountsBySearch(String wish, List<Long> catIds, Region region,
-            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[],
+            List<Long> booleanIds, List<Long> booleanVals, Long stringIds[], String stringVals[],
             Long numIds[], String snumValsFrom[], String snumValsTo[], Long dateIds[], String dateValsFrom[], String dateValsTo[],
-            Long selIds[], Long selVals[], Long multyIds[], String multyVals[], String stringPriceFrom, String stringPriceTo) {
+            List<Long> selIds, List<Long> selVals, Long multyIds[], String multyVals[], String stringPriceFrom, String stringPriceTo) {
 
         List<Long> stringIdsList = new ArrayList();
         List<String> stringValsList = new ArrayList();
@@ -717,6 +717,37 @@ public class AdService extends PrimService {
         Double priceTo = null;
         if (stringPriceTo != null && !stringPriceTo.equals("")) {
             priceTo = getNumFromString(stringPriceTo, false);
+        }
+        if(selVals!=null&&!selVals.isEmpty()){
+            List<Long>clearedVals = new ArrayList();
+            List<Long>cleardIds = new ArrayList();
+            int i=0;
+            for(Long val:selVals){
+                if(val!=null){
+                    Long id = selIds.get(i);
+                    clearedVals.add(val);
+                    cleardIds.add(id);
+                }
+                i++;
+            }
+            selVals=clearedVals;
+            selIds=cleardIds;
+        }
+        
+        if(booleanVals!=null&&!booleanVals.isEmpty()){
+            List<Long>clearedVals = new ArrayList();
+            List<Long>cleardIds = new ArrayList();
+            int i=0;
+            for(Long val:booleanVals){
+                if(val!=null){
+                    Long id = booleanIds.get(i);
+                    clearedVals.add(val);
+                    cleardIds.add(id);
+                }
+                i++;
+            }
+            booleanVals=clearedVals;
+            booleanIds=cleardIds;
         }
         LinkedHashMap<String, Integer> res = adDao.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                 stringIdsList, stringValsList, numVals, dateVals, selIds, selVals, multyVals, priceFrom, priceTo);
@@ -856,7 +887,7 @@ public class AdService extends PrimService {
     }
 
     public void changeAd(Long adId, String shortName, String description, String price, Date dateFrom, Date dateTo, Integer status, Long locIds[], String email, String phone, Long catId,
-            Long booleanIds[], String booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
+            Long booleanIds[], Long booleanVals[], Long stringIds[], String stringVals[], Long numIds[], String snumVals[],
             Long dateIds[], Date dateVals[], Long selIds[], Long selVals[], Long multyIds[], String multyVals[]) {
         if (adId != null) {
             Ad ad = adDao.find(adId);
@@ -890,32 +921,40 @@ public class AdService extends PrimService {
                         List<Parametr> catParams = paramDao.getParamsFromCat(catId);
                         int i = 0;
                         ArrayList<String> paramValsErrs = new ArrayList();
-                        //обходим все массивы и создаем сет значений для сохранения, параллельно валидируя, если есть ошибки валидации
                         ArrayList<ParametrValue> newVals = new ArrayList();
 
-                        //не трогаем в плане рек не рек
-                        if (booleanIds != null) {
-                            if (booleanVals == null) {
-                                booleanVals = new String[booleanIds.length];
-                            }
-                            while (i < booleanIds.length) {
-                                Parametr p = paramDao.find(booleanIds[i]);
-                                if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
-                                    Long val = ParametrValue.NO;
-                                    String sval = "нет";
-                                    if (booleanVals[i] != null) {
-                                        val = ParametrValue.YES;
-                                        sval = "да";
-                                    }
-                                    ParametrValue pv = new ParametrValue();
-                                    pv.setAd(ad);
-                                    pv.setParametr(p);
-                                    pv.setSelectVal(val);
-                                    pv.setStringVal(sval);
-                                    if (validate(pv)) {
-                                        newVals.add(pv);
-                                    }
+                        if (booleanVals != null && booleanVals.length > 0) {
+                            i = 0;
 
+                            while (i < booleanIds.length) {
+                                Boolean invalid = false;
+                                Long paramId = booleanIds[i];
+                                Parametr p = paramDao.find(paramId);
+                                if (catParams.contains(p) && Parametr.BOOL == p.getParamType()) {
+                                    Long val = booleanVals[i];
+                                    if (val != null) {
+                                        if (reqParamIds.contains(paramId)) {
+                                            reqParamIds.remove(paramId);
+                                        }
+                                        String sval = "";
+                                        if(val.equals(ParametrValue.NO)){
+                                            sval = "нет";
+                                        }else if(val.equals(ParametrValue.YES)){
+                                            sval = "да";
+                                        }else{
+                                            invalid=true;
+                                        }
+                                        if(!invalid){
+                                            ParametrValue pv = new ParametrValue();
+                                            pv.setAd(ad);
+                                            pv.setParametr(p);
+                                            pv.setSelectVal(val);
+                                            pv.setStringVal(sval);
+                                            if (validate(pv)) {
+                                                newVals.add(pv);
+                                            }
+                                        }
+                                    }
                                 }
                                 i++;
                             }

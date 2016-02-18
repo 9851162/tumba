@@ -367,9 +367,9 @@ public class mainController extends WebController {
                     dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
             if ((wish != null && !wish.equals("")) || (catIds != null && !catIds.isEmpty())) {
-                /*model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
                  stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
-                 dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));*/
+                 dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));
             }
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);

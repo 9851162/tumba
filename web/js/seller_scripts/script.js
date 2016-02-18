@@ -135,7 +135,7 @@ $(document).ready(function () {
                                 if (type == "boolean") {
                                     paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
                                     if (req == 0) {
-                                        paramArea += '<option>не выбрано</option>';
+                                        paramArea += '<option value="">не выбрано</option>';
                                     }
                                     paramArea += '<option';
                                     if (val == 1) {
@@ -161,7 +161,7 @@ $(document).ready(function () {
                                 } else if (type == "sel") {
                                     paramArea += '<label>' + param.name + '<select name="' + param.valtype + 'Vals">';
                                     if (req == 0) {
-                                        paramArea += '<option>не выбрано</option>';
+                                        paramArea += '<option value="">не выбрано</option>';
                                     }
                                     var opts = param.options;
                                     $.each(opts, function (oid, oname) {
@@ -228,19 +228,6 @@ $(document).ready(function () {
                                 statusSelect += '</select></div>';
                                 $('#changeAdForm').find('[id=statusdiv]').html(statusSelect);
                             }
-                            /*<c:if test="${role=='admin'&&ad.status!=0}">
-                             <div class="boxtoinput">
-                             <div class="toin">
-                             <label>статус</label>
-                             <select name="status">
-                             <option value="1">ожидание</option>
-                             <option value="2">оплачено</option>
-                             <option value="3">доставлено</option>
-                             </select>
-                             </div>
-                             </div>
-                             
-                             </c:if>*/
 
                         } else {
                             $('#changeAdForm').find('[name=' + key + ']').attr('value', value);

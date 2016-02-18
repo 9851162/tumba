@@ -346,7 +346,7 @@ public class AdController extends WebController {
             @RequestParam(value = "localIds", required = false) Long localIds[],
             
             @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
-            @RequestParam(value = "booleanVals", required = false) String booleanVals[],
+            @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],
