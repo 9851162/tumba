@@ -159,6 +159,9 @@
                             </c:if>
 
                             <c:if test="${searchParam.paramType==4&&!empty searchParam.options}">
+                                <c:if test="${!empty filtr.get(searchParam.id)}">
+                                    <c:set var="checkMap" value="${filtr.get(searchParam.id)}"/>
+                                </c:if>
                                 <div class="boxparam">
                                     <div class="fl backgr" style="min-width: 250px;">
                                         <table class="searchParamTable" border="0" cellspacing="0" cellpadding="0"><tr><td style="text-align:left;"><label>${searchParam.name} </label></td>
@@ -168,7 +171,11 @@
                                                     </c:if>
                                                 <td><select form="searchForm" multiple="true" size="${searchParamOptionSize}" style="vertical-align: middle; float: right;width: 102px" name="multyVals">
                                                         <c:forEach var="opt" items="${searchParam.options}">
-                                                            <option value="${searchParam.id}_${opt.id}">${opt.name}</option>
+                                                            <c:set var="selectedSearchOpt" value=""/>
+                                                            <c:if test="${!empty checkMap.get(opt.id)}">
+                                                                <c:set var="selectedSearchOpt" value="selected"/>
+                                                            </c:if>
+                                                            <option ${selectedSearchOpt} value="${searchParam.id}_${opt.id}">${opt.name}</option>
                                                         </c:forEach>
                                                     </select></td></tr></table>
                                     </div>

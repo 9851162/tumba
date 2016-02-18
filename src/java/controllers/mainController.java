@@ -73,8 +73,6 @@ public class mainController extends WebController {
             @RequestParam(value = "phone", required = false) String phone,
             @RequestParam(value = "order", required = false) String order,
             @RequestParam(value = "messageId", required = false) Long msgId,
-            @RequestParam(value = "booleanIds", required = false) Long booleanIds[],
-            @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
             @RequestParam(value = "stringIds", required = false) Long stringIds[],
             @RequestParam(value = "stringVals", required = false) String stringVals[],
             @RequestParam(value = "numIds", required = false) Long numIds[],
@@ -83,8 +81,14 @@ public class mainController extends WebController {
             @RequestParam(value = "dateIds", required = false) Long dateIds[],
             @RequestParam(value = "dateValsFrom", required = false) String dateValsFrom[],
             @RequestParam(value = "dateValsTo", required = false) String dateValsTo[],
-            @RequestParam(value = "selIds", required = false) Long selIds[],
-            @RequestParam(value = "selVals", required = false) Long selVals[],
+            /*@RequestParam(value = "booleanIds", required = false) Long booleanIds[],
+             @RequestParam(value = "booleanVals", required = false) Long booleanVals[],
+             @RequestParam(value = "selIds", required = false) Long selIds[],
+             @RequestParam(value = "selVals", required = false) Long selVals[],*/
+            @RequestParam(value = "booleanIds", required = false) List<Long> booleanIds,
+            @RequestParam(value = "booleanVals", required = false) List<Long> booleanVals,
+            @RequestParam(value = "selIds", required = false) List<Long> selIds,
+            @RequestParam(value = "selVals", required = false) List<Long> selVals,
             @RequestParam(value = "multyIds", required = false) Long multyIds[],
             @RequestParam(value = "multyVals", required = false) String multyVals[],
             @RequestParam(value = "searchPriceFrom", required = false) String searchPriceFrom,
@@ -105,26 +109,26 @@ public class mainController extends WebController {
         HashMap<Long, Object> filtr = new HashMap();
         int i;
         int size;
-        HashMap<String,String>filtrVal;
+        HashMap<String, String> filtrVal;
         if (numIds != null && numIds.length > 0) {
             i = 0;
             size = numIds.length;
             while (i < size) {
                 Long id = numIds[i];
                 filtrVal = new HashMap();
-                String vFrom="";
-                String vTo="";
+                String vFrom = "";
+                String vTo = "";
                 if (id != null) {
                     if (numValsFrom != null && numValsFrom.length > 0) {
-                        vFrom=numValsFrom[i];
+                        vFrom = numValsFrom[i];
                     }
                     if (numValsTo != null && numValsTo.length > 0) {
-                        vTo=numValsTo[i];
+                        vTo = numValsTo[i];
                     }
                 }
                 filtrVal.put("from", vFrom);
                 filtrVal.put("to", vTo);
-                filtr.put(id,filtrVal);
+                filtr.put(id, filtrVal);
                 i++;
             }
         }
@@ -134,19 +138,19 @@ public class mainController extends WebController {
             while (i < size) {
                 Long id = dateIds[i];
                 filtrVal = new HashMap();
-                String vFrom="";
-                String vTo="";
+                String vFrom = "";
+                String vTo = "";
                 if (id != null) {
                     if (dateValsFrom != null && dateValsFrom.length > 0) {
-                        vFrom=dateValsFrom[i];
+                        vFrom = dateValsFrom[i];
                     }
                     if (dateValsTo != null && dateValsTo.length > 0) {
-                        vTo=dateValsTo[i];
+                        vTo = dateValsTo[i];
                     }
                 }
                 filtrVal.put("from", vFrom);
                 filtrVal.put("to", vTo);
-                filtr.put(id,filtrVal);
+                filtr.put(id, filtrVal);
                 i++;
             }
         }
@@ -166,15 +170,12 @@ public class mainController extends WebController {
                 i++;
             }
         }
-        if(booleanVals!=null&&booleanVals.length>0){
+        if (booleanVals != null && !booleanVals.isEmpty()) {
             i = 0;
-            size = booleanVals.length;
-            Long val;
             Long id;
-            while (i < size) {
-                val = booleanVals[i];
+            for (Long val : booleanVals) {
                 if (val != null) {
-                    id = booleanIds[i];
+                    id = booleanIds.get(i);
                     if (id != null) {
                         filtr.put(id, val);
                     }
@@ -182,15 +183,12 @@ public class mainController extends WebController {
                 i++;
             }
         }
-        if(selVals!=null&&selVals.length>0){
+        if (selVals != null && !selVals.isEmpty()) {
             i = 0;
-            size = selVals.length;
-            Long val;
             Long id;
-            while (i < size) {
-                val = selVals[i];
+            for (Long val : selVals) {
                 if (val != null) {
-                    id = selIds[i];
+                    id = selIds.get(i);
                     if (id != null) {
                         filtr.put(id, val);
                     }
@@ -198,26 +196,28 @@ public class mainController extends WebController {
                 i++;
             }
         }
-        /*if(multyIds!=null&&multyIds.length>0){
-            i = 0;
-            size = multyVals.length;
-            Long val;
-            Long id;
-            while (i < size) {
-                val = selVals[i];
-                if (val != null) {
-                    id = selIds[i];
-                    if (id != null) {
-                        filtr.put(id, val);
+        if (multyVals != null && multyVals.length > 0) {
+            for (String rawVal : multyVals) {
+                String idValArr[] = rawVal.split("_");
+                if (idValArr.length == 2) {
+                    String strId = idValArr[0];
+                    String strVal = idValArr[1];
+                    Long paramId = Long.valueOf(strId);
+                    Long val = Long.valueOf(strVal);
+                    if (val != null) {
+                        HashMap<Long,Long>checkMap=(HashMap<Long,Long>)filtr.get(paramId);
+                        if(checkMap==null){
+                            checkMap=new HashMap();
+                        }
+                        checkMap.put(val, val);
+                        filtr.put(paramId,checkMap);
                     }
                 }
-                i++;
             }
-        }*/
-        model.put("searchPriceFrom",searchPriceFrom);
-        model.put("searchPriceTo",searchPriceTo);
-        model.put("filtr",filtr);
-        
+        }
+        model.put("searchPriceFrom", searchPriceFrom);
+        model.put("searchPriceTo", searchPriceTo);
+        model.put("filtr", filtr);
 
         if (dateFrom == null) {
             dateFrom = (Date) model.get("dateFrom");
@@ -367,9 +367,9 @@ public class mainController extends WebController {
                     dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo);
 
             if ((wish != null && !wish.equals("")) || (catIds != null && !catIds.isEmpty())) {
-                model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
-                        stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
-                        dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));
+                /*model.put("catNamesWithCountsMap", adService.getCatsWithCountsBySearch(wish, catIds, region, booleanIds, booleanVals,
+                 stringIds, stringVals, numIds, numValsFrom, numValsTo, dateIds,
+                 dateValsFrom, dateValsTo, selIds, selVals, multyIds, multyVals, searchPriceFrom, searchPriceTo));*/
             }
         }
         List<Region> availableRegions = regionService.getAvailableRegions(region, u);

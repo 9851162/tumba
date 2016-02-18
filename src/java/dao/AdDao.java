@@ -571,9 +571,9 @@ public class AdDao extends Dao<Ad> {
     }
     
     public List<Ad> getAdsByWishInNameOrDescription(String wish, List<Long> catIds, Region region, String order,
-            Long booleanIds[], Long booleanVals[], List<Long> stringIds, List<String> stringVals,
+            List<Long> booleanIds, List<Long> booleanVals, List<Long> stringIds, List<String> stringVals,
             List<BilateralCondition>numVals, List<BilateralCondition> dateVals,
-            Long selIds[], Long selVals[], String multyVals[],Double priceFrom,Double priceTo) throws Exception {
+            List<Long> selIds, List<Long> selVals, String multyVals[],Double priceFrom,Double priceTo) throws Exception {
         if (order == null) {
             order = "show_count desc";
         }
@@ -621,9 +621,9 @@ public class AdDao extends Dao<Ad> {
         }
         Integer paramsCount = 0;
         Boolean queryWithParams = false;
-        if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && booleanVals.length > 0)
+        if ((stringVals != null && !stringVals.isEmpty()) || (booleanVals != null && !booleanVals.isEmpty())
                 || (numVals != null && !numVals.isEmpty()) || (dateVals != null && !dateVals.isEmpty())
-                || (selVals != null && selVals.length > 0) || (multyVals != null && multyVals.length > 0)) {
+                || (selVals != null && !selVals.isEmpty()) || (multyVals != null && multyVals.length > 0)) {
 
             queryWithParams = true;
             sql += " and exists(select 1 from (select count(pv.ad_id) cnt,pv.ad_id id from parametr_value pv where (1!=1)";
@@ -711,25 +711,25 @@ public class AdDao extends Dao<Ad> {
                 }
             }*/
             
-            if (booleanVals != null && booleanVals.length > 0) {
+            if (booleanVals != null && !booleanVals.isEmpty()) {
                 i = 0;
                 for(Long val:booleanVals) {
                     if (val != null) {
                         sql += " or (parametr_id=:booleanId" + i + " and select_value=:booleanVal" + i + ")";
                         paramsCount++;
-                        ex+=i+":"+val+"; ";
+                        //ex+=i+":"+val+"; ";
                     }
                     i++;
                 }
             }
 
-            if (selVals != null && selVals.length > 0) {
+            if (selVals != null && !selVals.isEmpty()) {
                 i = 0;
                 for(Long val:selVals) {
                     if (val != null) {
                         sql += " or (parametr_id=:selId" + i + " and select_value=:selVal" + i + ")";
                         paramsCount++;
-                        ex+=i+":"+val+"; ";
+                        //ex+=i+":"+val+"; ";
                     }
                     i++;
                 }
@@ -786,23 +786,23 @@ public class AdDao extends Dao<Ad> {
                 i++;
             }
         }
-        if(booleanVals!=null&&booleanVals.length>0){
+        if(booleanVals!=null&&!booleanVals.isEmpty()){
             int i=0;
             for(Long v:booleanVals){
                 if(v!=null){
-                    query.setParameter("booleanId"+i, booleanIds[i]);
-                    query.setParameter("booleanVal"+i, booleanVals[i]);
+                    query.setParameter("booleanId"+i, booleanIds.get(i));
+                    query.setParameter("booleanVal"+i, v);
                 }
                 i++;
             }
             
         }
-        if(selVals!=null&&selVals.length>0){
+        if(selVals!=null&&!selVals.isEmpty()){
             int i=0;
             for(Long v:selVals){
                 if(v!=null){
-                    query.setParameter("booleanId"+i, booleanIds[i]);
-                    query.setParameter("booleanVal"+i, booleanVals[i]);
+                    query.setParameter("selId"+i, selIds.get(i));
+                    query.setParameter("selVal"+i, v);
                 }
                 i++;
             }
@@ -848,10 +848,11 @@ public class AdDao extends Dao<Ad> {
             query.setParameterList("localIds", getLocIds(region));
         }
         query.addEntity(Ad.class);
-        /*if(1==1){
-            throw new Exception("e="+ex+"; bv:"+booleanVals.length+"; sv:"+selVals.length);
-        }*/
+        if(1==1){
+            //throw new Exception("e="+ex+"; bv:"+booleanVals.size()+"; sv:"+selVals.size()+"; pc:"+paramsCount);
+        }
         //throw new Exception(sql);
+       
         return query.list();
     }
 
