@@ -134,20 +134,24 @@ public class AdminController extends WebController {
             @RequestParam(value = "stateId", required = false) Long stateId,
             @RequestParam(value = "countryId", required = false) Long countryId,
             HttpServletRequest request, RedirectAttributes ras) throws Exception {
+        if(countryId==null){
+            countryId=1L;
+        }
 
-        model.put("countries", regService.getCountries());
+        //model.put("countries", regService.getCountries());
+        model.put("country", regService.getCountry(countryId));
         model.put("states", regService.getStates(countryId));
         model.put("localities", regService.getLocalities(stateId));
-        if (countryId != null) {
+        /*if (countryId != null) {
             model.put("country", regService.getCountry(countryId));
-        }
+        }*/
         if (stateId != null) {
             model.put("state", regService.getState(stateId));
         }
         return "regions";
     }
 
-    @RequestMapping("/addCountry")
+    /*@RequestMapping("/addCountry")
     public String addCountry(Map<String, Object> model,
             HttpServletRequest request,
             @RequestParam(value = "name", required = false) String name,
@@ -164,8 +168,8 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
-    }
+        return "redirect:/Admin/regions?countryId=1";
+    }*/
 
     @RequestMapping("/addState")
     public String addState(Map<String, Object> model,
@@ -184,7 +188,7 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
+        return "redirect:/Admin/regions?countryId=1";
     }
 
     @RequestMapping("/addLocality")
@@ -204,7 +208,7 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
+        return "redirect:/Admin/regions?countryId=1";
     }
 
     @RequestMapping("/deleteCountry")
@@ -224,7 +228,7 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
+        return "redirect:/Admin/regions?countryId=1";
     }
 
     @RequestMapping("/deleteState")
@@ -244,7 +248,7 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
+        return "redirect:/Admin/regions?countryId=1";
     }
 
     @RequestMapping("/deleteLocality")
@@ -264,7 +268,7 @@ public class AdminController extends WebController {
         }
         ras.addAttribute("stateId", stateId);
         ras.addAttribute("countryId", countryId);
-        return "redirect:/Admin/regions";
+        return "redirect:/Admin/regions?countryId=1";
     }
 
     @RequestMapping("/addCat")

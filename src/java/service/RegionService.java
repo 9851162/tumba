@@ -18,7 +18,6 @@ import entities.User;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -197,7 +196,13 @@ public class RegionService extends PrimService {
 
     public Country getCountry(Long countryId) {
         if (countryId != null) {
-            return cDao.find(countryId);
+            Country c = cDao.find(countryId);
+            if(c==null){
+                c = new Country();
+                c.setName("Россия");
+                cDao.save(c);
+            }
+            return c;
         } else {
             return null;
         }

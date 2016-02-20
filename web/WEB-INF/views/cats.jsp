@@ -23,7 +23,7 @@
             <%@include file="/WEB-INF/jsp/error.jsp" %>
             <a href="<c:url value='/Admin/cats'/>">Категории</a>
                 <a href="<c:url value='/Admin/params'/>">Параметры</a>
-                <a href="<c:url value='/Admin/regions'/>">Регионы</a>
+                <a href="<c:url value='/Admin/regions?countryId=1'/>">Регионы</a>
                 <a href="<c:url value='/Admin/users'/>">Пользователи</a>
                 <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Категории</h3>

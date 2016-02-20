@@ -23,11 +23,11 @@
             <%@include file="/WEB-INF/jsp/error.jsp" %>
             <a href="<c:url value='/Admin/cats'/>">Категории</a>
             <a href="<c:url value='/Admin/params'/>">Параметры</a>
-            <a href="<c:url value='/Admin/regions'/>">Регионы</a>
+            <a href="<c:url value='/Admin/regions?countryId=1'/>">Регионы</a>
             <a href="<c:url value='/Admin/users'/>">Пользователи</a>
             <a href="<c:url value='/Main/'/>">Главная</a>
             <h3>Регионы</h3>
-            <div style="width: 33%; float: left;">
+            <!--<div style="width: 33%; float: left;">
                 <form  method="post" action="../Admin/addCountry" >
                     <div class="boxtoinput">
                         <div class="">
@@ -50,21 +50,21 @@
                     </div>
                 </c:if>
 
-            </div>
-            <div style="width: 33%; float: left;">
+            </div>-->
+            <div style="width: 49%; float: left;">
                 <c:if test="${!empty param.countryId}">
                     <form  method="post" action="../Admin/addState" >
                         <div class="boxtoinput">
                             <div class="">
-                                <label>Страна: ${country.name}</label>
+                                <!--<label>Страна: ${country.name}</label>-->
                                 <!--<label>Адм. округ</label>-->
-                                <input name="name" type="text" placeholder="Адм. округ">
+                                <input style="margin-top:37px;" name="name" type="text" placeholder="Адм. округ">
                             </div>
                         </div>
                         <input name="countryId" type="hidden" value="${param.countryId}">
                         <input name="stateId" type="hidden" value="${param.stateId}">
                         <div class="form-group">
-                            <button type="submit" class="btn">Добавить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
                         </div>
                     </form>
                     <c:if test="${!empty states}">
@@ -78,7 +78,7 @@
                     </c:if>
                 </c:if>
             </div>
-            <div style="width: 33%; float: left;">
+            <div style="width: 49%; float: right;">
                 <c:if test="${!empty param.countryId && !empty param.stateId}">
                     <form  method="post" action="../Admin/addLocality" >
                         <div class="boxtoinput">
@@ -91,7 +91,7 @@
                         <input name="countryId" type="hidden" value="${param.countryId}">
                         <input name="stateId" type="hidden" value="${param.stateId}">
                         <div class="form-group">
-                            <button type="submit" class="btn">Добавить</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
                         </div>
                     </form>
                     <c:if test="${!empty localities}">
