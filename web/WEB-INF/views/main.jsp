@@ -51,7 +51,7 @@
                             </c:if>
                         </c:if>
 
-                        <a class="${arHREFChosen}" href="<c:url value="../Main/mountRegion?all=1&wish=${wish}" />">вся россия</a>
+                        <a style="margin-left: 25px;" class="${arHREFChosen}" href="<c:url value="../Main/mountRegion?all=1&wish=${wish}" />">Россия</a>
 
                         <c:if test="${role=='user'||role=='admin'}">
                             <c:if test="${empty homeSet}">
@@ -212,30 +212,30 @@
             <div class="icons">
                 <c:if test="${role=='user'||role=='admin'}">
                     <c:set var="msgPossible" value="open_modal messageSender"/>
-                    <a href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
-                    <a href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
-                    <a href="<c:url value="../Main/?action=regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
+                    <a title="мои покупки" href="<c:url value="../Main/?action=purchases" />"><div id="ico" class="ico1"><img src="../img/menu1.png"> </div></a>
+                    <a title="мои продажи" href="<c:url value="../Main/?action=sales" />"><div id="ico" class="ico2"><img src="../img/menu2.png"> </div></a>
+                    <a title="регионы" href="<c:url value="../Main/?action=regions" />"><div id="ico" class="ico3"><img src="../img/menu3.png"> </div></a>
                         </c:if>
 
-                <a href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
-                <a href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
+                <a title="избранное" href="<c:url value="../Main/?action=chosen" />"><div id="ico" class="ico4"><img src="../img/menu4.png"> </div></a>
+                <a title="сравнение" href="<c:url value="../Main/comparison" />"><div id="ico" class="ico5"><img src="../img/menu5.png"> </div></a>
                         <c:if test="${role=='user'||role=='admin'}">
-                    <a href="<c:url value="../Main/?action=mesasges" />"><div id="ico" class="ico6"><img src="../img/menu6.png"> </div></a>
+                    <a title="сообщения" href="<c:url value="../Main/?action=mesasges" />"><div id="ico" class="ico6"><img src="../img/menu6.png"> </div></a>
                         </c:if>
             </div>
 
 
             <div class="left_side">
                 <c:if test="${role=='user'||role=='admin'}">
-                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=purchases" />"><div class="menuitem">Мои покупки ${myBuyCount}<img src="../img/strright.png"></div></a>
-                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи ${mySellCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=purchases" />"><div class="menuitem">Мои покупки (${myBuyCount})<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=sales" />"><div class="menuitem">Мои продажи (${mySellCount})<img src="../img/strright.png"></div></a>
                     <a style="text-decoration: none;" href="<c:url value="../Main/?action=regions" />"><div class="menuitem">Регионы<img src="../img/strright.png"></div></a>
                         </c:if>
 
-                <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное <span id="chosenCount">${chosenCount}</span><img src="../img/strright.png"></div></a>
-                <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение <span id="compareCount">${compareCount}</span><img src="../img/strright.png"></div></a>
+                <a style="text-decoration: none;" href="<c:url value="../Main/?action=chosen" />"><div class="menuitem">Избранное (<span id="chosenCount">${chosenCount}</span>)<img src="../img/strright.png"></div></a>
+                <a style="text-decoration: none;" href="<c:url value="../Main/comparison" />"><div class="menuitem">Сравнение (<span id="compareCount">${compareCount}</span>)<img src="../img/strright.png"></div></a>
                         <c:if test="${role=='user'||role=='admin'}">
-                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=messages" />"><div class="menuitem">Сообщения ${myNewMsgCount}<img src="../img/strright.png"></div></a>
+                    <a style="text-decoration: none;" href="<c:url value="../Main/?action=messages" />"><div class="menuitem">Сообщения (${myNewMsgCount})<img src="../img/strright.png"></div></a>
                         </c:if>
 
             </div>
@@ -279,7 +279,7 @@
                     <div class="boxtoinput">
                         <div class="num">1</div>
                         <div class="toin">
-                            <label>краткое название товара или услуги</label>
+                            <label>название товара или услуги</label>
                             <div class="minopright">до 30 символов</div>
                             <input name="shortName" type="text" value="${shortName}">
                         </div>
@@ -339,7 +339,7 @@
                         </div>
                     </div>
 
-                    <ul>
+                        <ul style="margin-left: 15px;">
                         <li style="list-style-type:none;margin-left: 0;padding-left: 0;"><input style="cursor:pointer;" name="all" data-method="newAd" class="allRegionsSelector" type="checkbox" value=""><label class="allRegionsOpener" data-method="newAd" style="cursor: pointer;">Все</label></li>
                             <c:forEach var="state" items="${states}">
                                 <c:set var="stateInReg" value=""/>
@@ -366,7 +366,7 @@
                     <div class="boxtoinput">
                         <div class="num">6</div>
                         <div class="toin todata">
-                            <label>выбор даты для размещения объявления</label>
+                            <label>период размещения объявления</label>
                             <div class="minlab">c</div><input type="text" name="dateFrom" class="isDatepicker" value="${dateFrom}"><div class="minlab">по</div><input type="text" name="dateTo" class="isDatepicker" value="${dateTo}">
                         </div>
                     </div>
@@ -629,7 +629,7 @@
 
                     <div class="boxtoinput">
                         <div class="toin">
-                            <label>Краткое название товара или услуги</label>
+                            <label>название товара или услуги</label>
                             <div class="minopright">до 30 символов</div>
                             <input name="shortName" type="text" value="">
                         </div>
@@ -684,7 +684,7 @@
 
                     <div class="boxtoinput">
                         <div class="toin todata">
-                            <label>даты для размещения</label>
+                            <label>период размещения</label>
                             <div class="minlab">c</div><input type="text" name="dateFrom" class="isDatepicker" value=""><div class="minlab">по</div><input type="text" name="dateTo" class="isDatepicker" value="">
                         </div>
                     </div>

@@ -106,7 +106,7 @@ public class MessageService extends PrimService {
     }
     
     public String getNewMsgCount(Long receiverId){
-        String res = "";
+        String res = "0";
         if(receiverId!=null){
             Integer count = msgDao.getNewMsgCount(receiverId);
             if(count!=null&&!count.equals(0)){

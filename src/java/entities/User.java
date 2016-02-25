@@ -65,7 +65,7 @@ public class User extends PrimEntity {
     
     @Column(name = "name")
     @NotNull(message = "Необходимо указать Имя")
-    @Length(max = 51,message="Максимальная длина имени - 50 символов")
+    @Length(max = 21,message="Максимальная длина имени - 20 символов")
     private String name;
     
     @Column(name = "registration_date")

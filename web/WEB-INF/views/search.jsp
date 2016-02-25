@@ -61,24 +61,24 @@
 
                         <div class="opisanie">
                             <div class="col1">
-                                <h3>Продавец</h3>
-                                <p>${ad.author.name}</p>
-                                <h3>Товар</h3>
-                                <p>${ad.name}</p>
+                                <h3 class="hiddenSmal">Продавец</h3>
+                                <p class="hiddenSmal">${ad.author.name}</p>
+                                <h3 class="hiddenSmal">Товар</h3>
+                                <p class="name">${ad.name}</p>
                                 <a href="" class="ashow">Контакты продавца</a>
                                 <div class="abody" style="display:none;">${ad.phone}<br><br>${ad.email}</div>
                             </div>
                             <div class="col3">
-                                <h3>Описание</h3>
+                                <h3 class="hiddenSmal">Описание</h3>
                                 <p class="minitext"> ${ad.getSmallDesc()} </p>
                                 <p class="maxtext"> ${ad.description} </p>
                                 <a href="#" class="aoo"><div class="btnoo">оценить объявление</div></a>
                             </div>
                             <div class="col2">
                                 <div class="datetov">
-                                    Дата<span class="dateWord"> размещения</span> <fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/>
+                                    <span class="hiddenSmal">Дата размещения <fmt:formatDate type="date" pattern="dd.MM.yyyy" value="${ad.insertDate}"/></span>
                                 </div>
-                                    <div class="price"><fmt:formatNumber value="${ad.price}"/>руб.</div>
+                                    <div class="price"><fmt:formatNumber value="${ad.price}"/> руб.</div>
 
                                 <div class="formtodo">
 

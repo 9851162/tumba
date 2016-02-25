@@ -82,13 +82,13 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .smal p {  margin: 0;    padding: 0; font-size:14px; }
 .medium p,.big p {  margin: 0;    padding: 0; font-size:14px;    margin-bottom: 3px;}
 .smal .opisanie {float: left;    width: 153px;  font-family: HelveticaNeue, sans-serif; }
-.smal .price{color:#689100;    font-size: 29px;    font-weight: 600;}
+.smal .price{color:#689100;    font-size: 20px;    font-weight: 600;position:absolute;right: 0;bottom: 20px;}
 .smal .minmenu{ display:block; bottom: 0px;    position: absolute;    right: 0px;}
 .smal .minmenu a {float:left;    margin-left: 2px;}
 .smal .mintext,.smal .maxtext,.smal .minmenu div  {display:none;}
 .smal .formtodo{display:none;}
-.smal .ashow,.medium .ashow,.smal .dateWord{display:none;}
-
+.smal .ashow,.medium .ashow,.smal .hiddenSmal{display:none;}
+.smal .name {  font-size: 20px;font-weight: bold; }
 
 /*.medium {       margin: 0 0 5px 5px; width: 745px; height: 382px; position: relative;     border: none; background-color: #fff;display: inline-block; }
 .medium .prewimg > img {    height: 350px;    width: 350px;   position: absolute;}
@@ -139,7 +139,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .boxtoitembig .medium .opisanie {    width: 600px;    padding-left: 20px;    padding-right: 20px;}
 .boxtoitembig .medium .price{    margin-top: 0px;     text-align: right; float: none;}
 .boxtoitembig .medium .maxtext {}
-.medium .dateWord,.big .dateWord{
+.medium .hiddenSmal,.big .hiddenSmal{
     display: inline;
 }
 /*.big .toramka {    height: 688px;}
@@ -236,13 +236,13 @@ input:focus,button:focus{outline:none;}
 .num{    float: left;color: white;    font-size: 30px;    background: #00b3ff;    display: block;   padding-top: 2px;    height: 38px;   width: 40px;    text-align: center;    border-radius: 50px;}
 
 form .boxtoinput label {    padding-bottom: 3px; font-family: HelveticaNeueThin;    font-size: 30px;display: block;    width: 100%;}
-form .boxtoinput input {    width: 100%;font-family: HelveticaNeueThin;    font-size: 24px; border:1px solid #e1e1e1;}
+form .boxtoinput input,form .boxtoinput select {    width: 100%;font-family: HelveticaNeueThin;    font-size: 24px; border:1px solid #e1e1e1;}
 form .boxtoinput  textarea{width:100%;resize:none;height:200px;font-family: HelveticaNeueThin;    font-size: 24px; border:1px solid #e1e1e1;}
 .toin{     margin-top: 5px; float: left;    width: 970px;    display: inline-block;    padding-right: 55px;    padding-left: 15px;}
 .minopright{color:#c8c8c8;font-family: HelveticaNeueThin;    font-size: 18px;    text-align: right;}
 .todata label,.minlab {font-family: HelveticaNeueThin;    font-size: 30px;float:left;}
-//.todata input { width: 130px !important; float: left !important; margin-left: 10px; margin-right: 10px;}
-.todata input {    width: 200px !important;    float: left !important;    border: none !important;    padding-left: 10px !important;}
+.todata input { width: 130px !important; float: left !important; margin-left: 10px; margin-right: 10px;padding-left: 10px !important;}
+//.todata input {    width: 200px !important;    float: left !important;    border: none !important;    padding-left: 10px !important;}
 .todata img{float:left;}
 ::-webkit-calendar-picker-indicator{ }
 ::-webkit-calendar-picker-button  { display: none;}
@@ -523,11 +523,11 @@ td {
 
 
 .regChosen {
-    text-decoration: underline!important; 
+    //text-decoration: underline!important; 
     font-weight: bold;
-    font-size: 130% !important;
+    /*font-size: 130% !important;
     padding-right: 29px !important;
-    margin-top: -3px !important;
+    margin-top: -3px !important;*/
 }
 
 .btn{
