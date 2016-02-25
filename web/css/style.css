@@ -79,7 +79,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .smal .prewimg  {     width: 200px;    height: 200px; padding-right: 7px;    float: left;}
 .smal h3,.medium h3,.big h3{color: #8e8e8e; margin: 0;  padding: 2px 0;font-weight: 100;    font-size: 15px;    line-height: 15px;}
 .ashow {color: #8e8e8e; margin: 0;  padding: 2px 0;font-weight: 100;    font-size: 15px;      text-decoration: none;  line-height: 15px;}
-.smal p {  margin: 0;    padding: 0; font-size:14px; }
+.smal p {  margin: 0;    padding: 0; font-size:14px; word-break: break-all;}
 .medium p,.big p {  margin: 0;    padding: 0; font-size:14px;    margin-bottom: 3px;}
 .smal .opisanie {float: left;    width: 153px;  font-family: HelveticaNeue, sans-serif; }
 .smal .price{color:#689100;    font-size: 20px;    font-weight: 600;position:absolute;right: 0;bottom: 20px;}
@@ -88,7 +88,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .smal .mintext,.smal .maxtext,.smal .minmenu div  {display:none;}
 .smal .formtodo{display:none;}
 .smal .ashow,.medium .ashow,.smal .hiddenSmal{display:none;}
-.smal .name {  font-size: 20px;font-weight: bold; }
+.smal .name {  font-size: 25px;font-weight: bold; }
 
 /*.medium {       margin: 0 0 5px 5px; width: 745px; height: 382px; position: relative;     border: none; background-color: #fff;display: inline-block; }
 .medium .prewimg > img {    height: 350px;    width: 350px;   position: absolute;}
@@ -140,7 +140,7 @@ html, body {margin: 0;	padding: 0;	font-family: Tahoma, sans-serif;	background-c
 .boxtoitembig .medium .price{    margin-top: 0px;     text-align: right; float: none;}
 .boxtoitembig .medium .maxtext {}
 .medium .hiddenSmal,.big .hiddenSmal{
-    display: inline;
+    display: block;
 }
 /*.big .toramka {    height: 688px;}
 .big .btnoo{background:#00b4ff; color:white;    text-align: center;    padding: 2px;    font-size: 16px;    margin-top: 10px;}
